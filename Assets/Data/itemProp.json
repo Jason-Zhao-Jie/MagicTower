@@ -1,0 +1,52 @@
+[
+  {
+  "id" : 1,
+  "name" : "yellowKey",
+  "avatar" : "yellowKey"
+},
+  {
+  "id" : 2,
+  "name" : "blueKey",
+  "avatar" : "blueKey"
+},
+  {
+  "id" : 3,
+  "name" : "redKey",
+  "avatar" : "redKey"
+},
+  {
+  "id" : 4,
+  "name" : "yellowDoor",
+  "avatar" : "yellowDoor"
+},
+  {
+  "id" : 5,
+  "name" : "blueDoor",
+  "avatar" : "blueDoor"
+},
+  {
+  "id" : 6,
+  "name" : "redDoor",
+  "avatar" : "redDoor"
+},
+  {
+  "id" : 7,
+  "name" : "redDiamond",
+  "avatar" : "redDiamond"
+},
+  {
+  "id" : 8,
+  "name" : "blueDiamond",
+  "avatar" : "blueDiamond"
+},
+  {
+  "id" : 9,
+  "name" : "greenDiamond",
+  "avatar" : "greenDiamond"
+},
+  {
+  "id" : 10,
+  "name" : "yellowDiamond",
+  "avatar" : "yellowDiamond"
+}
+]

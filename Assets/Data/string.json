@@ -1,0 +1,227 @@
+[
+  {
+    "stringId": 1,
+    "stringTag": "STR_OK",
+    "stringContent": {
+      "en-us": "OK",
+      "zh-cn": "确定",
+      "zh-tw": "確定"
+    }
+  },
+  {
+    "stringId": 2,
+    "stringTag": "STR_Cancel",
+    "stringContent": {
+      "en-us": "Cancel",
+      "zh-cn": "取消",
+      "zh-tw": "取消"
+    }
+  },
+  {
+    "stringId": 3,
+    "stringTag": "STR_Yes",
+    "stringContent": {
+      "en-us": "Yes",
+      "zh-cn": "是",
+      "zh-tw": "是"
+    }
+  },
+  {
+    "stringId": 4,
+    "stringTag": "STR_No",
+    "stringContent": {
+      "en-us": "No",
+      "zh-cn": "否",
+      "zh-tw": "否"
+    }
+  },
+  {
+    "stringId": 5,
+    "stringTag": "STR_BRAVER",
+    "stringContent": {
+      "en-us": "BRAVER",
+      "zh-cn": "勇者",
+      "zh-tw": "勇者"
+    }
+  },
+  {
+    "stringId": 6,
+    "stringTag": "STR_LIFE",
+    "stringContent": {
+      "en-us": "LIFE",
+      "zh-cn": "生命值",
+      "zh-tw": "生命值"
+    }
+  },
+  {
+    "stringId": 7,
+    "stringTag": "STR_ATTACK",
+    "stringContent": {
+      "en-us": "ATTACK",
+      "zh-cn": "攻击力",
+      "zh-tw": "攻擊力"
+    }
+  },
+  {
+    "stringId": 8,
+    "stringTag": "STR_DEFENSE",
+    "stringContent": {
+      "en-us": "DEFENSE",
+      "zh-cn": "防御力",
+      "zh-tw": "防禦力"
+    }
+  },
+  {
+    "stringId": 9,
+    "stringTag": "STR_LEVEL",
+    "stringContent": {
+      "en-us": "LEVEL",
+      "zh-cn": "等级",
+      "zh-tw": "等級"
+    }
+  },
+  {
+    "stringId": 10,
+    "stringTag": "STR_LUCKY",
+    "stringContent": {
+      "en-us": "LUCKY",
+      "zh-cn": "幸运",
+      "zh-tw": "氣運"
+    }
+  },
+  {
+    "stringId": 11,
+    "stringTag": "STR_SPEED",
+    "stringContent": {
+      "en-us": "SPEED",
+      "zh-cn": "敏捷",
+      "zh-tw": "敏捷"
+    }
+  },
+  {
+    "stringId": 12,
+    "stringTag": "STR_FLOOR",
+    "stringContent": {
+      "en-us": "FLOOR",
+      "zh-cn": "楼层",
+      "zh-tw": "樓層"
+    }
+  },
+  {
+    "stringId": 13,
+    "stringTag": "STR_ChangeMapName",
+    "stringContent": {
+      "en-us": "Please enter a new map name after the change:",
+      "zh-cn": "请输入更改后的新地图名称：",
+      "zh-tw": "請輸入更改後的新地圖名稱："
+    }
+  },
+  {
+    "stringId": 14,
+    "stringTag": "STR_NameCannotEmpty",
+    "stringContent": {
+      "en-us": "The name cannot be empty!",
+      "zh-cn": "名字不能为空！",
+      "zh-tw": "名字不能為空！"
+    }
+  },
+  {
+    "stringId": 15,
+    "stringTag": "STR_NameHaveNotChange",
+    "stringContent": {
+      "en-us": "The name have not been changed!",
+      "zh-cn": "名字没有变化！",
+      "zh-tw": "名字沒有變化！"
+    }
+  },
+  {
+    "stringId": 16,
+    "stringTag": "STR_ChangeName",
+    "stringContent": {
+      "en-us": "Change Name",
+      "zh-cn": "更改名称",
+      "zh-tw": "更改名稱"
+    }
+  },
+  {
+    "stringId": 17,
+    "stringTag": "STR_ChangeSuccessful",
+    "stringContent": {
+      "en-us": "Change Successful!",
+      "zh-cn": "更改成功！",
+      "zh-tw": "更改成功！"
+    }
+  },
+  {
+    "stringId": 18,
+    "stringTag": "STR_AddMap",
+    "stringContent": {
+      "en-us": "Add Map",
+      "zh-cn": "添加地图",
+      "zh-tw": "添加地圖"
+    }
+  },
+  {
+    "stringId": 19,
+    "stringTag": "STR_RemoveMap",
+    "stringContent": {
+      "en-us": "Remove Map",
+      "zh-cn": "移除地图",
+      "zh-tw": "移除地圖"
+    }
+  },
+  {
+    "stringId": 20,
+    "stringTag": "STR_GiveUpChanges",
+    "stringContent": {
+      "en-us": "Giveup Changes",
+      "zh-cn": "放弃修改",
+      "zh-tw": "放棄修改"
+    }
+  },
+  {
+    "stringId": 21,
+    "stringTag": "STR_SaveMap",
+    "stringContent": {
+      "en-us": "Save Map",
+      "zh-cn": "保存地图",
+      "zh-tw": "保存地圖"
+    }
+  },
+  {
+    "stringId": 22,
+    "stringTag": "STR_EditAddMapName",
+    "stringContent": {
+      "en-us": "Insert the name of the map you want to add:",
+      "zh-cn": "请输入您要新建的地图名称：",
+      "zh-tw": "請輸入您要新建的地圖名稱："
+    }
+  },
+  {
+    "stringId": 23,
+    "stringTag": "STR_AddSuccessful",
+    "stringContent": {
+      "en-us": "Added successful!",
+      "zh-cn": "添加成功",
+      "zh-tw": "新建成功："
+    }
+  },
+  {
+    "stringId": 24,
+    "stringTag": "STR_DelSuccessful",
+    "stringContent": {
+      "en-us": "Delete successful!",
+      "zh-cn": "删除成功",
+      "zh-tw": "删除成功："
+    }
+  },
+  {
+    "stringId": 25,
+    "stringTag": "STR_DelFailure",
+    "stringContent": {
+      "en-us": "Delete failed!",
+      "zh-cn": "删除失败",
+      "zh-tw": "删除失敗："
+    }
+  }
+]

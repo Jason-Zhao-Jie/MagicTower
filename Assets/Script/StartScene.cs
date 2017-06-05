@@ -12,6 +12,14 @@ public class StartScene : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        Input.multiTouchEnabled = true;
+        DataCenter.instance = new DataCenter();
+        DataCenter.instance.LoadData();
+        InputController.instance = new InputController();
+        InputController.Init();
+        EventManager.instance = new EventManager();
+        AudioController.instance = new AudioController();
+
         btnStart = GameObject.Find("btnStart").GetComponent<Button>();
         btnLoad = GameObject.Find("btnLoad").GetComponent<Button>();
         btnReadMe = GameObject.Find("btnReadMe").GetComponent<Button>();
@@ -30,6 +38,8 @@ public class StartScene : MonoBehaviour
         {
 
         });
+
+
     }
 
     // Update is called once per frame

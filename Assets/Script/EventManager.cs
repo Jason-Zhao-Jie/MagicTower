@@ -4,7 +4,8 @@ using System.Collections;
 public class EventManager : MonoBehaviour
 {
     public static EventManager instance = null;
-    public enum EventType{
+    public enum EventType
+    {
         Unknown,
         Send,       // Send player to another place in this or another floor, most stairs include this event.
         GetItem,    // Get an item, most items include this event
@@ -15,7 +16,8 @@ public class EventManager : MonoBehaviour
         Others,     // Call a self-determine function to do something, like "OpenDoor"
     }
 
-    public enum ChatType{
+    public enum ChatType
+    {
         None,
         Bubble,
         Tip,
@@ -25,40 +27,51 @@ public class EventManager : MonoBehaviour
 
     }
 
-	// Use this for initialization
-	void Start()
-	{
+    // Use this for initialization
+    void Start()
+    {
 
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-			
-	}
-
-    public void OnSend(Vector2 destinationPos, int targetMapId = -1){
-        
     }
 
-    public void OnGetItem(int itemId, Vector2 itemPos = null){
-        
+    // Update is called once per frame
+    void Update()
+    {
+
     }
 
-    public void OnBattle(){
-        
+    public void OnSend(Vector2 destinationPos, int targetMapId = -1)
+    {
+
     }
 
-    public void OnChat(){
-        
+    public void OnGetItem(int itemId)
+    {
+
     }
 
-    public void OnChoice(){
-        
+    public void OnGetItem(int itemId, Vector2 itemPos)
+    {
+
     }
 
-    public void OnGame(){
-        
+    public void OnBattle()
+    {
+
+    }
+
+    public void OnChat()
+    {
+
+    }
+
+    public void OnChoice()
+    {
+
+    }
+
+    public void OnGame()
+    {
+
     }
 
 }

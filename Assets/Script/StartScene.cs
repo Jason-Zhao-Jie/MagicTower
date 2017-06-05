@@ -13,12 +13,6 @@ public class StartScene : MonoBehaviour
     void Start()
     {
         Input.multiTouchEnabled = true;
-        DataCenter.instance = new DataCenter();
-        DataCenter.instance.LoadData();
-        InputController.instance = new InputController();
-        InputController.Init();
-        EventManager.instance = new EventManager();
-        AudioController.instance = new AudioController();
 
         btnStart = GameObject.Find("btnStart").GetComponent<Button>();
         btnLoad = GameObject.Find("btnLoad").GetComponent<Button>();
@@ -39,7 +33,12 @@ public class StartScene : MonoBehaviour
 
         });
 
-
+        DataCenter.instance = new DataCenter();
+        DataCenter.instance.LoadData();
+        InputController.instance = new InputController();
+        InputController.Init();
+        EventManager.instance = new EventManager();
+        AudioController.instance = new AudioController();
     }
 
     // Update is called once per frame

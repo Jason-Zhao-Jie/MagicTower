@@ -72,23 +72,9 @@ public class DataCenter : MonoBehaviour
     public void LoadData(){
         status = EGameStatus.Start;
 
-        // Read audio list
-        var f = System.IO.File.OpenText(Application.dataPath + "/Data/audioList.json");
-        var json = f.ReadToEnd();
-        f.Close();
-        audioList = JsonUtility.FromJson<Audio[]>(json);
-
-        // Read new game's map info
-        f = System.IO.File.OpenText(Application.dataPath + "/Data/mapInfo.json");
-        json = f.ReadToEnd();
-        f.Close();
-        newGameMaps = JsonUtility.FromJson<Map[]>(json);
-
-        //
+        // 
 
     }
 
     private EGameStatus status;
-    private Audio[] audioList;
-    private Map[] newGameMaps;
 }

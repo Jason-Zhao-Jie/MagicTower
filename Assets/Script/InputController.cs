@@ -17,8 +17,7 @@ public class InputController : MonoBehaviour
         KeyCode.Return,
         KeyCode.KeypadEnter,
         KeyCode.Backspace,
-        (KeyCode)6,
-        (KeyCode)8,
+        (KeyCode)6
 
     };
     // Use this for initialization
@@ -65,6 +64,7 @@ public class InputController : MonoBehaviour
         instance.keyStatusMap = new Dictionary<KeyCode, bool>();
         for (int i = 0; i < listenedKeys.Length; ++i)
         {
+            System.Console.Out.WriteLine("On key listener adding: " + listenedKeys[i].ToString());
             instance.keyStatusMap.Add(listenedKeys[i], false);
         }
     }

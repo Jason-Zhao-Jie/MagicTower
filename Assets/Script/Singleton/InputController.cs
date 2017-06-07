@@ -59,13 +59,13 @@ public class InputController : MonoBehaviour
 
 	}
 
-    public static void Init()
+    public void Init()
     {
-        instance.keyStatusMap = new Dictionary<KeyCode, bool>();
+        keyStatusMap = new Dictionary<KeyCode, bool>();
         for (int i = 0; i < listenedKeys.Length; ++i)
         {
             System.Console.Out.WriteLine("On key listener adding: " + listenedKeys[i].ToString());
-            instance.keyStatusMap.Add(listenedKeys[i], false);
+            keyStatusMap.Add(listenedKeys[i], false);
         }
     }
 

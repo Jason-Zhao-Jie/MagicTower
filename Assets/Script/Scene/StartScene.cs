@@ -19,7 +19,9 @@ public class StartScene : MonoBehaviour
         btnReadMe = GameObject.Find("btnReadMe").GetComponent<Button>();
 
         btnStart.onClick.AddListener(() =>
-        {
+		{
+			MapManager.instance.SetData();
+            PlayerController.instance.PlayerId = 1;
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
         });
 
@@ -36,9 +38,15 @@ public class StartScene : MonoBehaviour
         DataCenter.instance = new DataCenter();
         DataCenter.instance.LoadData();
         InputController.instance = new InputController();
-        InputController.Init();
+        InputController.instance.Init();
         EventManager.instance = new EventManager();
+        EventManager.instance.InitEvents();
         AudioController.instance = new AudioController();
+        AudioController.instance.MusicSource = GetComponent<AudioSource>();
+        AudioController.instance.SoundSource = transform.Find("imgBack").GetComponent<AudioSource>();
+        ModalManager.instance = new ModalManager();
+        MapManager.instance = new MapManager();
+        PlayerController.instance = new PlayerController();
     }
 
     // Update is called once per frame

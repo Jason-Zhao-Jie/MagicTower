@@ -4,10 +4,15 @@ using UnityEngine;
 
 public class MainScene : MonoBehaviour
 {
-
+    public static MainScene instance = null;
     // Use this for initialization
     void Start()
     {
+        instance = this;
+        AudioController.instance.MusicSource = GetComponent<AudioSource>();
+        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        MapManager.instance.ShowMap();
+        PlayerController.instance.ShowPlayer(10, 10, 0, true);
     }
 
     // Update is called once per frame
@@ -43,5 +48,11 @@ public class MainScene : MonoBehaviour
 		if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
             InputController.instance.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
             
+    }
+
+    public void AddObjectToMap(GameObject obj, int posx, int posy)
+    {
+        obj.transform.SetParent(transform.Find("MapPanel"));
+        obj.transform.position = new Vector3(posx * 32 + 16, posy * 32 + 16);
     }
 }

@@ -17,12 +17,14 @@ public class DataCenter : MonoBehaviour
         OnSmallGame,
     }
 
+    [System.Serializable]
     public struct MapBlock
     {
         public int thing;
         public int eventId;
     }
 
+    [System.Serializable]
     public struct MapData
     {
         public int mapId;
@@ -32,6 +34,7 @@ public class DataCenter : MonoBehaviour
         public MapBlock[][] mapBlocks;
     }
 
+    [System.Serializable]
     public class ModalData
     {
         public int id;
@@ -42,12 +45,14 @@ public class DataCenter : MonoBehaviour
         public int eventId;
     }
 
+    [System.Serializable]
     public class Audio
     {
         public int id;
         public string path;
     }
 
+    [System.Serializable]
     public class MonsterData
     {
         public int id;
@@ -62,6 +67,7 @@ public class DataCenter : MonoBehaviour
         public int[] special;
     }
 
+    [System.Serializable]
     public struct PlayerData
     {
         public int id;
@@ -79,6 +85,7 @@ public class DataCenter : MonoBehaviour
         public int greenKey;
     }
 
+    [System.Serializable]
     public class Event
     {
         public int id;
@@ -98,45 +105,45 @@ public class DataCenter : MonoBehaviour
 
     }
 
-    public MapData[] NewGameMaps { get { return newGameMaps; } }
-    public ModalData[] Modals { get { return modals; } }
+    public MapData[] NewGameMaps { get { return data.newGameMaps; } }
+    public ModalData[] Modals { get { return data.modals; } }
     public ModalData GetModalById(int id)
     {
-        for (int i = 0; i < modals.Length; ++i)
-            if (modals[i].id == id)
-                return modals[i];
+        for (int i = 0; i < data.modals.Length; ++i)
+            if (data.modals[i].id == id)
+                return data.modals[i];
         return null;
     }
-    public Audio[] Audios { get { return audios; } }
+    public Audio[] Audios { get { return data.audios; } }
     public string GetAudioById(int id)
     {
-        for (int i = 0; i < audios.Length; ++i)
-            if (audios[i].id == id)
-                return audios[i].path;
+        for (int i = 0; i < data.audios.Length; ++i)
+            if (data.audios[i].id == id)
+                return data.audios[i].path;
         return "";
     }
-    public MonsterData[] Monsters { get { return monsters; } }
+    public MonsterData[] Monsters { get { return data.monsters; } }
     public MonsterData GetMonsterDataById(int id)
     {
-        for (int i = 0; i < monsters.Length; ++i)
-            if (monsters[i].id == id)
-                return monsters[i];
+        for (int i = 0; i < data.monsters.Length; ++i)
+            if (data.monsters[i].id == id)
+                return data.monsters[i];
         return null;
     }
-    public PlayerData[] Players { get { return players; } }
+    public PlayerData[] Players { get { return data.players; } }
     public PlayerData GetPlayerDataById(int id)
     {
-        for (int i = 0; i < players.Length; ++i)
-            if (players[i].id == id)
-                return players[i];
+        for (int i = 0; i < data.players.Length; ++i)
+            if (data.players[i].id == id)
+                return data.players[i];
         return new PlayerData();
     }
-    public Event[] Events { get { return events; } }
+    public Event[] Events { get { return data.events; } }
     public Event GetEventDataById(int id)
     {
-        for (int i = 0; i < events.Length; ++i)
-            if (audios[i].id == id)
-                return events[i];
+        for (int i = 0; i < data.events.Length; ++i)
+            if (data.audios[i].id == id)
+                return data.events[i];
         return null;
     }
 
@@ -149,18 +156,8 @@ public class DataCenter : MonoBehaviour
         status = EGameStatus.Start;
 
         // Reading json config files:
-        var txt = Resources.Load<TextAsset>("mapInfo.json");
-        newGameMaps = JsonUtility.FromJson<MapData[]>(txt.text);
-        txt = Resources.Load<TextAsset>("modal.json");
-        modals = JsonUtility.FromJson<ModalData[]>(txt.text);
-        txt = Resources.Load<TextAsset>("audio.json");
-        audios = JsonUtility.FromJson<Audio[]>(txt.text);
-        txt = Resources.Load<TextAsset>("monsters.json");
-        monsters = JsonUtility.FromJson<MonsterData[]>(txt.text);
-        txt = Resources.Load<TextAsset>("players.json");
-        players = JsonUtility.FromJson<PlayerData[]>(txt.text);
-        txt = Resources.Load<TextAsset>("event.json");
-        events = JsonUtility.FromJson<Event[]>(txt.text);
+        var txt = Resources.Load<TextAsset>("GameData");
+        data = JsonUtility.FromJson<GameData>(txt.text);
 
     }
 
@@ -170,11 +167,17 @@ public class DataCenter : MonoBehaviour
         set { status = value; }
     }
 
+    [System.Serializable]
+    private class GameData
+    {
+        internal MapData[] newGameMaps;
+        internal ModalData[] modals;
+        internal Audio[] audios;
+        internal MonsterData[] monsters;
+        internal PlayerData[] players;
+        internal Event[] events;
+    }
+
     private EGameStatus status;
-    private MapData[] newGameMaps;
-    private ModalData[] modals;
-    private Audio[] audios;
-    private MonsterData[] monsters;
-    private PlayerData[] players;
-    private Event[] events;
+    private GameData data;
 }

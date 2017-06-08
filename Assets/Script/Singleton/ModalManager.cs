@@ -56,5 +56,12 @@ public class ModalManager : MonoBehaviour
         return null;
     }
 
+	public static Modal GetModalByUuid(long uuid)
+	{
+		if (Contains(uuid))
+			return modals[uuid];
+		return null;
+    }
+
     private static Dictionary<long, Modal> modals = new Dictionary<long, Modal>();
 }

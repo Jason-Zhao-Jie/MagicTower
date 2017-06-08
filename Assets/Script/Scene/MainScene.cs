@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MainScene : MonoBehaviour
 {
-    public static MainScene instance = null;
+    public static MainScene instance;
     // Use this for initialization
     void Start()
     {
@@ -12,7 +12,16 @@ public class MainScene : MonoBehaviour
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         MapManager.instance.ShowMap();
-        PlayerController.instance.ShowPlayer(10, 10, 0, true);
+        PlayerController.instance.ShowPlayer(true);
+
+        mapNameText = transform.Find("HeroPanel").transform.Find("MapName").GetComponent<UnityEngine.UI.Text>();
+        backgroundImg = GetComponent<UnityEngine.UI.Image>();
+    }
+
+    void OnDestroy()
+    {
+
+        instance = null;
     }
 
     // Update is called once per frame
@@ -43,11 +52,11 @@ public class MainScene : MonoBehaviour
             }
         }
 
-		if (Input.GetMouseButtonDown(0) && !InputController.instance.isMouseLeftDown)
-			InputController.instance.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-		if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
+        if (Input.GetMouseButtonDown(0) && !InputController.instance.isMouseLeftDown)
+            InputController.instance.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+        if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
             InputController.instance.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-            
+
     }
 
     public void AddObjectToMap(GameObject obj, int posx, int posy)
@@ -55,4 +64,19 @@ public class MainScene : MonoBehaviour
         obj.transform.SetParent(transform.Find("MapPanel"));
         obj.transform.position = new Vector3(posx * 32 + 16, posy * 32 + 16);
     }
+
+    public string MapName
+    {
+        get { return mapNameText.text; }
+        set { mapNameText.text = value; }
+    }
+
+    public string BackgroundImage
+    {
+        get { return backgroundImg.sprite.name; }
+        set { backgroundImg.sprite = Resources.Load<GameObject>(value).GetComponent<Sprite>(); }
+    }
+
+    private UnityEngine.UI.Text mapNameText;
+    private UnityEngine.UI.Image backgroundImg;
 }

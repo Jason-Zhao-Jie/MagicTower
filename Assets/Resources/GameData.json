@@ -4,7 +4,7 @@
       "mapId": 1,
       "mapName": "Floor 1",
       "backgroundImage": "WhiteWall",
-      "backgroundAudio": "underFloor",
+      "backgroundAudio": "2",
       "mapBlocks": [
         [
           {
@@ -1347,7 +1347,6 @@
       "typeId": 1,
       "name": "",
       "prefabPath": "",
-      "keyAnimation": "",
       "eventId": 0
     },
     {
@@ -1355,7 +1354,6 @@
       "typeId": 1,
       "name": "",
       "prefabPath": "",
-      "keyAnimation": "",
       "eventId": 0
     }
   ],

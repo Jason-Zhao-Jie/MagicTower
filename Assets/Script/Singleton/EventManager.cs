@@ -39,7 +39,10 @@ public class EventManager : MonoBehaviour
     {
         var eventData = DataCenter.instance.GetEventDataById(eventId);
         if (eventData == null)
-            return false;
+        {
+            Debug.LogWarning("The event in current block called, but no event data found. Event id: " + eventId.ToString());
+            return true;
+        }
         switch ((EventType)eventData.typeId)
         {
             case EventType.Others:
@@ -140,4 +143,7 @@ public class EventManager : MonoBehaviour
     }
 
     private Dictionary<int, EventCallback> eventList = new Dictionary<int, EventCallback>();
+
+    // The special event callbacks are below
+
 }

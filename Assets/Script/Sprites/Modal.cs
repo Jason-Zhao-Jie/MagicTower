@@ -3,6 +3,16 @@ using System.Collections;
 
 public class Modal : MonoBehaviour
 {
+    public enum ModalType{
+        Unknown,
+        Walkable,
+        MapBlock,
+        Item,
+        Npc,
+        Monster,
+        Player
+    }
+
     public int TypeId
     {
         get
@@ -34,19 +44,24 @@ public class Modal : MonoBehaviour
         uuid = mapId * 10000 + posy + posx * 100;
 		ModalManager.AddMod(uuid, this);
 
-		var animator = GetComponent<Animator>();
-		if (animator != null)
-		{
-			var controller = animator.runtimeAnimatorController;
-			controller.animationClips[0] = Resources.Load<AnimationClip>(data.keyAnimation);
-		}
+    }
+
+    public void GoToRunState(){
+        animator.Play("DefaultEvent");
+    }
+
+    public void RemoveSelf(){
+        transform.SetParent(null);
     }
 
     // Use this for initialization
-    void Start(){}
+    void Start(){
+
+    }
     // Update is called once per frame
     void Update(){}
 
+    public Animator animator { get { return GetComponent<Animator>(); } }
 
     private int eventId = 0;
     private sbyte posx = -1;

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public class Undefined : UnityEngine.MonoBehaviour, ArmyAntJson.IUnit
+public class Undefined : IUnit
 {
-    public static ArmyAntJson.IUnit isThis(string text)
+    public static IUnit isThis(string text)
     {
         return text.Trim().Trim(new char[] { '\r', '\n' }) == "undefined" ? new Undefined() : null;
     }

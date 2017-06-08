@@ -1,7 +1,7 @@
 ﻿using System;
-public class JNumber : UnityEngine.MonoBehaviour, ArmyAntJson.IUnit
+public class JNumber : IUnit
 {
-    public static ArmyAntJson.IUnit isThis(string text)
+    public static IUnit isThis(string text)
     {
         try
         {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class ArmyAntJson : UnityEngine.MonoBehaviour
+public class ArmyAntJson
 {
 
     public enum EType : byte
@@ -13,25 +13,7 @@ public class ArmyAntJson : UnityEngine.MonoBehaviour
         Array,
         Object
     }
-    public interface IUnit
-    {
-        string String
-        {
-            get;
-            set;
-        }
-        EType Type
-        {
-            get;
-        }
-        bool ToBool();
-        int ToInt();
-        double ToFloat();
-        string ToString();
-
-        JObject ToObject();
-        JArray ToArray();
-    }
+    
     public class JException : System.Exception
     {
         public JException()
@@ -42,14 +24,7 @@ public class ArmyAntJson : UnityEngine.MonoBehaviour
         }
 
     }
-    public interface IJsonCollection : IUnit, IEnumerable<IUnit>
-    {
-        bool AddChild(IUnit child, string tag);
-        bool RemoveChild(string tag);
-        IUnit GetChild(string tag);
 
-        int Length { get; }
-    }
     public static IUnit Create(string value)
     {
         IUnit ret = null;

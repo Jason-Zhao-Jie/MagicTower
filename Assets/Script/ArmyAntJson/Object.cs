@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJson.IUnit>
+public class JObject : IUnit, IJsonCollection, IDictionary<string, IUnit>
 {
-    public static ArmyAntJson.IUnit isThis(string text)
+    public static IUnit isThis(string text)
     {
         try
         {
@@ -20,7 +20,7 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
         }
     }
 
-    public JObject(Dictionary<string, ArmyAntJson.IUnit> v = null)
+    public JObject(Dictionary<string, IUnit> v = null)
         : base()
     {
         if (v != null)
@@ -57,7 +57,7 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
             realValue = realValue.Remove(realValue.Length - 2).Remove(0, 1);
             realValue = realValue.Trim().Trim(new char[] { '\r', '\n' });
             keys = new List<string>();
-            values = new List<ArmyAntJson.IUnit>();
+            values = new List<IUnit>();
             if (realValue != "")
             {
                 var res = ArmyAntJson.CutByComma(realValue);
@@ -86,7 +86,7 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
         }
     }
 
-    public virtual ICollection<ArmyAntJson.IUnit> Values
+    public virtual ICollection<IUnit> Values
     {
         get
         {
@@ -134,7 +134,7 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
         }
     }
 
-    public virtual ArmyAntJson.IUnit this[string key]
+    public virtual IUnit this[string key]
     {
         get
         {
@@ -155,7 +155,7 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
         }
     }
 
-    public virtual bool AddChild(string key, ArmyAntJson.IUnit value)
+    public virtual bool AddChild(string key, IUnit value)
     {
         if (keys.Contains(key))
             return false;
@@ -178,7 +178,7 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
         return false;
     }
 
-    public virtual ArmyAntJson.IUnit GetChild(string key)
+    public virtual IUnit GetChild(string key)
 	{
 		for (var i = 0; i < Count; ++i)
 		{
@@ -222,7 +222,7 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
 		return false;
     }
 
-    public virtual void Add(string key, ArmyAntJson.IUnit value)
+    public virtual void Add(string key, IUnit value)
     {
         AddChild(key, value);
     }
@@ -232,13 +232,13 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
         return RemoveChild(key);
     }
 
-    public virtual bool TryGetValue(string key, out ArmyAntJson.IUnit value)
+    public virtual bool TryGetValue(string key, out IUnit value)
     {
         value = GetChild(key);
         return value != null;
     }
 
-    public virtual void Add(KeyValuePair<string, ArmyAntJson.IUnit> item)
+    public virtual void Add(KeyValuePair<string, IUnit> item)
     {
         AddChild(item.Key, item.Value);
     }
@@ -249,32 +249,32 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
         values.Clear();
     }
 
-    public virtual bool Contains(KeyValuePair<string, ArmyAntJson.IUnit> item)
+    public virtual bool Contains(KeyValuePair<string, IUnit> item)
     {
         return ContainsKey(item.Key) && this[item.Key] == item.Value;
     }
 
-    public virtual void CopyTo(KeyValuePair<string, ArmyAntJson.IUnit>[] array, int arrayIndex)
+    public virtual void CopyTo(KeyValuePair<string, IUnit>[] array, int arrayIndex)
     {
         for (var i = 0; i < values.Count; i++)
         {
-            array[arrayIndex++] = new KeyValuePair<string, ArmyAntJson.IUnit>(keys[i], values[i]);
+            array[arrayIndex++] = new KeyValuePair<string, IUnit>(keys[i], values[i]);
         }
     }
 
-    public virtual bool Remove(KeyValuePair<string, ArmyAntJson.IUnit> item)
+    public virtual bool Remove(KeyValuePair<string, IUnit> item)
     {
         return RemoveChild(item.Key);
     }
 
-    public virtual IEnumerator<KeyValuePair<string, ArmyAntJson.IUnit>> GetEnumerator()
+    public virtual IEnumerator<KeyValuePair<string, IUnit>> GetEnumerator()
     {
         throw new NotImplementedException();
     }
 
     public virtual void CopyTo(Array array, int index)
     {
-        CopyTo((KeyValuePair<string, ArmyAntJson.IUnit>[])array, index);
+        CopyTo((KeyValuePair<string, IUnit>[])array, index);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
@@ -312,16 +312,16 @@ public class JObject : ArmyAntJson.IJsonCollection, IDictionary<string, ArmyAntJ
         return null;
     }
 
-    IEnumerator<ArmyAntJson.IUnit> IEnumerable<ArmyAntJson.IUnit>.GetEnumerator()
+    IEnumerator<IUnit> IEnumerable<IUnit>.GetEnumerator()
     {
         return values.GetEnumerator();
     }
 
-    public bool AddChild(ArmyAntJson.IUnit child, string tag)
+    public bool AddChild(IUnit child, string tag)
     {
         return AddChild(tag, child);
     }
 
     protected List<string> keys = new List<string>();
-    protected List<ArmyAntJson.IUnit> values = new List<ArmyAntJson.IUnit>();
+    protected List<IUnit> values = new List<IUnit>();
 }

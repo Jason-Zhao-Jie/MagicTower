@@ -2,9 +2,9 @@
 
 
 
-	public class JBoolean : UnityEngine.MonoBehaviour, ArmyAntJson.IUnit
+	public class JBoolean : IUnit
     {
-        public static ArmyAntJson.IUnit isThis(string text)
+        public static IUnit isThis(string text)
         {
             var realText = text.Trim().Trim(new char[] { '\r', '\n' });
             switch (realText)

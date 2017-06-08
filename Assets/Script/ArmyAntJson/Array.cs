@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-    public class JArray : UnityEngine.MonoBehaviour, ArmyAntJson.IJsonCollection, IList<ArmyAntJson.IUnit>, ICollection<ArmyAntJson.IUnit>
+    public class JArray : IUnit, IJsonCollection, IList<IUnit>, ICollection<IUnit>
     {
-        public static ArmyAntJson.IUnit isThis(string text)
+        public static IUnit isThis(string text)
         {
             try
             {
@@ -18,11 +18,11 @@ using System.Collections.Generic;
             }
         }
 
-        public JArray(ArmyAntJson.IUnit[] v = null)
+        public JArray(IUnit[] v = null)
             : base()
         {
             if (v != null)
-                value = new List<ArmyAntJson.IUnit>(v);
+                value = new List<IUnit>(v);
         }
         public string String
         {
@@ -54,7 +54,7 @@ using System.Collections.Generic;
                     try
                     {
                         var res = ArmyAntJson.CutByComma(realValue);
-                        this.value = new List<ArmyAntJson.IUnit>();
+                        this.value = new List<IUnit>();
                         for (int i = 0; i < res.Length; i++)
                         {
                             this.value.Add(ArmyAntJson.Create(res[i]));
@@ -105,7 +105,7 @@ using System.Collections.Generic;
             }
         }
 
-        public ArmyAntJson.IUnit this[int index]
+        public IUnit this[int index]
         {
             get
             {
@@ -118,7 +118,7 @@ using System.Collections.Generic;
             }
         }
 
-        public bool AddChild(ArmyAntJson.IUnit child, string tag = null)
+        public bool AddChild(IUnit child, string tag = null)
         {
             value.Add(child);
             return true;
@@ -139,7 +139,7 @@ using System.Collections.Generic;
             return true;
         }
 
-        public ArmyAntJson.IUnit GetChild(string tag)
+        public IUnit GetChild(string tag)
         {
             int num;
             try
@@ -153,12 +153,12 @@ using System.Collections.Generic;
             return value[num];
         }
 
-        public void Add(ArmyAntJson.IUnit value)
+        public void Add(IUnit value)
         {
             this.value.Add(value);
         }
 
-        public bool Contains(ArmyAntJson.IUnit value)
+        public bool Contains(IUnit value)
         {
             return this.value.Contains(value);
         }
@@ -168,17 +168,17 @@ using System.Collections.Generic;
             value = null;
         }
 
-        public int IndexOf(ArmyAntJson.IUnit value)
+        public int IndexOf(IUnit value)
         {
             return this.value.IndexOf(value);
         }
 
-        public void Insert(int index, ArmyAntJson.IUnit value)
+        public void Insert(int index, IUnit value)
         {
             this.value.Insert(index, value);
         }
 
-        public bool Remove(ArmyAntJson.IUnit value)
+        public bool Remove(IUnit value)
         {
             return this.value.Remove(value);
         }
@@ -188,7 +188,7 @@ using System.Collections.Generic;
             value.RemoveAt(index);
         }
 
-        public void CopyTo(ArmyAntJson.IUnit[] array, int index)
+        public void CopyTo(IUnit[] array, int index)
         {
             value.CopyTo(array, index);
         }
@@ -231,10 +231,10 @@ using System.Collections.Generic;
             }
         }
 
-        IEnumerator<ArmyAntJson.IUnit> IEnumerable<ArmyAntJson.IUnit>.GetEnumerator()
+        IEnumerator<IUnit> IEnumerable<IUnit>.GetEnumerator()
         {
             return value.GetEnumerator();
         }
 
-        private IList<ArmyAntJson.IUnit> value = new List<ArmyAntJson.IUnit>();
+        private IList<IUnit> value = new List<IUnit>();
     }

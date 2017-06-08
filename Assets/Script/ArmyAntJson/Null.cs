@@ -1,7 +1,7 @@
 ﻿using System;
-    public class JNull : UnityEngine.MonoBehaviour, ArmyAntJson.IUnit
+    public class JNull : IUnit
     {
-        public static ArmyAntJson.IUnit isThis(string text)
+        public static IUnit isThis(string text)
         {
             return text.Trim().Trim(new char[] { '\r', '\n' }) == "null" ? new Undefined() : null;
         }

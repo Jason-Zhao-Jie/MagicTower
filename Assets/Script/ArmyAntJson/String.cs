@@ -1,8 +1,8 @@
 ﻿using System;
 
-public class JString : UnityEngine.MonoBehaviour, ArmyAntJson.IUnit
+public class JString : IUnit
 {
-    public static ArmyAntJson.IUnit isThis(string text)
+    public static IUnit isThis(string text)
     {
         var realValue = text.Trim().Trim(new char[] { '\r', '\n' });
         if (realValue[realValue.Length - 1] != '\0')

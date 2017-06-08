@@ -13,4 +13,9 @@ public class DataEditorScene : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void OnExitEditor()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
+    }
 }

@@ -19,7 +19,7 @@ public class StartScene : MonoBehaviour
         EventManager.instance.InitEvents();
         AudioController.instance = new AudioController();
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
-        AudioController.instance.SoundSource = transform.Find("imgBack").GetComponent<AudioSource>();
+        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         ModalManager.instance = new ModalManager();
         MapManager.instance = new MapManager();
         PlayerController.instance = new PlayerController();
@@ -52,5 +52,10 @@ public class StartScene : MonoBehaviour
 	{
 		MapManager.instance.SetData();
         UnityEngine.SceneManagement.SceneManager.LoadScene("DataEditorScene");
+    }
+
+    public void OnExitGame()
+    {
+        Application.Quit();
     }
 }

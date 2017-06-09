@@ -1,6 +1,4 @@
-﻿using System;
-
-public class JString : IUnit
+﻿public class JString : IUnit
 {
     public static IUnit isThis(string text)
     {
@@ -15,7 +13,6 @@ public class JString : IUnit
     }
 
     public JString(string v = "")
-        : base()
     {
         value = v;
     }

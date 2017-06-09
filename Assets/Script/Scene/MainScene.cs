@@ -16,6 +16,9 @@ public class MainScene : MonoBehaviour
 
         mapNameText = transform.Find("HeroPanel").transform.Find("MapName").GetComponent<UnityEngine.UI.Text>();
         backgroundImg = GetComponent<UnityEngine.UI.Image>();
+        mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
+        blockSize = new Vector3(mapPartRect.width * 100 / Constant.MAP_BLOCK_BASE_SIZE, mapPartRect.height * 100 / Constant.MAP_BLOCK_BASE_SIZE);
+        //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
     }
 
     void OnDestroy()
@@ -62,7 +65,8 @@ public class MainScene : MonoBehaviour
     public void AddObjectToMap(GameObject obj, int posx, int posy)
     {
         obj.transform.SetParent(transform.Find("MapPanel"));
-        obj.transform.position = new Vector3(posx * 32 + 16, posy * 32 + 16);
+        obj.transform.position = new Vector3(posx * Constant.MAP_BLOCK_BASE_SIZE + Constant.MAP_BLOCK_BASE_SIZE /2 + mapPartRect.x, posy * Constant.MAP_BLOCK_BASE_SIZE + Constant.MAP_BLOCK_BASE_SIZE /2 + mapPartRect.y);
+        obj.transform.localScale = blockSize;
     }
 
     public string MapName
@@ -77,6 +81,10 @@ public class MainScene : MonoBehaviour
         set { backgroundImg.sprite = Resources.Load<GameObject>(value).GetComponent<Sprite>(); }
     }
 
+    public Vector3 BlockSize{ get { return blockSize; }}
+
     private UnityEngine.UI.Text mapNameText;
     private UnityEngine.UI.Image backgroundImg;
+    private Rect mapPartRect;
+    private Vector3 blockSize;
 }

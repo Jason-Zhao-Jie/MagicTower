@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-public class Undefined : IUnit
+﻿public class Undefined : IUnit
 {
     public static IUnit isThis(string text)
     {

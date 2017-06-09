@@ -1,13 +1,7 @@
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController
 {
-	public const int UP_MAX = 17;
-	public const int DOWN_MIN = 0;
-	public const int RIGHT_MAX = 17;
-	public const int LEFT_MIN = 0;
     public static PlayerController instance = null;
 
 	public enum Direction
@@ -20,24 +14,12 @@ public class PlayerController : MonoBehaviour
 		Left
 	}
 
-    public DataCenter.PlayerData data;
+    public Constant.PlayerData data;
 
     public Dictionary<int, bool> items = new Dictionary<int, bool>();
 
     public int posx = 10;
     public int posy = 1;
-
-    void Start()
-    // Use this for initializationid Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public bool GoToNextBlock()
     {
@@ -60,7 +42,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // Check if the player is at the condition
-        if (targetPosY > UP_MAX || targetPosY < DOWN_MIN || targetPosX > RIGHT_MAX || targetPosX < LEFT_MIN)
+        if (targetPosY >= Constant.MAP_BLOCK_LENGTH || targetPosY < 0 || targetPosX >= Constant.MAP_BLOCK_LENGTH || targetPosX < 0)
         {
             return false;
         }
@@ -101,7 +83,7 @@ public class PlayerController : MonoBehaviour
         set { data = DataCenter.instance.GetPlayerDataById(value); }
     }
 
-    public DataCenter.PlayerData PlayerData{
+    public Constant.PlayerData PlayerData{
         get
         {
             return data;
@@ -127,10 +109,10 @@ public class PlayerController : MonoBehaviour
             this.data = DataCenter.instance.GetPlayerDataById(playerId);
             player = null;
         }
-        if (player == null)
+        if (player == null || isNew)
         {
             var modalData = DataCenter.instance.GetModalById(playerId);
-            var obj = Instantiate(Resources.Load(modalData.prefabPath) as GameObject);
+            var obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load(modalData.prefabPath) as UnityEngine.GameObject);
             player = obj.GetComponent<Player>();
         }
         if (posx < 0)
@@ -169,7 +151,7 @@ public class PlayerController : MonoBehaviour
 		set { isRunning = value; }
 	}
 
-	private bool isRunning = false;
+	private bool isRunning;
 	private Direction direction;
-    private Player player = null;
+    private Player player;
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-public class ArmyAntJson
+public static class ArmyAntJson
 {
 
     public enum EType : byte

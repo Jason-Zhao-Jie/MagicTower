@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-
-public interface IJsonCollection : IUnit, IEnumerable<IUnit>
+﻿public interface IJsonCollection : IUnit, System.Collections.Generic.IEnumerable<IUnit>
 {
     bool AddChild(IUnit child, string tag);
     bool RemoveChild(string tag);

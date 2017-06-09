@@ -1,5 +1,3 @@
-using UnityEngine;
-
 #if UNITY_WINDOWS
 
 #endif
@@ -7,20 +5,8 @@ using UnityEngine;
 
 #endif
 
-public class PlatformUIManager : MonoBehaviour
+public static class PlatformUIManager
 {
-	// Use this for initialization
-	void Start()
-	{
-
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-			
-	}
-
     public static bool ShowMessageBox(string message){
 
         return false;

@@ -5,24 +5,25 @@ using UnityEngine.UI;
 
 public class StartScene : MonoBehaviour
 {
-
     // Use this for initialization
     void Start()
     {
         Input.multiTouchEnabled = true;
 
-        DataCenter.instance = new DataCenter();
-        DataCenter.instance.LoadData();
-        InputController.instance = new InputController();
-        InputController.instance.Init();
-        EventManager.instance = new EventManager();
-        EventManager.instance.InitEvents();
-        AudioController.instance = new AudioController();
-        AudioController.instance.MusicSource = GetComponent<AudioSource>();
-        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        ModalManager.instance = new ModalManager();
-        MapManager.instance = new MapManager();
-        PlayerController.instance = new PlayerController();
+        if (DataCenter.instance == null)
+        {
+            DataCenter.instance = new DataCenter();
+            DataCenter.instance.LoadData();
+            InputController.instance = new InputController();
+            InputController.instance.Init();
+            EventManager.instance = new EventManager();
+            EventManager.instance.InitEvents();
+            AudioController.instance = new AudioController();
+            MapManager.instance = new MapManager();
+            PlayerController.instance = new PlayerController();
+		}
+		AudioController.instance.MusicSource = GetComponent<AudioSource>();
+		AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

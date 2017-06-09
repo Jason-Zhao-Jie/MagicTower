@@ -32,7 +32,7 @@ public class Modal : MonoBehaviour
         }
     }
 
-    public void InitWithMapPos(int mapId, sbyte posx, sbyte posy, DataCenter.ModalData data)
+    public void InitWithMapPos(int mapId, sbyte posx, sbyte posy, Constant.ModalData data)
     {
         this.modId = data.id;
         this.typeId = data.typeId;
@@ -59,7 +59,9 @@ public class Modal : MonoBehaviour
 
     }
     // Update is called once per frame
-    void Update(){}
+    void Update(){
+        
+    }
 
     public Animator animator { get { return GetComponent<Animator>(); } }
 

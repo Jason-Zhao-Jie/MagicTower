@@ -15,52 +15,42 @@ public class JNumber : IUnit
     }
 
     public JNumber(byte v = 0)
-        : base()
     {
         value = v;
     }
     public JNumber(short v)
-        : base()
     {
         value = v;
     }
     public JNumber(ushort v)
-        : base()
     {
         value = v;
     }
     public JNumber(int v)
-        : base()
     {
         value = v;
     }
     public JNumber(uint v)
-        : base()
     {
         value = v;
     }
     public JNumber(long v)
-        : base()
     {
         value = v;
     }
     public JNumber(ulong v)
-        : base()
     {
         value = v;
     }
     public JNumber(float v)
-        : base()
     {
         value = v;
     }
     public JNumber(double v)
-        : base()
     {
         value = v;
     }
     public JNumber(decimal v)
-        : base()
     {
         value = Convert.ToDouble(v);
     }

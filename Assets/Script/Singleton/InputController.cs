@@ -1,10 +1,10 @@
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-public class InputController : MonoBehaviour
+public class InputController
 {
     public static InputController instance = null;
+
     public static readonly KeyCode[] listenedKeys = {
         KeyCode.LeftArrow,
         KeyCode.UpArrow,
@@ -20,17 +20,6 @@ public class InputController : MonoBehaviour
         (KeyCode)6
 
     };
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void OnKeyDown(KeyCode keyCode)
     {
@@ -38,9 +27,9 @@ public class InputController : MonoBehaviour
 
         switch (DataCenter.instance.Status)
         {
-			case DataCenter.EGameStatus.Start:
+			case Constant.EGameStatus.Start:
 				break;
-			case DataCenter.EGameStatus.InGame:
+			case Constant.EGameStatus.InGame:
 				switch (keyCode)
 				{
 					case KeyCode.UpArrow:
@@ -51,17 +40,17 @@ public class InputController : MonoBehaviour
                         break;
                 }
 				break;
-			case DataCenter.EGameStatus.OnCG:
+			case Constant.EGameStatus.OnCG:
 				break;
-			case DataCenter.EGameStatus.OnTipChat:
+			case Constant.EGameStatus.OnTipChat:
 				break;
-			case DataCenter.EGameStatus.OnDialog:
+			case Constant.EGameStatus.OnDialog:
 				break;
-			case DataCenter.EGameStatus.OnMiddleLoading:
+			case Constant.EGameStatus.OnMiddleLoading:
 				break;
-			case DataCenter.EGameStatus.OnBattle:
+			case Constant.EGameStatus.OnBattle:
 				break;
-            case DataCenter.EGameStatus.OnSmallGame:
+            case Constant.EGameStatus.OnSmallGame:
                 break;
 			default:
 				break;
@@ -74,9 +63,9 @@ public class InputController : MonoBehaviour
 
 		switch (DataCenter.instance.Status)
 		{
-			case DataCenter.EGameStatus.Start:
+			case Constant.EGameStatus.Start:
 				break;
-			case DataCenter.EGameStatus.InGame:
+			case Constant.EGameStatus.InGame:
 				switch (keyCode)
 				{
 					case KeyCode.UpArrow:
@@ -87,17 +76,17 @@ public class InputController : MonoBehaviour
 						break;
 				}
 				break;
-			case DataCenter.EGameStatus.OnCG:
+			case Constant.EGameStatus.OnCG:
 				break;
-			case DataCenter.EGameStatus.OnTipChat:
+			case Constant.EGameStatus.OnTipChat:
 				break;
-			case DataCenter.EGameStatus.OnDialog:
+			case Constant.EGameStatus.OnDialog:
 				break;
-			case DataCenter.EGameStatus.OnMiddleLoading:
+			case Constant.EGameStatus.OnMiddleLoading:
 				break;
-			case DataCenter.EGameStatus.OnBattle:
+			case Constant.EGameStatus.OnBattle:
 				break;
-			case DataCenter.EGameStatus.OnSmallGame:
+			case Constant.EGameStatus.OnSmallGame:
 				break;
 			default:
 				break;

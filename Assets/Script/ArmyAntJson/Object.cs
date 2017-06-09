@@ -10,9 +10,10 @@ public class JObject : IUnit, IJsonCollection, IDictionary<string, IUnit>
     {
         try
         {
-            var ret = new JObject();
-            ret.String = text;
-            return ret;
+            return new JObject()
+            {
+                String = text
+            };
         }
         catch (ArmyAntJson.JException)
         {
@@ -21,7 +22,6 @@ public class JObject : IUnit, IJsonCollection, IDictionary<string, IUnit>
     }
 
     public JObject(Dictionary<string, IUnit> v = null)
-        : base()
     {
         if (v != null)
         {

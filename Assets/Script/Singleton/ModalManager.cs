@@ -1,22 +1,7 @@
-using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
-public class ModalManager : MonoBehaviour
+public static class ModalManager
 {
-    public static ModalManager instance = null;
-	// Use this for initialization
-	void Start()
-	{
-
-	}
-
-	// Update is called once per frame
-	void Update()
-	{
-			
-	}
-
     public static bool AddMod(long uuid, Modal mod)
     {
         if (!Contains(uuid))
@@ -50,7 +35,7 @@ public class ModalManager : MonoBehaviour
         return modals.ContainsKey(uuid);
     }
 
-    public static GameObject GetObjectByUuid(long uuid){
+    public static UnityEngine.GameObject GetObjectByUuid(long uuid){
         if (Contains(uuid))
             return modals[uuid].gameObject;
         return null;
@@ -63,5 +48,9 @@ public class ModalManager : MonoBehaviour
 		return null;
     }
 
-    private static Dictionary<long, Modal> modals = new Dictionary<long, Modal>();
+    public static void ClearModals(){
+        // TODO
+    }
+
+    private static readonly Dictionary<long, Modal> modals = new Dictionary<long, Modal>();
 }

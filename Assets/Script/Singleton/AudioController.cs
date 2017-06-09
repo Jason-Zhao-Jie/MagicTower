@@ -1,27 +1,13 @@
-using UnityEngine;
-using System.Collections;
-
-public class AudioController : MonoBehaviour
+public class AudioController
 {
     public static AudioController instance = null;
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    public AudioSource MusicSource
+    public UnityEngine.AudioSource MusicSource
     {
         get { return musicSource; }
         set { musicSource = value; }
     }
 
-    public AudioSource SoundSource
+    public UnityEngine.AudioSource SoundSource
     {
         get { return soundSource; }
         set { soundSource = value; }
@@ -29,7 +15,7 @@ public class AudioController : MonoBehaviour
 
     public bool PlayMusicLoop(int id)
     {
-        musicSource.clip = Resources.Load<AudioClip>(DataCenter.instance.GetAudioById(id));
+        musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(DataCenter.instance.GetAudioById(id));
         return true;
     }
 
@@ -41,7 +27,7 @@ public class AudioController : MonoBehaviour
 
     public bool PlaySound(int id, int times = 1)
 	{
-        soundSource.clip = Resources.Load<AudioClip>(DataCenter.instance.GetAudioById(id));
+        soundSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(DataCenter.instance.GetAudioById(id));
         return true;
     }
 
@@ -65,6 +51,6 @@ public class AudioController : MonoBehaviour
         soundSource.volume = volume;
     }
 
-    private AudioSource musicSource = null;
-    private AudioSource soundSource = null;
+    private UnityEngine.AudioSource musicSource;
+    private UnityEngine.AudioSource soundSource;
 }

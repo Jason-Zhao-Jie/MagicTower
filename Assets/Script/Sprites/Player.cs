@@ -4,7 +4,7 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
     const int RUN_SPEED = 50;
-    const int BLOCK_SIZE = 32;
+
 	void Start()
 	{
         runningTime = 0;
@@ -31,34 +31,38 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
 	{
-		if (PlayerController.instance.IsRunning)
-		{
+        if (PlayerController.instance.IsRunning)
+        {
             if (runningTime < RUN_SPEED)
                 ++runningTime;
             else
             {
                 runningTime = 0;
-				if (PlayerController.instance.GoToNextBlock())
-				{
-					var posController = GetComponent<RectTransform>();
-                    switch(PlayerController.instance.Dir){
-						case PlayerController.Direction.Up:
-							posController.position = new Vector3(posController.position.x, posController.position.y + BLOCK_SIZE);
-							break;
-						case PlayerController.Direction.Down:
-							posController.position = new Vector3(posController.position.x, posController.position.y - BLOCK_SIZE);
-							break;
+                if (PlayerController.instance.GoToNextBlock())
+                {
+                    var posController = GetComponent<RectTransform>();
+                    switch (PlayerController.instance.Dir)
+                    {
+                        case PlayerController.Direction.Up:
+                            posController.position = new Vector3(posController.position.x, posController.position.y + MainScene.instance.BlockSize.y);
+                            break;
+                        case PlayerController.Direction.Down:
+                            posController.position = new Vector3(posController.position.x, posController.position.y - MainScene.instance.BlockSize.y);
+                            break;
                         case PlayerController.Direction.Left:
-                            posController.position = new Vector3(posController.position.x - BLOCK_SIZE, posController.position.y);
-							break;
-						case PlayerController.Direction.Right:
-							posController.position = new Vector3(posController.position.x + BLOCK_SIZE, posController.position.y);
-							break;
-					}
+                            posController.position = new Vector3(posController.position.x - MainScene.instance.BlockSize.x, posController.position.y);
+                            break;
+                        case PlayerController.Direction.Right:
+                            posController.position = new Vector3(posController.position.x + MainScene.instance.BlockSize.x, posController.position.y);
+                            break;
+                    }
                 }
             }
-
-		}
+        }
+        else
+        {
+            runningTime = 0;
+        }
     }
     public Animator animator{ get { return GetComponent<Animator>(); }}
 

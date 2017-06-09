@@ -3,8 +3,8 @@
     {
       "mapId": 1,
       "mapName": "Floor 1",
-      "backgroundImage": "WhiteWall",
-      "backgroundAudio": "2",
+      "backThing": 2,
+      "music": 2,
       "mapBlocks": [
         [
           {
@@ -1378,6 +1378,7 @@
       "speed": 0,
       "critical": 5.0,
       "gold": 0,
+      "weaponId":  0,
       "special": []
     },
     {
@@ -1390,6 +1391,7 @@
       "speed": 0,
       "critical": 5.0,
       "gold": 0,
+      "weaponId": 0,
       "special": []
     }
   ],
@@ -1407,7 +1409,8 @@
       "yellowKey": 0,
       "blueKey": 0,
       "redKey": 0,
-      "greenKey": 0
+      "greenKey": 0,
+      "weaponId": 0
     },
     {
       "id": 2,
@@ -1423,7 +1426,8 @@
       "yellowKey": 1,
       "blueKey": 1,
       "redKey": 1,
-      "greenKey": 0
+      "greenKey": 0,
+      "weaponId": 0
     }
   ],
   "events": [
@@ -1436,6 +1440,110 @@
       "id": 2,
       "typeId": 1,
       "dataId": 1
+    }
+  ],
+  "weapons": [
+    {
+      "id": 1,
+      "name": "riot",
+      "prefabPath": "riot_hit",
+      "audioId": 1,
+      "critAudioId": 2
+    },
+    {
+      "id": 2,
+      "name": "sword",
+      "prefabPath": "sword_hit",
+      "audioId": 3,
+      "critAudioId": 4
+    },
+  ],
+  "chats": [
+    {
+      "id": 1,
+      "lastEventId": 0,
+      "canOn": true,
+      "data": [
+        {
+          "speakerId": 0,
+          "content": "按照地图指示，应该就是这座塔"
+        },
+        {
+          "speakerId": 0,
+          "content": "......"
+        },
+        {
+          "speakerId": 0,
+          "content": "感觉气氛有点诡异，里面似乎有不少魔物，小心前进吧"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "lastEventId": 0,
+      "canOn": true,
+      "data": [
+        {
+          "speakerId": 0,
+          "content": "哇，这是什么鬼？"
+        },
+        {
+          "speakerId": 5,
+          "content": "......"
+        },
+        {
+          "speakerId": 0,
+          "content": "来者不善。。。先干掉再说"
+        }
+      ]
+    }
+  ],
+  "choices": [
+    {
+      "id": 1,
+      "speakerId": 17,
+      "title": "伟大的勇士，我将助你完成你的使命。你可以用你历练来的经验换取以下提升",
+      "tail": "",
+      "canOn": false,
+      "data": [
+        {
+          "content": "50经验换取5攻击力",
+          "eventId": 34
+        },
+        {
+          "content": "50经验换取5防御力",
+          "eventId": 35
+        },
+        {
+          "content": "50经验换取1200生命值",
+          "eventId": 36
+        },
+        {
+          "content": "50经验提升1个等级",
+          "eventId": 40
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "speakerId": 23,
+      "title": "我这里有很多宝贝，只要你有足够的钱，就能得到我的东西",
+      "tail": "",
+      "canOn": false,
+      "data": [
+        {
+          "content": "##金币换取5攻击力",
+          "eventId": 34
+        },
+        {
+          "content": "##金币换取5防御力",
+          "eventId": 35
+        },
+        {
+          "content": "##金币换取1200生命值",
+          "eventId": 36
+        }
+      ]
     }
   ]
 }

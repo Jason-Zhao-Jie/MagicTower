@@ -1,34 +1,20 @@
-using UnityEngine;
-using System.Collections;
-
-public class MapManager : MonoBehaviour
+public class MapManager
 {
     public static MapManager instance = null;
-    // Use this for initialization
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    public void SetData(int floorId = 1, DataCenter.MapData[] datas = null)
+    public void SetData(int floorId = 1, Constant.MapData[] datas = null)
     {
         if (datas == null)
         {
-            datas = DataCenter.instance.NewGameMaps; ;
-            maps = new DataCenter.MapData[datas.Length];
+            datas = DataCenter.instance.NewGameMaps;
+            maps = new Constant.MapData[datas.Length];
             for (int i = 0; i < datas.Length; ++i)
             {
                 maps[i] = datas[i];
-                maps[i].mapBlocks = new DataCenter.MapBlock[datas[i].mapBlocks.Length][];
+                maps[i].mapBlocks = new Constant.MapBlock[datas[i].mapBlocks.Length][];
                 for (int j = 0; j < maps[i].mapBlocks.Length; ++j)
                 {
-                    maps[i].mapBlocks[j] = new DataCenter.MapBlock[datas[i].mapBlocks[j].Length];
+                    maps[i].mapBlocks[j] = new Constant.MapBlock[datas[i].mapBlocks[j].Length];
                     for (int k = 0; k < maps[i].mapBlocks[j].Length; ++k)
                     {
                         maps[i].mapBlocks[j][k] = datas[i].mapBlocks[j][k];
@@ -60,7 +46,7 @@ public class MapManager : MonoBehaviour
         for (int x = 0; x < maps[currentFloorIndex].mapBlocks.Length; ++x)
             for (int y = 0; y < maps[currentFloorIndex].mapBlocks[x].Length; ++y)
             {
-                GameObject obj = null;
+                UnityEngine.GameObject obj = null;
                 long uuid = maps[currentFloorIndex].mapId * 10000 + y + x * 100;
                 if (ModalManager.Contains(uuid))
                     obj = ModalManager.GetObjectByUuid(uuid);
@@ -70,7 +56,7 @@ public class MapManager : MonoBehaviour
                     if (thingId > 0)
                     {
                         var modal = DataCenter.instance.GetModalById(thingId);
-                        obj = Instantiate(Resources.Load<GameObject>(modal.prefabPath));
+                        obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(modal.prefabPath));
                         var cmp = obj.GetComponent<Modal>();
                         cmp.InitWithMapPos(maps[currentFloorIndex].mapId, (sbyte)x, (sbyte)y, modal);
                     }
@@ -78,14 +64,24 @@ public class MapManager : MonoBehaviour
                 if (obj != null)
                 {
                     obj.name = "MapBlock_" + x.ToString() + "_" + y.ToString();
-                    MainScene.instance.AddObjectToMap(obj, x, y);
+                    if (MainScene.instance != null)
+                        MainScene.instance.AddObjectToMap(obj, x, y);
+                    else if (DataEditorScene.instance != null)
+                        DataEditorScene.instance.AddObjectToMap(obj, x, y);
                 }
             }
 
         // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识
-        MainScene.instance.BackgroundImage = maps[currentFloorIndex].backgroundImage;
-        MainScene.instance.MapName = maps[currentFloorIndex].mapName;
-        AudioController.instance.PlayMusicLoop(maps[currentFloorIndex].backgroundAudio);
+        if (MainScene.instance != null)
+        {
+            MainScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloorIndex].backThing).prefabPath;
+			MainScene.instance.MapName = maps[currentFloorIndex].mapName;
+			AudioController.instance.PlayMusicLoop(maps[currentFloorIndex].music);
+		}
+		else
+		{
+			DataEditorScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloorIndex].backThing).prefabPath;
+        }
 
         return true;
     }
@@ -94,6 +90,17 @@ public class MapManager : MonoBehaviour
     {
         var Map = MainScene.instance.transform.Find("MapPanel");
         Map.transform.DetachChildren();
+    }
+
+    public static UnityEngine.Rect GetMapPosition(UnityEngine.RectTransform mapPanel)
+    {
+        var totalWidth = mapPanel.rect.width;
+        var totalHeight = mapPanel.rect.height;
+        bool isHorizenFull = totalWidth >= totalHeight;
+        var finalX = isHorizenFull ? ((totalWidth - totalHeight) / 2) : 0;
+        var finalY = isHorizenFull ? 0 : ((totalHeight - totalWidth) / 2);
+
+        return new UnityEngine.Rect(finalX, finalY, totalWidth - 2 * finalX, totalHeight - 2 * finalY);
     }
 
     public int GetMapIndexByFloorId(int id)
@@ -121,11 +128,11 @@ public class MapManager : MonoBehaviour
         return SetEventOn(0, posx, posy, floorId);
     }
 
-    public DataCenter.MapData[] MapData { get { return maps; }}
-    public DataCenter.MapData this[int index] { get { return maps[index]; } }
-    public DataCenter.MapData CurrentMap { get { return maps[currentFloorIndex]; } }
+    public Constant.MapData[] MapData { get { return maps; }}
+    public Constant.MapData this[int index] { get { return maps[index]; } }
+    public Constant.MapData CurrentMap { get { return maps[currentFloorIndex]; } }
     public int CurrentFloorId{ get { return maps[currentFloorIndex].mapId; }}
 
     private int currentFloorIndex;
-    private DataCenter.MapData[] maps;
+private Constant.MapData[] maps;
 }

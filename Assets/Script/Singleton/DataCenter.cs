@@ -12,6 +12,25 @@ public class DataCenter
                 return data.modals[i];
         return null;
     }
+    public int AddModal()
+    {
+        int index = 0;
+        for (index = 0; index < data.modals.Length; ++index)
+            if (data.modals[index].id <= index)
+                break;
+        var oldModals = data.modals;
+        data.modals = new Constant.ModalData[data.modals.Length + 1];
+        for(int i=0;i< index; ++i)
+        {
+            data.modals[i] = oldModals[i];
+        }
+        data.modals[index] = new Constant.ModalData() { id = index + 1 };
+        for(int i = index; i < oldModals.Length; ++i)
+        {
+            data.modals[i + 1] = oldModals[i];
+        }
+        return index;
+    }
     public Constant.Audio[] Audios { get { return data.audios; } }
     public string GetAudioById(int id)
     {
@@ -28,6 +47,24 @@ public class DataCenter
                 return data.monsters[i];
         return null;
     }
+    public int GetMonsterIndexById(int id)
+    {
+        for (int i = 0; i < data.monsters.Length; ++i)
+            if (data.monsters[i].id == id)
+                return i;
+        return -1;
+    }
+    public int AddMonster(int id)
+    {
+        var oldMonsters = data.monsters;
+        data.monsters = new Constant.MonsterData[data.monsters.Length + 1];
+        for(int i = 0; i < data.monsters.Length - 1; ++i)
+        {
+            data.monsters[i] = oldMonsters[i];
+        }
+        data.monsters[data.monsters.Length - 1] = new Constant.MonsterData() { id=id, special = new int[0] };
+        return data.monsters.Length - 1;
+    }
     public Constant.PlayerData[] Players { get { return data.players; } }
     public Constant.PlayerData GetPlayerDataById(int id)
     {
@@ -36,6 +73,24 @@ public class DataCenter
                 return data.players[i];
         return new Constant.PlayerData();
     }
+    public int GetPlayerIndexById(int id)
+    {
+        for (int i = 0; i < data.players.Length; ++i)
+            if (data.players[i].id == id)
+                return i;
+        return -1;
+    }
+    public int AddPlayer(int id)
+    {
+        var oldPlayers = data.players;
+        data.players = new Constant.PlayerData[data.players.Length + 1];
+        for (int i = 0; i < data.monsters.Length - 1; ++i)
+        {
+            data.players[i] = oldPlayers[i];
+        }
+        data.players[data.players.Length - 1] = new Constant.PlayerData() { id = id };
+        return data.players.Length - 1;
+    }
     public Constant.Event[] Events { get { return data.events; } }
     public Constant.Event GetEventDataById(int id)
     {
@@ -43,6 +98,33 @@ public class DataCenter
             if (data.audios[i].id == id)
                 return data.events[i];
         return null;
+    }
+    public Constant.WeaponData[] Weapons { get { return data.weapons; } }
+    public Constant.WeaponData GetWeaponDataById(int id)
+    {
+        for (int i = 0; i < data.weapons.Length; ++i)
+            if (data.weapons[i].id == id)
+                return data.weapons[i];
+        return null;
+    }
+    public int AddWeapon()
+    {
+        int index = 0;
+        for (index = 0; index < data.weapons.Length; ++index)
+            if (data.weapons[index].id <= index)
+                break;
+        var oldWeapons = data.weapons;
+        data.weapons = new Constant.WeaponData[data.weapons.Length + 1];
+        for (int i = 0; i < index; ++i)
+        {
+            data.weapons[i] = oldWeapons[i];
+        }
+        data.weapons[index] = new Constant.WeaponData() { id = index + 1 };
+        for (int i = index; i < oldWeapons.Length; ++i)
+        {
+            data.weapons[i + 1] = oldWeapons[i];
+        }
+        return index;
     }
 
     /// <summary>

@@ -42,7 +42,7 @@ public class JArray : IUnit, IJsonCollection, IList<IUnit>, ICollection<IUnit>
         set
         {
             var realValue = value.Trim().Trim(new char[] { '\r', '\n' });
-            if (realValue[realValue.Length - 1] != '\0')
+            if (realValue.Length <= 0 || realValue[realValue.Length - 1] != '\0')
                 realValue += '\0';
             if (realValue[0] != '[' || realValue[realValue.Length - 2] != ']')
             {

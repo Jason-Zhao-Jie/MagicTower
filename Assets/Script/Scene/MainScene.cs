@@ -9,16 +9,17 @@ public class MainScene : MonoBehaviour
     void Start()
     {
         instance = this;
-        AudioController.instance.MusicSource = GetComponent<AudioSource>();
-        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        MapManager.instance.ShowMap();
-        PlayerController.instance.ShowPlayer(true);
 
         mapNameText = transform.Find("HeroPanel").transform.Find("MapName").GetComponent<UnityEngine.UI.Text>();
         backgroundImg = GetComponent<UnityEngine.UI.Image>();
         mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
         blockSize = new Vector3(mapPartRect.width * 100 / Constant.MAP_BLOCK_BASE_SIZE, mapPartRect.height * 100 / Constant.MAP_BLOCK_BASE_SIZE);
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
+
+        AudioController.instance.MusicSource = GetComponent<AudioSource>();
+        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        MapManager.instance.ShowMap();
+        PlayerController.instance.ShowPlayer(true);
     }
 
     void OnDestroy()
@@ -78,7 +79,7 @@ public class MainScene : MonoBehaviour
     public string BackgroundImage
     {
         get { return backgroundImg.sprite.name; }
-        set { backgroundImg.sprite = Resources.Load<GameObject>(value).GetComponent<Sprite>(); }
+        set { backgroundImg.sprite = Resources.Load<GameObject>(Constant.PREFAB_DIR + value).GetComponent<SpriteRenderer>().sprite; }
     }
 
     public Vector3 BlockSize{ get { return blockSize; }}

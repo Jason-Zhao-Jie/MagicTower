@@ -88,8 +88,10 @@ public class MapManager
 
     public void ClearMap()
     {
-        var Map = MainScene.instance.transform.Find("MapPanel");
-        Map.transform.DetachChildren();
+        if (MainScene.instance != null)
+            MainScene.instance.transform.Find("MapPanel").transform.DetachChildren();
+        if (DataEditorScene.instance != null)
+            UnityEngine.GameObject.Find("MapPanel").transform.DetachChildren();
     }
 
     public static UnityEngine.Rect GetMapPosition(UnityEngine.RectTransform mapPanel)

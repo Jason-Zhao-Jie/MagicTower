@@ -236,6 +236,7 @@ public class DataCenter
             for (int n = 0; n < __data.Length; ++n)
             {
                 var ___oneData = __data[n] as JObject;
+                __choiceData.data[n] = new Constant.OneChoiceData();
                 __choiceData.data[n].eventId = ___oneData["eventId"].ToInt();
                 __choiceData.data[n].content = ___oneData["content"].ToString();
             }

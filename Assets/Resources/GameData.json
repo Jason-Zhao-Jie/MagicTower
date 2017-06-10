@@ -1345,26 +1345,26 @@
     {
       "id": 1,
       "typeId": 1,
-      "name": "",
-      "prefabPath": "",
+      "name": "WhiteWall",
+      "prefabPath": "WhiteWall",
       "eventId": 0
     },
     {
       "id": 2,
       "typeId": 1,
-      "name": "",
-      "prefabPath": "",
+      "name": "GrayWall",
+      "prefabPath": "GrayWall",
       "eventId": 0
     }
   ],
   "audios": [
     {
       "id": 1,
-      "path": "Jack"
+      "path": "SkyTower"
     },
     {
       "id": 2,
-      "path": "Lilith"
+      "path": "special1"
     }
   ],
   "monsters": [
@@ -1379,19 +1379,6 @@
       "critical": 5.0,
       "gold": 0,
       "weaponId":  0,
-      "special": []
-    },
-    {
-      "id": 1,
-      "level": 1,
-      "exp": 0,
-      "life": 1000,
-      "attack": 10,
-      "defense": 10,
-      "speed": 0,
-      "critical": 5.0,
-      "gold": 0,
-      "weaponId": 0,
       "special": []
     }
   ],
@@ -1456,7 +1443,7 @@
       "prefabPath": "sword_hit",
       "audioId": 3,
       "critAudioId": 4
-    },
+    }
   ],
   "chats": [
     {

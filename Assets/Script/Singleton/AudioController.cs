@@ -15,7 +15,7 @@ public class AudioController
 
     public bool PlayMusicLoop(int id)
     {
-        musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(DataCenter.instance.GetAudioById(id));
+        musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + DataCenter.instance.GetAudioById(id));
         return true;
     }
 
@@ -27,7 +27,7 @@ public class AudioController
 
     public bool PlaySound(int id, int times = 1)
 	{
-        soundSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(DataCenter.instance.GetAudioById(id));
+        soundSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + DataCenter.instance.GetAudioById(id));
         return true;
     }
 

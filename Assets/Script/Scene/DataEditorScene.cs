@@ -29,6 +29,44 @@ public class DataEditorScene : MonoBehaviour
 
         // 载入Map信息
         MapManager.instance.ShowMap();
+        {
+            var mapId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>();
+            var mapList = new List<string>();
+            for(int i = 0; i < DataCenter.instance.data.newGameMaps.Length; ++i)
+            {
+                mapList.Add(DataCenter.instance.data.newGameMaps[i].mapId + ". " + DataCenter.instance.data.newGameMaps[i].mapName);
+            }
+            mapId.AddOptions(mapList);
+
+            var musicId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("Music").GetComponent<Dropdown>();
+            var audioList = new List<string>();
+            for (int i = 0; i < DataCenter.instance.data.audios.Length; ++i)
+            {
+                audioList.Add(DataCenter.instance.data.audios[i].id + ". " + DataCenter.instance.data.audios[i].path);
+            }
+            musicId.AddOptions(audioList);
+
+            var backModal = mapMakerCanvas.transform.Find("SetPanel").transform.Find("BackModal").GetComponent<Dropdown>();
+            var currentModal = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>();
+            var modalList = new List<string>();
+            for (int i = 0; i < DataCenter.instance.data.modals.Length; ++i)
+            {
+                modalList.Add(DataCenter.instance.data.modals[i].id + ". " + DataCenter.instance.data.modals[i].name);
+            }
+            backModal.AddOptions(modalList);
+            currentModal.AddOptions(modalList);
+
+            var eventId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("EventId").GetComponent<Dropdown>();
+            var eventIdList = new List<string>();
+            for (int i = 0; i < DataCenter.instance.data.events.Length; ++i)
+            {
+                eventIdList.Add(DataCenter.instance.data.events[i].id.ToString());
+            }
+            eventId.AddOptions(eventIdList);
+
+            mapId.value = 0;
+            OnMapSelected();
+        }
 
         // 载入Modal信息
         {
@@ -72,6 +110,10 @@ public class DataEditorScene : MonoBehaviour
             weaponIds.value = 0;
             OnModalSelected(0);
             OnWeaponSelected(0);
+
+            // 显示所有prefabs
+            var prefabList = modalMakerCanvas.transform.Find("prefabs").GetComponent<ScrollRect>();
+            
         }
 
         // 初始化
@@ -92,21 +134,21 @@ public class DataEditorScene : MonoBehaviour
     }
 
     public void OnChangeToMaps()
-	{
+    {
         mapMakerCanvas.SetActive(true);
         modalMakerCanvas.SetActive(false);
         eventMakerCanvas.SetActive(false);
     }
 
     public void OnChangeToModals()
-	{
+    {
         mapMakerCanvas.SetActive(false);
         modalMakerCanvas.SetActive(true);
         eventMakerCanvas.SetActive(false);
     }
 
     public void OnChangeToAudioAndEvents()
-	{
+    {
         mapMakerCanvas.SetActive(false);
         modalMakerCanvas.SetActive(false);
         eventMakerCanvas.SetActive(true);
@@ -133,7 +175,7 @@ public class DataEditorScene : MonoBehaviour
     {
         var allAudios = Resources.LoadAll<AudioClip>(Constant.AUDIO_DIR);
         Constant.Audio[] audioData = new Constant.Audio[allAudios.Length];
-        for(var i = 0; i < audioData.Length; ++i)
+        for (var i = 0; i < audioData.Length; ++i)
         {
             audioData[i] = new Constant.Audio();
             audioData[i].id = i + 1;
@@ -208,6 +250,7 @@ public class DataEditorScene : MonoBehaviour
         switch (part)
         {
             case 0:
+                OnMapSelected();
                 break;
             case 1:
                 OnModalSelected(0);
@@ -228,7 +271,7 @@ public class DataEditorScene : MonoBehaviour
         if (DataCenter.instance.data.modals[index].typeId == (int)Modal.ModalType.Player)
         {
             var playerIndex = DataCenter.instance.GetPlayerIndexById(DataCenter.instance.data.modals[index].id);
-            if(playerIndex<0)
+            if (playerIndex < 0)
             {
                 playerIndex = DataCenter.instance.AddPlayer(DataCenter.instance.data.modals[index].id);
             }
@@ -240,7 +283,7 @@ public class DataEditorScene : MonoBehaviour
             DataCenter.instance.data.players[playerIndex].speed = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Speed").GetComponent<InputField>().text);
             DataCenter.instance.data.players[playerIndex].critical = System.Convert.ToDouble(modalMakerCanvas.transform.Find("Critical").GetComponent<InputField>().text);
             DataCenter.instance.data.players[playerIndex].gold = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Gold").GetComponent<InputField>().text);
-            DataCenter.instance.data.players[playerIndex].weaponId = modalMakerCanvas.transform.Find("ModalWeaponId").GetComponent<Dropdown>().value;
+            DataCenter.instance.data.players[playerIndex].weaponId = modalMakerCanvas.transform.Find("ModalWeaponId").GetComponent<Dropdown>().value + 1;
         }
         else if (DataCenter.instance.data.modals[index].typeId == (int)Modal.ModalType.Monster)
         {
@@ -249,15 +292,15 @@ public class DataEditorScene : MonoBehaviour
             {
                 monsterIndex = DataCenter.instance.AddMonster(DataCenter.instance.data.modals[index].id);
             }
-            DataCenter.instance.data.players[monsterIndex].level = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Level").GetComponent<InputField>().text);
-            DataCenter.instance.data.players[monsterIndex].exp = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Exp").GetComponent<InputField>().text);
-            DataCenter.instance.data.players[monsterIndex].life = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Life").GetComponent<InputField>().text);
-            DataCenter.instance.data.players[monsterIndex].attack = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Attack").GetComponent<InputField>().text);
-            DataCenter.instance.data.players[monsterIndex].defense = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Defense").GetComponent<InputField>().text);
-            DataCenter.instance.data.players[monsterIndex].speed = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Speed").GetComponent<InputField>().text);
-            DataCenter.instance.data.players[monsterIndex].critical = System.Convert.ToDouble(modalMakerCanvas.transform.Find("Critical").GetComponent<InputField>().text);
-            DataCenter.instance.data.players[monsterIndex].gold = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Gold").GetComponent<InputField>().text);
-            DataCenter.instance.data.players[monsterIndex].weaponId = modalMakerCanvas.transform.Find("ModalWeaponId").GetComponent<Dropdown>().value;
+            DataCenter.instance.data.monsters[monsterIndex].level = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Level").GetComponent<InputField>().text);
+            DataCenter.instance.data.monsters[monsterIndex].exp = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Exp").GetComponent<InputField>().text);
+            DataCenter.instance.data.monsters[monsterIndex].life = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Life").GetComponent<InputField>().text);
+            DataCenter.instance.data.monsters[monsterIndex].attack = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Attack").GetComponent<InputField>().text);
+            DataCenter.instance.data.monsters[monsterIndex].defense = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Defense").GetComponent<InputField>().text);
+            DataCenter.instance.data.monsters[monsterIndex].speed = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Speed").GetComponent<InputField>().text);
+            DataCenter.instance.data.monsters[monsterIndex].critical = System.Convert.ToDouble(modalMakerCanvas.transform.Find("Critical").GetComponent<InputField>().text);
+            DataCenter.instance.data.monsters[monsterIndex].gold = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Gold").GetComponent<InputField>().text);
+            DataCenter.instance.data.monsters[monsterIndex].weaponId = modalMakerCanvas.transform.Find("ModalWeaponId").GetComponent<Dropdown>().value + 1;
         }
     }
 
@@ -311,6 +354,26 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
+    public void OnMapApply()
+    {
+
+    }
+
+    public void OnMapSelected()
+    {
+
+    }
+
+    public void OnMapModalSelected(bool isBack)
+    {
+
+    }
+
+    public void OnMapClicked(int posx, int posy)
+    {
+
+    }
+
     public void OnPlay(int index)
     {
         switch (index)
@@ -338,8 +401,8 @@ public class DataEditorScene : MonoBehaviour
 
     private UnityEngine.UI.Image backgroundImg;
     private Rect mapPartRect;
-	private Vector3 blockSize;
-	private GameObject[] allPrefabs;
+    private Vector3 blockSize;
+    private GameObject[] allPrefabs;
     private GameObject mapMakerCanvas;
     private GameObject modalMakerCanvas;
     private GameObject eventMakerCanvas;

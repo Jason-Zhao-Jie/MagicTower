@@ -4,15 +4,15 @@ public class PlayerController
 {
     public static PlayerController instance = null;
 
-	public enum Direction
-  
-	{
-		Default,
-		Up,
-		Down,
-		Right,
-		Left
-	}
+    public enum Direction
+
+    {
+        Default,
+        Up,
+        Down,
+        Right,
+        Left
+    }
 
     public Constant.PlayerData data;
 
@@ -58,10 +58,10 @@ public class PlayerController
         if (block.thing != 0)
         {
             var thingData = DataCenter.instance.GetModalById(block.thing);
-			if (thingData.eventId != 0)
-			{
-				if (!EventManager.instance.DispatchEvent(thingData.eventId, ModalManager.GetModalByUuid(uuid)))
-					return false;
+            if (thingData.eventId != 0)
+            {
+                if (!EventManager.instance.DispatchEvent(thingData.eventId, ModalManager.GetModalByUuid(uuid)))
+                    return false;
             }
             switch ((Modal.ModalType)thingData.typeId)
             {
@@ -83,12 +83,14 @@ public class PlayerController
         set { data = DataCenter.instance.GetPlayerDataById(value); }
     }
 
-    public Constant.PlayerData PlayerData{
+    public Constant.PlayerData PlayerData
+    {
         get
         {
             return data;
         }
-        set{
+        set
+        {
             data = value;
         }
     }
@@ -112,7 +114,7 @@ public class PlayerController
         if (player == null || isNew)
         {
             var modalData = DataCenter.instance.GetModalById(playerId);
-            var obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load(modalData.prefabPath) as UnityEngine.GameObject);
+            var obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load(Constant.PREFAB_DIR + modalData.prefabPath) as UnityEngine.GameObject);
             player = obj.GetComponent<Player>();
         }
         if (posx < 0)
@@ -134,24 +136,25 @@ public class PlayerController
         isRunning = true;
     }
 
-    public void StopWalk(){
+    public void StopWalk()
+    {
         isRunning = false;
     }
 
 
-	public Direction Dir
-	{
-		get { return direction; }
-		set { direction = value; }
-	}
+    public Direction Dir
+    {
+        get { return direction; }
+        set { direction = value; }
+    }
 
-	public bool IsRunning
-	{
-		get { return isRunning; }
-		set { isRunning = value; }
-	}
+    public bool IsRunning
+    {
+        get { return isRunning; }
+        set { isRunning = value; }
+    }
 
-	private bool isRunning;
-	private Direction direction;
+    private bool isRunning;
+    private Direction direction;
     private Player player;
 }

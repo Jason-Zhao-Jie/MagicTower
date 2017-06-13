@@ -34,6 +34,7 @@ public static class Constant
 	{
 		Start,
 		InGame,
+        InEditor,
 		OnMiddleLoading,
 		OnBattle,
 		OnTipChat,

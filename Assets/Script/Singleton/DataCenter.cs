@@ -4,6 +4,49 @@ public class DataCenter
     public static DataCenter instance = null;
 
     public Constant.MapData[] NewGameMaps { get { return data.newGameMaps; } }
+    public int AddMap(){
+		int index = 0;
+        for (index = 0; index < data.newGameMaps.Length; ++index)
+            if (data.newGameMaps[index].mapId <= index)
+				break;
+		var oldModals = data.newGameMaps;
+        data.newGameMaps = new Constant.MapData[data.newGameMaps.Length + 1];
+		for (int i = 0; i < index; ++i)
+		{
+			data.newGameMaps[i] = oldModals[i];
+		}
+        data.newGameMaps[index] = new Constant.MapData()
+        {
+            mapId = index + 1,
+            backThing = 1,
+            music = 1,
+			mapBlocks = new Constant.MapBlock[18][]{
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18],
+				new Constant.MapBlock[18]
+            }
+        };
+		for (int i = index; i < oldModals.Length; ++i)
+		{
+			data.newGameMaps[i + 1] = oldModals[i];
+		}
+		return index;
+    }
     public Constant.ModalData[] Modals { get { return data.modals; } }
     public Constant.ModalData GetModalById(int id)
     {

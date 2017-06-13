@@ -28,7 +28,6 @@ public class DataEditorScene : MonoBehaviour
         allPrefabs = Resources.LoadAll<GameObject>(Constant.PREFAB_DIR);
 
         // 载入Map信息
-        MapManager.instance.ShowMap();
         {
             var mapId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>();
             var mapList = new List<string>();
@@ -328,6 +327,15 @@ public class DataEditorScene : MonoBehaviour
         switch (index)
         {
             case 0:
+                {
+                    var drop = mapMakerCanvas.transform.Find("MapPanel").transform.Find("MapId").GetComponent<Dropdown>();
+                    var ind = DataCenter.instance.AddMap();
+                    var lst = new List<string>();
+                    lst.Add(ind + 1 + ". (new)");
+                    drop.AddOptions(lst);
+                    drop.value = ind;
+                    OnMapSelected();
+                }
                 break;
             case 1:
                 {
@@ -356,22 +364,62 @@ public class DataEditorScene : MonoBehaviour
 
     public void OnMapApply()
     {
+        var panel = mapMakerCanvas.transform.Find("SetPanel");
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        var mapName = panel.transform.Find("MapName").GetComponent<InputField>().text;
+        var bgMusic = panel.transform.Find("Music").GetComponent<Dropdown>().value + 1;
+		var bgModal = panel.transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
+		var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value + 1;
+		var eventId = panel.transform.Find("EventId").GetComponent<Dropdown>().value + 1;
 
+		DataCenter.instance.data.newGameMaps[mapId - 1].mapName = mapName;
+        DataCenter.instance.data.newGameMaps[mapId - 1].backThing = bgModal;
+		DataCenter.instance.data.newGameMaps[mapId - 1].music = bgMusic;
+		DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[posx][posy].thing = currModal;
+		DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[posx][posy].eventId = eventId;
     }
 
-    public void OnMapSelected()
-    {
 
+	void OnMapSelected()
+	{
+		var panel = mapMakerCanvas.transform.Find("SetPanel");
+		var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        panel.transform.Find("MapName").GetComponent<InputField>().text = DataCenter.instance.data.newGameMaps[mapId - 1].mapName;
+        panel.transform.Find("Music").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].music - 1;
+        panel.transform.Find("BackModal").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].backThing - 1;
+        OnMapModalSelected(false);
+		OnMapClicked(0, 0);
+		MapManager.instance.ShowMap();
     }
 
     public void OnMapModalSelected(bool isBack)
     {
-
+        if (isBack)
+        {
+            var index = mapMakerCanvas.transform.Find("SetPanel").transform.Find("BackModal").GetComponent<Dropdown>().value;
+            MapManager.instance.ChangeBack(DataCenter.instance.GetModalById(index + 1).prefabPath);
+        }
+        else
+        {
+            var index = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>().value;
+            // TODO
+        }
     }
 
-    public void OnMapClicked(int posx, int posy)
-    {
+    public void ShowPoint(Vector2 pos){
+        mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentPosition").GetComponent<Text>().text = pos.x + "," + pos.y;
+    }
 
+    public void OnMapClicked(int x, int y)
+    {
+        posx = x;
+		posy = y;
+		var panel = mapMakerCanvas.transform.Find("SetPanel");
+		var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
+        panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[x][y].thing - 1;
+        panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[x][y].eventId - 1;
+        OnMapModalSelected(true);
     }
 
     public void OnPlay(int index)
@@ -407,4 +455,6 @@ public class DataEditorScene : MonoBehaviour
     private GameObject modalMakerCanvas;
     private GameObject eventMakerCanvas;
     private GameObject saveResult;
+    private int posx = 0;
+    private int posy = 0;
 }

@@ -40,6 +40,8 @@ public class InputController
                         break;
                 }
 				break;
+			case Constant.EGameStatus.InEditor:
+				break;
 			case Constant.EGameStatus.OnCG:
 				break;
 			case Constant.EGameStatus.OnTipChat:
@@ -76,6 +78,8 @@ public class InputController
 						break;
 				}
 				break;
+			case Constant.EGameStatus.InEditor:
+				break;
 			case Constant.EGameStatus.OnCG:
 				break;
 			case Constant.EGameStatus.OnTipChat:
@@ -94,7 +98,32 @@ public class InputController
     }
 
     public void OnTouchDown(Vector2 touchedPos)
-    {
+	{
+
+		switch (DataCenter.instance.Status)
+		{
+			case Constant.EGameStatus.Start:
+				break;
+			case Constant.EGameStatus.InGame:
+				break;
+            case Constant.EGameStatus.InEditor:
+                DataEditorScene.instance.ShowPoint(touchedPos);
+                break;
+			case Constant.EGameStatus.OnCG:
+				break;
+			case Constant.EGameStatus.OnTipChat:
+				break;
+			case Constant.EGameStatus.OnDialog:
+				break;
+			case Constant.EGameStatus.OnMiddleLoading:
+				break;
+			case Constant.EGameStatus.OnBattle:
+				break;
+			case Constant.EGameStatus.OnSmallGame:
+				break;
+			default:
+				break;
+		}
 
 	}
 

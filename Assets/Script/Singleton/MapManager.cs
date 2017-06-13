@@ -94,6 +94,14 @@ public class MapManager
             UnityEngine.GameObject.Find("MapPanel").transform.DetachChildren();
     }
 
+	public void ChangeBack(string prefab)
+	{
+		if (MainScene.instance != null)
+			MainScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloorIndex].backThing).prefabPath;
+        else
+            DataEditorScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloorIndex].backThing).prefabPath;
+	}
+
     public static UnityEngine.Rect GetMapPosition(UnityEngine.RectTransform mapPanel)
     {
         var totalWidth = mapPanel.rect.width;

@@ -98,7 +98,7 @@ public class InputController
     }
 
     public void OnTouchDown(Vector2 touchedPos)
-	{
+    {
 
         switch (DataCenter.instance.Status)
         {
@@ -107,8 +107,7 @@ public class InputController
             case Constant.EGameStatus.InGame:
                 break;
             case Constant.EGameStatus.InEditor:
-                touchedPos = GameObject.Find("MapPanel").transform.InverseTransformPoint(touchedPos);
-                DataEditorScene.instance.OnMapClicked(((int)touchedPos.x) / 32, ((int)touchedPos.y) / 32);
+                    DataEditorScene.instance.OnMapClicked(touchedPos);
                 break;
             case Constant.EGameStatus.OnCG:
                 break;
@@ -126,7 +125,7 @@ public class InputController
                 break;
         }
 
-	}
+    }
 
     public void OnTouchUp(Vector2 end)
     {

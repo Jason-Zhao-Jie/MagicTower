@@ -409,7 +409,7 @@ public class DataEditorScene : MonoBehaviour
         panel.transform.Find("Music").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].music - 1;
         panel.transform.Find("BackModal").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].backThing - 1;
         OnMapModalSelected(false);
-		OnMapClicked(0, 0);
+		OnMapClicked(new Vector3(0, 0));
 		MapManager.instance.ShowMap();
     }
 
@@ -427,16 +427,20 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
-    public void OnMapClicked(int x, int y)
+    public void OnMapClicked(Vector3 pos)
     {
-        posx = x;
-		posy = y;
-		var panel = mapMakerCanvas.transform.Find("SetPanel");
-		var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-        panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
-        panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[x][y].thing - 1;
-        panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[x][y].eventId - 1;
-        OnMapModalSelected(true);
+        pos = mapMakerCanvas.transform.Find("MapPanel").transform.InverseTransformPoint(pos);
+        if (pos.x >= 0 && pos.y >= 0 && pos.x <= Constant.MAP_BLOCK_LENGTH * 32 && pos.y <= Constant.MAP_BLOCK_LENGTH)
+        {
+            posx = ((int)pos.x) / 32;
+            posy = ((int)pos.y) / 32;
+            var panel = mapMakerCanvas.transform.Find("SetPanel");
+            var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+            panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
+            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[posx][posy].thing - 1;
+            panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[posx][posy].eventId - 1;
+            OnMapModalSelected(true);
+        }
     }
 
     public void OnPlay(int index)

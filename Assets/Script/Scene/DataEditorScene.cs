@@ -112,7 +112,8 @@ public class DataEditorScene : MonoBehaviour
 
             // 显示所有prefabs
             var prefabList = modalMakerCanvas.transform.Find("prefabs").GetComponent<ScrollRect>();
-            
+
+            DataCenter.instance.Status = Constant.EGameStatus.InEditor;
         }
 
         // 初始化
@@ -123,14 +124,34 @@ public class DataEditorScene : MonoBehaviour
 
     private void OnDestroy()
     {
+        DataCenter.instance.Status = Constant.EGameStatus.Start;
         instance = null;
     }
 
     // Update is called once per frame
     void Update()
-    {
+	{
+		for (int i = 0; i < Input.touchCount; ++i)
+		{
+			var tc = Input.GetTouch(i);
+			switch (tc.phase)
+			{
+				case TouchPhase.Began:
+					InputController.instance.OnTouchDown(tc.position);
+					break;
+				case TouchPhase.Canceled:
+				case TouchPhase.Ended:
+					InputController.instance.OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
+					break;
+			}
+		}
 
-    }
+		if (Input.GetMouseButtonDown(0) && !InputController.instance.isMouseLeftDown)
+			InputController.instance.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+		if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
+			InputController.instance.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+
+	}
 
     public void OnChangeToMaps()
     {
@@ -402,12 +423,8 @@ public class DataEditorScene : MonoBehaviour
         else
         {
             var index = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>().value;
-            // TODO
+            MapManager.instance.ChangeOneBlock(DataCenter.instance.GetModalById(index + 1).prefabPath, posy, posx);
         }
-    }
-
-    public void ShowPoint(Vector2 pos){
-        mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentPosition").GetComponent<Text>().text = pos.x + "," + pos.y;
     }
 
     public void OnMapClicked(int x, int y)

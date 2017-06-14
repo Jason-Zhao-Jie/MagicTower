@@ -100,30 +100,31 @@ public class InputController
     public void OnTouchDown(Vector2 touchedPos)
 	{
 
-		switch (DataCenter.instance.Status)
-		{
-			case Constant.EGameStatus.Start:
-				break;
-			case Constant.EGameStatus.InGame:
-				break;
-            case Constant.EGameStatus.InEditor:
-                DataEditorScene.instance.ShowPoint(touchedPos);
+        switch (DataCenter.instance.Status)
+        {
+            case Constant.EGameStatus.Start:
                 break;
-			case Constant.EGameStatus.OnCG:
-				break;
-			case Constant.EGameStatus.OnTipChat:
-				break;
-			case Constant.EGameStatus.OnDialog:
-				break;
-			case Constant.EGameStatus.OnMiddleLoading:
-				break;
-			case Constant.EGameStatus.OnBattle:
-				break;
-			case Constant.EGameStatus.OnSmallGame:
-				break;
-			default:
-				break;
-		}
+            case Constant.EGameStatus.InGame:
+                break;
+            case Constant.EGameStatus.InEditor:
+                touchedPos = GameObject.Find("MapPanel").transform.InverseTransformPoint(touchedPos);
+                DataEditorScene.instance.OnMapClicked(((int)touchedPos.x) / 32, ((int)touchedPos.y) / 32);
+                break;
+            case Constant.EGameStatus.OnCG:
+                break;
+            case Constant.EGameStatus.OnTipChat:
+                break;
+            case Constant.EGameStatus.OnDialog:
+                break;
+            case Constant.EGameStatus.OnMiddleLoading:
+                break;
+            case Constant.EGameStatus.OnBattle:
+                break;
+            case Constant.EGameStatus.OnSmallGame:
+                break;
+            default:
+                break;
+        }
 
 	}
 

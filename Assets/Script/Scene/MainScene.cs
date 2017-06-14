@@ -19,12 +19,14 @@ public class MainScene : MonoBehaviour
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         MapManager.instance.ShowMap();
-        PlayerController.instance.ShowPlayer(true);
+		PlayerController.instance.ShowPlayer(true);
+
+		DataCenter.instance.Status = Constant.EGameStatus.Start;
     }
 
     void OnDestroy()
     {
-
+        DataCenter.instance.Status = Constant.EGameStatus.Start;
         instance = null;
     }
 

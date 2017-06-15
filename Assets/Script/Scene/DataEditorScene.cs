@@ -20,9 +20,10 @@ public class DataEditorScene : MonoBehaviour
         saveResult.SetActive(false);
 
         backgroundImg = GetComponent<UnityEngine.UI.Image>();
-		mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
+		mapPartRect = MapManager.GetMapPosition(mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>());
 		blockSize = new Vector3(mapPartRect.width * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE), mapPartRect.height * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE));
-		UnityEngine.Debug.Log("The current map whole rect is: " + transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " + transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
+		UnityEngine.Debug.Log("The current map whole rect is: " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " +
+            mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
 		UnityEngine.Debug.Log("The current map part rect is: " + mapPartRect.x + ", " + mapPartRect.y + ", " + mapPartRect.width + ", " + mapPartRect.height);
 		UnityEngine.Debug.Log("The current map block size is: " + blockSize.x + ", " + blockSize.y);
 		//TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
@@ -120,7 +121,7 @@ public class DataEditorScene : MonoBehaviour
         }
 
         // 初始化
-        OnChangeToModals();
+        OnChangeToMaps();
 
 
     }
@@ -226,12 +227,12 @@ public class DataEditorScene : MonoBehaviour
 
     public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2)
 	{
-		obj.transform.SetParent(transform.Find("MapPanel"));
-		obj.transform.position = transform.Find("MapPanel").transform.
-			TransformPoint(new Vector3(posx * Constant.MAP_BLOCK_BASE_SIZE * blockSize.x / 100 + mapPartRect.x,
-									   posy * Constant.MAP_BLOCK_BASE_SIZE * blockSize.y / 100 + mapPartRect.y,
-									   posz));
-		obj.transform.localScale = blockSize;
+		obj.transform.SetParent(mapMakerCanvas.transform.Find("MapPanel"));
+		obj.transform.position = mapMakerCanvas.transform.Find("MapPanel").transform.
+            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * blockSize.x / 100 + mapPartRect.x,
+                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * blockSize.y / 100 + mapPartRect.y,
+                                       posz));
+        obj.transform.localScale = blockSize;
     }
 
     public void OnExitEditor()

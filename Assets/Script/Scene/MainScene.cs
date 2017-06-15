@@ -72,8 +72,8 @@ public class MainScene : MonoBehaviour
     {
         obj.transform.SetParent(transform.Find("MapPanel"));
         obj.transform.position = transform.Find("MapPanel").transform.
-            TransformPoint(new Vector3(posx * Constant.MAP_BLOCK_BASE_SIZE * blockSize.x / 100 + mapPartRect.x,
-                                       posy * Constant.MAP_BLOCK_BASE_SIZE * blockSize.y / 100 + mapPartRect.y,
+            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * blockSize.x / 100 + mapPartRect.x,
+                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * blockSize.y / 100 + mapPartRect.y,
                                        posz));
         obj.transform.localScale = blockSize;
     }

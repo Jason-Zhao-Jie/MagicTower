@@ -65,9 +65,9 @@ public class MapManager
                 {
                     obj.name = "MapBlock_" + x.ToString() + "_" + y.ToString();
                     if (MainScene.instance != null)
-                        MainScene.instance.AddObjectToMap(obj, x, y, 2);
+                        MainScene.instance.AddObjectToMap(obj, x, y, -2);
                     else if (DataEditorScene.instance != null)
-                        DataEditorScene.instance.AddObjectToMap(obj, x, y, 2);
+                        DataEditorScene.instance.AddObjectToMap(obj, x, y, -2);
                 }
             }
 
@@ -127,9 +127,9 @@ public class MapManager
             {
                 obj.name = "MapBlock_" + posx + "_" + posy;
                 if (MainScene.instance != null)
-                    MainScene.instance.AddObjectToMap(obj, posx, posy, 2);
+                    MainScene.instance.AddObjectToMap(obj, posx, posy, -2);
                 else if (DataEditorScene.instance != null)
-                    DataEditorScene.instance.AddObjectToMap(obj, posx, posy, 2);
+                    DataEditorScene.instance.AddObjectToMap(obj, posx, posy, -2);
             }
         }
         else

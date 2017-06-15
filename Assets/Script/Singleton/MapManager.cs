@@ -65,9 +65,9 @@ public class MapManager
                 {
                     obj.name = "MapBlock_" + x.ToString() + "_" + y.ToString();
                     if (MainScene.instance != null)
-                        MainScene.instance.AddObjectToMap(obj, x, y);
+                        MainScene.instance.AddObjectToMap(obj, x, y, 2);
                     else if (DataEditorScene.instance != null)
-                        DataEditorScene.instance.AddObjectToMap(obj, x, y);
+                        DataEditorScene.instance.AddObjectToMap(obj, x, y, 2);
                 }
             }
 
@@ -102,43 +102,39 @@ public class MapManager
             DataEditorScene.instance.BackgroundImage = prefab;
 	}
 
-    public void ChangeOneBlock(string prefab, int posx, int posy, int oldPosx = -1, int oldPosy = -1){
+    public void ChangeOneBlock(string prefab, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
+    {
         if (oldPosx >= 0 && oldPosy >= 0)
+            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.GetModalById(maps[currentFloorIndex].mapBlocks[oldPosx][oldPosy].thing).prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+        if (UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + posx + "_" + posy) == null)
         {
-            if (MainScene.instance != null)
-                MainScene.instance.transform.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.GetModalById(maps[currentFloorIndex].mapBlocks[oldPosx][oldPosy].thing).prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
-			else 
-                UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.GetModalById(maps[currentFloorIndex].mapBlocks[oldPosx][oldPosy].thing).prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
-		}
-        if (UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy) == null)
-		{
-			UnityEngine.GameObject obj = null;
-			long uuid = maps[currentFloorIndex].mapId * 10000 + posy + posx * 100;
-			if (ModalManager.Contains(uuid))
-				obj = ModalManager.GetObjectByUuid(uuid);
-			else
-			{
-				var thingId = maps[currentFloorIndex].mapBlocks[posx][posy].thing;
-				if (thingId > 0)
-				{
-					var modal = DataCenter.instance.GetModalById(thingId);
-					obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
-					var cmp = obj.GetComponent<Modal>();
-					cmp.InitWithMapPos(maps[currentFloorIndex].mapId, (sbyte)posx, (sbyte)posy, modal);
-				}
-			}
-			if (obj != null)
-			{
-				obj.name = "MapBlock_" + posx + "_" + posy;
-				if (MainScene.instance != null)
-					MainScene.instance.AddObjectToMap(obj, posx, posy);
-				else if (DataEditorScene.instance != null)
-					DataEditorScene.instance.AddObjectToMap(obj, posx, posy);
-			}
-		}
+            UnityEngine.GameObject obj = null;
+            long uuid = maps[currentFloorIndex].mapId * 10000 + posy + posx * 100;
+            if (ModalManager.Contains(uuid))
+                obj = ModalManager.GetObjectByUuid(uuid);
+            else
+            {
+                var thingId = maps[currentFloorIndex].mapBlocks[posx][posy].thing;
+                if (thingId > 0)
+                {
+                    var modal = DataCenter.instance.GetModalById(thingId);
+                    obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
+                    var cmp = obj.GetComponent<Modal>();
+                    cmp.InitWithMapPos(maps[currentFloorIndex].mapId, (sbyte)posx, (sbyte)posy, modal);
+                }
+            }
+            if (obj != null)
+            {
+                obj.name = "MapBlock_" + posx + "_" + posy;
+                if (MainScene.instance != null)
+                    MainScene.instance.AddObjectToMap(obj, posx, posy, 2);
+                else if (DataEditorScene.instance != null)
+                    DataEditorScene.instance.AddObjectToMap(obj, posx, posy, 2);
+            }
+        }
         else
-			UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + prefab).GetComponent<UnityEngine.SpriteRenderer>().sprite;
-	}
+            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + posx + "_" + posy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + prefab).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+    }
 
     public static UnityEngine.Rect GetMapPosition(UnityEngine.RectTransform mapPanel)
     {

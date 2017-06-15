@@ -35,7 +35,7 @@ public class StartScene : MonoBehaviour
     public void OnStartGame()
     {
         MapManager.instance.SetData();
-        PlayerController.instance.PlayerId = 3;
+        PlayerController.instance.PlayerId = 45;
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
     }
 

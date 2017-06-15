@@ -126,7 +126,7 @@ public class PlayerController
         else
             this.posy = posy;
         if (posx >= 0 && posy >= 0)
-            MainScene.instance.AddObjectToMap(player.gameObject, posx, posy);
+            MainScene.instance.AddObjectToMap(player.gameObject, posx, posy, 4);
     }
 
     public void StartWalk(Direction dir = Direction.Default)

@@ -20,12 +20,15 @@ public class DataEditorScene : MonoBehaviour
         saveResult.SetActive(false);
 
         backgroundImg = GetComponent<UnityEngine.UI.Image>();
-        mapPartRect = MapManager.GetMapPosition(GameObject.Find("MapPanel").GetComponent<RectTransform>());
-        blockSize = new Vector3(mapPartRect.width * 100 / Constant.MAP_BLOCK_BASE_SIZE / Constant.MAP_BLOCK_LENGTH, mapPartRect.height * 100 / Constant.MAP_BLOCK_BASE_SIZE / Constant.MAP_BLOCK_LENGTH);
-        //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
+		mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
+		blockSize = new Vector3(mapPartRect.width * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE), mapPartRect.height * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE));
+		UnityEngine.Debug.Log("The current map whole rect is: " + transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " + transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
+		UnityEngine.Debug.Log("The current map part rect is: " + mapPartRect.x + ", " + mapPartRect.y + ", " + mapPartRect.width + ", " + mapPartRect.height);
+		UnityEngine.Debug.Log("The current map block size is: " + blockSize.x + ", " + blockSize.y);
+		//TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
-        // 载入所有资源
-        allPrefabs = Resources.LoadAll<GameObject>(Constant.PREFAB_DIR);
+		// 载入所有资源
+		allPrefabs = Resources.LoadAll<GameObject>(Constant.PREFAB_DIR);
 
         // 载入Map信息
         {
@@ -191,25 +194,44 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
-    public void OnRefreshAudio()
-    {
-        var allAudios = Resources.LoadAll<AudioClip>(Constant.AUDIO_DIR);
-        Constant.Audio[] audioData = new Constant.Audio[allAudios.Length];
-        for (var i = 0; i < audioData.Length; ++i)
-        {
-            audioData[i] = new Constant.Audio();
-            audioData[i].id = i + 1;
-            audioData[i].path = allAudios[i].name;
-        }
-        DataCenter.instance.data.audios = audioData;
-        PlatformUIManager.ShowMessageBox("音效表刷新成功，请立即保存配置然后重新启动游戏！");
-    }
+	public void OnRefreshAudio()
+	{
+		var allAudios = Resources.LoadAll<AudioClip>(Constant.AUDIO_DIR);
+		Constant.Audio[] audioData = new Constant.Audio[allAudios.Length];
+		for (var i = 0; i < audioData.Length; ++i)
+		{
+			audioData[i] = new Constant.Audio();
+			audioData[i].id = i + 1;
+			audioData[i].path = allAudios[i].name;
+		}
+		DataCenter.instance.data.audios = audioData;
+		PlatformUIManager.ShowMessageBox("音效表刷新成功，请立即保存配置然后重新启动游戏！");
+	}
 
-    public void AddObjectToMap(GameObject obj, int posx, int posy)
-    {
-        obj.transform.SetParent(transform.Find("MapPanel"));
-        obj.transform.position = new Vector3(posx * Constant.MAP_BLOCK_BASE_SIZE + Constant.MAP_BLOCK_BASE_SIZE / 2 + mapPartRect.x, posy * Constant.MAP_BLOCK_BASE_SIZE + Constant.MAP_BLOCK_BASE_SIZE / 2 + mapPartRect.y);
-        obj.transform.localScale = blockSize;
+	public void OnRefreshPrefab()
+	{
+        Constant.ModalData[] prefabData = new Constant.ModalData[allPrefabs.Length];
+		for (var i = 0; i < prefabData.Length; ++i)
+		{
+			prefabData[i] = new Constant.ModalData();
+			prefabData[i].id = i + 1;
+			prefabData[i].name = allPrefabs[i].name;
+			prefabData[i].prefabPath = allPrefabs[i].name;
+			prefabData[i].eventId = 0;
+			prefabData[i].typeId = 2;
+		}
+        DataCenter.instance.data.modals = prefabData;
+		PlatformUIManager.ShowMessageBox("模型表刷新成功，请立即保存配置然后重新启动游戏！");
+	}
+
+    public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2)
+	{
+		obj.transform.SetParent(transform.Find("MapPanel"));
+		obj.transform.position = transform.Find("MapPanel").transform.
+			TransformPoint(new Vector3(posx * Constant.MAP_BLOCK_BASE_SIZE * blockSize.x / 100 + mapPartRect.x,
+									   posy * Constant.MAP_BLOCK_BASE_SIZE * blockSize.y / 100 + mapPartRect.y,
+									   posz));
+		obj.transform.localScale = blockSize;
     }
 
     public void OnExitEditor()
@@ -429,8 +451,10 @@ public class DataEditorScene : MonoBehaviour
 
     public void OnMapClicked(Vector3 pos)
     {
+        if (!mapMakerCanvas.activeSelf)
+            return;
         pos = mapMakerCanvas.transform.Find("MapPanel").transform.InverseTransformPoint(pos);
-        if (pos.x >= 0 && pos.y >= 0 && pos.x <= Constant.MAP_BLOCK_LENGTH * 32 && pos.y <= Constant.MAP_BLOCK_LENGTH)
+        if (pos.x >= 0 && pos.y >= 0 && pos.x <= Constant.MAP_BLOCK_LENGTH * 32 && pos.y <= Constant.MAP_BLOCK_LENGTH * 32)
         {
             posx = ((int)pos.x) / 32;
             posy = ((int)pos.y) / 32;

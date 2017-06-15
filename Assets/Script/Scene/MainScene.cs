@@ -13,7 +13,10 @@ public class MainScene : MonoBehaviour
         mapNameText = transform.Find("HeroPanel").transform.Find("MapName").GetComponent<UnityEngine.UI.Text>();
         backgroundImg = GetComponent<UnityEngine.UI.Image>();
         mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
-        blockSize = new Vector3(mapPartRect.width * 100 / Constant.MAP_BLOCK_BASE_SIZE, mapPartRect.height * 100 / Constant.MAP_BLOCK_BASE_SIZE);
+		blockSize = new Vector3(mapPartRect.width * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE), mapPartRect.height * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE));
+        UnityEngine.Debug.Log("The current map whole rect is: " + transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " + transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
+		UnityEngine.Debug.Log("The current map part rect is: " + mapPartRect.x + ", " + mapPartRect.y + ", " + mapPartRect.width + ", " + mapPartRect.height);
+        UnityEngine.Debug.Log("The current map block size is: " + blockSize.x + ", " + blockSize.y);
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
@@ -65,10 +68,13 @@ public class MainScene : MonoBehaviour
 
     }
 
-    public void AddObjectToMap(GameObject obj, int posx, int posy)
+    public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2)
     {
         obj.transform.SetParent(transform.Find("MapPanel"));
-        obj.transform.position = new Vector3(posx * Constant.MAP_BLOCK_BASE_SIZE + Constant.MAP_BLOCK_BASE_SIZE /2 + mapPartRect.x, posy * Constant.MAP_BLOCK_BASE_SIZE + Constant.MAP_BLOCK_BASE_SIZE /2 + mapPartRect.y);
+        obj.transform.position = transform.Find("MapPanel").transform.
+            TransformPoint(new Vector3(posx * Constant.MAP_BLOCK_BASE_SIZE * blockSize.x / 100 + mapPartRect.x,
+                                       posy * Constant.MAP_BLOCK_BASE_SIZE * blockSize.y / 100 + mapPartRect.y,
+                                       posz));
         obj.transform.localScale = blockSize;
     }
 

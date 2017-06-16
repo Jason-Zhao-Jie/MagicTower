@@ -3,30 +3,35 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    const int RUN_SPEED = 50;
+    const int RUN_SPEED = 20;
 
 	void Start()
 	{
-        runningTime = 0;
+        runningTime = 18;
+        movedLength = new Vector2(MainScene.instance.BlockSize.x * Constant.MAP_BLOCK_BASE_SIZE / 100, MainScene.instance.BlockSize.y * Constant.MAP_BLOCK_BASE_SIZE / 100);
 	}
 
 	void Update()
 	{
-		switch (PlayerController.instance.Dir)
-		{
-			case PlayerController.Direction.Up:
-                animator.Play(PlayerController.instance.IsRunning ? "Up" : "Up_Stand");
-                break;
-			case PlayerController.Direction.Down:
-				animator.Play(PlayerController.instance.IsRunning ? "Down" : "Down_Stand"); 
-                break;
-			case PlayerController.Direction.Left:
-				animator.Play(PlayerController.instance.IsRunning ? "Left" : "Left_Stand"); 
-                break;
-			case PlayerController.Direction.Right:
-				animator.Play(PlayerController.instance.IsRunning ? "Right" : "Right_Stand"); 
-                break;
-		}
+        if (PlayerController.instance.dirChanged)
+        {
+            switch (PlayerController.instance.Dir)
+            {
+                case PlayerController.Direction.Up:
+                    animator.Play(PlayerController.instance.IsRunning ? "Up" : "Up_Stand");
+                    break;
+                case PlayerController.Direction.Down:
+                    animator.Play(PlayerController.instance.IsRunning ? "Down" : "Down_Stand");
+                    break;
+                case PlayerController.Direction.Left:
+                    animator.Play(PlayerController.instance.IsRunning ? "Left" : "Left_Stand");
+                    break;
+                case PlayerController.Direction.Right:
+                    animator.Play(PlayerController.instance.IsRunning ? "Right" : "Right_Stand");
+                    break;
+            }
+            PlayerController.instance.dirChanged = false;
+        }
 	}
 
     void FixedUpdate()
@@ -40,20 +45,20 @@ public class Player : MonoBehaviour
                 runningTime = 0;
                 if (PlayerController.instance.GoToNextBlock())
                 {
-                    var posController = GetComponent<RectTransform>();
+                    var posController = transform;
                     switch (PlayerController.instance.Dir)
                     {
                         case PlayerController.Direction.Up:
-                            posController.position = new Vector3(posController.position.x, posController.position.y + MainScene.instance.BlockSize.y);
+                            posController.position = new Vector3(posController.position.x, posController.position.y + movedLength.y, posController.position.z);
                             break;
                         case PlayerController.Direction.Down:
-                            posController.position = new Vector3(posController.position.x, posController.position.y - MainScene.instance.BlockSize.y);
+                            posController.position = new Vector3(posController.position.x, posController.position.y - movedLength.y, posController.position.z);
                             break;
                         case PlayerController.Direction.Left:
-                            posController.position = new Vector3(posController.position.x - MainScene.instance.BlockSize.x, posController.position.y);
+                            posController.position = new Vector3(posController.position.x - movedLength.x, posController.position.y, posController.position.z);
                             break;
                         case PlayerController.Direction.Right:
-                            posController.position = new Vector3(posController.position.x + MainScene.instance.BlockSize.x, posController.position.y);
+                            posController.position = new Vector3(posController.position.x + movedLength.x, posController.position.y, posController.position.z);
                             break;
                     }
                 }
@@ -61,10 +66,11 @@ public class Player : MonoBehaviour
         }
         else
         {
-            runningTime = 0;
+            runningTime = 18;
         }
     }
     public Animator animator{ get { return GetComponent<Animator>(); }}
 
     private int runningTime;
+    private Vector2 movedLength;
 }

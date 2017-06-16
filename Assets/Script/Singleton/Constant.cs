@@ -182,6 +182,16 @@ public static class Constant
         public int id;
         public string key;
         public StringInOneLanguage[] strings;
+
+        public string this[string key]{
+            get{
+                for (int i = 0; i < strings.Length;++i){
+                    if (key.Equals(strings[i].langKey))
+                        return strings[i].content;
+                }
+                return null;
+            }
+        }
     }
 
 	[System.Serializable]

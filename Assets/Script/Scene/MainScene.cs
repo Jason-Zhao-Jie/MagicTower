@@ -24,7 +24,7 @@ public class MainScene : MonoBehaviour
         MapManager.instance.ShowMap();
 		PlayerController.instance.ShowPlayer(true);
 
-		DataCenter.instance.Status = Constant.EGameStatus.Start;
+        DataCenter.instance.Status = Constant.EGameStatus.InGame;
     }
 
     void OnDestroy()

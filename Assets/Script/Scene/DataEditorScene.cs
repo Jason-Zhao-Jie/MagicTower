@@ -454,11 +454,14 @@ public class DataEditorScene : MonoBehaviour
     {
         if (!mapMakerCanvas.activeSelf)
             return;
-        pos = mapMakerCanvas.transform.Find("MapPanel").transform.InverseTransformPoint(pos);
+        var mapPanel = mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>();
+        var panelPos = mapMakerCanvas.transform.InverseTransformPoint(mapPanel.position);
+        pos.x -= panelPos.x + mapPartRect.x + mapMakerCanvas.GetComponent<RectTransform>().rect.width / 2;
+        pos.y -= panelPos.y + mapPartRect.y + mapMakerCanvas.GetComponent<RectTransform>().rect.height / 2;
         if (pos.x >= 0 && pos.y >= 0 && pos.x <= Constant.MAP_BLOCK_LENGTH * 32 && pos.y <= Constant.MAP_BLOCK_LENGTH * 32)
         {
-            posx = ((int)pos.x) / 32;
-            posy = ((int)pos.y) / 32;
+            posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / mapPartRect.width);
+            posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / mapPartRect.height);
             var panel = mapMakerCanvas.transform.Find("SetPanel");
             var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
             panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";

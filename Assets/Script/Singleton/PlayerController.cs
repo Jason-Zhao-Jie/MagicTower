@@ -132,29 +132,39 @@ public class PlayerController
     public void StartWalk(Direction dir = Direction.Default)
     {
         if (dir != Direction.Default)
-            direction = dir;
-        isRunning = true;
+            Dir = dir;
+        IsRunning = true;
     }
 
     public void StopWalk()
     {
-        isRunning = false;
+        IsRunning = false;
     }
 
 
     public Direction Dir
     {
         get { return direction; }
-        set { direction = value; }
+        set
+        {
+            direction = value;
+        }
     }
 
     public bool IsRunning
     {
         get { return isRunning; }
-        set { isRunning = value; }
+        set
+        {
+            if (isRunning != value)
+                dirChanged = true; 
+            isRunning = value;
+        }
     }
+
+    public bool dirChanged = false;
 
     private bool isRunning;
     private Direction direction;
-    private Player player;
+	private Player player;
 }

@@ -170,6 +170,14 @@ public class DataCenter
         return index;
     }
 
+    public string GetLanguageById(int id){
+        for (int i = 0; i < data.languages.Length;++i){
+            if (data.languages[i].id == id)
+                return data.languages[i].key;
+        }
+        return null;
+    }
+
     /// <summary>
     /// When the game loading begins, the data should be load and the instance should be initialized
     /// This function is used to replace the "Start" function
@@ -367,6 +375,37 @@ public class DataCenter
             }
         }
 
+        // parse language data
+        var _languages = _root["languages"] as JArray;
+        data.languages = new Constant.LanguageData[_languages.Length];
+        for (var i = 0; i < _languages.Length;++i){
+            var __oneLanguage = _languages[i] as JObject;
+            data.languages[i] = new Constant.LanguageData();
+            data.languages[i].id = __oneLanguage["id"].ToInt();
+            data.languages[i].key = __oneLanguage["key"].ToString();
+            data.languages[i].name = __oneLanguage["name"].ToString();
+        }
+
+        // parse international string data
+        var _strings = _root["strings"] as JArray;
+        data.strings = new Constant.InternationalString[_strings.Length];
+        for (var i = 0; i < _strings.Length;++i){
+            var __oneString = _strings[i] as JObject;
+			data.strings[i] = new Constant.InternationalString();
+			data.strings[i].id = __oneString["id"].ToInt();
+			data.strings[i].key = __oneString["key"].ToString();
+
+            var __strings = __oneString["strings"] as JArray;
+            data.strings[i].strings = new Constant.StringInOneLanguage[__strings.Length];
+            for (int n = 0; n < __strings.Length;++n){
+                var ___oneStringData = __strings[n] as JObject;
+                data.strings[i].strings[n].langKey = ___oneStringData["langKey"].ToString();
+                data.strings[i].strings[n].content = ___oneStringData["content"].ToString();
+            }
+        }
+
+        // 
+
         return data;
     }
 
@@ -505,6 +544,38 @@ public class DataCenter
             choices.Add(_oneChoice);
 		}
 		json["choices"] = choices;
+
+        // Set language data
+        var languages = new JArray();
+        for (int i = 0; i < data.languages.Length;++i)
+        {
+			var _oneLanguage = new JObject();
+			_oneLanguage["id"] = new JNumber(data.languages[i].id);
+            _oneLanguage["key"] = new JString(data.languages[i].key);
+			_oneLanguage["name"] = new JString(data.languages[i].name);
+        }
+        json["languages"] = languages;
+
+		// Set string data
+		var strings = new JArray();
+		for (int i = 0; i < data.strings.Length; ++i)
+		{
+			var _oneString = new JObject();
+			_oneString["id"] = new JNumber(data.strings[i].id);
+            _oneString["key"] = new JString(data.strings[i].key);
+
+			var _datas = new JArray();
+			for (int n = 0; n < data.strings[i].strings.Length; ++n)
+			{
+				var __oneData = new JObject();
+                __oneData["langKey"] = new JString(data.strings[i].strings[n].langKey);
+				__oneData["content"] = new JString(data.strings[i].strings[n].content);
+				_datas.Add(__oneData);
+			}
+			_oneString["strings"] = _datas;
+			strings.Add(_oneString);
+		}
+		json["strings"] = strings;
 
         return json.String;
     }

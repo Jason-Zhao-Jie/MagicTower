@@ -12,18 +12,23 @@ public class StartScene : MonoBehaviour
 
         if (DataCenter.instance == null)
         {
-            DataCenter.instance = new DataCenter();
-            DataCenter.instance.LoadData();
-            InputController.instance = new InputController();
-            InputController.instance.Init();
-            EventManager.instance = new EventManager();
-            EventManager.instance.InitEvents();
-            AudioController.instance = new AudioController();
-            MapManager.instance = new MapManager();
-            PlayerController.instance = new PlayerController();
-		}
-		AudioController.instance.MusicSource = GetComponent<AudioSource>();
-		AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+            LoadData();
+        }
+        AudioController.instance.MusicSource = GetComponent<AudioSource>();
+        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+    }
+
+    void LoadData()
+    {
+        DataCenter.instance = new DataCenter();
+        DataCenter.instance.LoadData();
+        InputController.instance = new InputController();
+        InputController.instance.Init();
+        EventManager.instance = new EventManager();
+        EventManager.instance.InitEvents();
+        AudioController.instance = new AudioController();
+        MapManager.instance = new MapManager();
+        PlayerController.instance = new PlayerController();
     }
 
     // Update is called once per frame
@@ -41,7 +46,7 @@ public class StartScene : MonoBehaviour
 
     public void OnLoadGame()
     {
-        
+
     }
 
     public void OnReadMe()
@@ -50,8 +55,8 @@ public class StartScene : MonoBehaviour
     }
 
     public void OnGameEditor()
-	{
-		MapManager.instance.SetData();
+    {
+        MapManager.instance.SetData();
         UnityEngine.SceneManagement.SceneManager.LoadScene("DataEditorScene");
     }
 

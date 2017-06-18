@@ -5,9 +5,11 @@ using UnityEngine.UI;
 
 public class StartScene : MonoBehaviour
 {
+    public static StartScene instance = null; 
     // Use this for initialization
     void Start()
     {
+        instance = this;
         Input.multiTouchEnabled = true;
 
         if (DataCenter.instance == null)
@@ -16,6 +18,12 @@ public class StartScene : MonoBehaviour
         }
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        SetMapLoadingPercent(1);
+    }
+
+    private void OnDestroy()
+    {
+        instance = null;
     }
 
     void LoadData()
@@ -37,11 +45,24 @@ public class StartScene : MonoBehaviour
 
     }
 
+    public void SetMapLoadingPercent(double percent)
+    {
+        this.percent = percent;
+        if(1-percent <= double.Epsilon)
+        {
+            loadedOK = true;
+            PlatformUIManager.ShowMessageBox("游戏数据载入完毕");
+        }
+    }
+
     public void OnStartGame()
     {
-        MapManager.instance.SetData();
-        PlayerController.instance.PlayerId = 45;
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+        if (loadedOK)
+        {
+            MapManager.instance.SetData();
+            PlayerController.instance.PlayerId = 62;
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+        }
     }
 
     public void OnLoadGame()
@@ -56,12 +77,18 @@ public class StartScene : MonoBehaviour
 
     public void OnGameEditor()
     {
-        MapManager.instance.SetData();
-        UnityEngine.SceneManagement.SceneManager.LoadScene("DataEditorScene");
+        if (loadedOK)
+        {
+            MapManager.instance.SetData();
+            UnityEngine.SceneManagement.SceneManager.LoadScene("DataEditorScene");
+        }
     }
 
     public void OnExitGame()
     {
         Application.Quit();
     }
+
+    private double percent = 0;
+    private bool loadedOK = false;
 }

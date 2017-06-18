@@ -18,7 +18,7 @@ public class PlayerController
 
     public Dictionary<int, bool> items = new Dictionary<int, bool>();
 
-    public int posx = 10;
+    public int posx = 9;
     public int posy = 1;
 
     public bool GoToNextBlock()

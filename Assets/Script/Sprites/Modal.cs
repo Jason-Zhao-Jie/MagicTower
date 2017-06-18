@@ -46,17 +46,20 @@ public class Modal : MonoBehaviour
 
     }
 
-    public void GoToRunState(){
-        animator.Play("DefaultEvent");
+    public void GoToRunState()
+    {
+        animator.enabled = true;
+        animator.Play("KeyEvent");
     }
 
     public void RemoveSelf(){
-        transform.SetParent(null);
+        Destroy(gameObject);
     }
 
     // Use this for initialization
     void Start(){
-
+        if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("KeyEvent"))
+            animator.enabled = false;
     }
     // Update is called once per frame
     void Update(){

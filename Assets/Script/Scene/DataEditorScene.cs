@@ -35,9 +35,9 @@ public class DataEditorScene : MonoBehaviour
         {
             var mapId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>();
             var mapList = new List<string>();
-            for(int i = 0; i < DataCenter.instance.data.newGameMaps.Length; ++i)
+            for(int i = 0; i < DataCenter.instance.data.MapLength; ++i)
             {
-                mapList.Add(DataCenter.instance.data.newGameMaps[i].mapId + ". " + DataCenter.instance.data.newGameMaps[i].mapName);
+                mapList.Add(i.ToString());
             }
             mapId.AddOptions(mapList);
 
@@ -183,6 +183,23 @@ public class DataEditorScene : MonoBehaviour
         if (saveResult.activeSelf == false)
         {
             string result = DataCenter.GetJsonStringFromGameData(DataCenter.instance.data);
+            saveResult.SetActive(true);
+            saveResult.GetComponent<InputField>().text = result;
+            mapMakerCanvas.SetActive(false);
+            modalMakerCanvas.SetActive(false);
+            eventMakerCanvas.SetActive(false);
+        }
+        else
+        {
+            saveResult.SetActive(false);
+        }
+    }
+
+    public void OnMapSave()
+    {
+        if (saveResult.activeSelf == false)
+        {
+            string result = DataCenter.instance.data.GetGameMap(mapMakerCanvas.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>().value).GetJson().String;
             saveResult.SetActive(true);
             saveResult.GetComponent<InputField>().text = result;
             mapMakerCanvas.SetActive(false);
@@ -373,11 +390,11 @@ public class DataEditorScene : MonoBehaviour
             case 0:
                 {
                     var drop = mapMakerCanvas.transform.Find("MapPanel").transform.Find("MapId").GetComponent<Dropdown>();
-                    var ind = DataCenter.instance.AddMap();
+                    //var ind = DataCenter.instance.AddMap();
                     var lst = new List<string>();
-                    lst.Add(ind + 1 + ". (new)");
+                    //lst.Add(ind + 1 + ". (new)");
                     drop.AddOptions(lst);
-                    drop.value = ind;
+                    //drop.value = ind;
                     OnMapSelected();
                 }
                 break;
@@ -409,31 +426,32 @@ public class DataEditorScene : MonoBehaviour
     public void OnMapApply()
     {
         var panel = mapMakerCanvas.transform.Find("SetPanel");
-        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value;
         var mapName = panel.transform.Find("MapName").GetComponent<InputField>().text;
         var bgMusic = panel.transform.Find("Music").GetComponent<Dropdown>().value + 1;
 		var bgModal = panel.transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
 		var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value + 1;
 		var eventId = panel.transform.Find("EventId").GetComponent<Dropdown>().value + 1;
 
-		DataCenter.instance.data.newGameMaps[mapId - 1].mapName = mapName;
-        DataCenter.instance.data.newGameMaps[mapId - 1].backThing = bgModal;
-		DataCenter.instance.data.newGameMaps[mapId - 1].music = bgMusic;
-		DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[posx][posy].thing = currModal;
-		DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[posx][posy].eventId = eventId;
+		DataCenter.instance.data.GetGameMap(mapId).mapName = mapName;
+        DataCenter.instance.data.GetGameMap(mapId).backThing = bgModal;
+		DataCenter.instance.data.GetGameMap(mapId).music = bgMusic;
+		DataCenter.instance.data.GetGameMap(mapId).mapBlocks[posx][posy].thing = currModal;
+		DataCenter.instance.data.GetGameMap(mapId).mapBlocks[posx][posy].eventId = eventId;
     }
 
 
 	void OnMapSelected()
 	{
 		var panel = mapMakerCanvas.transform.Find("SetPanel");
-		var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-        panel.transform.Find("MapName").GetComponent<InputField>().text = DataCenter.instance.data.newGameMaps[mapId - 1].mapName;
-        panel.transform.Find("Music").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].music - 1;
-        panel.transform.Find("BackModal").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].backThing - 1;
-        OnMapModalSelected(false);
+		var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value;
+        panel.transform.Find("MapName").GetComponent<InputField>().text = DataCenter.instance.data.GetGameMap(mapId).mapName;
+        panel.transform.Find("Music").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId).music - 1;
+        panel.transform.Find("BackModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId).backThing - 1;
+        OnMapModalSelected(true);
 		OnMapClicked(new Vector3(0, 0));
-		MapManager.instance.ShowMap();
+		MapManager.instance.ShowMap(mapId);
+        AudioController.instance.StopMusic();
     }
 
     public void OnMapModalSelected(bool isBack)
@@ -446,7 +464,7 @@ public class DataEditorScene : MonoBehaviour
         else
         {
             var index = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>().value;
-            MapManager.instance.ChangeOneBlock(DataCenter.instance.GetModalById(index + 1).prefabPath, posy, posx);
+            MapManager.instance.ChangeOneBlock(DataCenter.instance.GetModalById(index + 1).prefabPath, posx, posy);
         }
     }
 
@@ -458,16 +476,20 @@ public class DataEditorScene : MonoBehaviour
         var panelPos = mapMakerCanvas.transform.InverseTransformPoint(mapPanel.position);
         pos.x -= panelPos.x + mapPartRect.x + mapMakerCanvas.GetComponent<RectTransform>().rect.width / 2;
         pos.y -= panelPos.y + mapPartRect.y + mapMakerCanvas.GetComponent<RectTransform>().rect.height / 2;
-        if (pos.x >= 0 && pos.y >= 0 && pos.x <= Constant.MAP_BLOCK_LENGTH * 32 && pos.y <= Constant.MAP_BLOCK_LENGTH * 32)
+        if (pos.x >= 0 && pos.y >= 0)
         {
-            posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / mapPartRect.width);
-            posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / mapPartRect.height);
+            var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / mapPartRect.width);
+            var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / mapPartRect.height);
+            if (_posx > Constant.MAP_BLOCK_LENGTH || _posy > Constant.MAP_BLOCK_LENGTH)
+                return;
+            posx = _posx;
+            posy = _posy;
             var panel = mapMakerCanvas.transform.Find("SetPanel");
             var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
             panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
-            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[posx][posy].thing - 1;
-            panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.newGameMaps[mapId - 1].mapBlocks[posx][posy].eventId - 1;
-            OnMapModalSelected(true);
+            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].thing - 1;
+            panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].eventId - 1;
+            OnMapModalSelected(false);
         }
     }
 

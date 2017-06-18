@@ -1,8 +1,9 @@
 public static class Constant
 {
 	public const string AUDIO_DIR = "Audio/";
-	public const string PREFAB_DIR = "Prefab/";
-	public const int MAP_BLOCK_LENGTH = 18;
+    public const string PREFAB_DIR = "Prefab/";
+    public const string MAP_DATA_DIR = "MapData/";
+    public const int MAP_BLOCK_LENGTH = 18;
 	public const int MAP_BLOCK_BASE_SIZE = 32;
 
 	public delegate bool EventCallback(Modal caller);
@@ -51,13 +52,37 @@ public static class Constant
 	}
 
 	[System.Serializable]
-	public struct MapData
+	public class MapData
 	{
 		public int mapId;
 		public string mapName;
 		public int backThing;
 		public int music;
 		public MapBlock[][] mapBlocks;
+
+        public JObject GetJson()
+        {
+            var ob = new JObject();
+            ob["mapId"] = new JNumber(mapId);
+            ob["mapName"] = new JString(mapName);
+            ob["backThing"] = new JNumber(backThing);
+            ob["music"] = new JNumber(music);
+            var blocks = new JArray();
+            for (int x = 0; x < mapBlocks.Length; ++x)
+            {
+                var blockX = new JArray();
+                for (int y = 0; y < mapBlocks[x].Length; ++y)
+                {
+                    var blockY = new JObject();
+                    blockY["eventId"] = new JNumber(mapBlocks[x][y].eventId);
+                    blockY["thing"] = new JNumber(mapBlocks[x][y].thing);
+                    blockX.Add(blockY);
+                }
+                blocks.Add(blockX);
+            }
+            ob["mapBlocks"] = blocks;
+            return ob;
+        }
 	}
 
 	[System.Serializable]
@@ -125,8 +150,9 @@ public static class Constant
 	{
 		public int id;
 		public string name;
-		public string prefabPath;
-		public int audioId;
+        public string prefabPath;
+        public string critPrefabPath;
+        public int audioId;
 		public int critAudioId;
 	}
 
@@ -197,7 +223,7 @@ public static class Constant
 	[System.Serializable]
 	public class GameData
 	{
-		public MapData[] newGameMaps;
+		private MapData[] newGameMaps;
 		public ModalData[] modals;
 		public Audio[] audios;
 		public MonsterData[] monsters;
@@ -208,5 +234,70 @@ public static class Constant
 		public ChoiceData[] choices;
         public LanguageData[] languages;
         public InternationalString[] strings;
+
+        public GameData(int mapNums)
+        {
+            newGameMaps = new MapData[mapNums];
+        }
+
+        public MapData GetGameMap(int index)
+        {
+            if (newGameMaps[index] == null)
+            {
+                string path = MAP_DATA_DIR;
+                if (index < 9)
+                    path += "00" + (index + 1);
+                else if (index < 99)
+                    path += "0" + (index + 1);
+                else
+                    path += index + 1;
+                var asset = UnityEngine.Resources.Load<UnityEngine.TextAsset>(path).text;
+
+                //UnityEngine.Debug.Log("Loading map:" + i + ", Time:" + UnityEngine.Time.realtimeSinceStartup);
+                var __oneMap = ArmyAntJson.Create(asset) as JObject;
+                newGameMaps[index] = new MapData();
+                newGameMaps[index].mapId = __oneMap["mapId"].ToInt();
+                newGameMaps[index].mapName = __oneMap["mapName"].ToString();
+                newGameMaps[index].backThing = __oneMap["backThing"].ToInt();
+                newGameMaps[index].music = __oneMap["music"].ToInt();
+                var __mapBlocks = __oneMap["mapBlocks"] as JArray;
+                newGameMaps[index].mapBlocks = new MapBlock[__mapBlocks.Length][];
+                for (var x = 0; x < __mapBlocks.Length; ++x)
+                {
+                    var ___mapBlocksX = __mapBlocks[x] as JArray;
+                    newGameMaps[index].mapBlocks[x] = new MapBlock[___mapBlocksX.Length];
+                    for (var y = 0; y < ___mapBlocksX.Length; ++y)
+                    {
+                        var ____mapBlockY = ___mapBlocksX[y] as JObject;
+                        newGameMaps[index].mapBlocks[x][y].eventId = ____mapBlockY["eventId"].ToInt();
+                        newGameMaps[index].mapBlocks[x][y].thing = ____mapBlockY["thing"].ToInt();
+                    }
+                }
+            }
+            return newGameMaps[index];
+        }
+
+        public MapData GetCopiedMap(int index)
+        {
+            var dt = GetGameMap(index);
+            var ret = new MapData();
+            ret.backThing = dt.backThing;
+            ret.mapId = dt.mapId;
+            ret.mapName = dt.mapName;
+            ret.music = dt.music;
+            ret.mapBlocks = new MapBlock[dt.mapBlocks.Length][];
+            for (var x = 0; x < ret.mapBlocks.Length; ++x)
+            {
+                ret.mapBlocks[x] = new MapBlock[dt.mapBlocks[x].Length];
+                for (var y = 0; y < ret.mapBlocks[x].Length; ++y)
+                {
+                    ret.mapBlocks[x][y].eventId = dt.mapBlocks[x][y].eventId;
+                    ret.mapBlocks[x][y].thing = dt.mapBlocks[x][y].thing;
+                }
+            }
+            return ret;
+        }
+
+        public int MapLength { get { return newGameMaps.Length; } }
 	}
 }

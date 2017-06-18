@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    const int RUN_SPEED = 20;
+    const int RUN_SPEED = 10;
 
 	void Start()
 	{
-        runningTime = 18;
-        movedLength = new Vector2(MainScene.instance.BlockSize.x * Constant.MAP_BLOCK_BASE_SIZE / 100, MainScene.instance.BlockSize.y * Constant.MAP_BLOCK_BASE_SIZE / 100);
+        runningTime = 9;
+        movedLength = new Vector2(transform.lossyScale.x * Constant.MAP_BLOCK_BASE_SIZE / 100, transform.lossyScale.y * Constant.MAP_BLOCK_BASE_SIZE / 100);
 	}
 
 	void Update()
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            runningTime = 18;
+            runningTime = 9;
         }
     }
     public Animator animator{ get { return GetComponent<Animator>(); }}

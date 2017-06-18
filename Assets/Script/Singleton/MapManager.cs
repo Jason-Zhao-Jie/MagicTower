@@ -2,63 +2,45 @@ public class MapManager
 {
     public static MapManager instance = null;
 
-    public void SetData(int floorId = 1, Constant.MapData[] datas = null)
+    public void SetData(int floorId = 0, Constant.MapData[] datas = null)
     {
-        if (datas == null)
-        {
-            datas = DataCenter.instance.NewGameMaps;
-            maps = new Constant.MapData[datas.Length];
-            for (int i = 0; i < datas.Length; ++i)
-            {
-                maps[i] = datas[i];
-                maps[i].mapBlocks = new Constant.MapBlock[datas[i].mapBlocks.Length][];
-                for (int j = 0; j < maps[i].mapBlocks.Length; ++j)
-                {
-                    maps[i].mapBlocks[j] = new Constant.MapBlock[datas[i].mapBlocks[j].Length];
-                    for (int k = 0; k < maps[i].mapBlocks[j].Length; ++k)
-                    {
-                        maps[i].mapBlocks[j][k] = datas[i].mapBlocks[j][k];
-                    }
-                }
-            }
-        }
-        else
+        maps = new Constant.MapData[DataCenter.instance.data.MapLength];
+        if (datas != null)
         {
             maps = datas;
         }
-        currentFloorIndex = GetMapIndexByFloorId(floorId);
+        currentFloor = floorId;
     }
 
     public bool ShowMap(int floorId = 0)
     {
         if (floorId != 0)
         {
-            var floorIndex = GetMapIndexByFloorId(floorId);
-            if (floorIndex < 0)
-                return false;
-            currentFloorIndex = floorIndex;
+            currentFloor = floorId;
         }
-        if (currentFloorIndex < 0)
+        if (currentFloor < 0)
             return false;
 
         // 清除地图块，并载入新的地图
         ClearMap();
-        for (int x = 0; x < maps[currentFloorIndex].mapBlocks.Length; ++x)
-            for (int y = 0; y < maps[currentFloorIndex].mapBlocks[x].Length; ++y)
+        if (maps[currentFloor] == null)
+            maps[currentFloor] = DataCenter.instance.data.GetCopiedMap(currentFloor);
+        for (int x = 0; x < maps[currentFloor].mapBlocks.Length; ++x)
+            for (int y = 0; y < maps[currentFloor ].mapBlocks[x].Length; ++y)
             {
                 UnityEngine.GameObject obj = null;
-                long uuid = maps[currentFloorIndex].mapId * 10000 + y + x * 100;
+                long uuid = maps[currentFloor ].mapId * 10000 + y + x * 100;
                 if (ModalManager.Contains(uuid))
                     obj = ModalManager.GetObjectByUuid(uuid);
                 else
                 {
-                    var thingId = maps[currentFloorIndex].mapBlocks[x][y].thing;
+                    var thingId = maps[currentFloor].mapBlocks[x][y].thing;
                     if (thingId > 0)
                     {
                         var modal = DataCenter.instance.GetModalById(thingId);
                     obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR +  modal.prefabPath));
                         var cmp = obj.GetComponent<Modal>();
-                        cmp.InitWithMapPos(maps[currentFloorIndex].mapId, (sbyte)x, (sbyte)y, modal);
+                        cmp.InitWithMapPos(maps[currentFloor].mapId, (sbyte)x, (sbyte)y, modal);
                     }
                 }
                 if (obj != null)
@@ -74,13 +56,13 @@ public class MapManager
         // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识
         if (MainScene.instance != null)
         {
-            MainScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloorIndex].backThing).prefabPath;
-			MainScene.instance.MapName = maps[currentFloorIndex].mapName;
-			AudioController.instance.PlayMusicLoop(maps[currentFloorIndex].music);
+            MainScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloor].backThing).prefabPath;
+			MainScene.instance.MapName = maps[currentFloor].mapName;
+			AudioController.instance.PlayMusicLoop(maps[currentFloor].music);
 		}
 		else
 		{
-			DataEditorScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloorIndex].backThing).prefabPath;
+			DataEditorScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloor].backThing).prefabPath;
         }
 
         return true;
@@ -91,7 +73,7 @@ public class MapManager
         if (MainScene.instance != null)
             MainScene.instance.transform.Find("MapPanel").transform.DetachChildren();
         if (DataEditorScene.instance != null)
-            UnityEngine.GameObject.Find("MapPanel").transform.DetachChildren();
+            UnityEngine.GameObject.Find("MapPanel").transform.BroadcastMessage("RemoveSelf");
     }
 
 	public void ChangeBack(string prefab)
@@ -105,22 +87,22 @@ public class MapManager
     public void ChangeOneBlock(string prefab, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
     {
         if (oldPosx >= 0 && oldPosy >= 0)
-            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.GetModalById(maps[currentFloorIndex].mapBlocks[oldPosx][oldPosy].thing).prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.GetModalById(maps[currentFloor].mapBlocks[oldPosx][oldPosy].thing).prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
         if (UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + posx + "_" + posy) == null)
         {
             UnityEngine.GameObject obj = null;
-            long uuid = maps[currentFloorIndex].mapId * 10000 + posy + posx * 100;
+            long uuid = maps[currentFloor].mapId * 10000 + posy + posx * 100;
             if (ModalManager.Contains(uuid))
                 obj = ModalManager.GetObjectByUuid(uuid);
             else
             {
-                var thingId = maps[currentFloorIndex].mapBlocks[posx][posy].thing;
+                var thingId = maps[currentFloor].mapBlocks[posx][posy].thing;
                 if (thingId > 0)
                 {
                     var modal = DataCenter.instance.GetModalById(thingId);
                     obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
                     var cmp = obj.GetComponent<Modal>();
-                    cmp.InitWithMapPos(maps[currentFloorIndex].mapId, (sbyte)posx, (sbyte)posy, modal);
+                    cmp.InitWithMapPos(maps[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
                 }
             }
             if (obj != null)
@@ -147,24 +129,11 @@ public class MapManager
         return new UnityEngine.Rect(finalX, finalY, totalWidth - 2 * finalX, totalHeight - 2 * finalY);
     }
 
-    public int GetMapIndexByFloorId(int id)
-    {
-        for (int i = 0; i < maps.Length; ++i)
-        {
-            if (maps[i].mapId == id)
-                return i;
-        }
-        return -1;
-    }
-
     public bool SetEventOn(int eventId, int posx, int posy, int floorId = -1)
     {
-        var index = GetMapIndexByFloorId(floorId);
         if (floorId < 0)
-            index = currentFloorIndex;
-        if (index < 0)
-            return false;
-        maps[index].mapBlocks[posx][posy].eventId = eventId;
+            floorId = currentFloor;
+        maps[floorId].mapBlocks[posx][posy].eventId = eventId;
         return true;
     }
 
@@ -174,9 +143,9 @@ public class MapManager
 
     public Constant.MapData[] MapData { get { return maps; }}
     public Constant.MapData this[int index] { get { return maps[index]; } }
-    public Constant.MapData CurrentMap { get { return maps[currentFloorIndex]; } }
-    public int CurrentFloorId{ get { return maps[currentFloorIndex].mapId; }}
+    public Constant.MapData CurrentMap { get { return maps[currentFloor]; } }
+    public int CurrentFloorId{ get { return maps[currentFloor].mapId; }}
 
-    private int currentFloorIndex;
+    private int currentFloor;
 private Constant.MapData[] maps;
 }

@@ -2,51 +2,8 @@
 public class DataCenter
 {
     public static DataCenter instance = null;
-
-    public Constant.MapData[] NewGameMaps { get { return data.newGameMaps; } }
-    public int AddMap(){
-		int index = 0;
-        for (index = 0; index < data.newGameMaps.Length; ++index)
-            if (data.newGameMaps[index].mapId <= index)
-				break;
-		var oldModals = data.newGameMaps;
-        data.newGameMaps = new Constant.MapData[data.newGameMaps.Length + 1];
-		for (int i = 0; i < index; ++i)
-		{
-			data.newGameMaps[i] = oldModals[i];
-		}
-        data.newGameMaps[index] = new Constant.MapData()
-        {
-            mapId = index + 1,
-            backThing = 1,
-            music = 1,
-			mapBlocks = new Constant.MapBlock[18][]{
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18],
-				new Constant.MapBlock[18]
-            }
-        };
-		for (int i = index; i < oldModals.Length; ++i)
-		{
-			data.newGameMaps[i + 1] = oldModals[i];
-		}
-		return index;
-    }
+    
+   
     public Constant.ModalData[] Modals { get { return data.modals; } }
     public Constant.ModalData GetModalById(int id)
     {
@@ -186,10 +143,8 @@ public class DataCenter
     {
         status = Constant.EGameStatus.Start;
 
-        // Reading json config files:
-        var txt = UnityEngine.Resources.Load<UnityEngine.TextAsset>("GameData");
         //data = JsonUtility.FromJson<GameData>(txt.text);
-        data = GetGameDataFromJsonString(txt.text);
+        data = GetGameDataFromJsonString();
 
     }
 
@@ -199,7 +154,7 @@ public class DataCenter
         set { status = value; }
     }
 
-    public static string GetRuntimeDataJson()
+    public static string[] GetRuntimeDataJson(string saveName)
     {
         var saver = new JObject();
         saver["player"] = GetJsonOfPlayerData(PlayerController.instance.data);
@@ -208,8 +163,8 @@ public class DataCenter
         pos["y"] = new JNumber(PlayerController.instance.posy);
         pos["mapId"] = new JNumber(MapManager.instance.CurrentFloorId);
         saver["pos"] = pos;
-        saver["maps"] = GetJsonOfMapData(MapManager.instance.MapData);
-        return saver.String;
+        saver["maps"] = new JString(saveName);
+        return GetJsonOfMapData(MapManager.instance.MapData, saver.String);
     }
 
     public static bool LoadGameDataFromJson(string json)
@@ -221,7 +176,7 @@ public class DataCenter
         if (pos == null)
             return false;
         PlayerController.instance.PlayerData = GetPlayerDataOfJson(jo["player"] as JObject);
-        MapManager.instance.SetData(pos["mapId"].ToInt(), GetMapDataOfJson(jo["maps"] as JArray));
+        //TODO: MapManager.instance.SetData(pos["mapId"].ToInt(), GetMapDataOfJson(jo["maps"].ToString()));
         PlayerController.instance.posx = pos["x"].ToInt();
         PlayerController.instance.posy = pos["y"].ToInt();
         return true;
@@ -230,13 +185,14 @@ public class DataCenter
     private Constant.EGameStatus status;
     internal Constant.GameData data;
 
-    private static Constant.GameData GetGameDataFromJsonString(string json)
+    private static Constant.GameData GetGameDataFromJsonString()
     {
-        var _root = ArmyAntJson.Create(json) as JObject;
-        var data = new Constant.GameData();
+        var data = new Constant.GameData(UnityEngine.Resources.LoadAll<UnityEngine.TextAsset>(Constant.MAP_DATA_DIR).Length);
 
-        // parse map data
-        data.newGameMaps = GetMapDataOfJson(_root["newGameMaps"] as JArray);
+        // Reading json config files:
+        var json = UnityEngine.Resources.Load<UnityEngine.TextAsset>("GameData").text;
+
+        var _root = ArmyAntJson.Create(json) as JObject;
 
         // parse modal data
         var _modals = _root["modals"] as JArray;
@@ -324,6 +280,7 @@ public class DataCenter
             __weaponData.id = __oneWeapon["id"].ToInt();
             __weaponData.name = __oneWeapon["name"].ToString();
             __weaponData.prefabPath = __oneWeapon["prefabPath"].ToString();
+            __weaponData.critPrefabPath = __oneWeapon["critPrefabPath"].ToString();
             __weaponData.audioId = __oneWeapon["audioId"].ToInt();
             __weaponData.critAudioId = __oneWeapon["critAudioId"].ToInt();
         }
@@ -399,6 +356,7 @@ public class DataCenter
             data.strings[i].strings = new Constant.StringInOneLanguage[__strings.Length];
             for (int n = 0; n < __strings.Length;++n){
                 var ___oneStringData = __strings[n] as JObject;
+                data.strings[i].strings[n] = new Constant.StringInOneLanguage();
                 data.strings[i].strings[n].langKey = ___oneStringData["langKey"].ToString();
                 data.strings[i].strings[n].content = ___oneStringData["content"].ToString();
             }
@@ -414,7 +372,7 @@ public class DataCenter
         var json = new JObject();
 
         // Set map data
-        json["newGameMaps"] = GetJsonOfMapData(data.newGameMaps);
+        // json["newGameMaps"] = GetJsonOfMapData(data.newGameMaps);
 
         // Set modal data
         var modals = new JArray();
@@ -494,6 +452,7 @@ public class DataCenter
             _oneWeapon["id"] = new JNumber(data.weapons[i].id);
             _oneWeapon["name"] = new JString(data.weapons[i].name);
             _oneWeapon["prefabPath"] = new JString(data.weapons[i].prefabPath);
+            _oneWeapon["critPrefabPath"] = new JString(data.weapons[i].critPrefabPath);
             _oneWeapon["audioId"] = new JNumber(data.weapons[i].audioId);
             _oneWeapon["critAudioId"] = new JNumber(data.weapons[i].critAudioId);
             weapons.Add(_oneWeapon);
@@ -553,6 +512,7 @@ public class DataCenter
 			_oneLanguage["id"] = new JNumber(data.languages[i].id);
             _oneLanguage["key"] = new JString(data.languages[i].key);
 			_oneLanguage["name"] = new JString(data.languages[i].name);
+            languages.Add(_oneLanguage);
         }
         json["languages"] = languages;
 
@@ -580,61 +540,18 @@ public class DataCenter
         return json.String;
     }
 
-    private static JArray GetJsonOfMapData(Constant.MapData[] data)
+    internal static string[] GetJsonOfMapData(Constant.MapData[] data, string first)
     {
-        var ret = new JArray();
+        var ret = new string[data.Length + 1];
+        ret[0] = first;
         for (var i = 0; i < data.Length; ++i)
         {
-            var ob = new JObject();
-            ob["mapId"] = new JNumber(data[i].mapId);
-            ob["mapName"] = new JString(data[i].mapName);
-            ob["backThing"] = new JNumber(data[i].backThing);
-            ob["music"] = new JNumber(data[i].music);
-            var blocks = new JArray();
-            for (int x = 0; x < data[i].mapBlocks.Length; ++x)
-            {
-                var blockX = new JArray();
-                for (int y = 0; y < data[i].mapBlocks[x].Length; ++y)
-                {
-                    var blockY = new JObject();
-                    blockY["eventId"] = new JNumber(data[i].mapBlocks[x][y].eventId);
-                    blockY["thing"] = new JNumber(data[i].mapBlocks[x][y].thing);
-                    blockX.Add(blockY);
-                }
-                blocks.Add(blockX);
-            }
-            ob["mapBlocks"] = blocks;
-            ret.Add(ob);
+            var ob = data[i].GetJson();
+            ret[i + 1] = ob.String;
         }
         return ret;
     }
-
-    private static Constant.MapData[] GetMapDataOfJson(JArray json)
-    {
-        var ret = new Constant.MapData[json.Length];
-        for (var i = 0; i < json.Length; ++i)
-        {
-            var __oneMap = json[i] as JObject;
-            ret[i].mapId = __oneMap["mapId"].ToInt();
-            ret[i].mapName = __oneMap["mapName"].ToString();
-            ret[i].backThing = __oneMap["backThing"].ToInt();
-            ret[i].music = __oneMap["music"].ToInt();
-            var __mapBlocks = __oneMap["mapBlocks"] as JArray;
-            ret[i].mapBlocks = new Constant.MapBlock[__mapBlocks.Length][];
-            for (var x = 0; x < __mapBlocks.Length; ++x)
-            {
-                var ___mapBlocksX = __mapBlocks[x] as JArray;
-                ret[i].mapBlocks[x] = new Constant.MapBlock[___mapBlocksX.Length];
-                for (var y = 0; y < ___mapBlocksX.Length; ++y)
-                {
-                    var ____mapBlockY = ___mapBlocksX[y] as JObject;
-                    ret[i].mapBlocks[x][y].eventId = ____mapBlockY["eventId"].ToInt();
-                    ret[i].mapBlocks[x][y].thing = ____mapBlockY["thing"].ToInt();
-                }
-            }
-        }
-        return ret;
-    }
+   
 
     private static JObject GetJsonOfPlayerData(Constant.PlayerData data)
     {

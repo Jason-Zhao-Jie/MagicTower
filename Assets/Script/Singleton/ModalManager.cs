@@ -4,7 +4,7 @@ public static class ModalManager
 {
     public static bool AddMod(long uuid, Modal mod)
     {
-        if (!Contains(uuid))
+        if (Contains(uuid))
             return false;
             modals.Add(uuid, mod);
         return true;

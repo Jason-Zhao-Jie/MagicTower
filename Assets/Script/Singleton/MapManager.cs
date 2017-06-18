@@ -118,6 +118,28 @@ public class MapManager
             UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + posx + "_" + posy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + prefab).GetComponent<UnityEngine.SpriteRenderer>().sprite;
     }
 
+    public void ChangeThingOnMap(int posx, int posy, int thingId = 0, int mapId = -1)
+    {
+        if (mapId < 0)
+            mapId = currentFloor;
+        else
+            mapId--;
+        if (maps[mapId] == null)
+            maps[mapId] = DataCenter.instance.data.GetCopiedMap(mapId);
+        maps[mapId].mapBlocks[posx][posy].thing = thingId;
+    }
+
+    public void ChangeEventOnMap(int posx, int posy, int eventId = 0, int mapId = -1)
+    {
+        if (mapId < 0)
+            mapId = currentFloor;
+        else
+            mapId--;
+        if (maps[mapId] == null)
+            maps[mapId] = DataCenter.instance.data.GetCopiedMap(mapId);
+        maps[mapId].mapBlocks[posx][posy].eventId = eventId;
+    }
+
     public static UnityEngine.Rect GetMapPosition(UnityEngine.RectTransform mapPanel)
     {
         var totalWidth = mapPanel.rect.width;

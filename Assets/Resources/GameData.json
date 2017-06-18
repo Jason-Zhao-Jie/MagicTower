@@ -347,7 +347,7 @@
       "id": 50,
       "typeId": 2,
       "prefabPath": "GreenFence",
-      "eventId": 0,
+      "eventId": 2,
       "name": "GreenFence"
     },
     {
@@ -2018,8 +2018,23 @@
     },
     {
       "id": 2,
-      "typeId": 1,
+      "typeId": 7,
+      "dataId": 0
+    },
+    {
+      "id": 3,
+      "typeId": 4,
       "dataId": 1
+    },
+    {
+      "id": 4,
+      "typeId": 4,
+      "dataId": 2
+    },
+    {
+      "id": 5,
+      "typeId": 4,
+      "dataId": 3
     }
   ],
   "weapons": [
@@ -2111,19 +2126,38 @@
     {
       "id": 2,
       "lastEventId": 0,
-      "canOn": true,
+      "canOn": false,
       "data": [
         {
-          "speakerId": 0,
+          "speakerId": -1,
           "content": "哇，这是什么鬼？"
         },
         {
-          "speakerId": 5,
+          "speakerId": -1,
           "content": "......"
         },
         {
-          "speakerId": 0,
+          "speakerId": -1,
           "content": "来者不善。。。先干掉再说"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "lastEventId": 0,
+      "canOn": false,
+      "data": [
+        {
+          "speakerId": 0,
+          "content": "呵呵，又来了一个挑战者。"
+        },
+        {
+          "speakerId": -1,
+          "content": "......？？"
+        },
+        {
+          "speakerId": -1,
+          "content": "您是谁？为什么会在这里？"
         }
       ]
     }

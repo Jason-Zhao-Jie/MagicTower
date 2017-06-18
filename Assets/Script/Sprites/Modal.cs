@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Modal : MonoBehaviour
 {
+    const double RUN_STATE_DELAY = 0.4;
     public enum ModalType{
         Unknown,
         Walkable,
@@ -48,11 +49,15 @@ public class Modal : MonoBehaviour
 
     public void GoToRunState()
     {
+        if (animator.enabled)
+            return;
         animator.enabled = true;
         animator.Play("KeyEvent");
+        timeBeforeRemove = 0;
     }
 
     public void RemoveSelf(){
+        MapManager.instance.ChangeThingOnMap(posx, posy, 0, mapId);
         Destroy(gameObject);
     }
 
@@ -62,11 +67,16 @@ public class Modal : MonoBehaviour
             animator.enabled = false;
     }
     // Update is called once per frame
-    void Update(){
-        
+    void Update()
+    {
+        if (timeBeforeRemove > -4)
+            timeBeforeRemove += Time.deltaTime;
+        if (timeBeforeRemove - RUN_STATE_DELAY > double.Epsilon)
+            RemoveSelf();
     }
 
     public Animator animator { get { return GetComponent<Animator>(); } }
+    public int ModId { get { return modId; } }
 
     private int eventId = 0;
     private sbyte posx = -1;
@@ -76,4 +86,5 @@ public class Modal : MonoBehaviour
     private string modName = "";
     private int modId = 0;
     private long uuid = 0;
+    private double timeBeforeRemove = -10;
 }

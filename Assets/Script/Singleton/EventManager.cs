@@ -7,6 +7,8 @@ public class EventManager
     public void InitEvents()
     {
         RegistEvent(0, null);
+        RegistEvent(1, null);
+        RegistEvent(2, OpenFreeDoor);
     }
 
     public bool DispatchEvent(int eventId, Modal caller)
@@ -41,7 +43,7 @@ public class EventManager
                     return false;
                 break;
             case Constant.EventType.Chat:
-                if (!OnChat((int)eventData.dataId))
+                if (!OnChat((int)eventData.dataId, caller.ModId))
                     return false;
                 break;
             case Constant.EventType.Choice:
@@ -85,9 +87,9 @@ public class EventManager
         return false;
     }
 
-    bool OnChat(int chatId)
+    bool OnChat(int chatId, int modId)
     {
-
+        // TODO
         return false;
     }
 
@@ -112,4 +114,9 @@ public class EventManager
 
     // The special event callbacks are below
 
+    private bool OpenFreeDoor(Modal caller)
+    {
+        caller.GoToRunState();
+        return false;
+    }
 }

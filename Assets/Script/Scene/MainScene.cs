@@ -24,6 +24,23 @@ public class MainScene : MonoBehaviour
         MapManager.instance.ShowMap();
 		PlayerController.instance.ShowPlayer(true);
 
+        // 预设各种对话框，然后隐藏它们
+        topChatPanel = transform.Find("ChatPanelTop").gameObject;
+        topChatSpeaker = topChatPanel.transform.Find("Speaker").gameObject;
+        topChatSpeakerText = topChatPanel.transform.Find("SpeakerName").GetComponent<UnityEngine.UI.Text>();
+        topChatText = topChatPanel.transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
+        topChatPanel.SetActive(false);
+        bottomChatPanel = transform.Find("ChatPanelBottom").gameObject;
+        bottomChatSpeaker = bottomChatPanel.transform.Find("Speaker").gameObject;
+        bottomChatSpeakerText = bottomChatPanel.transform.Find("SpeakerName").GetComponent<UnityEngine.UI.Text>();
+        bottomChatText = bottomChatPanel.transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
+        bottomChatPanel.SetActive(false);
+        tipsPanel = transform.Find("TipPanel").gameObject;
+        tipsText = tipsPanel.transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
+        tipsPanel.SetActive(false);
+        battlePanel = transform.Find("BattlePanel").gameObject;
+        battlePanel.SetActive(false);
+
         DataCenter.instance.Status = Constant.EGameStatus.InGame;
     }
 
@@ -78,6 +95,53 @@ public class MainScene : MonoBehaviour
         obj.transform.localScale = blockSize;
     }
 
+    public void ShowChatOnTop(string content, int speakerId = -1)
+    {
+        topChatPanel.SetActive(true);
+        bottomChatPanel.SetActive(false);
+        tipsPanel.SetActive(false);
+        if (speakerId < 0)
+            speakerId = PlayerController.instance.PlayerId;
+        var modal = DataCenter.instance.GetModalById(speakerId);
+        var obj = Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
+        obj.transform.position = topChatSpeaker.transform.position;
+        obj.transform.SetParent(topChatPanel.transform);
+        topChatSpeaker.GetComponent<Modal>().RemoveSelf();
+        topChatSpeaker = obj;
+        topChatSpeakerText.text = modal.name;
+        topChatText.text = content;
+    }
+
+    public void ShowChatOnBottom(string content, int speakerId = -1)
+    {
+        topChatPanel.SetActive(false);
+        bottomChatPanel.SetActive(true);
+        tipsPanel.SetActive(false);
+        if (speakerId < 0)
+            speakerId = PlayerController.instance.PlayerId;
+        var modal = DataCenter.instance.GetModalById(speakerId);
+        var obj = Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
+        obj.transform.position = bottomChatSpeaker.transform.position;
+        obj.transform.SetParent(bottomChatSpeaker.transform);
+        bottomChatSpeaker.GetComponent<Modal>().RemoveSelf();
+        bottomChatSpeaker = obj;
+        bottomChatSpeakerText.text = modal.name;
+        bottomChatText.text = content;
+    }
+
+    public void ShowTips(string content)
+    {
+        tipsPanel.SetActive(true);
+        tipsText.text = content;
+    }
+
+    public void ClearChats()
+    {
+        topChatPanel.SetActive(false);
+        bottomChatPanel.SetActive(false);
+        tipsPanel.SetActive(false);
+    }
+
     public string MapName
     {
         get { return mapNameText.text; }
@@ -96,4 +160,16 @@ public class MainScene : MonoBehaviour
     private UnityEngine.UI.Image backgroundImg;
     private Rect mapPartRect;
     private Vector3 blockSize;
+
+    private GameObject topChatPanel;
+    private GameObject topChatSpeaker;
+    private UnityEngine.UI.Text topChatSpeakerText;
+    private UnityEngine.UI.Text topChatText;
+    private GameObject bottomChatPanel;
+    private GameObject bottomChatSpeaker;
+    private UnityEngine.UI.Text bottomChatSpeakerText;
+    private UnityEngine.UI.Text bottomChatText;
+    private GameObject tipsPanel;
+    private UnityEngine.UI.Text tipsText;
+    private GameObject battlePanel;
 }

@@ -40,7 +40,7 @@ public class MapManager
                         var modal = DataCenter.instance.GetModalById(thingId);
                     obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR +  modal.prefabPath));
                         var cmp = obj.GetComponent<Modal>();
-                        cmp.InitWithMapPos(maps[currentFloor].mapId, (sbyte)x, (sbyte)y, modal);
+                        cmp.InitWithMapPos(currentFloor, (sbyte)x, (sbyte)y, modal);
                     }
                 }
                 if (obj != null)

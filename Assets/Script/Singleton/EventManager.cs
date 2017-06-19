@@ -43,7 +43,7 @@ public class EventManager
                     return false;
                 break;
             case Constant.EventType.Chat:
-                if (!OnChat((int)eventData.dataId, caller.ModId))
+                if (!OnChat((int)eventData.dataId, caller))
                     return false;
                 break;
             case Constant.EventType.Choice:
@@ -61,7 +61,7 @@ public class EventManager
         return cb == null || cb(caller);
     }
 
-    bool OnSend(int destinationPosx, int destinationPosy, int targetMapId = 0)
+    private bool OnSend(int destinationPosx, int destinationPosy, int targetMapId = 0)
     {
         if (targetMapId > 0)
             MapManager.instance.ShowMap(targetMapId);
@@ -69,43 +69,44 @@ public class EventManager
         return false;
     }
 
-    bool OnGetItem(int itemId)
+    private bool OnGetItem(int itemId)
     {
 
         return false;
     }
 
-    bool OnGetItem(int itemId, int itemPosx, int itemPosy)
+    private bool OnGetItem(int itemId, int itemPosx, int itemPosy)
     {
 
         return false;
     }
 
-    bool OnBattle(int monsterId)
+    private bool OnBattle(int monsterId)
     {
 
         return false;
     }
 
-    bool OnChat(int chatId, int modId)
+    private bool OnChat(int chatId, Modal caller)
     {
-        // TODO
-        return false;
+        var data = DataCenter.instance.GetChatById(chatId);
+        MainScene.instance.ChatBegan(data, caller);
+        return data.canOn;
     }
 
-    bool OnChoice(int choiceId)
-    {
-
-        return false;
-    }
-
-    bool OnGame(int gameId)
+    private bool OnChoice(int choiceId)
     {
 
         return false;
     }
 
-    void RegistEvent(int eventId, Constant.EventCallback cb)
+    private bool OnGame(int gameId)
+    {
+
+        return false;
+    }
+
+    private void RegistEvent(int eventId, Constant.EventCallback cb)
     {
         eventList.Add(eventId, cb);
     }

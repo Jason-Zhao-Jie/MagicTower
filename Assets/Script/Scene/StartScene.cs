@@ -60,7 +60,7 @@ public class StartScene : MonoBehaviour
         if (loadedOK)
         {
             MapManager.instance.SetData();
-            PlayerController.instance.PlayerId = 62;
+            PlayerController.instance.SetPlayerInfo(62);
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
         }
     }

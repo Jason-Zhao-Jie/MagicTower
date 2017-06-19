@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class PlayerController
 {
@@ -80,8 +81,121 @@ public class PlayerController
     public int PlayerId
     {
         get { return data.id; }
-        set { data = DataCenter.instance.GetPlayerDataById(value); }
     }
+
+    public bool SetPlayerInfo(int id)
+    {
+        data = DataCenter.instance.GetPlayerDataById(id);
+        return true;
+    }
+
+    public int Level
+    {
+        get { return data.level; }
+        set
+        {
+            data.level = value;
+            MainScene.instance.Level = value.ToString();
+        }
+    }
+    public int Experience
+    {
+        get { return data.exp; }
+        set
+        {
+            data.exp = value;
+            MainScene.instance.Experience = value.ToString();
+        }
+    }
+    public int Life
+    {
+        get { return data.life; }
+        set
+        {
+            data.life = value;
+            MainScene.instance.Life = value.ToString();
+        }
+    }
+    public int Attack
+    {
+        get { return data.attack; }
+        set
+        {
+            data.attack = value;
+            MainScene.instance.Attack = value.ToString();
+        }
+    }
+    public int Defense
+    {
+        get { return data.defense; }
+        set
+        {
+            data.defense = value;
+            MainScene.instance.Defense = value.ToString();
+        }
+    }
+    public int Speed
+    {
+        get { return data.speed; }
+        set
+        {
+            data.speed = value;
+            MainScene.instance.Speed = value.ToString();
+        }
+    }
+    public double Critical
+    {
+        get { return data.critical; }
+        set { data.critical = value; }
+    }
+
+    public int Gold
+    {
+        get { return data.gold; }
+        set
+        {
+            data.gold = value;
+            MainScene.instance.Gold = value.ToString();
+        }
+    }
+    public int Weapon
+    {
+        get { return data.weaponId; }
+        set { data.weaponId = value; }
+    }
+    public int YellowKey
+    {
+        get { return data.yellowKey; }
+        set
+        {
+            data.yellowKey = value;
+            MainScene.instance.YellowKey = value.ToString();
+        }
+    }
+    public int BlueKey
+    {
+        get { return data.blueKey; }
+        set
+        {
+            data.blueKey = value;
+            MainScene.instance.BlueKey = value.ToString();
+        }
+    }
+    public int RedKey
+    {
+        get { return data.redKey; }
+        set
+        {
+            data.redKey = value;
+            MainScene.instance.RedKey = value.ToString();
+        }
+    }
+    public int GreenKey
+    {
+        get { return data.greenKey; }
+        set { data.greenKey = value; }
+    }
+
 
     public Constant.PlayerData PlayerData
     {
@@ -107,14 +221,14 @@ public class PlayerController
         else if (playerId != this.data.id)
         {
             if (player != null)
-                player.transform.SetParent(null);
-            this.data = DataCenter.instance.GetPlayerDataById(playerId);
+                player.RemoveSelf();
+            SetPlayerInfo(playerId);
             player = null;
-        }
+		}
+		var modalData = DataCenter.instance.GetModalById(playerId);
         if (player == null || isNew)
         {
-            var modalData = DataCenter.instance.GetModalById(playerId);
-            var obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load(Constant.PREFAB_DIR + modalData.prefabPath) as UnityEngine.GameObject);
+            var obj = UnityEngine.Object.Instantiate(Resources.Load(Constant.PREFAB_DIR + modalData.prefabPath) as UnityEngine.GameObject);
             player = obj.GetComponent<Player>();
         }
         if (posx < 0)
@@ -126,7 +240,11 @@ public class PlayerController
         else
             this.posy = posy;
         if (posx >= 0 && posy >= 0)
-            MainScene.instance.AddObjectToMap(player.gameObject, posx, posy, -4);
+        {
+			MainScene.instance.AddObjectToMap(player.gameObject, posx, posy, -4);
+			MainScene.instance.RoleName = modalData.name;
+            MainScene.instance.Portrait = player.GetComponent<SpriteRenderer>().sprite;
+        }
     }
 
     public void StartWalk(Direction dir = Direction.Default)
@@ -157,7 +275,7 @@ public class PlayerController
         set
         {
             if (isRunning != value)
-                dirChanged = true; 
+                dirChanged = true;
             isRunning = value;
         }
     }
@@ -166,5 +284,5 @@ public class PlayerController
 
     private bool isRunning;
     private Direction direction;
-	private Player player;
+    private Player player;
 }

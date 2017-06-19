@@ -127,6 +127,16 @@ public class DataCenter
         return index;
     }
 
+	public Constant.ChatData GetChatById(int chatId)
+	{
+        for (int i = 0; i < data.chats.Length; ++i)
+        {
+            if (data.chats[i].id == chatId)
+                return data.chats[i];
+        }
+        return null;
+    }
+
     public string GetLanguageById(int id){
         for (int i = 0; i < data.languages.Length;++i){
             if (data.languages[i].id == id)

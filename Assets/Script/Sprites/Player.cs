@@ -68,7 +68,13 @@ public class Player : MonoBehaviour
         {
             runningTime = 9;
         }
-    }
+	}
+
+	public void RemoveSelf()
+	{
+		Destroy(gameObject);
+	}
+
     public Animator animator{ get { return GetComponent<Animator>(); }}
 
     private int runningTime;

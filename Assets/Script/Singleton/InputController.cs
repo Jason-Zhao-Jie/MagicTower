@@ -45,6 +45,14 @@ public class InputController
 			case Constant.EGameStatus.OnCG:
 				break;
 			case Constant.EGameStatus.OnTipChat:
+				switch (keyCode)
+				{
+					case KeyCode.Return:
+					case KeyCode.KeypadEnter:
+					case KeyCode.Space:
+						MainScene.instance.ChatStepOn();
+						break;
+				}
 				break;
 			case Constant.EGameStatus.OnDialog:
 				break;
@@ -111,7 +119,8 @@ public class InputController
                 break;
             case Constant.EGameStatus.OnCG:
                 break;
-            case Constant.EGameStatus.OnTipChat:
+			case Constant.EGameStatus.OnTipChat:
+                MainScene.instance.ChatStepOn();
                 break;
             case Constant.EGameStatus.OnDialog:
                 break;

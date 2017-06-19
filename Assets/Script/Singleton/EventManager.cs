@@ -57,6 +57,8 @@ public class EventManager
             default:
                 return false;
         }
+        if (!eventList.ContainsKey(eventId))
+            return true;
         var cb = eventList[eventId];
         return cb == null || cb(caller);
     }

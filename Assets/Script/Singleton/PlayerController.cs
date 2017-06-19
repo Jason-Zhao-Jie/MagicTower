@@ -221,7 +221,7 @@ public class PlayerController
         else if (playerId != this.data.id)
         {
             if (player != null)
-                player.RemoveSelf();
+                player.DestroySelf();
             SetPlayerInfo(playerId);
             player = null;
 		}

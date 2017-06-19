@@ -161,7 +161,11 @@ public class DataCenter
     public Constant.EGameStatus Status
     {
         get { return status; }
-        set { status = value; }
+        set
+        {
+            status = value;
+            InputController.instance.OnChangeWalkState();
+        }
     }
 
     public static string[] GetRuntimeDataJson(string saveName)

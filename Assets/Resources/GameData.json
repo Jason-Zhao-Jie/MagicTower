@@ -2129,15 +2129,15 @@
       "canOn": false,
       "data": [
         {
-          "speakerId": -1,
+          "speakerId": 0,
           "content": "哇，这是什么鬼？"
         },
         {
-          "speakerId": -1,
+          "speakerId": 0,
           "content": "......"
         },
         {
-          "speakerId": -1,
+          "speakerId": 0,
           "content": "来者不善。。。先干掉再说"
         }
       ]
@@ -2148,15 +2148,15 @@
       "canOn": false,
       "data": [
         {
-          "speakerId": 0,
+          "speakerId": -1,
           "content": "呵呵，又来了一个挑战者。"
         },
         {
-          "speakerId": -1,
+          "speakerId": 0,
           "content": "......？？"
         },
         {
-          "speakerId": -1,
+          "speakerId": 0,
           "content": "您是谁？为什么会在这里？"
         }
       ]

@@ -61,6 +61,11 @@ public class Modal : MonoBehaviour
         Destroy(gameObject);
     }
 
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
+
     // Use this for initialization
     void Start(){
         if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("KeyEvent"))

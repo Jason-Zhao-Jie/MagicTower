@@ -17,15 +17,7 @@ public class MainScene : MonoBehaviour
         backgroundImg = GetComponent<Image>();
         mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
 		blockSize = new Vector3(mapPartRect.width * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE), mapPartRect.height * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE));
-        UnityEngine.Debug.Log("The current map whole rect is: " + transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " + transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
-		UnityEngine.Debug.Log("The current map part rect is: " + mapPartRect.x + ", " + mapPartRect.y + ", " + mapPartRect.width + ", " + mapPartRect.height);
-        UnityEngine.Debug.Log("The current map block size is: " + blockSize.x + ", " + blockSize.y);
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
-
-        AudioController.instance.MusicSource = GetComponent<AudioSource>();
-        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        MapManager.instance.ShowMap();
-		PlayerController.instance.ShowPlayer(true);
 
 		// 关联人物数据的text
 		roleNameText = heroPanel.transform.Find("Name").GetComponent<Text>();
@@ -72,7 +64,12 @@ public class MainScene : MonoBehaviour
         enemyDefenseText = battlePanel.transform.Find("Defense_Enemy").GetComponent<Text>();
         enemySpeedText = battlePanel.transform.Find("Speed_Enemy").GetComponent<Text>();
 
-		DataCenter.instance.Status = Constant.EGameStatus.InGame;
+
+        AudioController.instance.MusicSource = GetComponent<AudioSource>();
+        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        MapManager.instance.ShowMap();
+        PlayerController.instance.ShowPlayer(true);
+        DataCenter.instance.Status = Constant.EGameStatus.InGame;
     }
 
     void OnDestroy()
@@ -143,9 +140,13 @@ public class MainScene : MonoBehaviour
             speakerId = PlayerController.instance.PlayerId;
         var modal = DataCenter.instance.GetModalById(speakerId);
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
-        obj.transform.position = topChatSpeaker.transform.position;
         obj.transform.SetParent(topChatPanel.transform);
-        topChatSpeaker.GetComponent<Modal>().RemoveSelf();
+        obj.transform.position = topChatSpeaker.transform.position;
+        var mod = topChatSpeaker.GetComponent<Modal>();
+        if (mod != null)
+            mod.DestroySelf();
+        else
+            bottomChatSpeaker.GetComponent<Player>().DestroySelf();
         topChatSpeaker = obj;
         topChatSpeakerText.text = modal.name;
         topChatText.text = content;
@@ -161,9 +162,13 @@ public class MainScene : MonoBehaviour
             speakerId = PlayerController.instance.PlayerId;
         var modal = DataCenter.instance.GetModalById(speakerId);
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
+        obj.transform.SetParent(bottomChatPanel.transform);
         obj.transform.position = bottomChatSpeaker.transform.position;
-        obj.transform.SetParent(bottomChatSpeaker.transform);
-        bottomChatSpeaker.GetComponent<Modal>().RemoveSelf();
+        var mod = bottomChatSpeaker.GetComponent<Modal>();
+        if (mod != null)
+            mod.DestroySelf();
+        else
+            bottomChatSpeaker.GetComponent<Player>().DestroySelf();
         bottomChatSpeaker = obj;
         bottomChatSpeakerText.text = modal.name;
         bottomChatText.text = content;
@@ -184,7 +189,7 @@ public class MainScene : MonoBehaviour
         topChatPanel.SetActive(false);
         bottomChatPanel.SetActive(false);
         tipsPanel.SetActive(false);
-        DataCenter.instance.Status = battlePanel.activeSelf ? Constant.EGameStatus.OnBattle : Constant.EGameStatus.OnTipChat;
+        DataCenter.instance.Status = battlePanel.activeSelf ? Constant.EGameStatus.OnBattle : Constant.EGameStatus.InGame;
     }
 
     public void ChatBegan(Constant.ChatData chat, Modal mod)
@@ -205,9 +210,9 @@ public class MainScene : MonoBehaviour
             if (chatData.speakerId < -100)
                 ShowTips(chatData.content);
             else if (chatData.speakerId < 0)
-                ShowChatOnBottom(chatData.content, PlayerController.instance.PlayerId);
-            else if (chatData.speakerId == 0)
                 ShowChatOnTop(chatData.content, chatMod.ModId);
+            else if (chatData.speakerId == 0)
+                ShowChatOnBottom(chatData.content, PlayerController.instance.PlayerId);
 			else
 				ShowChatOnTop(chatData.content, chatData.speakerId);
             ++chatIndex;

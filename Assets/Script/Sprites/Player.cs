@@ -70,7 +70,7 @@ public class Player : MonoBehaviour
         }
 	}
 
-	public void RemoveSelf()
+	public void DestroySelf()
 	{
 		Destroy(gameObject);
 	}

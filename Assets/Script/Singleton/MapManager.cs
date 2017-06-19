@@ -26,10 +26,10 @@ public class MapManager
         if (maps[currentFloor] == null)
             maps[currentFloor] = DataCenter.instance.data.GetCopiedMap(currentFloor);
         for (int x = 0; x < maps[currentFloor].mapBlocks.Length; ++x)
-            for (int y = 0; y < maps[currentFloor ].mapBlocks[x].Length; ++y)
+            for (int y = 0; y < maps[currentFloor].mapBlocks[x].Length; ++y)
             {
                 UnityEngine.GameObject obj = null;
-                long uuid = maps[currentFloor ].mapId * 10000 + y + x * 100;
+                long uuid = maps[currentFloor].mapId * 10000 + y + x * 100;
                 if (ModalManager.Contains(uuid))
                     obj = ModalManager.GetObjectByUuid(uuid);
                 else
@@ -38,9 +38,9 @@ public class MapManager
                     if (thingId > 0)
                     {
                         var modal = DataCenter.instance.GetModalById(thingId);
-                    obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR +  modal.prefabPath));
+                        obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
                         var cmp = obj.GetComponent<Modal>();
-                        cmp.InitWithMapPos(currentFloor, (sbyte)x, (sbyte)y, modal);
+                        cmp.InitWithMapPos(maps[currentFloor].mapId, (sbyte)x, (sbyte)y, modal);
                     }
                 }
                 if (obj != null)
@@ -57,12 +57,12 @@ public class MapManager
         if (MainScene.instance != null)
         {
             MainScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloor].backThing).prefabPath;
-			MainScene.instance.MapName = maps[currentFloor].mapName;
-			AudioController.instance.PlayMusicLoop(maps[currentFloor].music);
-		}
-		else
-		{
-			DataEditorScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloor].backThing).prefabPath;
+            MainScene.instance.MapName = maps[currentFloor].mapName;
+            AudioController.instance.PlayMusicLoop(maps[currentFloor].music);
+        }
+        else
+        {
+            DataEditorScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloor].backThing).prefabPath;
         }
 
         return true;
@@ -76,13 +76,13 @@ public class MapManager
             UnityEngine.GameObject.Find("MapPanel").transform.BroadcastMessage("RemoveSelf");
     }
 
-	public void ChangeBack(string prefab)
-	{
-		if (MainScene.instance != null)
-            MainScene.instance.BackgroundImage =  prefab;
+    public void ChangeBack(string prefab)
+    {
+        if (MainScene.instance != null)
+            MainScene.instance.BackgroundImage = prefab;
         else
             DataEditorScene.instance.BackgroundImage = prefab;
-	}
+    }
 
     public void ChangeOneBlock(string prefab, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
     {
@@ -159,15 +159,16 @@ public class MapManager
         return true;
     }
 
-    public bool RemoveEventOn(int posx, int posy, int floorId = -1){
+    public bool RemoveEventOn(int posx, int posy, int floorId = -1)
+    {
         return SetEventOn(0, posx, posy, floorId);
     }
 
-    public Constant.MapData[] MapData { get { return maps; }}
+    public Constant.MapData[] MapData { get { return maps; } }
     public Constant.MapData this[int index] { get { return maps[index]; } }
     public Constant.MapData CurrentMap { get { return maps[currentFloor]; } }
-    public int CurrentFloorId{ get { return maps[currentFloor].mapId; }}
+    public int CurrentFloorId { get { return maps[currentFloor].mapId; } }
 
     private int currentFloor;
-private Constant.MapData[] maps;
+    private Constant.MapData[] maps;
 }

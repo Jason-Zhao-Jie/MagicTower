@@ -13,6 +13,8 @@ public class MainScene : MonoBehaviour
 
         var heroPanel = transform.Find("HeroPanel");
         var itemPanel = transform.Find("ItemPanel");
+        var mapPanel = transform.Find("MapPanel");
+        var dialogCanvas = GameObject.Find("DialogCanvas");
         mapNameText = heroPanel.transform.Find("MapName").GetComponent<Text>();
         backgroundImg = GetComponent<Image>();
         mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
@@ -34,20 +36,20 @@ public class MainScene : MonoBehaviour
 		redKeyText = itemPanel.transform.Find("RedKey").GetComponent<Text>();
 
         // 预设各种对话框，然后隐藏它们
-        topChatPanel = transform.Find("ChatPanelTop").gameObject;
+        topChatPanel = dialogCanvas.transform.Find("ChatPanelTop").gameObject;
         topChatSpeaker = topChatPanel.transform.Find("Speaker").gameObject;
         topChatSpeakerText = topChatPanel.transform.Find("SpeakerName").GetComponent<Text>();
         topChatText = topChatPanel.transform.Find("Text").GetComponent<Text>();
         topChatPanel.SetActive(false);
-        bottomChatPanel = transform.Find("ChatPanelBottom").gameObject;
+        bottomChatPanel = dialogCanvas.transform.Find("ChatPanelBottom").gameObject;
         bottomChatSpeaker = bottomChatPanel.transform.Find("Speaker").gameObject;
         bottomChatSpeakerText = bottomChatPanel.transform.Find("SpeakerName").GetComponent<Text>();
         bottomChatText = bottomChatPanel.transform.Find("Text").GetComponent<Text>();
         bottomChatPanel.SetActive(false);
-        tipsPanel = transform.Find("TipPanel").gameObject;
+        tipsPanel = dialogCanvas.transform.Find("TipPanel").gameObject;
         tipsText = tipsPanel.transform.Find("Text").GetComponent<Text>();
         tipsPanel.SetActive(false);
-        battlePanel = transform.Find("BattlePanel").gameObject;
+        battlePanel = dialogCanvas.transform.Find("BattlePanel").gameObject;
 		battlePanel.SetActive(false);
 
 		// 关联战斗框的控件
@@ -142,6 +144,8 @@ public class MainScene : MonoBehaviour
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
         obj.transform.SetParent(topChatPanel.transform);
         obj.transform.position = topChatSpeaker.transform.position;
+        obj.transform.localScale = blockSize;
+        obj.GetComponent<SpriteRenderer>().sortingOrder = topChatSpeaker.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = topChatSpeaker.GetComponent<Modal>();
         if (mod != null)
             mod.DestroySelf();
@@ -164,6 +168,8 @@ public class MainScene : MonoBehaviour
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
         obj.transform.SetParent(bottomChatPanel.transform);
         obj.transform.position = bottomChatSpeaker.transform.position;
+        obj.transform.localScale = blockSize;
+        obj.GetComponent<SpriteRenderer>().sortingOrder = bottomChatSpeaker.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = bottomChatSpeaker.GetComponent<Modal>();
         if (mod != null)
             mod.DestroySelf();
@@ -202,6 +208,7 @@ public class MainScene : MonoBehaviour
     public void ChatStepOn(){
         if (chatIndex >= chat.data.Length)
         {
+            chatIndex = 0;
             ClearChats();
             EventManager.instance.DispatchEvent(chat.lastEventId, chatMod);
         }

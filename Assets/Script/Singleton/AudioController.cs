@@ -1,5 +1,6 @@
 public class AudioController
 {
+    public const int itemGetSound = 20;
     public const int stepSound = 56;
     public const int openDoorSound = 53;
 

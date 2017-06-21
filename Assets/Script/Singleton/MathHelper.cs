@@ -8,7 +8,7 @@ public static class MathHelper
         public int damage;
     }
 
-    public static int GetHurt(int attack, float critical, int targetDefense, int targetSpeed)
+    public static int GetHurt(int attack, double critical, int targetDefense, int targetSpeed)
     {
         var miss = new System.Random().Next(0, 99);
         if (miss <= targetSpeed)
@@ -20,7 +20,7 @@ public static class MathHelper
                 return 0;
         var damage = attack - targetDefense;
         var crit = new System.Random().Next(0, 999999);
-        if (((float)crit) / 1000000 - critical < float.Epsilon)
+        if (((double)crit) / 1000000 - critical < double.Epsilon)
             return -damage - damage / 2;
         return damage;
     }

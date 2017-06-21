@@ -116,11 +116,30 @@ public class MainScene : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (battlePanel.activeSelf && !isBattlePaused &&DataCenter.instance.Status == Constant.EGameStatus.OnBattle)
-		{
-            // TODO: Resolve the battle
-		}
+        if (battlePanel.activeSelf && !isBattlePaused && DataCenter.instance.Status == Constant.EGameStatus.OnBattle && hitter == null)
+        {
+			if (playerBattleData.life <= 0 || enemyBattleData.life <= 0)
+				OnBattleOver(playerBattleData.life);
+            int hurt = 0;
+            if (isOurRound)
+            {
+                hurt = MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
+                enemyBattleData.life -= hurt;
+                enemyLifeText.text = enemyBattleData.life.ToString();
+            }
+
+            else
+            {
+                hurt = MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
+                playerBattleData.life -= hurt;
+                playerLifeText.text = playerBattleData.life.ToString();
+            }
+            CreateHitter(isOurRound ? playerBattleData.weaponId : enemyBattleData.weaponId, isOurRound, hurt);
+            isOurRound = !isOurRound;
+        }
     }
+
+/********************** Map Utilities **************************************/
 
     public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2)
     {
@@ -132,7 +151,9 @@ public class MainScene : MonoBehaviour
         obj.transform.localScale = blockSize;
     }
 
-    public void ShowChatOnTop(string content, int speakerId = -1)
+/********************** Chat Part **************************************/
+
+	public void ShowChatOnTop(string content, int speakerId = -1)
     {
         DataCenter.instance.Status = Constant.EGameStatus.OnTipChat;
         topChatPanel.SetActive(true);
@@ -226,7 +247,9 @@ public class MainScene : MonoBehaviour
         }
     }
 
-    public void StartBattle(long enemyUuid, long yourUuid = -1, Constant.BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
+/********************** Battle Part **************************************/
+
+	public void StartBattle(long enemyUuid, long yourUuid = -1, Constant.BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
     {
         DataCenter.instance.Status = Constant.EGameStatus.OnBattle;
         battlePanel.SetActive(true);
@@ -250,10 +273,87 @@ public class MainScene : MonoBehaviour
         else
             playerBattleData = DataCenter.instance.GetMonsterDataById(ModalManager.GetModalByUuid(yourUuid).ModId);
 
-        // TODO: Show the battle informations in UI object
+        rounds = 0;
+        isOurRound = true;
+
+        var playerModal = DataCenter.instance.GetModalById(playerBattleData.id);
+        var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + playerModal.prefabPath));
+        obj.transform.SetParent(bottomChatPanel.transform);
+        obj.transform.position = playerSprite.transform.position;
+        obj.transform.localScale = blockSize;
+        obj.GetComponent<SpriteRenderer>().sortingOrder = playerSprite.GetComponent<SpriteRenderer>().sortingOrder;
+        var mod = playerSprite.GetComponent<Modal>();
+        if (mod != null)
+            mod.DestroySelf();
+        else
+            playerSprite.GetComponent<Player>().DestroySelf();
+        playerSprite = obj;
+
+        var enemyModal = DataCenter.instance.GetModalById(enemyBattleData.id);
+        obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + enemyModal.prefabPath));
+        obj.transform.SetParent(bottomChatPanel.transform);
+        obj.transform.position = enemySprite.transform.position;
+        obj.transform.localScale = blockSize;
+        obj.GetComponent<SpriteRenderer>().sortingOrder = enemySprite.GetComponent<SpriteRenderer>().sortingOrder;
+        mod = enemySprite.GetComponent<Modal>();
+        if (mod != null)
+            mod.DestroySelf();
+        else
+            enemySprite.GetComponent<Player>().DestroySelf();
+        enemySprite = obj;
+
+		playerNameText.text = playerModal.name;
+		playerLifeText.text = playerBattleData.life.ToString();
+		playerAttackText.text = playerBattleData.attack.ToString();
+		playerDefenseText.text = playerBattleData.defense.ToString();
+		playerSpeedText.text = playerBattleData.speed.ToString();
+        enemyNameText.text = enemyModal.name;
+        enemyLifeText.text = enemyBattleData.life.ToString();
+		enemyAttackText.text = enemyBattleData.attack.ToString();
+		enemyDefenseText.text = enemyBattleData.defense.ToString();
+		enemySpeedText.text = enemyBattleData.speed.ToString();
+
+	}
+
+    public void PauseBattle(){
+        isBattlePaused = true;
     }
 
-    public string MapName
+    public void ResumeBattle(){
+        isBattlePaused = false;
+    }
+
+    public void StopBattle(){
+        battlePanel.SetActive(false);
+        DataCenter.instance.Status = Constant.EGameStatus.InGame;
+        isBattlePaused = false;
+    }
+
+    public void CreateHitter(int weaponId, bool isOnEnemy, int damage){
+        var data = DataCenter.instance.GetWeaponDataById(weaponId);
+		var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + data.prefabPath));
+		hitter = obj.GetComponent<Zzhit>();
+        hitter.SetParam(data);
+        obj.transform.SetParent((isOnEnemy ? enemySprite : playerSprite).transform);
+        obj.transform.position = obj.transform.parent.position;
+		obj.transform.localScale = blockSize;
+		obj.GetComponent<SpriteRenderer>().sortingOrder = obj.transform.parent.GetComponent<SpriteRenderer>().sortingOrder + 1;
+    }
+
+    private void OnBattleOver(int playerLife){
+        isBattlePaused = true;
+        // TODO: Create the result UI
+    }
+
+/********************** Choice Part **************************************/
+
+    public void ShowChoice(){
+        // TODO
+    }
+
+/********************** Hero Info Part **************************************/
+
+	public string MapName
     {
         get { return mapNameText.text; }
         set { mapNameText.text = value; }
@@ -388,5 +488,7 @@ public class MainScene : MonoBehaviour
     private Constant.BattlePauseEventCheck battlePauseChecker;
     private int battlePauseEvent;
     private bool isBattlePaused;
-
+    private int rounds;
+    private bool isOurRound;
+    internal Zzhit hitter;
 }

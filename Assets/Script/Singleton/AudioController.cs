@@ -1,5 +1,8 @@
 public class AudioController
 {
+    public const int stepSound = 56;
+    public const int openDoorSound = 53;
+
     public static AudioController instance = null;
     public UnityEngine.AudioSource MusicSource
     {

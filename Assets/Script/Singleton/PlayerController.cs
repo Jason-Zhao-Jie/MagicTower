@@ -75,6 +75,7 @@ public class PlayerController
 
         posx = targetPosX;
         posy = targetPosY;
+        AudioController.instance.PlaySound(AudioController.stepSound);
         return true;
     }
 

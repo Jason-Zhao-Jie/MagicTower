@@ -119,6 +119,7 @@ public class EventManager
 
     private bool OpenFreeDoor(Modal caller)
     {
+        AudioController.instance.PlaySound(AudioController.openDoorSound);
         caller.GoToRunState();
         return false;
     }

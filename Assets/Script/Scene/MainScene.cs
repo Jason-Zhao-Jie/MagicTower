@@ -40,17 +40,25 @@ public class MainScene : MonoBehaviour
         topChatSpeaker = topChatPanel.transform.Find("Speaker").gameObject;
         topChatSpeakerText = topChatPanel.transform.Find("SpeakerName").GetComponent<Text>();
         topChatText = topChatPanel.transform.Find("Text").GetComponent<Text>();
+        topChatPanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, topChatPanel.transform.position.y, topChatPanel.transform.position.z);
+        topChatPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(topChatPanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(topChatPanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height/2));
         topChatPanel.SetActive(false);
         bottomChatPanel = dialogCanvas.transform.Find("ChatPanelBottom").gameObject;
         bottomChatSpeaker = bottomChatPanel.transform.Find("Speaker").gameObject;
         bottomChatSpeakerText = bottomChatPanel.transform.Find("SpeakerName").GetComponent<Text>();
         bottomChatText = bottomChatPanel.transform.Find("Text").GetComponent<Text>();
+        bottomChatPanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, bottomChatPanel.transform.position.y, bottomChatPanel.transform.position.z);
+        bottomChatPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(bottomChatPanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(bottomChatPanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height/2));
         bottomChatPanel.SetActive(false);
         tipsPanel = dialogCanvas.transform.Find("TipPanel").gameObject;
         tipsText = tipsPanel.transform.Find("Text").GetComponent<Text>();
+        tipsPanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, tipsPanel.transform.position.y, tipsPanel.transform.position.z);
+        tipsPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(tipsPanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(tipsPanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height / 2));
         tipsPanel.SetActive(false);
         battlePanel = dialogCanvas.transform.Find("BattlePanel").gameObject;
-		battlePanel.SetActive(false);
+        battlePanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, battlePanel.transform.position.y, battlePanel.transform.position.z);
+        battlePanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(battlePanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(battlePanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height));
+        battlePanel.SetActive(false);
 
 		// 关联战斗框的控件
 		playerSprite = battlePanel.transform.Find("Player").gameObject;

@@ -39,7 +39,7 @@ public class EventManager
                     return false;
                 break;
             case Constant.EventType.Battle:
-                if (!OnBattle((int)eventData.dataId))
+                if (!OnBattle(caller.Uuid,eventData.dataId))
                     return false;
                 break;
             case Constant.EventType.Chat:
@@ -73,7 +73,6 @@ public class EventManager
 
     private bool OnGetItem(int itemId)
     {
-
         return false;
     }
 
@@ -83,9 +82,9 @@ public class EventManager
         return false;
     }
 
-    private bool OnBattle(int monsterId)
+    private bool OnBattle(long enemyUuid, long playerUuid)
     {
-
+        MainScene.instance.StartBattle(enemyUuid, playerUuid);
         return false;
     }
 

@@ -1361,7 +1361,7 @@
       "speed": 1,
       "critical": 1,
       "gold": 1,
-      "weaponId": 1,
+      "weaponId": 3,
       "special": []
     },
     {
@@ -1374,7 +1374,7 @@
       "speed": 1,
       "critical": 1,
       "gold": 1,
-      "weaponId": 1,
+      "weaponId": 3,
       "special": []
     },
     {
@@ -1387,7 +1387,7 @@
       "speed": 1,
       "critical": 1,
       "gold": 1,
-      "weaponId": 1,
+      "weaponId": 3,
       "special": []
     },
     {
@@ -1738,7 +1738,7 @@
       "speed": 1,
       "critical": 1,
       "gold": 0,
-      "weaponId": 0,
+      "weaponId": 1,
       "special": []
     },
     {
@@ -1981,25 +1981,9 @@
       "id": 62,
       "level": 1,
       "exp": 0,
-      "life": 1000000,
-      "attack": 120,
-      "defense": 50,
-      "speed": 0,
-      "critical": 5,
-      "gold": 0,
-      "yellowKey": 0,
-      "blueKey": 0,
-      "redKey": 0,
-      "greenKey": 0,
-      "weaponId": 1
-    },
-    {
-      "id": 68,
-      "level": 1,
-      "exp": 0,
-      "life": 1000000,
-      "attack": 120,
-      "defense": 50,
+      "life": 10000,
+      "attack": 12,
+      "defense": 5,
       "speed": 0,
       "critical": 5,
       "gold": 0,
@@ -2008,6 +1992,22 @@
       "redKey": 0,
       "greenKey": 0,
       "weaponId": 2
+    },
+    {
+      "id": 68,
+      "level": 1,
+      "exp": 0,
+      "life": 10000,
+      "attack": 12,
+      "defense": 5,
+      "speed": 0,
+      "critical": 2,
+      "gold": 0,
+      "yellowKey": 0,
+      "blueKey": 0,
+      "redKey": 0,
+      "greenKey": 0,
+      "weaponId": 1
     }
   ],
   "events": [
@@ -2059,48 +2059,64 @@
       "name": "bark",
       "prefabPath": "zzhit_bark",
       "critPrefabPath": "zzhit_bark",
-      "audioId": 0,
-      "critAudioId": 0
+      "audioId": 22,
+      "critAudioId": 23
     },
     {
       "id": 4,
       "name": "magic_big",
       "prefabPath": "zzmagic_big",
       "critPrefabPath": "zzmagic_big_crit",
-      "audioId": 0,
-      "critAudioId": 0
+      "audioId": 33,
+      "critAudioId": 34
     },
     {
       "id": 5,
       "name": "magic_diamond",
       "prefabPath": "zzmagic_diamond",
       "critPrefabPath": "zzmagic_diamond_crit",
-      "audioId": 0,
-      "critAudioId": 0
+      "audioId": 43,
+      "critAudioId": 44
     },
     {
       "id": 6,
       "name": "magic_hurricane",
       "prefabPath": "zzmagic_hurricane",
       "critPrefabPath": "zzmagic_hurricane_crit",
-      "audioId": 0,
-      "critAudioId": 0
+      "audioId": 45,
+      "critAudioId": 46
     },
     {
       "id": 7,
       "name": "magic_mid",
       "prefabPath": "zzmagic_mid",
       "critPrefabPath": "zzmagic_mid_crit",
-      "audioId": 0,
-      "critAudioId": 0
+      "audioId": 47,
+      "critAudioId": 48
     },
     {
       "id": 8,
       "name": "magic_small",
       "prefabPath": "zzmagic_small",
       "critPrefabPath": "zzmagic_small_crit",
-      "audioId": 0,
-      "critAudioId": 0
+      "audioId": 49,
+      "critAudioId": 50
+    },
+    {
+      "id": 9,
+      "name": "nohurt",
+      "prefabPath": "zzhit_nohurt",
+      "critPrefabPath": "zzhit_nohurt_onshield",
+      "audioId": 26,
+      "critAudioId": 27
+    },
+    {
+      "id": 10,
+      "name": "miss",
+      "prefabPath": "zzhit_nohurt",
+      "critPrefabPath": "zzhit_nohurt_onshield",
+      "audioId": 25,
+      "critAudioId": 25
     }
   ],
   "chats": [

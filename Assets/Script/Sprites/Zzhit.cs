@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class Zzhit : MonoBehaviour
 {
-    public int runTime = 30;
+    private int runTime = 15;
 
-    public void SetParam(Constant.WeaponData data){
+    public void SetParam(Constant.WeaponData data, bool crit){
         this.data = data;
+        isCrit = crit;
     }
 
     // Use this for initialization
     void Start()
     {
-        AudioController.instance.PlaySound(data.audioId);
+        AudioController.instance.PlaySound(isCrit ? data.critAudioId : data.audioId);
     }
 
     // Update is called once per frame
@@ -30,10 +31,13 @@ public class Zzhit : MonoBehaviour
             if (MainScene.instance)
             {
                 MainScene.instance.hitter = null;
+                GetComponent<Animator>().enabled = false;
+                transform.SetParent(null);
                 Destroy(gameObject, 0);
             }
         }
     }
 
     private Constant.WeaponData data;
+    private bool isCrit;
 }

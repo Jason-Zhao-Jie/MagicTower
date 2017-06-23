@@ -13,14 +13,14 @@ public static class MathHelper
         var miss = new System.Random().Next(0, 99);
         if (miss <= targetSpeed)
             return -1;
+        var damage = attack - targetDefense;
         if (attack <= targetDefense)
             if (attack > targetDefense - MAX_HURT_ATTACK)
-                return 1;
+                damage = 1;
             else
                 return 0;
-        var damage = attack - targetDefense;
         var crit = new System.Random().Next(0, 999999);
-        if (((double)crit) / 1000000 - critical < double.Epsilon)
+        if (((double)crit) / 1000000 - critical/100 < double.Epsilon)
             return -damage - damage / 2;
         return damage;
     }

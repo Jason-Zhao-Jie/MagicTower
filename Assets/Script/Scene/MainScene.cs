@@ -55,13 +55,12 @@ public class MainScene : MonoBehaviour
         tipsPanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, tipsPanel.transform.position.y, tipsPanel.transform.position.z);
         tipsPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(tipsPanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(tipsPanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height / 2));
         tipsPanel.SetActive(false);
+
+        // 关联战斗框的控件
         battlePanel = dialogCanvas.transform.Find("BattlePanel").gameObject;
         battlePanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, battlePanel.transform.position.y, battlePanel.transform.position.z);
         battlePanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(battlePanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(battlePanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height));
-        battlePanel.SetActive(false);
-
-		// 关联战斗框的控件
-		playerSprite = battlePanel.transform.Find("Player").gameObject;
+        playerSprite = battlePanel.transform.Find("Player").gameObject;
 		playerNameText = battlePanel.transform.Find("Name_Player").GetComponent<Text>();
         playerLifeText = battlePanel.transform.Find("Life_Player").GetComponent<Text>();
         playerAttackText = battlePanel.transform.Find("Attack_Player").GetComponent<Text>();
@@ -73,12 +72,19 @@ public class MainScene : MonoBehaviour
         enemyAttackText = battlePanel.transform.Find("Attack_Enemy").GetComponent<Text>();
         enemyDefenseText = battlePanel.transform.Find("Defense_Enemy").GetComponent<Text>();
         enemySpeedText = battlePanel.transform.Find("Speed_Enemy").GetComponent<Text>();
+        battleResultPanel = battlePanel.transform.Find("BattleResultPanel").gameObject;
+        battleResultGoldText = battleResultPanel.transform.Find("GoldText").GetComponent<Text>();
+        battleResultExpText = battleResultPanel.transform.Find("ExpText").GetComponent<Text>();
+        battleHurtedText = battleResultPanel.transform.Find("HurtedText").GetComponent<Text>();
+        battleResultPanel.SetActive(false);
+        battlePanel.SetActive(false);
 
 
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         MapManager.instance.ShowMap();
         PlayerController.instance.ShowPlayer(true);
+        PlayerController.instance.SyncPlayerData();
         DataCenter.instance.Status = Constant.EGameStatus.InGame;
     }
 
@@ -126,24 +132,77 @@ public class MainScene : MonoBehaviour
     {
         if (battlePanel.activeSelf && !isBattlePaused && DataCenter.instance.Status == Constant.EGameStatus.OnBattle && hitter == null)
         {
-			if (playerBattleData.life <= 0 || enemyBattleData.life <= 0)
-				OnBattleOver(playerBattleData.life);
-            int hurt = 0;
-            if (isOurRound)
+            if (playerBattleData.life <= 0 || enemyBattleData.life <= 0)
             {
-                hurt = MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
-                enemyBattleData.life -= hurt;
-                enemyLifeText.text = enemyBattleData.life.ToString();
+                OnBattleOver(playerBattleData.life);
             }
-
             else
             {
-                hurt = MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
-                playerBattleData.life -= hurt;
-                playerLifeText.text = playerBattleData.life.ToString();
+                int hurt = 0;
+                if (isOurRound)
+                {
+                    hurt = MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
+                    if (hurt == -1)
+                    {
+                        CreateHitter(Constant.MISS_HITTER, true, 0, false);
+                        Debug.Log("Enemy has missed a hurt");
+                    }
+                    else if (hurt == 0)
+                    {
+                        CreateHitter(Constant.NOHURT_HITTER, true, 0, false);
+                        Debug.Log("Enemy was hurted failed");
+                    }
+                    else if (hurt < 0)
+                    {
+                        CreateHitter(playerBattleData.weaponId, true, -hurt, true);
+                        enemyBattleData.life += hurt;
+                        Debug.Log("Enemy was hurted critical : " + -hurt);
+                    }
+                    else
+                    {
+                        CreateHitter(playerBattleData.weaponId, true, hurt, false);
+                        enemyBattleData.life -= hurt;
+                        Debug.Log("Enemy was hurted normally : " + hurt);
+                    }
+                    if (enemyBattleData.life < 0)
+                        enemyBattleData.life = 0;
+                    enemyLifeText.text = enemyBattleData.life.ToString();
+                    ++rounds;
+                }
+
+                else
+                {
+                    hurt = MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
+                    if (hurt == -1)
+                    {
+                        CreateHitter(Constant.MISS_HITTER, false, 0, false);
+                        Debug.Log("Player has missed a hurt");
+                    }
+                    else if (hurt == 0)
+                    {
+                        CreateHitter(Constant.NOHURT_HITTER, false, 0, false);
+                        Debug.Log("Player was hurted failed");
+                    }
+                    else if (hurt < 0)
+                    {
+                        CreateHitter(enemyBattleData.weaponId, false, -hurt, true);
+                        playerBattleData.life += hurt;
+                        Debug.Log("Player was hurted critical : " + -hurt);
+                        hurted -= hurt;
+                    }
+                    else
+                    {
+                        CreateHitter(enemyBattleData.weaponId, false, hurt, false);
+                        playerBattleData.life -= hurt;
+                        Debug.Log("Player was hurted normally : " + hurt);
+                        hurted += hurt;
+                    }
+                    if (playerBattleData.life < 0)
+                        playerBattleData.life = 0;
+                    playerLifeText.text = playerBattleData.life.ToString();
+                }
+                isOurRound = !isOurRound;
             }
-            CreateHitter(isOurRound ? playerBattleData.weaponId : enemyBattleData.weaponId, isOurRound, hurt);
-            isOurRound = !isOurRound;
         }
     }
 
@@ -263,7 +322,8 @@ public class MainScene : MonoBehaviour
         battlePanel.SetActive(true);
         battlePauseChecker = pauseCheck;
         battlePauseEvent = pauseEvent;
-        enemyBattleData = DataCenter.instance.GetMonsterDataById(ModalManager.GetModalByUuid(enemyUuid).ModId);
+        enemyBattleData = DataCenter.instance.GetMonsterDataById(ModalManager.GetModalByUuid(enemyUuid).ModId).Clone();
+        this.enemyUuid = enemyUuid;
         if (yourUuid < 0)
             playerBattleData = new Constant.MonsterData()
             {
@@ -279,14 +339,15 @@ public class MainScene : MonoBehaviour
                 weaponId = PlayerController.instance.Weapon
             };
         else
-            playerBattleData = DataCenter.instance.GetMonsterDataById(ModalManager.GetModalByUuid(yourUuid).ModId);
+            playerBattleData = DataCenter.instance.GetMonsterDataById(ModalManager.GetModalByUuid(yourUuid).ModId).Clone();
 
-        rounds = 0;
+        rounds = 1;
+        hurted = 0;
         isOurRound = true;
 
         var playerModal = DataCenter.instance.GetModalById(playerBattleData.id);
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + playerModal.prefabPath));
-        obj.transform.SetParent(bottomChatPanel.transform);
+        obj.transform.SetParent(battlePanel.transform);
         obj.transform.position = playerSprite.transform.position;
         obj.transform.localScale = blockSize;
         obj.GetComponent<SpriteRenderer>().sortingOrder = playerSprite.GetComponent<SpriteRenderer>().sortingOrder;
@@ -299,7 +360,7 @@ public class MainScene : MonoBehaviour
 
         var enemyModal = DataCenter.instance.GetModalById(enemyBattleData.id);
         obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + enemyModal.prefabPath));
-        obj.transform.SetParent(bottomChatPanel.transform);
+        obj.transform.SetParent(battlePanel.transform);
         obj.transform.position = enemySprite.transform.position;
         obj.transform.localScale = blockSize;
         obj.GetComponent<SpriteRenderer>().sortingOrder = enemySprite.GetComponent<SpriteRenderer>().sortingOrder;
@@ -332,25 +393,39 @@ public class MainScene : MonoBehaviour
     }
 
     public void StopBattle(){
+        battleResultPanel.SetActive(false);
         battlePanel.SetActive(false);
+        ModalManager.GetModalByUuid(enemyUuid).RemoveSelf();
         DataCenter.instance.Status = Constant.EGameStatus.InGame;
         isBattlePaused = false;
     }
 
-    public void CreateHitter(int weaponId, bool isOnEnemy, int damage){
+    public void CreateHitter(int weaponId, bool isOnEnemy, int damage, bool isCritical){
         var data = DataCenter.instance.GetWeaponDataById(weaponId);
-		var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + data.prefabPath));
+		var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + (isCritical?data.critPrefabPath:data.prefabPath)));
 		hitter = obj.GetComponent<Zzhit>();
-        hitter.SetParam(data);
+        hitter.SetParam(data, isCritical);
         obj.transform.SetParent((isOnEnemy ? enemySprite : playerSprite).transform);
         obj.transform.position = obj.transform.parent.position;
-		obj.transform.localScale = blockSize;
+		obj.transform.localScale = blockSize/200;
 		obj.GetComponent<SpriteRenderer>().sortingOrder = obj.transform.parent.GetComponent<SpriteRenderer>().sortingOrder + 1;
     }
 
     private void OnBattleOver(int playerLife){
         isBattlePaused = true;
-        // TODO: Create the result UI
+        battleResultGoldText.text = enemyBattleData.gold.ToString();
+        battleResultExpText.text = enemyBattleData.exp.ToString();
+        battleHurtedText.text = hurted.ToString();
+        battleResultPanel.SetActive(true);
+        // 记录应用战斗结果（金币，经验，血量）
+        if(playerBattleData.id == PlayerController.instance.PlayerId)
+        {
+            PlayerController.instance.Life = playerBattleData.life;
+            PlayerController.instance.Gold += enemyBattleData.gold;
+            PlayerController.instance.Experience += enemyBattleData.exp;
+        }
+
+        DataCenter.instance.Status = Constant.EGameStatus.OnBattleResult;
     }
 
 /********************** Choice Part **************************************/
@@ -491,12 +566,18 @@ public class MainScene : MonoBehaviour
 	private Text enemyAttackText;
 	private Text enemyDefenseText;
 	private Text enemySpeedText;
-	private Constant.MonsterData playerBattleData;
+    private GameObject battleResultPanel;
+    private Text battleResultGoldText;
+    private Text battleResultExpText;
+    private Text battleHurtedText;
+    private long enemyUuid;
+    private Constant.MonsterData playerBattleData;
 	private Constant.MonsterData enemyBattleData;
     private Constant.BattlePauseEventCheck battlePauseChecker;
     private int battlePauseEvent;
     private bool isBattlePaused;
     private int rounds;
+    private int hurted;
     private bool isOurRound;
     internal Zzhit hitter;
 }

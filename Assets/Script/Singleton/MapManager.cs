@@ -126,6 +126,7 @@ public class MapManager
             mapId--;
         if (maps[mapId] == null)
             maps[mapId] = DataCenter.instance.data.GetCopiedMap(mapId);
+        ModalManager.RemoveMod(mapId * 10000 + posy + posx * 100);
         maps[mapId].mapBlocks[posx][posy].thing = thingId;
     }
 

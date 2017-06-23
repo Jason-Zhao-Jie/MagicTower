@@ -60,6 +60,8 @@ public class InputController
 				break;
 			case Constant.EGameStatus.OnBattle:
 				break;
+            case Constant.EGameStatus.OnBattleResult:
+                break;
             case Constant.EGameStatus.OnSmallGame:
                 break;
 			default:
@@ -96,9 +98,19 @@ public class InputController
 				break;
 			case Constant.EGameStatus.OnMiddleLoading:
 				break;
-			case Constant.EGameStatus.OnBattle:
-				break;
-			case Constant.EGameStatus.OnSmallGame:
+            case Constant.EGameStatus.OnBattle:
+                break;
+            case Constant.EGameStatus.OnBattleResult:
+                switch (keyCode)
+                {
+                    case KeyCode.Return:
+                    case KeyCode.KeypadEnter:
+                    case KeyCode.Space:
+                        MainScene.instance.StopBattle();
+                        break;
+                }
+                break;
+            case Constant.EGameStatus.OnSmallGame:
 				break;
 			default:
 				break;
@@ -115,11 +127,11 @@ public class InputController
             case Constant.EGameStatus.InGame:
                 break;
             case Constant.EGameStatus.InEditor:
-                    DataEditorScene.instance.OnMapClicked(touchedPos);
+                DataEditorScene.instance.OnMapClicked(touchedPos);
                 break;
             case Constant.EGameStatus.OnCG:
                 break;
-			case Constant.EGameStatus.OnTipChat:
+            case Constant.EGameStatus.OnTipChat:
                 MainScene.instance.ChatStepOn();
                 break;
             case Constant.EGameStatus.OnDialog:
@@ -127,6 +139,9 @@ public class InputController
             case Constant.EGameStatus.OnMiddleLoading:
                 break;
             case Constant.EGameStatus.OnBattle:
+                break;
+            case Constant.EGameStatus.OnBattleResult:
+                MainScene.instance.StopBattle();
                 break;
             case Constant.EGameStatus.OnSmallGame:
                 break;

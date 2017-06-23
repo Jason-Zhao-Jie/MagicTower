@@ -248,6 +248,20 @@ public class PlayerController
         }
     }
 
+    public void SyncPlayerData()
+    {
+        MainScene.instance.Level = data.level.ToString();
+        MainScene.instance.Experience = data.exp.ToString();
+        MainScene.instance.Life = data.life.ToString();
+        MainScene.instance.Attack = data.attack.ToString();
+        MainScene.instance.Defense = data.defense.ToString();
+        MainScene.instance.Speed = data.speed.ToString();
+        MainScene.instance.Gold = data.gold.ToString();
+        MainScene.instance.YellowKey = data.yellowKey.ToString();
+        MainScene.instance.BlueKey = data.blueKey.ToString();
+        MainScene.instance.RedKey = data.redKey.ToString();
+    }
+
     public void StartWalk(Direction dir = Direction.Default)
     {
         if (dir != Direction.Default)

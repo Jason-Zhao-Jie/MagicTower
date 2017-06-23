@@ -3,6 +3,10 @@ public static class Constant
 	public const string AUDIO_DIR = "Audio/";
     public const string PREFAB_DIR = "Prefab/";
     public const string MAP_DATA_DIR = "MapData/";
+
+    public const int MISS_HITTER = 9;       // TODO: To set the right "MISS" icon
+    public const int NOHURT_HITTER = 9;
+
     public const int MAP_BLOCK_LENGTH = 18;
 	public const int MAP_BLOCK_BASE_SIZE = 32;
 
@@ -39,6 +43,7 @@ public static class Constant
         InEditor,
 		OnMiddleLoading,
 		OnBattle,
+        OnBattleResult,
 		OnTipChat,
 		OnDialog,
 		OnCG,
@@ -117,6 +122,23 @@ public static class Constant
 		public int gold;
 		public int[] special;
 		public int weaponId;
+
+        public MonsterData Clone()
+        {
+            return new MonsterData()
+            {
+                id = id,
+                level = level,
+                exp = exp,
+                life = life,
+                attack = attack,
+                defense = defense,
+                speed = speed,
+                gold = gold,
+                special = special,
+                weaponId = weaponId,
+            };
+        }
 	}
 
 	[System.Serializable]

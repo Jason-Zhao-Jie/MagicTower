@@ -82,6 +82,9 @@ public class Modal : MonoBehaviour
 
     public Animator animator { get { return GetComponent<Animator>(); } }
     public int ModId { get { return modId; } }
+    public int MapId { get { return mapId; } }
+    public int PosX { get { return posx; } }
+    public int PosY { get { return posy; } }
 
     private int eventId = 0;
     private sbyte posx = -1;

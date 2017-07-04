@@ -10,7 +10,7 @@ public static class Constant
     public const int MAP_BLOCK_LENGTH = 18;
 	public const int MAP_BLOCK_BASE_SIZE = 32;
 
-	public delegate bool EventCallback(Modal caller);
+	public delegate bool EventCallback(Modal caller, long eventData);
     public delegate bool BattlePauseEventCheck();
 
 	public enum EventType

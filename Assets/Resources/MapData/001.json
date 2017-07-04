@@ -2,7 +2,7 @@
   "mapId": 1,
   "mapName": "Floor 1",
   "backThing": 138,
-  "music": 59,
+  "music": 9,
   "mapBlocks": [
     [
       {
@@ -646,7 +646,7 @@
         "thing": 0
       },
       {
-        "eventId": 0,
+        "eventId": 4,
         "thing": 107
       },
       {
@@ -720,7 +720,7 @@
         "thing": 0
       },
       {
-        "eventId": 0,
+        "eventId": 4,
         "thing": 107
       },
       {
@@ -794,7 +794,7 @@
         "thing": 0
       },
       {
-        "eventId": 0,
+        "eventId": 4,
         "thing": 107
       },
       {

@@ -9,6 +9,9 @@ public class EventManager
         RegistEvent(0, null);
         RegistEvent(1, null);
         RegistEvent(2, OpenFreeDoor);
+        RegistEvent(6, OpenNormalDoor);
+        RegistEvent(7, RemoveEventAtBlock);
+
     }
 
     public bool DispatchEvent(int eventId, Modal caller)
@@ -60,7 +63,7 @@ public class EventManager
         if (!eventList.ContainsKey(eventId))
             return true;
         var cb = eventList[eventId];
-        return cb == null || cb(caller);
+        return cb == null || cb(caller, eventData.dataId);
     }
 
     private bool OnSend(int destinationPosx, int destinationPosy, int targetMapId = 0)
@@ -116,10 +119,56 @@ public class EventManager
 
     // The special event callbacks are below
 
-    private bool OpenFreeDoor(Modal caller)
+    private bool OpenFreeDoor(Modal caller, long data)
     {
         AudioController.instance.PlaySound(AudioController.openDoorSound);
         caller.GoToRunState();
+        return false;
+    }
+
+    private bool OpenNormalDoor(Modal caller, long data)
+    {
+        switch (caller.ModId)
+        {
+            case 148:
+                if (PlayerController.instance.YellowKey <= 0)
+                    return false;
+                --PlayerController.instance.YellowKey;
+                break;
+            case 10:
+                if (PlayerController.instance.BlueKey <= 0)
+                    return false;
+                --PlayerController.instance.BlueKey;
+                break;
+            case 79:
+                if (PlayerController.instance.RedKey <= 0)
+                    return false;
+                --PlayerController.instance.RedKey;
+                break;
+            case 99999: // TODO: have not set the green door's modal
+                if (PlayerController.instance.GreenKey <= 0)
+                    return false;
+                --PlayerController.instance.GreenKey;
+                break;
+            case 19:    // brozen
+            case 100:   // silver
+            case 44:    // gold
+                return false;
+        }
+        AudioController.instance.PlaySound(AudioController.openDoorSound);
+        caller.GoToRunState();
+        return false;
+    }
+
+    private bool RemoveEventAtBlock(Modal caller, long data)
+    {
+        if (data == 0)
+            if (caller == null)
+                MapManager.instance.RemoveEventOn(PlayerController.instance.posx, PlayerController.instance.posy);
+            else
+                MapManager.instance.RemoveEventOn(caller.PosX, caller.PosY, caller.MapId - 1);
+        else
+            MapManager.instance.RemoveEventOn((int)(data / 100 % 100), (int)(data % 100), (int)(data / 10000));
         return false;
     }
 }

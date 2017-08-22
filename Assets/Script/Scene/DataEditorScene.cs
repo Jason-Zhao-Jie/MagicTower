@@ -157,6 +157,7 @@ public class DataEditorScene : MonoBehaviour
 
 	}
 
+    // "Map"按钮回调
     public void OnChangeToMaps()
     {
         mapMakerCanvas.SetActive(true);
@@ -164,6 +165,7 @@ public class DataEditorScene : MonoBehaviour
         eventMakerCanvas.SetActive(false);
     }
 
+    // Modal&Audio按钮回调
     public void OnChangeToModals()
     {
         mapMakerCanvas.SetActive(false);
@@ -171,6 +173,7 @@ public class DataEditorScene : MonoBehaviour
         eventMakerCanvas.SetActive(false);
     }
 
+    // Event 按钮回调
     public void OnChangeToAudioAndEvents()
     {
         mapMakerCanvas.SetActive(false);
@@ -178,6 +181,7 @@ public class DataEditorScene : MonoBehaviour
         eventMakerCanvas.SetActive(true);
     }
 
+    // GetDataJson按钮回调
     public void OnSave()
     {
         if (saveResult.activeSelf == false)
@@ -195,6 +199,7 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
+    // GetMapJson 按钮回调
     public void OnMapSave()
     {
         if (saveResult.activeSelf == false)
@@ -212,6 +217,7 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
+    // Refresh audios 按钮回调
 	public void OnRefreshAudio()
 	{
 		var allAudios = Resources.LoadAll<AudioClip>(Constant.AUDIO_DIR);
@@ -226,6 +232,7 @@ public class DataEditorScene : MonoBehaviour
 		PlatformUIManager.ShowMessageBox("音效表刷新成功，请立即保存配置然后重新启动游戏！");
 	}
 
+    // Auto collect prefabs 按钮回调
 	public void OnRefreshPrefab()
 	{
         Constant.ModalData[] prefabData = new Constant.ModalData[allPrefabs.Length];
@@ -242,6 +249,7 @@ public class DataEditorScene : MonoBehaviour
 		PlatformUIManager.ShowMessageBox("模型表刷新成功，请立即保存配置然后重新启动游戏！");
 	}
 
+    // 添加物体到map panel
     public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2)
 	{
 		obj.transform.SetParent(mapMakerCanvas.transform.Find("MapPanel"));
@@ -252,11 +260,13 @@ public class DataEditorScene : MonoBehaviour
         obj.transform.localScale = blockSize;
     }
 
+    // 关闭(X)按钮回调
     public void OnExitEditor()
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
     }
 
+    // modal部分modal选择框
     public void OnModalSelected(int index)
     {
         if (index == 0)
@@ -305,6 +315,7 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
+    // Reset 按钮回调
     public void OnReset(int part)
     {
         switch (part)
@@ -321,6 +332,7 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
+    // Apply modal 按钮回调
     public void OnModalApply()
     {
         var index = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>().value;
@@ -364,6 +376,7 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
+    // Weapon选择框回调
     public void OnWeaponSelected(int index)
     {
         if (index == 0)
@@ -374,6 +387,7 @@ public class DataEditorScene : MonoBehaviour
         modalMakerCanvas.transform.Find("WeaponPrefab").GetComponent<InputField>().text = DataCenter.instance.data.weapons[index].prefabPath;
     }
 
+    // Apply Weapon 按钮回调
     public void OnWeaponApply()
     {
         var index = modalMakerCanvas.transform.Find("WeaponId").GetComponent<Dropdown>().value;
@@ -383,6 +397,7 @@ public class DataEditorScene : MonoBehaviour
         DataCenter.instance.data.weapons[index].prefabPath = modalMakerCanvas.transform.Find("WeaponPrefab").GetComponent<InputField>().text;
     }
 
+    // Add map, Add modal, Add weapon 按钮的回调
     public void OnAdd(int index)
     {
         switch (index)
@@ -423,6 +438,7 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
+    // Apply Map 回调
     public void OnMapApply()
     {
         var panel = mapMakerCanvas.transform.Find("SetPanel");
@@ -440,7 +456,7 @@ public class DataEditorScene : MonoBehaviour
 		DataCenter.instance.data.GetGameMap(mapId).mapBlocks[posx][posy].eventId = eventId;
     }
 
-
+    // Map选择框回调
 	void OnMapSelected()
 	{
 		var panel = mapMakerCanvas.transform.Find("SetPanel");
@@ -448,12 +464,12 @@ public class DataEditorScene : MonoBehaviour
         panel.transform.Find("MapName").GetComponent<InputField>().text = DataCenter.instance.data.GetGameMap(mapId).mapName;
         panel.transform.Find("Music").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId).music - 1;
         panel.transform.Find("BackModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId).backThing - 1;
-        OnMapModalSelected(true);
-		OnMapClicked(new Vector3(0, 0));
 		MapManager.instance.ShowMap(mapId);
+        OnMapClicked(new Vector3(0, 0));
         AudioController.instance.StopMusic();
     }
 
+    // Map地图块物品选择框回调
     public void OnMapModalSelected(bool isBack)
     {
         if (isBack)
@@ -464,10 +480,11 @@ public class DataEditorScene : MonoBehaviour
         else
         {
             var index = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>().value;
-            MapManager.instance.ChangeOneBlock(DataCenter.instance.GetModalById(index + 1).prefabPath, posx, posy);
+            MapManager.instance.ChangeThingOnMap(index + 1, posx, posy);
         }
     }
 
+    // Map选定地图块位置的回调
     public void OnMapClicked(Vector3 pos)
     {
         if (!mapMakerCanvas.activeSelf)
@@ -489,10 +506,10 @@ public class DataEditorScene : MonoBehaviour
             panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
             panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].thing - 1;
             panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].eventId - 1;
-            OnMapModalSelected(false);
         }
     }
 
+    // 音乐播放键回调
     public void OnPlay(int index)
     {
         switch (index)

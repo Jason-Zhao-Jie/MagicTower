@@ -236,9 +236,9 @@ public class MainScene : MonoBehaviour
         obj.GetComponent<SpriteRenderer>().sortingOrder = topChatSpeaker.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = topChatSpeaker.GetComponent<Modal>();
         if (mod != null)
-            mod.DestroySelf();
+            mod.RemoveSelf(false);
         else
-            bottomChatSpeaker.GetComponent<Player>().DestroySelf();
+            bottomChatSpeaker.GetComponent<Player>().RemoveSelf();
         topChatSpeaker = obj;
         topChatSpeakerText.text = modal.name;
         topChatText.text = content;
@@ -260,9 +260,9 @@ public class MainScene : MonoBehaviour
         obj.GetComponent<SpriteRenderer>().sortingOrder = bottomChatSpeaker.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = bottomChatSpeaker.GetComponent<Modal>();
         if (mod != null)
-            mod.DestroySelf();
+            mod.RemoveSelf(false);
         else
-            bottomChatSpeaker.GetComponent<Player>().DestroySelf();
+            bottomChatSpeaker.GetComponent<Player>().RemoveSelf();
         bottomChatSpeaker = obj;
         bottomChatSpeakerText.text = modal.name;
         bottomChatText.text = content;
@@ -322,7 +322,7 @@ public class MainScene : MonoBehaviour
         battlePanel.SetActive(true);
         battlePauseChecker = pauseCheck;
         battlePauseEvent = pauseEvent;
-        enemyBattleData = DataCenter.instance.GetMonsterDataById(ModalManager.GetModalByUuid(enemyUuid).ModId).Clone();
+        enemyBattleData = MapManager.instance.GetMonsterDataByUuid(enemyUuid);
         this.enemyUuid = enemyUuid;
         if (yourUuid < 0)
             playerBattleData = new Constant.MonsterData()
@@ -339,7 +339,7 @@ public class MainScene : MonoBehaviour
                 weaponId = PlayerController.instance.Weapon
             };
         else
-            playerBattleData = DataCenter.instance.GetMonsterDataById(ModalManager.GetModalByUuid(yourUuid).ModId).Clone();
+            playerBattleData = MapManager.instance.GetMonsterDataByUuid(yourUuid);
 
         rounds = 1;
         hurted = 0;
@@ -353,9 +353,9 @@ public class MainScene : MonoBehaviour
         obj.GetComponent<SpriteRenderer>().sortingOrder = playerSprite.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = playerSprite.GetComponent<Modal>();
         if (mod != null)
-            mod.DestroySelf();
+            mod.RemoveSelf(false);
         else
-            playerSprite.GetComponent<Player>().DestroySelf();
+            playerSprite.GetComponent<Player>().RemoveSelf();
         playerSprite = obj;
 
         var enemyModal = DataCenter.instance.GetModalById(enemyBattleData.id);
@@ -366,9 +366,9 @@ public class MainScene : MonoBehaviour
         obj.GetComponent<SpriteRenderer>().sortingOrder = enemySprite.GetComponent<SpriteRenderer>().sortingOrder;
         mod = enemySprite.GetComponent<Modal>();
         if (mod != null)
-            mod.DestroySelf();
+            mod.RemoveSelf(false);
         else
-            enemySprite.GetComponent<Player>().DestroySelf();
+            enemySprite.GetComponent<Player>().RemoveSelf();
         enemySprite = obj;
 
 		playerNameText.text = playerModal.name;
@@ -395,7 +395,7 @@ public class MainScene : MonoBehaviour
     public void StopBattle(){
         battleResultPanel.SetActive(false);
         battlePanel.SetActive(false);
-        ModalManager.GetModalByUuid(enemyUuid).RemoveSelf();
+        MapManager.instance.RemoveThingOnMapWithModal(enemyUuid);
         DataCenter.instance.Status = Constant.EGameStatus.InGame;
         isBattlePaused = false;
     }

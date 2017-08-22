@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 public class MapManager
 {
     public static MapManager instance = null;
@@ -12,12 +13,14 @@ public class MapManager
         currentFloor = floorId;
     }
 
-    public bool ShowMap(int floorId = 0)
+    public bool ShowMap()
     {
-        if (floorId != 0)
-        {
-            currentFloor = floorId;
-        }
+        return ShowMap(currentFloor);
+    }
+
+    public bool ShowMap(int floorId)
+    {
+        currentFloor = floorId;
         if (currentFloor < 0)
             return false;
 
@@ -28,29 +31,9 @@ public class MapManager
         for (int x = 0; x < maps[currentFloor].mapBlocks.Length; ++x)
             for (int y = 0; y < maps[currentFloor].mapBlocks[x].Length; ++y)
             {
-                UnityEngine.GameObject obj = null;
                 long uuid = maps[currentFloor].mapId * 10000 + y + x * 100;
-                if (ModalManager.Contains(uuid))
-                    obj = ModalManager.GetObjectByUuid(uuid);
-                else
-                {
-                    var thingId = maps[currentFloor].mapBlocks[x][y].thing;
-                    if (thingId > 0)
-                    {
-                        var modal = DataCenter.instance.GetModalById(thingId);
-                        obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
-                        var cmp = obj.GetComponent<Modal>();
-                        cmp.InitWithMapPos(maps[currentFloor].mapId, (sbyte)x, (sbyte)y, modal);
-                    }
-                }
-                if (obj != null)
-                {
-                    obj.name = "MapBlock_" + x.ToString() + "_" + y.ToString();
-                    if (MainScene.instance != null)
-                        MainScene.instance.AddObjectToMap(obj, x, y, -2);
-                    else if (DataEditorScene.instance != null)
-                        DataEditorScene.instance.AddObjectToMap(obj, x, y, -2);
-                }
+                var thingId = maps[currentFloor].mapBlocks[x][y].thing;
+                AddObjectToMap(x, y, thingId);
             }
 
         // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识
@@ -70,10 +53,11 @@ public class MapManager
 
     public void ClearMap()
     {
-        if (MainScene.instance != null)
-            MainScene.instance.transform.Find("MapPanel").transform.DetachChildren();
-        if (DataEditorScene.instance != null)
-            UnityEngine.GameObject.Find("MapPanel").transform.BroadcastMessage("RemoveSelf");
+        foreach (var e in modals)
+        {
+            e.Value.RemoveSelf(false);
+        }
+        modals.Clear();
     }
 
     public void ChangeBack(string prefab)
@@ -84,41 +68,43 @@ public class MapManager
             DataEditorScene.instance.BackgroundImage = prefab;
     }
 
-    public void ChangeOneBlock(string prefab, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
+    public void ChangeThingOnMap(int thingId, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
     {
         if (oldPosx >= 0 && oldPosy >= 0)
             UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.GetModalById(maps[currentFloor].mapBlocks[oldPosx][oldPosy].thing).prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
-        if (UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + posx + "_" + posy) == null)
+        if (maps[currentFloor].mapBlocks[posx][posy].thing == thingId)
+            return;
+        maps[currentFloor].mapBlocks[posx][posy].thing = thingId;
+        long uuid = maps[currentFloor].mapId * 10000 + posy + posx * 100;
+        if (modals.ContainsKey(uuid))
         {
-            UnityEngine.GameObject obj = null;
-            long uuid = maps[currentFloor].mapId * 10000 + posy + posx * 100;
-            if (ModalManager.Contains(uuid))
-                obj = ModalManager.GetObjectByUuid(uuid);
-            else
-            {
-                var thingId = maps[currentFloor].mapBlocks[posx][posy].thing;
-                if (thingId > 0)
-                {
-                    var modal = DataCenter.instance.GetModalById(thingId);
-                    obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
-                    var cmp = obj.GetComponent<Modal>();
-                    cmp.InitWithMapPos(maps[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
-                }
-            }
-            if (obj != null)
-            {
-                obj.name = "MapBlock_" + posx + "_" + posy;
-                if (MainScene.instance != null)
-                    MainScene.instance.AddObjectToMap(obj, posx, posy, -2);
-                else if (DataEditorScene.instance != null)
-                    DataEditorScene.instance.AddObjectToMap(obj, posx, posy, -2);
-            }
+            RemoveThingOnMapWithModal(uuid);
         }
-        else
-            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + posx + "_" + posy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + prefab).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+        AddObjectToMap(posx, posy, thingId);
     }
 
-    public void ChangeThingOnMap(int posx, int posy, int thingId = 0, int mapId = -1)
+    public void AddObjectToMap(int posx, int posy, int thingId)
+    {
+        UnityEngine.GameObject obj = null;
+        if (thingId > 0)
+        {
+            var modal = DataCenter.instance.GetModalById(thingId);
+            obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
+            var cmp = obj.GetComponent<Modal>();
+            cmp.InitWithMapPos(maps[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
+        }
+        if (obj != null)
+        {
+            obj.name = "MapBlock_" + posx.ToString() + "_" + posy.ToString();
+            if (MainScene.instance != null)
+                MainScene.instance.AddObjectToMap(obj, posx, posy, -2);
+            else if (DataEditorScene.instance != null)
+                DataEditorScene.instance.AddObjectToMap(obj, posx, posy, -2);
+        }
+    }
+
+    // 从地图上永久删除mod的信息. 
+    public void RemoveThingOnMap(int posx, int posy, int mapId = -1)
     {
         if (mapId < 0)
             mapId = currentFloor;
@@ -126,8 +112,22 @@ public class MapManager
             mapId--;
         if (maps[mapId] == null)
             maps[mapId] = DataCenter.instance.data.GetCopiedMap(mapId);
-        ModalManager.RemoveMod(mapId * 10000 + posy + posx * 100);
-        maps[mapId].mapBlocks[posx][posy].thing = thingId;
+        maps[mapId].mapBlocks[posx][posy].thing = 0;
+    }
+
+    // 从地图上永久删除mod,用uuid
+    public void RemoveThingOnMapWithModal(long uuid)
+    {
+        modals[uuid].RemoveSelf();
+    }
+    public void RemoveThingOnMapWithModal(int posx, int posy, int mapId = -1)
+    {
+        if (mapId < 0)
+            mapId = currentFloor;
+        else
+            mapId--;
+        long uuid = mapId * 10000 + posx * 100 + posy;
+        modals[uuid].RemoveSelf();
     }
 
     public void ChangeEventOnMap(int posx, int posy, int eventId = 0, int mapId = -1)
@@ -165,6 +165,32 @@ public class MapManager
         return SetEventOn(0, posx, posy, floorId);
     }
 
+    public Constant.MonsterData GetMonsterDataByUuid(long uuid)
+    {
+        var modId = modals[uuid].ModId;
+        return DataCenter.instance.GetMonsterDataById(modId).Clone();
+    }
+
+    public Modal GetModalByUuid(long uuid)
+    {
+        if (modals.ContainsKey(uuid))
+            return modals[uuid];
+        return null;
+    }
+
+    public bool AddMod(long uuid, Modal mod)
+    {
+        if (modals.ContainsKey(uuid))
+            return false;
+        modals.Add(uuid, mod);
+        return true;
+    }
+
+    public void RemoveMod(long uuid)
+    {
+        modals.Remove(uuid);
+    }
+
     public Constant.MapData[] MapData { get { return maps; } }
     public Constant.MapData this[int index] { get { return maps[index]; } }
     public Constant.MapData CurrentMap { get { return maps[currentFloor]; } }
@@ -172,4 +198,5 @@ public class MapManager
 
     private int currentFloor;
     private Constant.MapData[] maps;
+    private Dictionary<long, Modal> modals = new Dictionary<long, Modal>();
 }

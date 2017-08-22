@@ -43,8 +43,7 @@ public class Modal : MonoBehaviour
         this.posx = posx;
         this.posy = posy;
         uuid = mapId * 10000 + posy + posx * 100;
-		ModalManager.AddMod(uuid, this);
-
+        MapManager.instance.AddMod(uuid, this);
     }
 
     public void GoToRunState()
@@ -56,20 +55,22 @@ public class Modal : MonoBehaviour
         timeBeforeRemove = 0;
     }
 
-    public void RemoveSelf(){
-        MapManager.instance.ChangeThingOnMap(posx, posy, 0, mapId);
-        Destroy(gameObject);
-    }
-
-    public void DestroySelf()
+    public void RemoveSelf(bool callManager = true)
     {
-        Destroy(gameObject);
+        if (callManager)
+            MapManager.instance.RemoveThingOnMap(posx, posy, mapId);
+        MapManager.instance.RemoveMod(uuid);
+        if (gameObject != null)
+            Destroy(gameObject);
+        else
+            Destroy(this);
     }
 
     // Use this for initialization
     void Start(){
         if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("KeyEvent"))
             animator.enabled = false;
+        
     }
     // Update is called once per frame
     void Update()
@@ -78,6 +79,10 @@ public class Modal : MonoBehaviour
             timeBeforeRemove += Time.deltaTime;
         if (timeBeforeRemove - RUN_STATE_DELAY > double.Epsilon)
             RemoveSelf();
+    }
+
+    private void OnDestroy()
+    {
     }
 
     public Animator animator { get { return GetComponent<Animator>(); } }

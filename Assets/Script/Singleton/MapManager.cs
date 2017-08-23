@@ -31,7 +31,6 @@ public class MapManager
         for (int x = 0; x < maps[currentFloor].mapBlocks.Length; ++x)
             for (int y = 0; y < maps[currentFloor].mapBlocks[x].Length; ++y)
             {
-                long uuid = maps[currentFloor].mapId * 10000 + y + x * 100;
                 var thingId = maps[currentFloor].mapBlocks[x][y].thing;
                 AddObjectToMap(x, y, thingId);
             }
@@ -53,9 +52,10 @@ public class MapManager
 
     public void ClearMap()
     {
-        foreach (var e in modals)
+        var vs = new List<long>(modals.Keys);
+        for (int i = 0; i < vs.Count; ++i)
         {
-            e.Value.RemoveSelf(false);
+            modals[vs[i]].RemoveSelf(false);
         }
         modals.Clear();
     }

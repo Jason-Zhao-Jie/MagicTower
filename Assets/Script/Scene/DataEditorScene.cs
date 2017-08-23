@@ -57,6 +57,7 @@ public class DataEditorScene : MonoBehaviour
                 modalList.Add(DataCenter.instance.data.modals[i].id + ". " + DataCenter.instance.data.modals[i].name);
             }
             backModal.AddOptions(modalList);
+            modalList.Insert(0, "None");
             currentModal.AddOptions(modalList);
 
             var eventId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("EventId").GetComponent<Dropdown>();
@@ -446,7 +447,7 @@ public class DataEditorScene : MonoBehaviour
         var mapName = panel.transform.Find("MapName").GetComponent<InputField>().text;
         var bgMusic = panel.transform.Find("Music").GetComponent<Dropdown>().value + 1;
 		var bgModal = panel.transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
-		var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value + 1;
+		var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value;
 		var eventId = panel.transform.Find("EventId").GetComponent<Dropdown>().value + 1;
 
 		DataCenter.instance.data.GetGameMap(mapId).mapName = mapName;
@@ -480,7 +481,7 @@ public class DataEditorScene : MonoBehaviour
         else
         {
             var index = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>().value;
-            MapManager.instance.ChangeThingOnMap(index + 1, posx, posy);
+            MapManager.instance.ChangeThingOnMap(index, posx, posy);
         }
     }
 
@@ -504,7 +505,7 @@ public class DataEditorScene : MonoBehaviour
             var panel = mapMakerCanvas.transform.Find("SetPanel");
             var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
             panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
-            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].thing - 1;
+            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].thing;
             panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].eventId - 1;
         }
     }

@@ -15,12 +15,12 @@ public class MapManager
 
     public bool ShowMap()
     {
-        return ShowMap(currentFloor);
+        return ShowMap(currentFloor + 1);
     }
 
-    public bool ShowMap(int floorId)
+    public bool ShowMap(int mapid)
     {
-        currentFloor = floorId;
+        currentFloor = mapid - 1;
         if (currentFloor < 0)
             return false;
 

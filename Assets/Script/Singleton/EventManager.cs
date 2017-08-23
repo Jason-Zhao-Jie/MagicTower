@@ -46,12 +46,14 @@ public class EventManager
     // The special event callbacks are below
     private bool OnSend(Modal caller, long eventData)
     {
+        DataCenter.instance.Status = Constant.EGameStatus.OnMiddleLoading;
         int posx = (int)(eventData / 100 % 100);
         int posy = (int)(eventData % 100);
         int mapId = (int)(eventData / 10000);
         if (mapId > 0 && mapId != MapManager.instance.CurrentMap.mapId)
             MapManager.instance.ShowMap(mapId);
         PlayerController.instance.ShowPlayer(posx, posy);
+        DataCenter.instance.Status = Constant.EGameStatus.InGame;
         return false;
     }
 
@@ -60,6 +62,8 @@ public class EventManager
         var type = (Constant.ResourceType)(eventData % 100);
         var count = (int)(eventData / 100);
         PlayerController.instance.ChangePlayerData(type, count);
+        AudioController.instance.PlaySound(AudioController.itemGetSound);
+        caller.RemoveSelf();
         return false;
     }
 

@@ -12,8 +12,8 @@ public class EventManager
             {EventName.NormalChat, OnChat},
             {EventName.NormalChoice, OnChoice},
             {EventName.CallGame, OnGame},
-            {EventName.GetPropertyItem, OnGetPropertyItem},
-            {EventName.GetResourceItem, OnGetResourceItem},
+            {EventName.GetBaseResourceItem, OnGetBaseResourceItem},
+            {EventName.GetFunctionItem, OnGetFunctionItem},
             {EventName.OpenNormalDoor, OpenNormalDoor},
         };
     }
@@ -34,8 +34,8 @@ public class EventManager
         NormalChat = 4,
         NormalChoice = 5,
         CallGame = 6,
-        GetPropertyItem = 7,
-        GetResourceItem = 8,
+        GetBaseResourceItem = 7,
+        GetFunctionItem = 8,
         OpenNormalDoor = 9,
     }
 
@@ -53,12 +53,15 @@ public class EventManager
         return false;
     }
 
-    private bool OnGetPropertyItem(Modal caller, long eventData)
+    private bool OnGetBaseResourceItem(Modal caller, long eventData)
     {
+        var type = (Constant.ResourceType)(eventData % 100);
+        var count = (int)(eventData / 100);
+        PlayerController.instance.ChangePlayerData(type, count);
         return false;
     }
 
-    private bool OnGetResourceItem(Modal caller, long eventData)
+    private bool OnGetFunctionItem(Modal caller, long eventData)
     {
         return false;
     }

@@ -13,27 +13,31 @@ public static class Constant
 	public delegate bool EventCallback(Modal caller, long blockData);
     public delegate bool BattlePauseEventCheck();
 
-	public enum EventType
-	{
-		Unknown,
-		Send,       // Send player to another place in this or another floor, most stairs include this event.
-		GetItem,    // Get an item, most items include this event
-		Battle,     // Only have a fight, most normal monsters have this event.
-		Chat,       // Chat with somebody
-		Choice,     // Need to make a choice and will call another event.
-		Game,       // Will play a small game
-		Others,     // Call a self-determine function to do something, like "OpenDoor"
-	}
+    public enum ResourceType
+    {
+        Unknown = 0,
+        Life = 1,
+        Attack = 2,
+        Defense = 3,
+        Level = 4,
+        Experience = 5,
+        Speed = 6,
+        Critical = 7,
+        Gold = 8,
+        YellowKey = 9,
+        BlueKey = 10,
+        RedKey = 11,
+        GreenKey = 12,
+    }
 
-	public enum ChatType
+    public enum ChatType
 	{
 		None,
 		Bubble,
 		Tip,
 		Center,
 		Bottom,
-		Top
-
+		Top,
 	}
 
 	public enum EGameStatus

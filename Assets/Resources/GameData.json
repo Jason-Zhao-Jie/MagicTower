@@ -53,14 +53,16 @@
       "id": 8,
       "typeId": 3,
       "prefabPath": "BlueBottle",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 50001,
       "name": "BlueBottle"
     },
     {
       "id": 9,
       "typeId": 3,
       "prefabPath": "BlueDiamond",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 303,
       "name": "BlueDiamond"
     },
     {
@@ -88,7 +90,8 @@
       "id": 13,
       "typeId": 3,
       "prefabPath": "BlueKey",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 110,
       "name": "BlueKey"
     },
     {
@@ -165,7 +168,8 @@
       "id": 24,
       "typeId": 3,
       "prefabPath": "Coin",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 10008,
       "name": "Coin"
     },
     {
@@ -333,14 +337,16 @@
       "id": 48,
       "typeId": 3,
       "prefabPath": "GreenBottle",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 100001,
       "name": "GreenBottle"
     },
     {
       "id": 49,
       "typeId": 3,
       "prefabPath": "GreenDiamond",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 106,
       "name": "GreenDiamond"
     },
     {
@@ -368,7 +374,8 @@
       "id": 53,
       "typeId": 3,
       "prefabPath": "GreenKey",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 112,
       "name": "GreenKey"
     },
     {
@@ -536,14 +543,16 @@
       "id": 77,
       "typeId": 3,
       "prefabPath": "RedBottle",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 15001,
       "name": "RedBottle"
     },
     {
       "id": 78,
       "typeId": 3,
       "prefabPath": "RedDiamond",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 302,
       "name": "RedDiamond"
     },
     {
@@ -564,7 +573,8 @@
       "id": 81,
       "typeId": 3,
       "prefabPath": "RedKey",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 111,
       "name": "RedKey"
     },
     {
@@ -1019,14 +1029,16 @@
       "id": 146,
       "typeId": 3,
       "prefabPath": "YellowBottle",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 35001,
       "name": "YellowBottle"
     },
     {
       "id": 147,
       "typeId": 3,
       "prefabPath": "YellowDiamond",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 107,
       "name": "YellowDiamond"
     },
     {
@@ -1047,7 +1059,8 @@
       "id": 150,
       "typeId": 3,
       "prefabPath": "YellowKey",
-      "eventId": 0,
+      "eventId": 7,
+	  "eventData": 109,
       "name": "YellowKey"
     },
     {

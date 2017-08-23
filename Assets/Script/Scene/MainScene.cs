@@ -298,7 +298,7 @@ public class MainScene : MonoBehaviour
         {
             chatIndex = 0;
             ClearChats();
-            EventManager.instance.DispatchEvent(chat.lastEventId, chatMod);
+            EventManager.instance.DispatchEvent(chat.lastEventId, chatMod, chat.id);
         }
         else{
             var chatData = chat.data[chatIndex];

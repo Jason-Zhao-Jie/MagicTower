@@ -130,7 +130,7 @@ public class MapManager
         modals[uuid].RemoveSelf();
     }
 
-    public void ChangeEventOnMap(int posx, int posy, int eventId = 0, int mapId = -1)
+    public void ChangeEventOnMap(int posx, int posy, int eventId = 0, int eventBlockData = 0, int mapId = -1)
     {
         if (mapId < 0)
             mapId = currentFloor;
@@ -139,6 +139,7 @@ public class MapManager
         if (maps[mapId] == null)
             maps[mapId] = DataCenter.instance.data.GetCopiedMap(mapId);
         maps[mapId].mapBlocks[posx][posy].eventId = eventId;
+        maps[mapId].mapBlocks[posx][posy].eventData = eventBlockData;
     }
 
     public static UnityEngine.Rect GetMapPosition(UnityEngine.RectTransform mapPanel)

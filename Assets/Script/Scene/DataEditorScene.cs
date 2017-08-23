@@ -62,9 +62,10 @@ public class DataEditorScene : MonoBehaviour
 
             var eventId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("EventId").GetComponent<Dropdown>();
             var eventIdList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.data.events.Length; ++i)
+            eventIdList.Add((EventManager.EventName.None).ToString());
+            foreach (var k in EventManager.instance.eventList)
             {
-                eventIdList.Add(DataCenter.instance.data.events[i].id.ToString());
+                eventIdList.Add(k.Key.ToString());
             }
             eventId.AddOptions(eventIdList);
 
@@ -84,9 +85,10 @@ public class DataEditorScene : MonoBehaviour
 
             var eventId = modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>();
             var eventIdList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.data.events.Length; ++i)
+            eventIdList.Add((EventManager.EventName.None).ToString());
+            foreach (var k in EventManager.instance.eventList)
             {
-                eventIdList.Add(DataCenter.instance.data.events[i].id.ToString());
+                eventIdList.Add(k.Key.ToString());
             }
             eventId.AddOptions(eventIdList);
 
@@ -243,8 +245,9 @@ public class DataEditorScene : MonoBehaviour
 			prefabData[i].id = i + 1;
 			prefabData[i].name = allPrefabs[i].name;
 			prefabData[i].prefabPath = allPrefabs[i].name;
-			prefabData[i].eventId = 0;
-			prefabData[i].typeId = 2;
+            prefabData[i].eventId = 0;
+            prefabData[i].eventData = 0;
+            prefabData[i].typeId = 2;
 		}
         DataCenter.instance.data.modals = prefabData;
 		PlatformUIManager.ShowMessageBox("模型表刷新成功，请立即保存配置然后重新启动游戏！");
@@ -494,7 +497,7 @@ public class DataEditorScene : MonoBehaviour
         var panelPos = mapMakerCanvas.transform.InverseTransformPoint(mapPanel.position);
         pos.x -= panelPos.x + mapPartRect.x + mapMakerCanvas.GetComponent<RectTransform>().rect.width / 2;
         pos.y -= panelPos.y + mapPartRect.y + mapMakerCanvas.GetComponent<RectTransform>().rect.height / 2;
-        if (pos.x >= 0 && pos.y >= 0)
+        if (pos.x >= 0 && pos.y >= 0 && pos.x < Constant.MAP_BLOCK_LENGTH && pos.y < Constant.MAP_BLOCK_LENGTH)
         {
             var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / mapPartRect.width);
             var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / mapPartRect.height);

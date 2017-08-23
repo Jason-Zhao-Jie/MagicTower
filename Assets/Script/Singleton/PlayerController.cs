@@ -53,7 +53,7 @@ public class PlayerController
         long uuid = MapManager.instance.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
         if (block.eventId != 0)
         {
-            if (!EventManager.instance.DispatchEvent(block.eventId, MapManager.instance.GetModalByUuid(uuid)))
+            if (!EventManager.instance.DispatchEvent(block.eventId, MapManager.instance.GetModalByUuid(uuid), block.eventData))
                 return false;
         }
         if (block.thing != 0)
@@ -61,7 +61,7 @@ public class PlayerController
             var thingData = DataCenter.instance.GetModalById(block.thing);
             if (thingData.eventId != 0)
             {
-                if (!EventManager.instance.DispatchEvent(thingData.eventId, MapManager.instance.GetModalByUuid(uuid)))
+                if (!EventManager.instance.DispatchEvent(thingData.eventId, MapManager.instance.GetModalByUuid(uuid), thingData.eventData))
                     return false;
             }
             switch ((Modal.ModalType)thingData.typeId)

@@ -33,7 +33,6 @@ public class StartScene : MonoBehaviour
         InputController.instance = new InputController();
         InputController.instance.Init();
         EventManager.instance = new EventManager();
-        EventManager.instance.InitEvents();
         AudioController.instance = new AudioController();
         MapManager.instance = new MapManager();
         PlayerController.instance = new PlayerController();

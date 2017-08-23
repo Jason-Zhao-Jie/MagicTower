@@ -680,8 +680,9 @@
         "thing": 0
       },
       {
-        "eventId": 3,
-        "thing": 0
+        "eventId": 4,
+        "thing": 0,
+        "eventData": 1
       },
       {
         "eventId": 0,
@@ -1222,8 +1223,9 @@
         "thing": 0
       },
       {
-        "eventId": 5,
-        "thing": 72
+        "eventId": 4,
+        "thing": 72,
+        "eventData": 3
       },
       {
         "eventId": 0,

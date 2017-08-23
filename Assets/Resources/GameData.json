@@ -2010,33 +2010,6 @@
       "weaponId": 1
     }
   ],
-  "events": [
-    {
-      "id": 1,
-      "typeId": 3,
-      "dataId": -1
-    },
-    {
-      "id": 2,
-      "typeId": 7,
-      "dataId": 0
-    },
-    {
-      "id": 3,
-      "typeId": 4,
-      "dataId": 1
-    },
-    {
-      "id": 4,
-      "typeId": 4,
-      "dataId": 2
-    },
-    {
-      "id": 5,
-      "typeId": 4,
-      "dataId": 3
-    }
-  ],
   "weapons": [
     {
       "id": 1,

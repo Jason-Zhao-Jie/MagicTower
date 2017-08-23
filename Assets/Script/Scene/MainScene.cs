@@ -298,7 +298,7 @@ public class MainScene : MonoBehaviour
         {
             chatIndex = 0;
             ClearChats();
-            EventManager.instance.DispatchEvent(chat.lastEventId, chatMod);
+            EventManager.instance.DispatchEvent(chat.lastEventId, chatMod, 0);  // 此处参数3本应是lastEvent的data参数，目前暂不支持，只传0
         }
         else{
             var chatData = chat.data[chatIndex];

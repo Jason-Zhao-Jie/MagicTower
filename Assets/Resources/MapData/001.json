@@ -647,6 +647,7 @@
       },
       {
         "eventId": 4,
+        "eventData": 2,
         "thing": 107
       },
       {
@@ -680,7 +681,8 @@
         "thing": 0
       },
       {
-        "eventId": 3,
+        "eventId": 4,
+        "eventData": 1,
         "thing": 0
       },
       {
@@ -721,6 +723,7 @@
       },
       {
         "eventId": 4,
+        "eventData": 2,
         "thing": 107
       },
       {
@@ -795,6 +798,7 @@
       },
       {
         "eventId": 4,
+        "eventData": 2,
         "thing": 107
       },
       {
@@ -1222,7 +1226,8 @@
         "thing": 0
       },
       {
-        "eventId": 5,
+        "eventId": 4,
+        "eventData": 3,
         "thing": 72
       },
       {

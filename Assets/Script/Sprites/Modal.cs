@@ -35,10 +35,11 @@ public class Modal : MonoBehaviour
 
     public void InitWithMapPos(int mapId, sbyte posx, sbyte posy, Constant.ModalData data)
     {
-        this.modId = data.id;
-        this.typeId = data.typeId;
-        this.modName = data.name;
-        this.eventId = data.eventId;
+        modId = data.id;
+        typeId = data.typeId;
+        modName = data.name;
+        eventId = data.eventId;
+        eventData = data.eventData;
         this.mapId = mapId;
         this.posx = posx;
         this.posy = posy;
@@ -90,8 +91,11 @@ public class Modal : MonoBehaviour
     public int MapId { get { return mapId; } }
     public int PosX { get { return posx; } }
     public int PosY { get { return posy; } }
+    public int EventId { get { return eventId; } }
+    public long EventData { get { return eventData; } }
 
     private int eventId = 0;
+    private long eventData = 0;
     private sbyte posx = -1;
     private sbyte posy = -1;
     private int mapId = 0;

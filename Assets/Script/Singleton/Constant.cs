@@ -10,30 +10,34 @@ public static class Constant
     public const int MAP_BLOCK_LENGTH = 18;
 	public const int MAP_BLOCK_BASE_SIZE = 32;
 
-	public delegate bool EventCallback(Modal caller, long eventData);
+	public delegate bool EventCallback(Modal caller, long blockData);
     public delegate bool BattlePauseEventCheck();
 
-	public enum EventType
-	{
-		Unknown,
-		Send,       // Send player to another place in this or another floor, most stairs include this event.
-		GetItem,    // Get an item, most items include this event
-		Battle,     // Only have a fight, most normal monsters have this event.
-		Chat,       // Chat with somebody
-		Choice,     // Need to make a choice and will call another event.
-		Game,       // Will play a small game
-		Others,     // Call a self-determine function to do something, like "OpenDoor"
-	}
+    public enum ResourceType
+    {
+        Unknown = 0,
+        Life = 1,
+        Attack = 2,
+        Defense = 3,
+        Level = 4,
+        Experience = 5,
+        Speed = 6,
+        Critical = 7,
+        Gold = 8,
+        YellowKey = 9,
+        BlueKey = 10,
+        RedKey = 11,
+        GreenKey = 12,
+    }
 
-	public enum ChatType
+    public enum ChatType
 	{
 		None,
 		Bubble,
 		Tip,
 		Center,
 		Bottom,
-		Top
-
+		Top,
 	}
 
 	public enum EGameStatus
@@ -55,6 +59,7 @@ public static class Constant
 	{
 		public int thing;
 		public int eventId;
+        public long eventData;   // optional
 	}
 
 	[System.Serializable]
@@ -80,8 +85,9 @@ public static class Constant
                 for (int y = 0; y < mapBlocks[x].Length; ++y)
                 {
                     var blockY = new JObject();
-                    blockY["eventId"] = new JNumber(mapBlocks[x][y].eventId);
                     blockY["thing"] = new JNumber(mapBlocks[x][y].thing);
+                    blockY["eventId"] = new JNumber(mapBlocks[x][y].eventId);
+                    blockY["eventData"] = new JNumber(mapBlocks[x][y].eventData);
                     blockX.Add(blockY);
                 }
                 blocks.Add(blockX);
@@ -99,7 +105,8 @@ public static class Constant
 		public string name;
 		public string prefabPath;
 		public int eventId;
-	}
+        public long eventData;   // optional
+    }
 
 	[System.Serializable]
 	public class Audio
@@ -158,14 +165,6 @@ public static class Constant
 		public int redKey;
 		public int greenKey;
 		public int weaponId;
-	}
-
-	[System.Serializable]
-	public class Event
-	{
-		public int id;
-		public int typeId;
-		public long dataId;
 	}
 
 	[System.Serializable]
@@ -251,7 +250,6 @@ public static class Constant
 		public Audio[] audios;
 		public MonsterData[] monsters;
 		public PlayerData[] players;
-		public Event[] events;
 		public WeaponData[] weapons;
 		public ChatData[] chats;
 		public ChoiceData[] choices;
@@ -292,8 +290,10 @@ public static class Constant
                     for (var y = 0; y < ___mapBlocksX.Length; ++y)
                     {
                         var ____mapBlockY = ___mapBlocksX[y] as JObject;
-                        newGameMaps[index].mapBlocks[x][y].eventId = ____mapBlockY["eventId"].ToInt();
                         newGameMaps[index].mapBlocks[x][y].thing = ____mapBlockY["thing"].ToInt();
+                        newGameMaps[index].mapBlocks[x][y].eventId = ____mapBlockY["eventId"].ToInt();
+                        if (____mapBlockY.ContainsKey("eventData"))
+                            newGameMaps[index].mapBlocks[x][y].eventData = ____mapBlockY["eventData"].ToInt();
                     }
                 }
             }
@@ -314,8 +314,9 @@ public static class Constant
                 ret.mapBlocks[x] = new MapBlock[dt.mapBlocks[x].Length];
                 for (var y = 0; y < ret.mapBlocks[x].Length; ++y)
                 {
-                    ret.mapBlocks[x][y].eventId = dt.mapBlocks[x][y].eventId;
                     ret.mapBlocks[x][y].thing = dt.mapBlocks[x][y].thing;
+                    ret.mapBlocks[x][y].eventId = dt.mapBlocks[x][y].eventId;
+                    ret.mapBlocks[x][y].eventData = dt.mapBlocks[x][y].eventData;
                 }
             }
             return ret;

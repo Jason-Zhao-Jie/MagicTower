@@ -6,7 +6,6 @@ public class PlayerController
     public static PlayerController instance = null;
 
     public enum Direction
-
     {
         Default,
         Up,
@@ -53,7 +52,7 @@ public class PlayerController
         long uuid = MapManager.instance.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
         if (block.eventId != 0)
         {
-            if (!EventManager.instance.DispatchEvent(block.eventId, MapManager.instance.GetModalByUuid(uuid)))
+            if (!EventManager.instance.DispatchEvent(block.eventId, MapManager.instance.GetModalByUuid(uuid), block.eventData))
                 return false;
         }
         if (block.thing != 0)
@@ -61,7 +60,7 @@ public class PlayerController
             var thingData = DataCenter.instance.GetModalById(block.thing);
             if (thingData.eventId != 0)
             {
-                if (!EventManager.instance.DispatchEvent(thingData.eventId, MapManager.instance.GetModalByUuid(uuid)))
+                if (!EventManager.instance.DispatchEvent(thingData.eventId, MapManager.instance.GetModalByUuid(uuid), thingData.eventData))
                     return false;
             }
             switch ((Modal.ModalType)thingData.typeId)
@@ -260,6 +259,52 @@ public class PlayerController
         MainScene.instance.YellowKey = data.yellowKey.ToString();
         MainScene.instance.BlueKey = data.blueKey.ToString();
         MainScene.instance.RedKey = data.redKey.ToString();
+    }
+
+    public void ChangePlayerData(Constant.ResourceType type, int count)
+    {
+        switch (type)
+        {
+            case Constant.ResourceType.Life:
+                data.life += count;
+                break;
+            case Constant.ResourceType.Attack:
+                data.attack += count;
+                break;
+            case Constant.ResourceType.Defense:
+                data.defense += count;
+                break;
+            case Constant.ResourceType.Level:
+                // 升级需要特殊处理
+                break;
+            case Constant.ResourceType.Experience:
+                data.exp += count;
+                break;
+            case Constant.ResourceType.Speed:
+                data.speed += count;
+                break;
+            case Constant.ResourceType.Critical:
+                data.critical += count;
+                break;
+            case Constant.ResourceType.Gold:
+                data.gold += count;
+                break;
+            case Constant.ResourceType.YellowKey:
+                data.yellowKey += count;
+                break;
+            case Constant.ResourceType.BlueKey:
+                data.blueKey += count;
+                break;
+            case Constant.ResourceType.RedKey:
+                data.redKey += count;
+                break;
+            case Constant.ResourceType.GreenKey:
+                data.greenKey += count;
+                break;
+            default:
+                return;
+        }
+        SyncPlayerData();
     }
 
     public void StartWalk(Direction dir = Direction.Default)

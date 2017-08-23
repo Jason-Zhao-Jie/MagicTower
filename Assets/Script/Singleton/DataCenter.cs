@@ -91,14 +91,6 @@ public class DataCenter
         data.players[data.players.Length - 1] = new Constant.PlayerData() { id = id };
         return data.players.Length - 1;
     }
-    public Constant.Event[] Events { get { return data.events; } }
-    public Constant.Event GetEventDataById(int id)
-    {
-        for (int i = 0; i < data.events.Length; ++i)
-            if (data.audios[i].id == id)
-                return data.events[i];
-        return null;
-    }
     public Constant.WeaponData[] Weapons { get { return data.weapons; } }
     public Constant.WeaponData GetWeaponDataById(int id)
     {
@@ -221,6 +213,8 @@ public class DataCenter
             __modalData.name = __oneModal["name"].ToString();
             __modalData.prefabPath = __oneModal["prefabPath"].ToString();
             __modalData.eventId = __oneModal["eventId"].ToInt();
+            if (__oneModal.ContainsKey("eventData"))
+                __modalData.eventData = __oneModal["eventData"].ToInt();
         }
 
         // parse audios
@@ -268,19 +262,6 @@ public class DataCenter
         for (var i = 0; i < _players.Length; ++i)
         {
             data.players[i] = GetPlayerDataOfJson(_players[i] as JObject);
-        }
-
-        // parse event data
-        var _events = _root["events"] as JArray;
-        data.events = new Constant.Event[_events.Length];
-        for (var i = 0; i < _events.Length; ++i)
-        {
-            var __oneEvent = _events[i] as JObject;
-            data.events[i] = new Constant.Event();
-            var __eventData = data.events[i];
-            __eventData.id = __oneEvent["id"].ToInt();
-            __eventData.typeId = __oneEvent["typeId"].ToInt();
-            __eventData.dataId = System.Convert.ToInt64(__oneEvent["dataId"].ToFloat());
         }
 
         // parse weapon data
@@ -445,18 +426,6 @@ public class DataCenter
             players.Add(GetJsonOfPlayerData(data.players[i]));
         }
         json["players"] = players;
-
-        // Set event data
-        var events = new JArray();
-        for (int i = 0; i < data.events.Length; ++i)
-        {
-            var _oneEvent = new JObject();
-            _oneEvent["id"] = new JNumber(data.events[i].id);
-            _oneEvent["typeId"] = new JNumber(data.events[i].typeId);
-            _oneEvent["dataId"] = new JNumber(data.events[i].dataId);
-            events.Add(_oneEvent);
-        }
-        json["events"] = events;
 
         // Set weapon data
         var weapons = new JArray();

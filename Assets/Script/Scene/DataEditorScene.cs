@@ -57,13 +57,15 @@ public class DataEditorScene : MonoBehaviour
                 modalList.Add(DataCenter.instance.data.modals[i].id + ". " + DataCenter.instance.data.modals[i].name);
             }
             backModal.AddOptions(modalList);
+            modalList.Insert(0, "None");
             currentModal.AddOptions(modalList);
 
             var eventId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("EventId").GetComponent<Dropdown>();
             var eventIdList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.data.events.Length; ++i)
+            eventIdList.Add((EventManager.EventName.None).ToString());
+            foreach (var k in EventManager.instance.eventList)
             {
-                eventIdList.Add(DataCenter.instance.data.events[i].id.ToString());
+                eventIdList.Add(k.Key.ToString());
             }
             eventId.AddOptions(eventIdList);
 
@@ -83,9 +85,10 @@ public class DataEditorScene : MonoBehaviour
 
             var eventId = modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>();
             var eventIdList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.data.events.Length; ++i)
+            eventIdList.Add((EventManager.EventName.None).ToString());
+            foreach (var k in EventManager.instance.eventList)
             {
-                eventIdList.Add(DataCenter.instance.data.events[i].id.ToString());
+                eventIdList.Add(k.Key.ToString());
             }
             eventId.AddOptions(eventIdList);
 
@@ -242,8 +245,9 @@ public class DataEditorScene : MonoBehaviour
 			prefabData[i].id = i + 1;
 			prefabData[i].name = allPrefabs[i].name;
 			prefabData[i].prefabPath = allPrefabs[i].name;
-			prefabData[i].eventId = 0;
-			prefabData[i].typeId = 2;
+            prefabData[i].eventId = 0;
+            prefabData[i].eventData = 0;
+            prefabData[i].typeId = 2;
 		}
         DataCenter.instance.data.modals = prefabData;
 		PlatformUIManager.ShowMessageBox("模型表刷新成功，请立即保存配置然后重新启动游戏！");
@@ -273,7 +277,8 @@ public class DataEditorScene : MonoBehaviour
             index = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>().value;
         modalMakerCanvas.transform.Find("ModalName").GetComponent<InputField>().text = DataCenter.instance.data.modals[index].name;
         modalMakerCanvas.transform.Find("ModalType").GetComponent<Dropdown>().value = DataCenter.instance.data.modals[index].typeId - 1;
-        modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.modals[index].eventId - 1;
+        modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.modals[index].eventId;
+        modalMakerCanvas.transform.Find("EventData").GetComponent<InputField>().text = DataCenter.instance.data.modals[index].eventData.ToString();
         modalMakerCanvas.transform.Find("ModalPrefab").GetComponent<InputField>().text = DataCenter.instance.data.modals[index].prefabPath;
         if (DataCenter.instance.data.modals[index].typeId == (int)Modal.ModalType.Player)
         {
@@ -338,7 +343,8 @@ public class DataEditorScene : MonoBehaviour
         var index = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>().value;
         DataCenter.instance.data.modals[index].name = modalMakerCanvas.transform.Find("ModalName").GetComponent<InputField>().text;
         DataCenter.instance.data.modals[index].typeId = modalMakerCanvas.transform.Find("ModalType").GetComponent<Dropdown>().value + 1;
-        DataCenter.instance.data.modals[index].eventId = modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>().value + 1;
+        DataCenter.instance.data.modals[index].eventId = modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>().value;
+        DataCenter.instance.data.modals[index].eventData =System.Convert.ToInt64(modalMakerCanvas.transform.Find("EventData").GetComponent<InputField>().text);
         DataCenter.instance.data.modals[index].prefabPath = modalMakerCanvas.transform.Find("ModalPrefab").GetComponent<InputField>().text;
         if (DataCenter.instance.data.modals[index].typeId == (int)Modal.ModalType.Player)
         {
@@ -446,14 +452,16 @@ public class DataEditorScene : MonoBehaviour
         var mapName = panel.transform.Find("MapName").GetComponent<InputField>().text;
         var bgMusic = panel.transform.Find("Music").GetComponent<Dropdown>().value + 1;
 		var bgModal = panel.transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
-		var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value + 1;
-		var eventId = panel.transform.Find("EventId").GetComponent<Dropdown>().value + 1;
+		var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value;
+        var eventId = panel.transform.Find("EventId").GetComponent<Dropdown>().value;
+        var eventData = System.Convert.ToInt64(panel.transform.Find("EventData").GetComponent<InputField>().text);
 
-		DataCenter.instance.data.GetGameMap(mapId).mapName = mapName;
+        DataCenter.instance.data.GetGameMap(mapId).mapName = mapName;
         DataCenter.instance.data.GetGameMap(mapId).backThing = bgModal;
 		DataCenter.instance.data.GetGameMap(mapId).music = bgMusic;
 		DataCenter.instance.data.GetGameMap(mapId).mapBlocks[posx][posy].thing = currModal;
-		DataCenter.instance.data.GetGameMap(mapId).mapBlocks[posx][posy].eventId = eventId;
+        DataCenter.instance.data.GetGameMap(mapId).mapBlocks[posx][posy].eventId = eventId;
+        DataCenter.instance.data.GetGameMap(mapId).mapBlocks[posx][posy].eventData = eventData;
     }
 
     // Map选择框回调
@@ -480,7 +488,7 @@ public class DataEditorScene : MonoBehaviour
         else
         {
             var index = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>().value;
-            MapManager.instance.ChangeThingOnMap(index + 1, posx, posy);
+            MapManager.instance.ChangeThingOnMap(index, posx, posy);
         }
     }
 
@@ -497,15 +505,16 @@ public class DataEditorScene : MonoBehaviour
         {
             var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / mapPartRect.width);
             var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / mapPartRect.height);
-            if (_posx > Constant.MAP_BLOCK_LENGTH || _posy > Constant.MAP_BLOCK_LENGTH)
+            if (_posx >= Constant.MAP_BLOCK_LENGTH || _posy >= Constant.MAP_BLOCK_LENGTH)
                 return;
             posx = _posx;
             posy = _posy;
             var panel = mapMakerCanvas.transform.Find("SetPanel");
             var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
             panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
-            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].thing - 1;
-            panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].eventId - 1;
+            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].thing;
+            panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].eventId;
+            panel.transform.Find("EventData").GetComponent<InputField>().text = DataCenter.instance.data.GetGameMap(mapId - 1).mapBlocks[posx][posy].eventData.ToString();
         }
     }
 

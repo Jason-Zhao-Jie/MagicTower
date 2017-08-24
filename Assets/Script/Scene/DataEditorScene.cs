@@ -471,9 +471,9 @@ public class DataEditorScene : MonoBehaviour
 	{
 		var panel = mapMakerCanvas.transform.Find("SetPanel");
 		var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-        panel.transform.Find("MapName").GetComponent<InputField>().text = DataCenter.instance.data.GetGameMap(mapId).mapName;
-        panel.transform.Find("Music").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId).music - 1;
-        panel.transform.Find("BackModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId).backThing - 1;
+        panel.transform.Find("MapName").GetComponent<InputField>().text = DataCenter.instance.data.GetGameMap(mapId - 1).mapName;
+        panel.transform.Find("Music").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).music - 1;
+        panel.transform.Find("BackModal").GetComponent<Dropdown>().value = DataCenter.instance.data.GetGameMap(mapId - 1).backThing - 1;
 		MapManager.instance.ShowMap(mapId);
         OnMapClicked(new Vector3(0, 0));
         AudioController.instance.StopMusic();

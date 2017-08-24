@@ -37,6 +37,7 @@ public class MainScene : MonoBehaviour
 		redKeyText = itemPanel.transform.Find("RedKey").GetComponent<Text>();
 
         // 预设各种对话框，然后隐藏它们
+        //     顶部对话框
         topChatPanel = dialogCanvas.transform.Find("ChatPanelTop").gameObject;
         topChatSpeaker = topChatPanel.transform.Find("Speaker").gameObject;
         topChatSpeakerText = topChatPanel.transform.Find("SpeakerName").GetComponent<Text>();
@@ -44,6 +45,7 @@ public class MainScene : MonoBehaviour
         topChatPanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, topChatPanel.transform.position.y, topChatPanel.transform.position.z);
         topChatPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(topChatPanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(topChatPanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height/2));
         topChatPanel.SetActive(false);
+        //     底部对话框
         bottomChatPanel = dialogCanvas.transform.Find("ChatPanelBottom").gameObject;
         bottomChatSpeaker = bottomChatPanel.transform.Find("Speaker").gameObject;
         bottomChatSpeakerText = bottomChatPanel.transform.Find("SpeakerName").GetComponent<Text>();
@@ -51,11 +53,20 @@ public class MainScene : MonoBehaviour
         bottomChatPanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, bottomChatPanel.transform.position.y, bottomChatPanel.transform.position.z);
         bottomChatPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(bottomChatPanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(bottomChatPanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height/2));
         bottomChatPanel.SetActive(false);
+        //     提示框
         tipsPanel = dialogCanvas.transform.Find("TipPanel").gameObject;
         tipsText = tipsPanel.transform.Find("Text").GetComponent<Text>();
         tipsPanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, tipsPanel.transform.position.y, tipsPanel.transform.position.z);
         tipsPanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(tipsPanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(tipsPanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height / 2));
         tipsPanel.SetActive(false);
+        //     选择对话框
+        choicePanel = dialogCanvas.transform.Find("ChoicePanel").gameObject;
+        choiceSpeaker = choicePanel.transform.Find("Speaker").gameObject;
+        choiceSpeakerText = choicePanel.transform.Find("SpeakerName").GetComponent<Text>();
+        choiceTitleText = choicePanel.transform.Find("Text").GetComponent<Text>();
+        choicePanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, choicePanel.transform.position.y, choicePanel.transform.position.z);
+        choicePanel.GetComponent<RectTransform>().sizeDelta = new Vector2(System.Math.Min(choicePanel.GetComponent<RectTransform>().rect.width, mapPanel.GetComponent<RectTransform>().rect.width), System.Math.Min(choicePanel.GetComponent<RectTransform>().rect.height, mapPanel.GetComponent<RectTransform>().rect.height / 2));
+        choicePanel.SetActive(false);
 
         // 关联战斗框的控件
         battlePanel = dialogCanvas.transform.Find("BattlePanel").gameObject;
@@ -556,6 +567,11 @@ public class MainScene : MonoBehaviour
     private Constant.ChatData chat;
     private Modal chatMod;
     private int chatIndex = 0;
+
+    private GameObject choicePanel;
+    private GameObject choiceSpeaker;
+    private Text choiceTitleText;
+    private Text choiceSpeakerText;
 
 	private GameObject battlePanel;
 	private GameObject playerSprite;

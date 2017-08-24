@@ -44,14 +44,16 @@ public class EventManager {
         int posx = (int)(eventData / 100 % 100);
         int posy = (int)(eventData % 100);
         int mapId = (int)(eventData / 10000);
-        if (mapId > 0 && mapId != MapManager.instance.CurrentMap.mapId)
+        if (mapId > 0 && mapId != MapManager.instance.CurrentMap.mapId) {
             MapManager.instance.ShowLoadingCurtain(() => {
                 MapManager.instance.ShowMap(mapId);
                 PlayerController.instance.ShowPlayer(posx, posy);
             });
-        else
+            return true;
+        } else {
             PlayerController.instance.ShowPlayer(posx, posy);
-        return false;
+            return false;
+        }
     }
 
     private bool OnGetBaseResourceItem(Modal caller, long eventData) {

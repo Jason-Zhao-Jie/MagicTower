@@ -15,14 +15,15 @@ public class MainScene : MonoBehaviour
         var itemPanel = transform.Find("ItemPanel");
         var mapPanel = transform.Find("MapPanel");
         var dialogCanvas = GameObject.Find("DialogCanvas");
-        mapNameText = heroPanel.transform.Find("MapName").GetComponent<Text>();
         backgroundImg = GetComponent<Image>();
         mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
 		blockSize = new Vector3(mapPartRect.width * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE), mapPartRect.height * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE));
+        curtain = mapPanel.transform.Find("Curtain").GetComponent<Curtain>();
+        mapNameText = heroPanel.transform.Find("MapName").GetComponent<Text>();
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
-		// 关联人物数据的text
-		roleNameText = heroPanel.transform.Find("Name").GetComponent<Text>();
+        // 关联人物数据的text
+        roleNameText = heroPanel.transform.Find("Name").GetComponent<Text>();
 		portrait = heroPanel.transform.Find("Portrait").GetComponent<Image>();
 		levelText = heroPanel.transform.Find("Level").GetComponent<Text>();
 		expText = heroPanel.transform.Find("Exp").GetComponent<Text>();
@@ -90,6 +91,7 @@ public class MainScene : MonoBehaviour
 
     void OnDestroy()
     {
+        MapManager.instance.ClearMap();
         DataCenter.instance.Status = Constant.EGameStatus.Start;
         instance = null;
     }
@@ -520,12 +522,14 @@ public class MainScene : MonoBehaviour
 		set { redKeyText.text = value; }
 	}
     public Vector3 BlockSize{ get { return blockSize; }}
+    public Curtain Curtain { get { return curtain; } }
 
-    private Text mapNameText;
     private Image backgroundImg;
     private Rect mapPartRect;
     private Vector3 blockSize;
+    private Curtain curtain;
 
+    private Text mapNameText;
     private Text roleNameText;
     private Image portrait;
 	private Text levelText;

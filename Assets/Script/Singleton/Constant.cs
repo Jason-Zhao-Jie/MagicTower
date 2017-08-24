@@ -12,6 +12,7 @@ public static class Constant
 
 	public delegate bool EventCallback(Modal caller, long blockData);
     public delegate bool BattlePauseEventCheck();
+    public delegate void EmptyCallBack();
 
     public enum ResourceType
     {

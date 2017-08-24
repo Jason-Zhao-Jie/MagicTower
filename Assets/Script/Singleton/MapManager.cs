@@ -50,6 +50,7 @@ public class MapManager
         return true;
     }
 
+    // 清除地图上的一切物块, 不能单独调用, 必须紧跟其他重刷map的操作
     public void ClearMap()
     {
         var vs = new List<long>(modals.Keys);
@@ -60,6 +61,7 @@ public class MapManager
         modals.Clear();
     }
 
+    // 更改背景图片
     public void ChangeBack(string prefab)
     {
         if (MainScene.instance != null)
@@ -68,6 +70,13 @@ public class MapManager
             DataEditorScene.instance.BackgroundImage = prefab;
     }
 
+    // 显示黑色幕布, 以便执行一些操作, 例如换楼层
+    public void ShowLoadingCurtain(Constant.EmptyCallBack cb = null)
+    {
+        Curtain.StartShow(cb);
+    }
+
+    // 更改或移动指定处的物品及数据
     public void ChangeThingOnMap(int thingId, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
     {
         if (oldPosx >= 0 && oldPosy >= 0)
@@ -83,6 +92,7 @@ public class MapManager
         AddObjectToMap(posx, posy, thingId);
     }
 
+    // 在指定处添加物品,仅添加表现, 必须同时配合添加数据的操作, 而且本函数也不检测原先是否已有物品
     public void AddObjectToMap(int posx, int posy, int thingId)
     {
         UnityEngine.GameObject obj = null;
@@ -103,7 +113,7 @@ public class MapManager
         }
     }
 
-    // 从地图上永久删除mod的信息. 
+    // 从地图上永久删除mod的信息, 仅数据
     public void RemoveThingOnMap(int posx, int posy, int mapId = -1)
     {
         if (mapId < 0)
@@ -115,7 +125,7 @@ public class MapManager
         maps[mapId].mapBlocks[posx][posy].thing = 0;
     }
 
-    // 从地图上永久删除mod,用uuid
+    // 从地图上永久删除mod,包括表现和数据
     public void RemoveThingOnMapWithModal(long uuid)
     {
         modals[uuid].RemoveSelf();
@@ -130,18 +140,6 @@ public class MapManager
         modals[uuid].RemoveSelf();
     }
 
-    public void ChangeEventOnMap(int posx, int posy, int eventId = 0, int eventBlockData = 0, int mapId = -1)
-    {
-        if (mapId < 0)
-            mapId = currentFloor;
-        else
-            mapId--;
-        if (maps[mapId] == null)
-            maps[mapId] = DataCenter.instance.data.GetCopiedMap(mapId);
-        maps[mapId].mapBlocks[posx][posy].eventId = eventId;
-        maps[mapId].mapBlocks[posx][posy].eventData = eventBlockData;
-    }
-
     public static UnityEngine.Rect GetMapPosition(UnityEngine.RectTransform mapPanel)
     {
         var totalWidth = mapPanel.rect.width;
@@ -153,17 +151,23 @@ public class MapManager
         return new UnityEngine.Rect(finalX, finalY, totalWidth - 2 * finalX, totalHeight - 2 * finalY);
     }
 
-    public bool SetEventOn(int eventId, int posx, int posy, int floorId = -1)
+    // 更改指定地点的event
+    public bool SetEventOn(int eventId, long eventData, int posx, int posy, int mapId = 0)
     {
-        if (floorId < 0)
-            floorId = currentFloor;
-        maps[floorId].mapBlocks[posx][posy].eventId = eventId;
+        if (mapId <= 0)
+            mapId = currentFloor;
+        else
+            mapId--;
+        if (maps[mapId] == null)
+            maps[mapId] = DataCenter.instance.data.GetCopiedMap(mapId);
+        maps[mapId].mapBlocks[posx][posy].eventId = eventId;
+        maps[mapId].mapBlocks[posx][posy].eventData = eventData;
         return true;
     }
 
-    public bool RemoveEventOn(int posx, int posy, int floorId = -1)
+    public bool RemoveEventOn(int posx, int posy, int mapId = 0)
     {
-        return SetEventOn(0, posx, posy, floorId);
+        return SetEventOn(0, 0, posx, posy, mapId);
     }
 
     public Constant.MonsterData GetMonsterDataByUuid(long uuid)
@@ -196,6 +200,18 @@ public class MapManager
     public Constant.MapData this[int index] { get { return maps[index]; } }
     public Constant.MapData CurrentMap { get { return maps[currentFloor]; } }
     public int CurrentFloorId { get { return maps[currentFloor].mapId; } }
+
+    private Curtain Curtain
+    {
+        get
+        {
+            if (MainScene.instance != null)
+                return MainScene.instance.Curtain;
+            else if (DataEditorScene.instance != null)
+                return DataEditorScene.instance.Curtain;
+            return null;
+        }
+    }
 
     private int currentFloor;
     private Constant.MapData[] maps;

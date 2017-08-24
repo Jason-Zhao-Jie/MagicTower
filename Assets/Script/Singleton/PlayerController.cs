@@ -224,27 +224,36 @@ public class PlayerController
                 player.RemoveSelf();
             SetPlayerInfo(playerId);
             player = null;
-		}
-		var modalData = DataCenter.instance.GetModalById(playerId);
+        }
+        var modalData = DataCenter.instance.GetModalById(playerId);
         if (player == null || isNew)
         {
             var obj = UnityEngine.Object.Instantiate(Resources.Load(Constant.PREFAB_DIR + modalData.prefabPath) as UnityEngine.GameObject);
             player = obj.GetComponent<Player>();
         }
-        if (posx < 0)
+        if (posx < 0 || posx >= Constant.MAP_BLOCK_LENGTH)
             posx = this.posx;
         else
             this.posx = posx;
-        if (posy < 0)
+        if (posx < 0 || posx >= Constant.MAP_BLOCK_LENGTH)
+        {
+            posx = 0;
+            this.posx = 0;
+        }
+        if (posy < 0 || posy >= Constant.MAP_BLOCK_LENGTH)
             posy = this.posy;
         else
             this.posy = posy;
-        if (posx >= 0 && posy >= 0)
+        if (posy < 0 || posy >= Constant.MAP_BLOCK_LENGTH)
         {
-			MainScene.instance.AddObjectToMap(player.gameObject, posx, posy, -4);
-			MainScene.instance.RoleName = modalData.name;
-            MainScene.instance.Portrait = player.GetComponent<SpriteRenderer>().sprite;
+            posy = 0;
+            this.posy = 0;
         }
+
+        // Set Scene Texts
+        MainScene.instance.AddObjectToMap(player.gameObject, posx, posy, -4);
+        MainScene.instance.RoleName = modalData.name;
+        MainScene.instance.Portrait = player.GetComponent<SpriteRenderer>().sprite;
     }
 
     public void SyncPlayerData()

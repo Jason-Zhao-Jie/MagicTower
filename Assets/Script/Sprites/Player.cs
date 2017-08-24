@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 
 	void Start()
 	{
-        runningTime = 9;
+        runningTime = 0;
         movedLength = new Vector2(transform.lossyScale.x * Constant.MAP_BLOCK_BASE_SIZE / 100, transform.lossyScale.y * Constant.MAP_BLOCK_BASE_SIZE / 100);
 	}
 
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            runningTime = 9;
+            runningTime = RUN_SPEED - 1;
         }
 	}
 

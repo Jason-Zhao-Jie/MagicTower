@@ -22,7 +22,8 @@ public class DataEditorScene : MonoBehaviour
         backgroundImg = GetComponent<UnityEngine.UI.Image>();
 		mapPartRect = MapManager.GetMapPosition(mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>());
 		blockSize = new Vector3(mapPartRect.width * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE), mapPartRect.height * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE));
-		UnityEngine.Debug.Log("The current map whole rect is: " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " +
+        curtain = mapMakerCanvas.transform.Find("MapPanel").transform.Find("Curtain").GetComponent<Curtain>();
+        UnityEngine.Debug.Log("The current map whole rect is: " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " +
             mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
 		UnityEngine.Debug.Log("The current map part rect is: " + mapPartRect.x + ", " + mapPartRect.y + ", " + mapPartRect.width + ", " + mapPartRect.height);
 		UnityEngine.Debug.Log("The current map block size is: " + blockSize.x + ", " + blockSize.y);
@@ -131,6 +132,7 @@ public class DataEditorScene : MonoBehaviour
 
     private void OnDestroy()
     {
+        MapManager.instance.ClearMap();
         DataCenter.instance.Status = Constant.EGameStatus.Start;
         instance = null;
     }
@@ -542,11 +544,13 @@ public class DataEditorScene : MonoBehaviour
         get { return backgroundImg.sprite.name; }
         set { backgroundImg.sprite = Resources.Load<GameObject>(Constant.PREFAB_DIR + value).GetComponent<SpriteRenderer>().sprite; }
     }
+    public Curtain Curtain { get { return curtain; } }
 
 
     private UnityEngine.UI.Image backgroundImg;
     private Rect mapPartRect;
     private Vector3 blockSize;
+    private Curtain curtain;
     private GameObject[] allPrefabs;
     private GameObject mapMakerCanvas;
     private GameObject modalMakerCanvas;

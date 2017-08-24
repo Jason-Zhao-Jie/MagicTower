@@ -15,10 +15,15 @@ public class StartScene : MonoBehaviour
         if (DataCenter.instance == null)
         {
             LoadData();
+            SetMapLoadingPercent(1);
+        }
+        else
+        {
+            percent = 1;
+            loadedOK = true;
         }
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-        SetMapLoadingPercent(1);
     }
 
     private void OnDestroy()

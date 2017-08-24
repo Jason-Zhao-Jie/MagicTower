@@ -1,8 +1,8 @@
 {
   "mapId": 1,
-  "mapName": "Floor 1",
+  "mapName": "Floor 3",
   "backThing": 138,
-  "music": 59,
+  "music": 9,
   "mapBlocks": [
     [
       {
@@ -123,9 +123,9 @@
         "eventData": 0
       },
       {
-        "thing": 0,
-        "eventId": 0,
-        "eventData": 0
+        "thing": 86,
+        "eventId": 3,
+        "eventData": 11605
       },
       {
         "thing": 0,
@@ -1503,9 +1503,9 @@
         "eventData": 0
       },
       {
-        "thing": 0,
-        "eventId": 0,
-        "eventData": 0
+        "thing": 86,
+        "eventId": 3,
+        "eventData": 10105
       },
       {
         "thing": 0,

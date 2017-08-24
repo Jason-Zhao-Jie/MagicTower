@@ -4,6 +4,8 @@
 /[Bb]uild/
 /[Bb]uilds/
 /Assets/AssetStoreTools*
+/UWP/
+/MagicTower_Data/
 
 # Visual Studio cache directory
 /.vs/
@@ -31,8 +33,6 @@ sysinfo.txt
 
 # Builds
 *.apk
+*.app
+*.exe
 *.unitypackage
-/MagicTower_Data
-/MagicTower.app
-/MagicTower.exe
-/UWP

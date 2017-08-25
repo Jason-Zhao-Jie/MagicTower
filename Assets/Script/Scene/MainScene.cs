@@ -532,6 +532,9 @@ public class MainScene : MonoBehaviour
         get { return redKeyText.text; }
 		set { redKeyText.text = value; }
 	}
+
+    /**************************************************************************************************/
+
     public Vector3 BlockSize{ get { return blockSize; }}
     public Curtain Curtain { get { return curtain; } }
 

@@ -47,6 +47,7 @@ public static class Constant
 		InGame,
         InEditor,
 		OnMiddleLoading,
+        OnEvent,
 		OnBattle,
         OnBattleResult,
 		OnTipChat,

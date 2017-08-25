@@ -57,11 +57,13 @@ public class EventManager {
     }
 
     private bool OnGetBaseResourceItem(Modal caller, long eventData) {
+        var lastStatus = DataCenter.instance.Status;
+        DataCenter.instance.Status = Constant.EGameStatus.OnEvent;
         var type = (Constant.ResourceType)(eventData % 100);
         var count = (int)(eventData / 100);
         PlayerController.instance.ChangePlayerData(type, count);
         AudioController.instance.PlaySound(AudioController.itemGetSound);
-        caller.RemoveSelf();
+        caller.RemoveSelf(()=> { DataCenter.instance.Status = lastStatus; });
         return false;
     }
 
@@ -93,8 +95,10 @@ public class EventManager {
     }
 
     private bool OpenFreeDoor(Modal caller, long blockData) {
+        var lastStatus = DataCenter.instance.Status;
+        DataCenter.instance.Status = Constant.EGameStatus.OnEvent;
         AudioController.instance.PlaySound(AudioController.openDoorSound);
-        caller.GoToRunState();
+        caller.GoToRunState(() => { DataCenter.instance.Status = lastStatus; });
         return false;
     }
 
@@ -125,8 +129,10 @@ public class EventManager {
             case 15:    // gold
                 return false;
         }
+        var lastStatus = DataCenter.instance.Status;
+        DataCenter.instance.Status = Constant.EGameStatus.OnEvent;
         AudioController.instance.PlaySound(AudioController.openDoorSound);
-        caller.GoToRunState();
+        caller.GoToRunState(() => { DataCenter.instance.Status = lastStatus; });
         return false;
     }
 

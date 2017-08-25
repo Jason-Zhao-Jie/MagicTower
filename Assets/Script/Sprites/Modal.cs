@@ -47,10 +47,11 @@ public class Modal : MonoBehaviour
         MapManager.instance.AddMod(uuid, this);
     }
 
-    public void GoToRunState()
+    public void GoToRunState(Constant.EmptyCallBack dCB = null)
     {
         if (animator.enabled)
             return;
+        destroyCallBack = dCB;
         animator.enabled = true;
         animator.Play("KeyEvent");
         timeBeforeRemove = 0;
@@ -65,6 +66,11 @@ public class Modal : MonoBehaviour
             Destroy(gameObject);
         else
             Destroy(this);
+    }
+
+    public void RemoveSelf(Constant.EmptyCallBack dCB) {
+        destroyCallBack = dCB;
+        RemoveSelf();
     }
 
     // Use this for initialization
@@ -84,6 +90,8 @@ public class Modal : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (destroyCallBack != null)
+            destroyCallBack();
     }
 
     public Animator animator { get { return GetComponent<Animator>(); } }
@@ -104,4 +112,5 @@ public class Modal : MonoBehaviour
     private int modId = 0;
     private long uuid = 0;
     private double timeBeforeRemove = -10;
+    Constant.EmptyCallBack destroyCallBack = null;
 }

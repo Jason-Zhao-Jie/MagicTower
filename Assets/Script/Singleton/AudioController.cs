@@ -11,7 +11,7 @@ public class AudioController
     public UnityEngine.AudioSource MusicSource
     {
         get { return musicSource; }
-        set { musicSource = value; }
+        set { musicSource = value; musicId = -1; }
     }
 
     public void AddSoundSource(UnityEngine.AudioSource source) {
@@ -26,8 +26,11 @@ public class AudioController
 
     public bool PlayMusicLoop(int id)
     {
+        if (id == musicId)
+            return true;
         musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + DataCenter.instance.GetAudioById(id));
         musicSource.Play();
+        musicId = id;
         return true;
     }
 
@@ -85,4 +88,5 @@ public class AudioController
     private bool soundMute = false;
     private int soundVolume = 100;
     private int index = 0;
+    private int musicId = -1;
 }

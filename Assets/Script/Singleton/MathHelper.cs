@@ -8,6 +8,14 @@ public static class MathHelper
         public int damage;
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="attack"></param>
+    /// <param name="critical"></param>
+    /// <param name="targetDefense"></param>
+    /// <param name="targetSpeed"></param>
+    /// <returns> -1 means missing attack, others means real heat </returns>
     public static int GetHurt(int attack, double critical, int targetDefense, int targetSpeed)
     {
         var miss = new System.Random().Next(0, 99);
@@ -25,6 +33,19 @@ public static class MathHelper
         return damage;
     }
 
+    /// <summary>
+    /// Calculate the damage that will caught by enemy
+    /// </summary>
+    /// <param name="selfAttack"></param>
+    /// <param name="selfDefense"></param>
+    /// <param name="selfSpeed"></param>
+    /// <param name="selfCritical"></param>
+    /// <param name="tarAttack"></param>
+    /// <param name="tarDefense"></param>
+    /// <param name="tarSpeed"></param>
+    /// <param name="tarCritical"></param>
+    /// <param name="tarLife"></param>
+    /// <returns></returns>
     public static BattleForecast CalcForeCast(int selfAttack, int selfDefense, int selfSpeed, float selfCritical,
                                               int tarAttack, int tarDefense, int tarSpeed, float tarCritical, int tarLife)
     {

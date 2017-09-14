@@ -45,6 +45,7 @@ public class EventManager {
         int posy = (int)(eventData % 100);
         int mapId = (int)(eventData / 10000);
         if (mapId > 0 && mapId != MapManager.instance.CurrentMap.mapId) {
+            AudioController.instance.PlaySound(AudioController.stairSound);
             MapManager.instance.ShowLoadingCurtain(() => {
                 MapManager.instance.ShowMap(mapId);
                 PlayerController.instance.ShowPlayer(posx, posy);

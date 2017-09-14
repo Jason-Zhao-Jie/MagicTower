@@ -11,7 +11,8 @@ public class DataEditorScene : MonoBehaviour
     {
         instance = this;
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
-        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        AudioController.instance.ClearSoundSource();
+        AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
         // 设定canvas
         mapMakerCanvas = GameObject.Find("MapMakerCanvas");
         modalMakerCanvas = GameObject.Find("ModalMakerCanvas");

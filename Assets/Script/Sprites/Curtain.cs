@@ -19,7 +19,7 @@ public class Curtain : MonoBehaviour {
         isShowing = true;
         // TODO: 完成幕布的动画后, 在此处播放show动画,以代替下列语句
         var color = GetComponent<UnityEngine.UI.Image>().color;
-        color.a = 255;
+        color.a = 0;
         GetComponent<UnityEngine.UI.Image>().color = color;
     }
 
@@ -43,7 +43,7 @@ public class Curtain : MonoBehaviour {
         lastTime = SHOW_HIDE_TIME;
         // TODO: 完成幕布的动画后, 在此处播放hide动画,以代替下列语句
         var color = GetComponent<UnityEngine.UI.Image>().color;
-        color.a = 128;
+        color.a = 255;
         GetComponent<UnityEngine.UI.Image>().color = color;
     }
 
@@ -57,11 +57,22 @@ public class Curtain : MonoBehaviour {
         GetComponent<UnityEngine.UI.Image>().color = color;
     }
 
+    private void OnCurtainOpacity() {
+        // TODO: 完成幕布的动画后, 删除下列语句
+        var color = GetComponent<UnityEngine.UI.Image>().color;
+        if (isMiddled)
+            color.a = 255 * lastTime / SHOW_HIDE_TIME;
+        else
+            color.a = 255 * (SHOW_HIDE_TIME - lastTime) / SHOW_HIDE_TIME;
+        GetComponent<UnityEngine.UI.Image>().color = color;
+    }
+
     private void FixedUpdate() {
         if (isShowing)
-            if (lastTime > 0)
+            if (lastTime > 0) {
                 --lastTime;
-            else if (isMiddled)
+                OnCurtainOpacity();
+            } else if (isMiddled)
                 OnHide();
             else
                 OnMiddle();

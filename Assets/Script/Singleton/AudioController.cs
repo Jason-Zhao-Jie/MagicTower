@@ -1,8 +1,11 @@
+using System.Collections.Generic;
+
 public class AudioController
 {
     public const int itemGetSound = 20;
     public const int stepSound = 56;
     public const int openDoorSound = 53;
+    public const int stairSound = 55;
 
     public static AudioController instance = null;
     public UnityEngine.AudioSource MusicSource
@@ -11,10 +14,14 @@ public class AudioController
         set { musicSource = value; }
     }
 
-    public UnityEngine.AudioSource SoundSource
-    {
-        get { return soundSource; }
-        set { soundSource = value; }
+    public void AddSoundSource(UnityEngine.AudioSource source) {
+        soundSource.Add(source);
+        source.volume = soundVolume;
+        source.mute = soundMute;
+    }
+
+    public void ClearSoundSource() {
+        soundSource.Clear();
     }
 
     public bool PlayMusicLoop(int id)
@@ -38,8 +45,13 @@ public class AudioController
 
     public bool PlaySound(int id, int times = 1)
 	{
-        soundSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + DataCenter.instance.GetAudioById(id));
-        soundSource.Play();
+        if (soundSource.Count <= index)
+            index = 0;
+        if (soundSource.Count <= 0)
+            return false;
+        soundSource[index].clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + DataCenter.instance.GetAudioById(id));
+        soundSource[index].Play();
+        ++index;
         return true;
     }
 
@@ -50,7 +62,10 @@ public class AudioController
 
     public void SetSoundMute(bool mute)
     {
-        soundSource.mute = mute;
+        soundMute = mute;
+        foreach(var v in soundSource) {
+            v.mute = mute;
+        }
     }
 
     public void SetMusicVolume(int volume)
@@ -58,11 +73,16 @@ public class AudioController
         musicSource.volume = volume;
     }
 
-    public void SetSoundVolume(int volume)
-    {
-        soundSource.volume = volume;
+    public void SetSoundVolume(int volume) {
+        soundVolume = volume;
+        foreach (var v in soundSource) {
+            v.volume = volume;
+        }
     }
 
     private UnityEngine.AudioSource musicSource;
-    private UnityEngine.AudioSource soundSource;
+    private List<UnityEngine.AudioSource> soundSource = new List<UnityEngine.AudioSource>();
+    private bool soundMute = false;
+    private int soundVolume = 100;
+    private int index = 0;
 }

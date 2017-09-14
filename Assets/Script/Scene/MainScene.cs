@@ -18,7 +18,7 @@ public class MainScene : MonoBehaviour
         backgroundImg = GetComponent<Image>();
         mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
 		blockSize = new Vector3(mapPartRect.width * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE), mapPartRect.height * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE));
-        curtain = mapPanel.transform.Find("Curtain").GetComponent<Curtain>();
+        curtain = dialogCanvas.transform.Find("Curtain").GetComponent<Curtain>();
         mapNameText = heroPanel.transform.Find("MapName").GetComponent<Text>();
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
@@ -93,7 +93,12 @@ public class MainScene : MonoBehaviour
 
 
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
-        AudioController.instance.SoundSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        AudioController.instance.ClearSoundSource();
+        AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
+        AudioController.instance.AddSoundSource(dialogCanvas.GetComponent<AudioSource>());
+        AudioController.instance.AddSoundSource(transform.Find("HeroPanel").GetComponent<AudioSource>());
+        AudioController.instance.AddSoundSource(transform.Find("ItemPanel").GetComponent<AudioSource>());
+        AudioController.instance.AddSoundSource(transform.Find("MapPanel").GetComponent<AudioSource>());
         MapManager.instance.ShowMap();
         PlayerController.instance.ShowPlayer(true);
         PlayerController.instance.SyncPlayerData();

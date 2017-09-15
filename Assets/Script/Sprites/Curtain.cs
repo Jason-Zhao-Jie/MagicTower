@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Curtain : MonoBehaviour {
-    private const int SHOW_HIDE_TIME = 20;
+    private const int SHOW_HIDE_TIME = 30;
 
     private bool isShowing = false;
     private bool isMiddled = false;

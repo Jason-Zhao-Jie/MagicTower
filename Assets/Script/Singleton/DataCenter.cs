@@ -378,6 +378,7 @@ public class DataCenter
             _oneModal["typeId"] = new JNumber(data.modals[i].typeId);
             _oneModal["prefabPath"] = new JString(data.modals[i].prefabPath);
             _oneModal["eventId"] = new JNumber(data.modals[i].eventId);
+            _oneModal["eventData"] = new JNumber(data.modals[i].eventData);
             _oneModal["name"] = new JString(data.modals[i].name);
             modals.Add(_oneModal);
         }

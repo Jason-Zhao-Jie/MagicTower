@@ -22,31 +22,30 @@ public static class ArmyAntJson
         public JException(string message) : base(message)
         {
         }
-
     }
 
     public static IUnit Create(string value)
     {
         IUnit ret = null;
-        ret = Undefined.isThis(value);
+        ret = Undefined.Create(value);
         if (ret != null)
             return ret;
-        ret = JNull.isThis(value);
+        ret = JNull.Create(value);
         if (ret != null)
             return ret;
-        ret = JBoolean.isThis(value);
+        ret = JBoolean.Create(value);
         if (ret != null)
             return ret;
-        ret = JNumber.isThis(value);
+        ret = JNumber.Create(value);
         if (ret != null)
             return ret;
-        ret = JString.isThis(value);
+        ret = JString.Create(value);
         if (ret != null)
             return ret;
-        ret = JObject.isThis(value);
+        ret = JObject.Create(value);
         if (ret != null)
             return ret;
-        ret = JArray.isThis(value);
+        ret = JArray.Create(value);
         return ret;
     }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class JArray : IUnit, IJsonCollection, IList<IUnit>, ICollection<IUnit>
 {
-    public static IUnit isThis(string text)
+    public static IUnit Create(string text)
     {
         try
         {
@@ -204,6 +204,11 @@ public class JArray : IUnit, IJsonCollection, IList<IUnit>, ICollection<IUnit>
     }
 
     public int ToInt()
+    {
+        return 0;
+    }
+
+    public virtual long ToLong()
     {
         return 0;
     }

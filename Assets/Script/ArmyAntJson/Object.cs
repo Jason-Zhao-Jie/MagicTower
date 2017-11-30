@@ -6,7 +6,7 @@ using System.Linq;
 
 public class JObject : IUnit, IJsonCollection, IDictionary<string, IUnit>
 {
-    public static IUnit isThis(string text)
+    public static IUnit Create(string text)
     {
         try
         {
@@ -288,6 +288,11 @@ public class JObject : IUnit, IJsonCollection, IDictionary<string, IUnit>
     }
 
     public virtual int ToInt()
+    {
+        return 0;
+    }
+
+    public virtual long ToLong()
     {
         return 0;
     }

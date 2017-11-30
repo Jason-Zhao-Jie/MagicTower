@@ -78,7 +78,7 @@ public class EventManager {
     }
 
     private bool OnChat(Modal caller, long eventData) {
-        var data = DataCenter.instance.GetChatById((int)eventData);
+        var data = DataCenter.instance.chats[(int)eventData];
         MainScene.instance.ChatBegan(data, caller);
         return data.canOn;
     }

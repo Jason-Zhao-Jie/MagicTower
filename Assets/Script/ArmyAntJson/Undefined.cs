@@ -1,6 +1,6 @@
 ﻿public class Undefined : IUnit
 {
-    public static IUnit isThis(string text)
+    public static IUnit Create(string text)
     {
         return text.Trim().Trim(new char[] { '\r', '\n' }) == "undefined" ? new Undefined() : null;
     }
@@ -31,6 +31,11 @@
     }
 
     public int ToInt()
+    {
+        return 0;
+    }
+
+    public virtual long ToLong()
     {
         return 0;
     }

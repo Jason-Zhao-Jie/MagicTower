@@ -1,6 +1,6 @@
 ﻿public class JBoolean : IUnit
 {
-    public static IUnit isThis(string text)
+    public static IUnit Create(string text)
     {
         var realText = text.Trim().Trim(new char[] { '\r', '\n' });
         switch (realText)
@@ -56,6 +56,11 @@
     }
 
     public int ToInt()
+    {
+        return value ? 1 : 0;
+    }
+
+    public virtual long ToLong()
     {
         return value ? 1 : 0;
     }

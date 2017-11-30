@@ -246,7 +246,7 @@ public class MainScene : MonoBehaviour
         tipsPanel.SetActive(false);
         if (speakerId < 0)
             speakerId = PlayerController.instance.PlayerId;
-        var modal = DataCenter.instance.GetModalById(speakerId);
+        var modal = DataCenter.instance.modals[speakerId];
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
         obj.transform.SetParent(topChatPanel.transform);
         obj.transform.position = topChatSpeaker.transform.position;
@@ -270,7 +270,7 @@ public class MainScene : MonoBehaviour
         tipsPanel.SetActive(false);
         if (speakerId < 0)
             speakerId = PlayerController.instance.PlayerId;
-        var modal = DataCenter.instance.GetModalById(speakerId);
+        var modal = DataCenter.instance.modals[speakerId];
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
         obj.transform.SetParent(bottomChatPanel.transform);
         obj.transform.position = bottomChatSpeaker.transform.position;
@@ -363,7 +363,7 @@ public class MainScene : MonoBehaviour
         hurted = 0;
         isOurRound = true;
 
-        var playerModal = DataCenter.instance.GetModalById(playerBattleData.id);
+        var playerModal = DataCenter.instance.modals[playerBattleData.id];
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + playerModal.prefabPath));
         obj.transform.SetParent(battlePanel.transform);
         obj.transform.position = playerSprite.transform.position;
@@ -376,7 +376,7 @@ public class MainScene : MonoBehaviour
             playerSprite.GetComponent<Player>().RemoveSelf();
         playerSprite = obj;
 
-        var enemyModal = DataCenter.instance.GetModalById(enemyBattleData.id);
+        var enemyModal = DataCenter.instance.modals[enemyBattleData.id];
         obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + enemyModal.prefabPath));
         obj.transform.SetParent(battlePanel.transform);
         obj.transform.position = enemySprite.transform.position;
@@ -419,7 +419,7 @@ public class MainScene : MonoBehaviour
     }
 
     public void CreateHitter(int weaponId, bool isOnEnemy, int damage, bool isCritical){
-        var data = DataCenter.instance.GetWeaponDataById(weaponId);
+        var data = DataCenter.instance.weapons[weaponId];
 		var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + (isCritical?data.critPrefabPath:data.prefabPath)));
 		hitter = obj.GetComponent<Zzhit>();
         hitter.SetParam(data, isCritical);

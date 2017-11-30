@@ -1,7 +1,7 @@
 ﻿using System;
 public class JNumber : IUnit
 {
-    public static IUnit isThis(string text)
+    public static IUnit Create(string text)
     {
         try
         {
@@ -96,6 +96,11 @@ public class JNumber : IUnit
     public int ToInt()
     {
         return (int)value;
+    }
+
+    public long ToLong()
+    {
+        return (long)value;
     }
 
     public double ToFloat()

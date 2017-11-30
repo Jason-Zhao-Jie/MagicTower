@@ -1,6 +1,6 @@
 ﻿public class JNull : IUnit
 {
-    public static IUnit isThis(string text)
+    public static IUnit Create(string text)
     {
         return text.Trim().Trim(new char[] { '\r', '\n' }) == "null" ? new Undefined() : null;
     }
@@ -30,6 +30,11 @@
     }
 
     public int ToInt()
+    {
+        return 0;
+    }
+
+    public virtual long ToLong()
     {
         return 0;
     }

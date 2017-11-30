@@ -1,6 +1,6 @@
 ﻿public class JString : IUnit
 {
-    public static IUnit isThis(string text)
+    public static IUnit Create(string text)
     {
         var realValue = text.Trim().Trim(new char[] { '\r', '\n' });
         if (realValue.Length<=0 || realValue[realValue.Length - 1] != '\0')
@@ -58,6 +58,11 @@
     }
 
     public int ToInt()
+    {
+        return 0;
+    }
+
+    public virtual long ToLong()
     {
         return 0;
     }

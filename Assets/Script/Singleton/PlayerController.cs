@@ -57,7 +57,7 @@ public class PlayerController
         }
         if (block.thing != 0)
         {
-            var thingData = DataCenter.instance.GetModalById(block.thing);
+            var thingData = DataCenter.instance.modals[block.thing];
             if (thingData.eventId != 0)
             {
                 if (!EventManager.instance.DispatchEvent(thingData.eventId, MapManager.instance.GetModalByUuid(uuid), thingData.eventData))
@@ -85,7 +85,7 @@ public class PlayerController
 
     public bool SetPlayerInfo(int id)
     {
-        data = DataCenter.instance.GetPlayerDataById(id);
+        data = DataCenter.instance.players[id];
         return true;
     }
 
@@ -225,7 +225,7 @@ public class PlayerController
             SetPlayerInfo(playerId);
             player = null;
         }
-        var modalData = DataCenter.instance.GetModalById(playerId);
+        var modalData = DataCenter.instance.modals[playerId];
         if (player == null || isNew)
         {
             var obj = UnityEngine.Object.Instantiate(Resources.Load(Constant.PREFAB_DIR + modalData.prefabPath) as UnityEngine.GameObject);

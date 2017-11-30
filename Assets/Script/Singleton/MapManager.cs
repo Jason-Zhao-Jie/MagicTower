@@ -5,7 +5,7 @@ public class MapManager
 
     public void SetData(int floorId = 0, Constant.MapData[] datas = null)
     {
-        maps = new Constant.MapData[DataCenter.instance.data.MapLength];
+        maps = new Constant.MapData[DataCenter.instance.mapLength];
         if (datas != null)
         {
             maps = datas;
@@ -27,7 +27,7 @@ public class MapManager
         // 清除地图块，并载入新的地图
         ClearMap();
         if (maps[currentFloor] == null)
-            maps[currentFloor] = DataCenter.instance.data.GetCopiedMap(currentFloor);
+            maps[currentFloor] = DataCenter.instance.GetCopiedMap(currentFloor);
         for (int x = 0; x < maps[currentFloor].mapBlocks.Length; ++x)
             for (int y = 0; y < maps[currentFloor].mapBlocks[x].Length; ++y)
             {
@@ -38,13 +38,13 @@ public class MapManager
         // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识
         if (MainScene.instance != null)
         {
-            MainScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloor].backThing).prefabPath;
+            MainScene.instance.BackgroundImage = DataCenter.instance.modals[maps[currentFloor].backThing].prefabPath;
             MainScene.instance.MapName = maps[currentFloor].mapName;
             AudioController.instance.PlayMusicLoop(maps[currentFloor].music);
         }
         else
         {
-            DataEditorScene.instance.BackgroundImage = DataCenter.instance.GetModalById(maps[currentFloor].backThing).prefabPath;
+            DataEditorScene.instance.BackgroundImage = DataCenter.instance.modals[maps[currentFloor].backThing].prefabPath;
         }
 
         return true;
@@ -80,7 +80,7 @@ public class MapManager
     public void ChangeThingOnMap(int thingId, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
     {
         if (oldPosx >= 0 && oldPosy >= 0)
-            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.GetModalById(maps[currentFloor].mapBlocks[oldPosx][oldPosy].thing).prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.modals[maps[currentFloor].mapBlocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
         if (maps[currentFloor].mapBlocks[posx][posy].thing == thingId)
             return;
         maps[currentFloor].mapBlocks[posx][posy].thing = thingId;
@@ -98,7 +98,7 @@ public class MapManager
         UnityEngine.GameObject obj = null;
         if (thingId > 0)
         {
-            var modal = DataCenter.instance.GetModalById(thingId);
+            var modal = DataCenter.instance.modals[thingId];
             obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
             var cmp = obj.GetComponent<Modal>();
             cmp.InitWithMapPos(maps[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
@@ -121,7 +121,7 @@ public class MapManager
         else
             mapId--;
         if (maps[mapId] == null)
-            maps[mapId] = DataCenter.instance.data.GetCopiedMap(mapId);
+            maps[mapId] = DataCenter.instance.GetCopiedMap(mapId);
         maps[mapId].mapBlocks[posx][posy].thing = 0;
     }
 
@@ -159,7 +159,7 @@ public class MapManager
         else
             mapId--;
         if (maps[mapId] == null)
-            maps[mapId] = DataCenter.instance.data.GetCopiedMap(mapId);
+            maps[mapId] = DataCenter.instance.GetCopiedMap(mapId);
         maps[mapId].mapBlocks[posx][posy].eventId = eventId;
         maps[mapId].mapBlocks[posx][posy].eventData = eventData;
         return true;
@@ -173,7 +173,7 @@ public class MapManager
     public Constant.MonsterData GetMonsterDataByUuid(long uuid)
     {
         var modId = modals[uuid].ModId;
-        return DataCenter.instance.GetMonsterDataById(modId).Clone();
+        return DataCenter.instance.monsters[modId].Clone();
     }
 
     public Modal GetModalByUuid(long uuid)

@@ -11,6 +11,7 @@
     }
     bool ToBool();
     int ToInt();
+    long ToLong();
     double ToFloat();
     string ToString();
 

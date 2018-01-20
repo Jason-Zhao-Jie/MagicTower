@@ -448,6 +448,13 @@ public class MainScene : MonoBehaviour
 
 /********************** Choice Part **************************************/
 
+
+    public void ChoiceBegan(Constant.ChoiceData choiceData, Modal mod)
+    {
+        this.choice = choiceData;
+        choiceMod = mod;
+        ChatStepOn();
+    }
     public void ShowChoice(){
         // TODO
     }
@@ -580,6 +587,8 @@ public class MainScene : MonoBehaviour
     private GameObject choiceSpeaker;
     private Text choiceTitleText;
     private Text choiceSpeakerText;
+    private Constant.ChoiceData choice;
+    private Modal choiceMod;
 
 	private GameObject battlePanel;
 	private GameObject playerSprite;

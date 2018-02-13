@@ -28,7 +28,7 @@ public class AudioController
     {
         if (id == musicId)
             return true;
-        musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + DataCenter.instance.audios[id]);
+        musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + DataCenter.instance.audios[id].path);
         musicSource.Play();
         musicId = id;
         return true;
@@ -52,7 +52,7 @@ public class AudioController
             index = 0;
         if (soundSource.Count <= 0)
             return false;
-        soundSource[index].clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + DataCenter.instance.audios[id]);
+        soundSource[index].clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + DataCenter.instance.audios[id].path);
         soundSource[index].Play();
         ++index;
         return true;

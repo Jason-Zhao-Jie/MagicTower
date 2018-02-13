@@ -2261,6 +2261,7 @@
     {
       "id": 1,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2280,6 +2281,7 @@
     {
       "id": 2,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": false,
       "data": [
         {
@@ -2299,6 +2301,7 @@
     {
       "id": 3,
       "lastEventId": 0,
+      "lastEventData": 0,
       "canOn": false,
       "data": [
         {
@@ -2318,6 +2321,7 @@
     {
       "id": 4,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2329,6 +2333,7 @@
     {
       "id": 5,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2340,6 +2345,7 @@
     {
       "id": 6,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2351,6 +2357,7 @@
     {
       "id": 7,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2362,6 +2369,7 @@
     {
       "id": 8,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2373,6 +2381,7 @@
     {
       "id": 9,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2384,6 +2393,7 @@
     {
       "id": 10,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2395,6 +2405,7 @@
     {
       "id": 11,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2406,6 +2417,7 @@
     {
       "id": 12,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2417,6 +2429,7 @@
     {
       "id": 13,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2428,6 +2441,7 @@
     {
       "id": 14,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2439,6 +2453,7 @@
     {
       "id": 15,
       "lastEventId": 10,
+      "lastEventData": 0,
       "canOn": true,
       "data": [
         {
@@ -2458,15 +2473,18 @@
       "data": [
         {
           "eventId": 37,
-          "content": "50经验换取1敏捷"
+          "eventData": 0,
+          "content": "##经验换取1敏捷"
         },
         {
           "eventId": 38,
-          "content": "50经验换取1%暴击"
+          "eventData": 0,
+          "content": "##经验换取1%暴击"
         },
         {
           "eventId": 40,
-          "content": "50经验提升1个等级"
+          "eventData": 0,
+          "content": "##经验提升1个等级"
         }
       ]
     },
@@ -2479,14 +2497,17 @@
       "data": [
         {
           "eventId": 34,
+          "eventData": 0,
           "content": "##金币换取5攻击力"
         },
         {
           "eventId": 35,
+          "eventData": 0,
           "content": "##金币换取5防御力"
         },
         {
           "eventId": 36,
+          "eventData": 0,
           "content": "##金币换取1200生命值"
         }
       ]
@@ -2496,7 +2517,7 @@
     {
       "id": 1,
       "key": "en-us",
-      "name": "english"
+      "name": "English"
     },
     {
       "id": 2,
@@ -2506,7 +2527,7 @@
     {
       "id": 3,
       "key": "zh-tw",
-      "name": "繁体中文"
+      "name": "繁體中文"
     }
   ],
   "strings": [

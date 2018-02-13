@@ -21,13 +21,13 @@ public class DataEditorScene : MonoBehaviour
         saveResult.SetActive(false);
 
         backgroundImg = GetComponent<UnityEngine.UI.Image>();
-		mapPartRect = MapManager.GetMapPosition(mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>());
-		blockSize = new Vector3(mapPartRect.width * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE), mapPartRect.height * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE));
+        ScreenAdaptator.instance.LoadOnMainScene(mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect);
+
         curtain = mapMakerCanvas.transform.Find("MapPanel").transform.Find("Curtain").GetComponent<Curtain>();
         UnityEngine.Debug.Log("The current map whole rect is: " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " +
             mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
-		UnityEngine.Debug.Log("The current map part rect is: " + mapPartRect.x + ", " + mapPartRect.y + ", " + mapPartRect.width + ", " + mapPartRect.height);
-		UnityEngine.Debug.Log("The current map block size is: " + blockSize.x + ", " + blockSize.y);
+		UnityEngine.Debug.Log("The current map part rect is: " + ScreenAdaptator.instance.MapPartRect.x + ", " + ScreenAdaptator.instance.MapPartRect.y + ", " + ScreenAdaptator.instance.MapPartRect.width + ", " + ScreenAdaptator.instance.MapPartRect.height);
+		UnityEngine.Debug.Log("The current map block size is: " + ScreenAdaptator.instance.BlockSize.x + ", " + ScreenAdaptator.instance.BlockSize.y);
 		//TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
 		// 载入所有资源
@@ -237,7 +237,7 @@ public class DataEditorScene : MonoBehaviour
                 path = allAudios[i].name
             });
         }
-		PlatformUIManager.ShowMessageBox("音效表刷新成功，请立即保存配置然后重新启动游戏！");
+		//PlatformUIManager.ShowMessageBox("音效表刷新成功，请立即保存配置然后重新启动游戏！");
 	}
 
     // Auto collect prefabs 按钮回调
@@ -257,7 +257,7 @@ public class DataEditorScene : MonoBehaviour
                 typeId = 2
             });
         }
-		PlatformUIManager.ShowMessageBox("模型表刷新成功，请立即保存配置然后重新启动游戏！");
+		//PlatformUIManager.ShowMessageBox("模型表刷新成功，请立即保存配置然后重新启动游戏！");
 	}
 
     // 添加物体到map panel
@@ -265,10 +265,10 @@ public class DataEditorScene : MonoBehaviour
 	{
 		obj.transform.SetParent(mapMakerCanvas.transform.Find("MapPanel"));
 		obj.transform.position = mapMakerCanvas.transform.Find("MapPanel").transform.
-            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * blockSize.x / 100 + mapPartRect.x,
-                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * blockSize.y / 100 + mapPartRect.y,
+            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.x / 100 + ScreenAdaptator.instance.MapPartRect.x,
+                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.y / 100 + ScreenAdaptator.instance.MapPartRect.y,
                                        posz));
-        obj.transform.localScale = blockSize;
+        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
     }
 
     // 关闭(X)按钮回调
@@ -514,12 +514,12 @@ public class DataEditorScene : MonoBehaviour
             return;
         var mapPanel = mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>();
         var panelPos = mapMakerCanvas.transform.InverseTransformPoint(mapPanel.position);
-        pos.x -= panelPos.x + mapPartRect.x + mapMakerCanvas.GetComponent<RectTransform>().rect.width / 2;
-        pos.y -= panelPos.y + mapPartRect.y + mapMakerCanvas.GetComponent<RectTransform>().rect.height / 2;
+        pos.x -= panelPos.x + ScreenAdaptator.instance.MapPartRect.x + mapMakerCanvas.GetComponent<RectTransform>().rect.width / 2;
+        pos.y -= panelPos.y + ScreenAdaptator.instance.MapPartRect.y + mapMakerCanvas.GetComponent<RectTransform>().rect.height / 2;
         if (pos.x >= 0 && pos.y >= 0)
         {
-            var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / mapPartRect.width);
-            var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / mapPartRect.height);
+            var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / ScreenAdaptator.instance.MapPartRect.width);
+            var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / ScreenAdaptator.instance.MapPartRect.height);
             if (_posx >= Constant.MAP_BLOCK_LENGTH || _posy >= Constant.MAP_BLOCK_LENGTH)
                 return;
             posx = _posx;
@@ -561,8 +561,6 @@ public class DataEditorScene : MonoBehaviour
 
 
     private UnityEngine.UI.Image backgroundImg;
-    private Rect mapPartRect;
-    private Vector3 blockSize;
     private Curtain curtain;
     private GameObject[] allPrefabs;
     private GameObject mapMakerCanvas;

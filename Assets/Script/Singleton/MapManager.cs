@@ -140,17 +140,6 @@ public class MapManager
         modals[uuid].RemoveSelf();
     }
 
-    public static UnityEngine.Rect GetMapPosition(UnityEngine.RectTransform mapPanel)
-    {
-        var totalWidth = mapPanel.rect.width;
-        var totalHeight = mapPanel.rect.height;
-        bool isHorizenFull = totalWidth >= totalHeight;
-        var finalX = isHorizenFull ? ((totalWidth - totalHeight) / 2) : 0;
-        var finalY = isHorizenFull ? 0 : ((totalHeight - totalWidth) / 2);
-
-        return new UnityEngine.Rect(finalX, finalY, totalWidth - 2 * finalX, totalHeight - 2 * finalY);
-    }
-
     // 更改指定地点的event
     public bool SetEventOn(int eventId, long eventData, int posx, int posy, int mapId = 0)
     {

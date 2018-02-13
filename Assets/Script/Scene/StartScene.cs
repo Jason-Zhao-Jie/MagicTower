@@ -25,6 +25,7 @@ public class StartScene : MonoBehaviour
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.ClearSoundSource();
         AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
+        ScreenAdaptator.instance.LoadOnStartScene(GetComponent<RectTransform>().rect.size);
     }
 
     private void OnDestroy()
@@ -56,7 +57,7 @@ public class StartScene : MonoBehaviour
         if(1-percent <= double.Epsilon)
         {
             loadedOK = true;
-            PlatformUIManager.ShowMessageBox("游戏数据载入完毕");
+            //PlatformUIManager.ShowMessageBox("游戏数据载入完毕");
         }
     }
 

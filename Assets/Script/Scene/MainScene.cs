@@ -11,13 +11,14 @@ public class MainScene : MonoBehaviour
     {
         instance = this;
 
+
         var heroPanel = transform.Find("HeroPanel");
         var itemPanel = transform.Find("ItemPanel");
         var mapPanel = transform.Find("MapPanel");
         var dialogCanvas = GameObject.Find("DialogCanvas");
         backgroundImg = GetComponent<Image>();
-        mapPartRect = MapManager.GetMapPosition(transform.Find("MapPanel").GetComponent<RectTransform>());
-		blockSize = new Vector3(mapPartRect.width * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE), mapPartRect.height * 100 / (Constant.MAP_BLOCK_LENGTH * Constant.MAP_BLOCK_BASE_SIZE));
+        ScreenAdaptator.instance.LoadOnMainScene(mapPanel.GetComponent<RectTransform>().rect);
+
         curtain = dialogCanvas.transform.Find("Curtain").GetComponent<Curtain>();
         mapNameText = heroPanel.transform.Find("MapName").GetComponent<Text>();
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
@@ -63,8 +64,12 @@ public class MainScene : MonoBehaviour
         choiceSpeaker = choicePanel.transform.Find("Speaker").gameObject;
         choiceSpeakerText = choicePanel.transform.Find("SpeakerName").GetComponent<Text>();
         choiceSpeaker.transform.position = new Vector3(choiceSpeakerText.transform.position.x, choiceSpeaker.transform.position.y, choiceSpeaker.transform.position.z);
-        choiceTitleText = choicePanel.transform.Find("Text").GetComponent<Text>();
+        choiceTitleText = choicePanel.transform.Find("TitleText").GetComponent<Text>();
+        choiceItemPanel = choicePanel.transform.Find("ItemPanel").gameObject;
         choicePanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, choicePanel.transform.position.y, choicePanel.transform.position.z);
+        firstChoiceItem = choiceItemPanel.transform.Find("FirstItem").gameObject;
+        firstChoiceItem.GetComponent<Text>().text = "";
+        choiceItems = new List<GameObject>();
         choicePanel.SetActive(false);
 
         // 关联战斗框的控件
@@ -92,8 +97,8 @@ public class MainScene : MonoBehaviour
         battlePanel.SetActive(false);
 
 
-        AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.ClearSoundSource();
+        AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
         AudioController.instance.AddSoundSource(dialogCanvas.GetComponent<AudioSource>());
         AudioController.instance.AddSoundSource(transform.Find("HeroPanel").GetComponent<AudioSource>());
@@ -224,33 +229,36 @@ public class MainScene : MonoBehaviour
         }
     }
 
-/********************** Map Utilities **************************************/
+    /********************** Map Utilities **************************************/
 
     public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2)
     {
         obj.transform.SetParent(transform.Find("MapPanel"));
         obj.transform.position = transform.Find("MapPanel").transform.
-            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * blockSize.x / 100 + mapPartRect.x,
-                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * blockSize.y / 100 + mapPartRect.y,
+            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.x / 100 + ScreenAdaptator.instance.MapPartRect.x,
+                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.y / 100 + ScreenAdaptator.instance.MapPartRect.y,
                                        posz));
-        obj.transform.localScale = blockSize;
+        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
     }
 
 /********************** Chat Part **************************************/
 
 	public void ShowChatOnTop(string content, int speakerId = -1)
     {
+        // 设定游戏状态
         DataCenter.instance.Status = Constant.EGameStatus.OnTipChat;
+        // 弹出对话框
         topChatPanel.SetActive(true);
         bottomChatPanel.SetActive(false);
         tipsPanel.SetActive(false);
+        // 查找对话者数据, 贴上人物头像
         if (speakerId < 0)
             speakerId = PlayerController.instance.PlayerId;
         var modal = DataCenter.instance.modals[speakerId];
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
         obj.transform.SetParent(topChatPanel.transform);
         obj.transform.position = topChatSpeaker.transform.position;
-        obj.transform.localScale = blockSize;
+        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
         obj.GetComponent<SpriteRenderer>().sortingOrder = topChatSpeaker.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = topChatSpeaker.GetComponent<Modal>();
         if (mod != null)
@@ -258,7 +266,9 @@ public class MainScene : MonoBehaviour
         else
             bottomChatSpeaker.GetComponent<Player>().RemoveSelf();
         topChatSpeaker = obj;
+        // 对话者名字
         topChatSpeakerText.text = modal.name;
+        // 对话内容
         topChatText.text = content;
     }
 
@@ -274,7 +284,7 @@ public class MainScene : MonoBehaviour
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
         obj.transform.SetParent(bottomChatPanel.transform);
         obj.transform.position = bottomChatSpeaker.transform.position;
-        obj.transform.localScale = blockSize;
+        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
         obj.GetComponent<SpriteRenderer>().sortingOrder = bottomChatSpeaker.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = bottomChatSpeaker.GetComponent<Modal>();
         if (mod != null)
@@ -316,7 +326,7 @@ public class MainScene : MonoBehaviour
         {
             chatIndex = 0;
             ClearChats();
-            EventManager.instance.DispatchEvent(chat.lastEventId, chatMod, 0);  // 此处参数3本应是lastEvent的data参数，目前暂不支持，只传0
+            EventManager.instance.DispatchEvent(chat.lastEventId, chatMod, chat.lastEventData);
         }
         else{
             var chatData = chat.data[chatIndex];
@@ -332,14 +342,18 @@ public class MainScene : MonoBehaviour
         }
     }
 
-/********************** Battle Part **************************************/
+    /********************** Battle Part **************************************/
 
-	public void StartBattle(long enemyUuid, long yourUuid = -1, Constant.BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
+    public void StartBattle(long enemyUuid, long yourUuid = -1, Constant.BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
     {
+        // 设定状态
         DataCenter.instance.Status = Constant.EGameStatus.OnBattle;
+        // 弹出战斗框
         battlePanel.SetActive(true);
+        // 设定暂停触发器
         battlePauseChecker = pauseCheck;
         battlePauseEvent = pauseEvent;
+        // 设定战斗双方的属性数据
         enemyBattleData = MapManager.instance.GetMonsterDataByUuid(enemyUuid);
         this.enemyUuid = enemyUuid;
         if (yourUuid < 0)
@@ -363,11 +377,12 @@ public class MainScene : MonoBehaviour
         hurted = 0;
         isOurRound = true;
 
+        // 设定我方的头像
         var playerModal = DataCenter.instance.modals[playerBattleData.id];
         var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + playerModal.prefabPath));
         obj.transform.SetParent(battlePanel.transform);
         obj.transform.position = playerSprite.transform.position;
-        obj.transform.localScale = blockSize;
+        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
         obj.GetComponent<SpriteRenderer>().sortingOrder = playerSprite.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = playerSprite.GetComponent<Modal>();
         if (mod != null)
@@ -376,11 +391,12 @@ public class MainScene : MonoBehaviour
             playerSprite.GetComponent<Player>().RemoveSelf();
         playerSprite = obj;
 
+        // 设定敌方的头像
         var enemyModal = DataCenter.instance.modals[enemyBattleData.id];
         obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + enemyModal.prefabPath));
         obj.transform.SetParent(battlePanel.transform);
         obj.transform.position = enemySprite.transform.position;
-        obj.transform.localScale = blockSize;
+        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
         obj.GetComponent<SpriteRenderer>().sortingOrder = enemySprite.GetComponent<SpriteRenderer>().sortingOrder;
         mod = enemySprite.GetComponent<Modal>();
         if (mod != null)
@@ -389,6 +405,7 @@ public class MainScene : MonoBehaviour
             enemySprite.GetComponent<Player>().RemoveSelf();
         enemySprite = obj;
 
+        // 将双方数据显示到界面
 		playerNameText.text = playerModal.name;
 		playerLifeText.text = playerBattleData.life.ToString();
 		playerAttackText.text = playerBattleData.attack.ToString();
@@ -418,14 +435,14 @@ public class MainScene : MonoBehaviour
         isBattlePaused = false;
     }
 
-    public void CreateHitter(int weaponId, bool isOnEnemy, int damage, bool isCritical){
+    private void CreateHitter(int weaponId, bool isOnEnemy, int damage, bool isCritical){
         var data = DataCenter.instance.weapons[weaponId];
 		var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + (isCritical?data.critPrefabPath:data.prefabPath)));
 		hitter = obj.GetComponent<Zzhit>();
         hitter.SetParam(data, isCritical);
         obj.transform.SetParent((isOnEnemy ? enemySprite : playerSprite).transform);
         obj.transform.position = obj.transform.parent.position;
-		obj.transform.localScale = blockSize/200;
+		obj.transform.localScale = ScreenAdaptator.instance.BlockSize / 200;
 		obj.GetComponent<SpriteRenderer>().sortingOrder = obj.transform.parent.GetComponent<SpriteRenderer>().sortingOrder + 1;
     }
 
@@ -446,22 +463,112 @@ public class MainScene : MonoBehaviour
         DataCenter.instance.Status = Constant.EGameStatus.OnBattleResult;
     }
 
-/********************** Choice Part **************************************/
+    /********************** Choice Part **************************************/
 
+    private void ShowChoice()
+    {
+        // 设定游戏状态
+        DataCenter.instance.Status = Constant.EGameStatus.OnChoice;
+        // 显示选择对话框
+        choicePanel.SetActive(true);
+        // 显示对话者头像
+        if (choice.speakerId < 0)
+            choice.speakerId = PlayerController.instance.PlayerId;
+        var modal = DataCenter.instance.modals[choice.speakerId];
+        var obj = Instantiate(Resources.Load<GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
+        obj.transform.SetParent(choicePanel.transform);
+        obj.transform.position = choiceSpeaker.transform.position;
+        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
+        obj.GetComponent<SpriteRenderer>().sortingOrder = choiceSpeaker.GetComponent<SpriteRenderer>().sortingOrder;
+        var mod = choiceSpeaker.GetComponent<Modal>();
+        if (mod != null)
+            mod.RemoveSelf(false);
+        else
+            bottomChatSpeaker.GetComponent<Player>().RemoveSelf();
+        choiceSpeaker = obj;
+        choiceSpeakerText.text = modal.name;
+        // 设定选择的标题介绍对话的内容
+        choiceTitleText.text = choice.title;
+        // 添加选项
+        foreach(var i in choice.data)
+        {
+            CreateChoiceItem(i.content);
+        }
+        // 矫正选择框的大小
+        RedrawItems();
+    }
+
+    public void ClearChoice(Constant.EGameStatus nextStatue = Constant.EGameStatus.InGame)
+    {
+        choicePanel.SetActive(true);
+        // 清除选项
+        foreach (var i in choiceItems)
+        {
+            Destroy(i);
+        }
+        choiceItems.Clear();
+        firstChoiceItem.GetComponent<Text>().text = "";
+        // 隐藏选择对话框
+        choicePanel.SetActive(false);
+        DataCenter.instance.Status = nextStatue;
+    }
 
     public void ChoiceBegan(Constant.ChoiceData choiceData, Modal mod)
     {
-        this.choice = choiceData;
+        choice = choiceData;
         choiceMod = mod;
-        ChatStepOn();
+        ShowChoice();
     }
-    public void ShowChoice(){
+
+    private GameObject CreateChoiceItem(string content)
+    {
+        if (firstChoiceItem.GetComponent<Text>().text.Equals(""))
+        {
+            firstChoiceItem.GetComponent<Text>().text = content;
+            return firstChoiceItem;
+        }
+        else
+        {
+            var clonedItem = Instantiate(firstChoiceItem);
+            clonedItem.GetComponent<Text>().text = content;
+            choiceItems.Add(clonedItem);
+            clonedItem.transform.SetParent(choiceItemPanel.transform);
+            clonedItem.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
+            clonedItem.GetComponent<Button>().onClick.AddListener(delegate () { OnItemClicked(choiceItems.Count); });
+            return clonedItem;
+        }
+    }
+
+    public void ChooseToItem(uint index)
+    {
+        if (index > choiceItems.Count)
+            return;
+        if (index == 0)
+            firstChoiceItem.GetComponent<Text>().fontStyle = FontStyle.Bold;
+        else
+            choiceItems[System.Convert.ToInt32(index) + 1].GetComponent<Text>().fontStyle = FontStyle.Bold;
+        if (chosenIndex == 0)
+            firstChoiceItem.GetComponent<Text>().fontStyle = FontStyle.Bold;
+        else
+            choiceItems[System.Convert.ToInt32(chosenIndex) + 1].GetComponent<Text>().fontStyle = FontStyle.Normal;
+        chosenIndex = index;
+    }
+
+    private void RedrawItems()
+    {
         // TODO
     }
 
-/********************** Hero Info Part **************************************/
+    public void OnItemClicked(int index)
+    {
+        choicePanel.SetActive(false);
+        EventManager.instance.DispatchEvent(choice.data[chosenIndex].eventId, choiceMod, choice.data[chosenIndex].eventData);
+        ClearChoice();
+    }
 
-	public string MapName
+    /********************** Hero Info Part **************************************/
+
+    public string MapName
     {
         get { return mapNameText.text; }
         set { mapNameText.text = value; }
@@ -546,13 +653,10 @@ public class MainScene : MonoBehaviour
 	}
 
     /**************************************************************************************************/
-
-    public Vector3 BlockSize{ get { return blockSize; }}
+    
     public Curtain Curtain { get { return curtain; } }
 
     private Image backgroundImg;
-    private Rect mapPartRect;
-    private Vector3 blockSize;
     private Curtain curtain;
 
     private Text mapNameText;
@@ -582,13 +686,17 @@ public class MainScene : MonoBehaviour
     private Constant.ChatData chat;
     private Modal chatMod;
     private int chatIndex = 0;
-
+    
     private GameObject choicePanel;
     private GameObject choiceSpeaker;
     private Text choiceTitleText;
     private Text choiceSpeakerText;
+    private GameObject choiceItemPanel;
     private Constant.ChoiceData choice;
     private Modal choiceMod;
+    private GameObject firstChoiceItem;
+    private List<GameObject> choiceItems;
+    private uint chosenIndex;
 
 	private GameObject battlePanel;
 	private GameObject playerSprite;

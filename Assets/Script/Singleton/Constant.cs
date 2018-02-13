@@ -53,6 +53,7 @@ public static class Constant
         OnBattle,
         OnBattleResult,
         OnTipChat,
+        OnChoice,
         OnDialog,
         OnCG,
         OnSmallGame,
@@ -383,6 +384,7 @@ public static class Constant
 	{
 		public int id;
 		public int lastEventId;
+        public long lastEventData;
 		public bool canOn;
 		public OneChatData[] data;
 
@@ -397,6 +399,7 @@ public static class Constant
                 {
                     {"id",new JNumber(id) },
                     {"lastEventId",new JNumber(lastEventId) },
+                    {"lastEventData",new JNumber(lastEventData) },
                     {"canOn",new JBoolean(canOn) },
                     {"data", data_list }
                 });
@@ -404,6 +407,8 @@ public static class Constant
             set {
                 id = value["id"].ToInt();
                 lastEventId = value["lastEventId"].ToInt();
+                if (value.ContainsKey("lastEventData"))
+                    lastEventData = value["lastEventData"].ToLong();
                 canOn = value["canOn"].ToBool();
                 var data_list = value["data"] as JArray;
                 data = new OneChatData[data_list.Length];
@@ -415,23 +420,27 @@ public static class Constant
         }
     }
 
-	[System.Serializable]
-	public class OneChoiceData
-	{
-		public string content;
-		public int eventId;
+    [System.Serializable]
+    public class OneChoiceData
+    {
+        public string content;
+        public int eventId;
+        public long eventData;
 
         public JObject Json {
             get {
                 return new JObject(new Dictionary<string, IUnit>()
                 {
                     {"content",new JString(content) },
-                    {"eventId",new JNumber(eventId) }
+                    {"eventId",new JNumber(eventId) },
+                    {"eventData",new JNumber(eventData) }
                 });
             }
             set {
                 content = value["content"].ToString();
                 eventId = value["eventId"].ToInt();
+                if (value.ContainsKey("eventData"))
+                    eventData = value["eventData"].ToLong();
             }
         }
     }

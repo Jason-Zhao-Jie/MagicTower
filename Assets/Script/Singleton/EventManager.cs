@@ -23,6 +23,7 @@ public class EventManager {
         var cb = eventList[(EventName)eventId];
         return cb == null || cb(caller, eventData);
     }
+
     public enum EventName {
         None = 0,
         NormalBattle = 1,
@@ -69,6 +70,7 @@ public class EventManager {
     }
 
     private bool OnGetFunctionItem(Modal caller, long eventData) {
+        // TODO
         return false;
     }
 
@@ -92,6 +94,7 @@ public class EventManager {
 
     private bool OnGame(Modal caller, long eventData) {
         int gameId = (int)eventData;
+        // TODO
 
         return false;
     }
@@ -127,8 +130,11 @@ public class EventManager {
                 --PlayerController.instance.GreenKey;
                 break;
             case 13:    // brozen
+                        // TODO
             case 14:   // silver
+                       // TODO
             case 15:    // gold
+                        // TODO
                 return false;
         }
         var lastStatus = DataCenter.instance.Status;

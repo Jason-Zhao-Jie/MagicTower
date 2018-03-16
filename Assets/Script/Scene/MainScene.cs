@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class MainScene : MonoBehaviour
 {
     public static MainScene instance;
+    private const float ChoiceItemHeightDelta = 40;
     // Use this for initialization
     void Start()
     {
@@ -61,10 +62,11 @@ public class MainScene : MonoBehaviour
         tipsPanel.SetActive(false);
         //     选择对话框
         choicePanel = dialogCanvas.transform.Find("ChoicePanel").gameObject;
-        choiceSpeaker = choicePanel.transform.Find("Speaker").gameObject;
-        choiceSpeakerText = choicePanel.transform.Find("SpeakerName").GetComponent<Text>();
+        var choiceInfoPanel = choicePanel.transform.Find("ChoiceInfoPanel").gameObject;
+        choiceSpeaker = choiceInfoPanel.transform.Find("Speaker").gameObject;
+        choiceSpeakerText = choiceInfoPanel.transform.Find("SpeakerName").GetComponent<Text>();
         choiceSpeaker.transform.position = new Vector3(choiceSpeakerText.transform.position.x, choiceSpeaker.transform.position.y, choiceSpeaker.transform.position.z);
-        choiceTitleText = choicePanel.transform.Find("TitleText").GetComponent<Text>();
+        choiceTitleText = choiceInfoPanel.transform.Find("TitleText").GetComponent<Text>();
         choiceItemPanel = choicePanel.transform.Find("ItemPanel").gameObject;
         choicePanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, choicePanel.transform.position.y, choicePanel.transform.position.z);
         firstChoiceItem = choiceItemPanel.transform.Find("FirstItem").gameObject;
@@ -529,10 +531,9 @@ public class MainScene : MonoBehaviour
         }
         else
         {
-            var clonedItem = Instantiate(firstChoiceItem);
+            var clonedItem = Instantiate(firstChoiceItem, choiceItemPanel.transform, false);
             clonedItem.GetComponent<Text>().text = content;
             choiceItems.Add(clonedItem);
-            clonedItem.transform.SetParent(choiceItemPanel.transform);
             clonedItem.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             clonedItem.GetComponent<Button>().onClick.AddListener(delegate () { OnItemClicked(choiceItems.Count); });
             return clonedItem;
@@ -556,7 +557,31 @@ public class MainScene : MonoBehaviour
 
     private void RedrawItems()
     {
-        // TODO
+        // 计算选择部分总高度
+        var totalHeight = firstChoiceItem.GetComponent<Text>().preferredHeight + ChoiceItemHeightDelta;
+        foreach(var v in choiceItems)
+        {
+            totalHeight += v.GetComponent<Text>().preferredHeight + ChoiceItemHeightDelta;
+        }
+
+        // 调整选择框总大小
+        var currentHeight = choiceItemPanel.GetComponent<RectTransform>().rect.height;
+        Debug.Log("The rect is " + choiceItemPanel.GetComponent<RectTransform>().rect.ToString());
+        Debug.Log("The totalHeight is " + totalHeight);
+        var newRect = new Vector2(choicePanel.GetComponent<RectTransform>().sizeDelta.x, choicePanel.GetComponent<RectTransform>().rect.height);
+        newRect.y += totalHeight - currentHeight;
+        Debug.Log("The old rect is " + choicePanel.GetComponent<RectTransform>().rect.ToString());
+        choicePanel.GetComponent<RectTransform>().sizeDelta = newRect;
+        Debug.Log("The new rect is " + choicePanel.GetComponent<RectTransform>().rect.ToString());
+
+        // 排列选项
+        firstChoiceItem.transform.position = new Vector3(firstChoiceItem.transform.position.x, 0, firstChoiceItem.transform.position.z);
+        var currentY = firstChoiceItem.GetComponent<Text>().preferredHeight + ChoiceItemHeightDelta;
+        foreach (var v in choiceItems)
+        {
+            v.transform.position = new Vector3(firstChoiceItem.transform.position.x, currentY, firstChoiceItem.transform.position.z);
+            currentY += v.GetComponent<Text>().preferredHeight + ChoiceItemHeightDelta;
+        }
     }
 
     public void OnItemClicked(int index)

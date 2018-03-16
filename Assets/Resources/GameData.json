@@ -2147,7 +2147,7 @@
       "level": 1,
       "exp": 0,
       "life": 1000,
-      "attack": 10,
+      "attack": 1000,
       "defense": 5,
       "speed": 0,
       "critical": 5,

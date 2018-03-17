@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class MainScene : MonoBehaviour
 {
     public static MainScene instance;
-    private const float ChoiceItemHeightDelta = 40;
     // Use this for initialization
     void Start()
     {
@@ -21,6 +20,7 @@ public class MainScene : MonoBehaviour
         ScreenAdaptator.instance.LoadOnMainScene(mapPanel.GetComponent<RectTransform>().rect);
 
         curtain = dialogCanvas.transform.Find("Curtain").GetComponent<Curtain>();
+        curtain.gameObject.SetActive(false);
         mapNameText = heroPanel.transform.Find("MapName").GetComponent<Text>();
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
@@ -70,7 +70,7 @@ public class MainScene : MonoBehaviour
         choiceItemPanel = choicePanel.transform.Find("ItemPanel").gameObject;
         choicePanel.transform.position = new Vector3(mapPanel.position.x + mapPanel.GetComponent<RectTransform>().rect.width, choicePanel.transform.position.y, choicePanel.transform.position.z);
         firstChoiceItem = choiceItemPanel.transform.Find("FirstItem").gameObject;
-        firstChoiceItem.GetComponent<Text>().text = "";
+        firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = "";
         choiceItems = new List<GameObject>();
         choicePanel.SetActive(false);
 
@@ -98,18 +98,26 @@ public class MainScene : MonoBehaviour
         battleResultPanel.SetActive(false);
         battlePanel.SetActive(false);
 
-
-        AudioController.instance.ClearSoundSource();
-        AudioController.instance.MusicSource = GetComponent<AudioSource>();
-        AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
-        AudioController.instance.AddSoundSource(dialogCanvas.GetComponent<AudioSource>());
-        AudioController.instance.AddSoundSource(transform.Find("HeroPanel").GetComponent<AudioSource>());
-        AudioController.instance.AddSoundSource(transform.Find("ItemPanel").GetComponent<AudioSource>());
-        AudioController.instance.AddSoundSource(transform.Find("MapPanel").GetComponent<AudioSource>());
-        MapManager.instance.ShowMap();
-        PlayerController.instance.ShowPlayer(true);
-        PlayerController.instance.SyncPlayerData();
-        DataCenter.instance.Status = Constant.EGameStatus.InGame;
+        if (AudioController.instance != null)
+        {
+            AudioController.instance.ClearSoundSource();
+            AudioController.instance.MusicSource = GetComponent<AudioSource>();
+            AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
+            AudioController.instance.AddSoundSource(dialogCanvas.GetComponent<AudioSource>());
+            AudioController.instance.AddSoundSource(transform.Find("HeroPanel").GetComponent<AudioSource>());
+            AudioController.instance.AddSoundSource(transform.Find("ItemPanel").GetComponent<AudioSource>());
+            AudioController.instance.AddSoundSource(transform.Find("MapPanel").GetComponent<AudioSource>());
+        }
+        if (MapManager.instance != null)
+            MapManager.instance.ShowMap();
+        if (PlayerController.instance != null)
+        {
+            PlayerController.instance.ShowPlayer(true);
+            PlayerController.instance.SyncPlayerData();
+        }
+        if (DataCenter.instance != null)
+            DataCenter.instance.Status = Constant.EGameStatus.InGame;
+        
     }
 
     void OnDestroy()
@@ -122,6 +130,8 @@ public class MainScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (InputController.instance == null)
+            return;
         for (int i = 0; i < InputController.listenedKeys.Length; ++i)
         {
             bool isDown = Input.GetKey(InputController.listenedKeys[i]);
@@ -509,7 +519,7 @@ public class MainScene : MonoBehaviour
             Destroy(i);
         }
         choiceItems.Clear();
-        firstChoiceItem.GetComponent<Text>().text = "";
+        firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = "";
         // 隐藏选择对话框
         choicePanel.SetActive(false);
         DataCenter.instance.Status = nextStatue;
@@ -524,15 +534,15 @@ public class MainScene : MonoBehaviour
 
     private GameObject CreateChoiceItem(string content)
     {
-        if (firstChoiceItem.GetComponent<Text>().text.Equals(""))
+        if (firstChoiceItem.transform.Find("Text").GetComponent<Text>().text.Equals(""))
         {
-            firstChoiceItem.GetComponent<Text>().text = content;
+            firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = content;
             return firstChoiceItem;
         }
         else
         {
             var clonedItem = Instantiate(firstChoiceItem, choiceItemPanel.transform, false);
-            clonedItem.GetComponent<Text>().text = content;
+            clonedItem.transform.Find("Text").GetComponent<Text>().text = content;
             choiceItems.Add(clonedItem);
             clonedItem.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             clonedItem.GetComponent<Button>().onClick.AddListener(delegate () { OnItemClicked(choiceItems.Count); });
@@ -545,43 +555,33 @@ public class MainScene : MonoBehaviour
         if (index > choiceItems.Count)
             return;
         if (index == 0)
-            firstChoiceItem.GetComponent<Text>().fontStyle = FontStyle.Bold;
+            firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontStyle = FontStyle.Bold;
         else
-            choiceItems[System.Convert.ToInt32(index) + 1].GetComponent<Text>().fontStyle = FontStyle.Bold;
+            choiceItems[System.Convert.ToInt32(index) + 1].transform.Find("Text").GetComponent<Text>().fontStyle = FontStyle.Bold;
         if (chosenIndex == 0)
-            firstChoiceItem.GetComponent<Text>().fontStyle = FontStyle.Bold;
+            firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontStyle = FontStyle.Bold;
         else
-            choiceItems[System.Convert.ToInt32(chosenIndex) + 1].GetComponent<Text>().fontStyle = FontStyle.Normal;
+            choiceItems[System.Convert.ToInt32(chosenIndex) + 1].transform.Find("Text").GetComponent<Text>().fontStyle = FontStyle.Normal;
         chosenIndex = index;
     }
 
     private void RedrawItems()
     {
-        // 计算选择部分总高度
-        var totalHeight = firstChoiceItem.GetComponent<Text>().preferredHeight + ChoiceItemHeightDelta;
-        foreach(var v in choiceItems)
+        // 计算选择部分总高度,排列选项
+        firstChoiceItem.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, 0, firstChoiceItem.transform.localPosition.z);
+        var unitHeight = firstChoiceItem.GetComponent<RectTransform>().rect.height;
+        var totalHeight = unitHeight;
+        foreach (var v in choiceItems)
         {
-            totalHeight += v.GetComponent<Text>().preferredHeight + ChoiceItemHeightDelta;
+            v.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, totalHeight, firstChoiceItem.transform.localPosition.z);
+            totalHeight += unitHeight;
         }
 
         // 调整选择框总大小
         var currentHeight = choiceItemPanel.GetComponent<RectTransform>().rect.height;
-        Debug.Log("The rect is " + choiceItemPanel.GetComponent<RectTransform>().rect.ToString());
-        Debug.Log("The totalHeight is " + totalHeight);
         var newRect = new Vector2(choicePanel.GetComponent<RectTransform>().sizeDelta.x, choicePanel.GetComponent<RectTransform>().rect.height);
         newRect.y += totalHeight - currentHeight;
-        Debug.Log("The old rect is " + choicePanel.GetComponent<RectTransform>().rect.ToString());
         choicePanel.GetComponent<RectTransform>().sizeDelta = newRect;
-        Debug.Log("The new rect is " + choicePanel.GetComponent<RectTransform>().rect.ToString());
-
-        // 排列选项
-        firstChoiceItem.transform.position = new Vector3(firstChoiceItem.transform.position.x, 0, firstChoiceItem.transform.position.z);
-        var currentY = firstChoiceItem.GetComponent<Text>().preferredHeight + ChoiceItemHeightDelta;
-        foreach (var v in choiceItems)
-        {
-            v.transform.position = new Vector3(firstChoiceItem.transform.position.x, currentY, firstChoiceItem.transform.position.z);
-            currentY += v.GetComponent<Text>().preferredHeight + ChoiceItemHeightDelta;
-        }
     }
 
     public void OnItemClicked(int index)

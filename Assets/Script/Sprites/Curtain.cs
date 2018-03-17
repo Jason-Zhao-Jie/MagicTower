@@ -14,6 +14,7 @@ public class Curtain : MonoBehaviour {
     public void StartShow(Constant.EmptyCallBack cb) {
         lastStatue = DataCenter.instance.Status;
         DataCenter.instance.Status = Constant.EGameStatus.OnMiddleLoading;
+        gameObject.SetActive(true);
         midCallback = cb;
         lastTime = SHOW_HIDE_TIME;
         isShowing = true;
@@ -55,6 +56,8 @@ public class Curtain : MonoBehaviour {
         var color = GetComponent<UnityEngine.UI.Image>().color;
         color.a = 0;
         GetComponent<UnityEngine.UI.Image>().color = color;
+
+        gameObject.SetActive(false);
     }
 
     private void OnCurtainOpacity() {

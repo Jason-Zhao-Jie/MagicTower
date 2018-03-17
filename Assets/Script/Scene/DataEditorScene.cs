@@ -24,6 +24,7 @@ public class DataEditorScene : MonoBehaviour
         ScreenAdaptator.instance.LoadOnMainScene(mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect);
 
         curtain = mapMakerCanvas.transform.Find("MapPanel").transform.Find("Curtain").GetComponent<Curtain>();
+        curtain.gameObject.SetActive(false);
         UnityEngine.Debug.Log("The current map whole rect is: " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " +
             mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
 		UnityEngine.Debug.Log("The current map part rect is: " + ScreenAdaptator.instance.MapPartRect.x + ", " + ScreenAdaptator.instance.MapPartRect.y + ", " + ScreenAdaptator.instance.MapPartRect.width + ", " + ScreenAdaptator.instance.MapPartRect.height);

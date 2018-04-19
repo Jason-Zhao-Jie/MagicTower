@@ -568,19 +568,18 @@ public class MainScene : MonoBehaviour
     private void RedrawItems()
     {
         // 计算选择部分总高度,排列选项
-        firstChoiceItem.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, 0, firstChoiceItem.transform.localPosition.z);
+        // firstChoiceItem.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, 0, firstChoiceItem.transform.localPosition.z);
         var unitHeight = firstChoiceItem.GetComponent<RectTransform>().rect.height;
         var totalHeight = unitHeight;
         foreach (var v in choiceItems)
         {
-            v.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, totalHeight, firstChoiceItem.transform.localPosition.z);
-            totalHeight += unitHeight;
+            // v.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, totalHeight, firstChoiceItem.transform.localPosition.z);
+            totalHeight += unitHeight + 8;
         }
 
         // 调整选择框总大小
-        var currentHeight = choiceItemPanel.GetComponent<RectTransform>().rect.height;
         var newRect = new Vector2(choicePanel.GetComponent<RectTransform>().sizeDelta.x, choicePanel.GetComponent<RectTransform>().rect.height);
-        newRect.y += totalHeight - currentHeight;
+        newRect.y += totalHeight - unitHeight - 25;
         choicePanel.GetComponent<RectTransform>().sizeDelta = newRect;
     }
 

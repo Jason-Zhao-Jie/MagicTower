@@ -16,7 +16,6 @@ public class ChoiceDlg : ObjectPool.AElement
         ret.choiceMod = mod;
         ret.nextStatus = nextStatus;
         ret.transform.SetParent(parent, false);
-        ret.transform.position = new Vector3(parent.position.x + parent.GetComponent<RectTransform>().rect.width, ret.transform.position.y, ret.transform.position.z);
         ret.ShowChoice();
         return ret;
     }

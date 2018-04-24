@@ -42,17 +42,14 @@ public class MainScene : MonoBehaviour
 
         topChatPanel = ChatDlg.ShowChat(true);
         topChatPanel.transform.SetParent(dialogCanvas.transform, false);
-        topChatPanel.transform.position = new Vector3(dialogCanvas.transform.position.x + dialogCanvas.transform.GetComponent<RectTransform>().rect.width, topChatPanel.transform.position.y, topChatPanel.transform.position.z);
         topChatPanel.gameObject.SetActive(false);
 
         bottomChatPanel = ChatDlg.ShowChat(false);
         bottomChatPanel.transform.SetParent(dialogCanvas.transform, false);
-        bottomChatPanel.transform.position = new Vector3(dialogCanvas.transform.position.x + dialogCanvas.transform.GetComponent<RectTransform>().rect.width, bottomChatPanel.transform.position.y, bottomChatPanel.transform.position.z);
         bottomChatPanel.gameObject.SetActive(false);
 
         tipsPanel = TipBar.ShowTip();
         tipsPanel.transform.SetParent(dialogCanvas.transform, false);
-        tipsPanel.transform.position = new Vector3(dialogCanvas.transform.position.x + dialogCanvas.transform.GetComponent<RectTransform>().rect.width, tipsPanel.transform.position.y, tipsPanel.transform.position.z);
         tipsPanel.gameObject.SetActive(false);
 
         if (AudioController.instance != null)

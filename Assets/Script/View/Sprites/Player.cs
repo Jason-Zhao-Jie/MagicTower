@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Player : MonoBehaviour
+public class Player : ObjectPool.AElement
 {
     const int RUN_SPEED = 10;
 
@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
 
 	void Update()
 	{
-        if (PlayerController.instance.dirChanged)
+        if (PlayerController.instance.dirChanged && mainPlayer)
         {
             switch (PlayerController.instance.Dir)
             {
@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
 	{
-        if (PlayerController.instance.IsRunning)
+        if (PlayerController.instance.IsRunning && mainPlayer)
         {
             if (runningTime < RUN_SPEED)
                 ++runningTime;
@@ -70,13 +70,57 @@ public class Player : MonoBehaviour
         }
 	}
 
+    public bool MainPlayer {
+        get { return mainPlayer; }
+        set { mainPlayer = value; }
+    }
+
 	public void RemoveSelf()
 	{
-		Destroy(gameObject);
+        ObjectPool.instance.RecycleAnElement(this);
 	}
+
+    public override ObjectPool.ElementType GetPoolTypeId()
+    {
+        return ObjectPool.ElementType.Sprite;
+    }
+
+    public override string ResourcePath {
+        get {
+            return Constant.PREFAB_DIR + DataCenter.instance.modals[playerId].prefabPath;
+        }
+    }
+
+    public void SetPlayerData(int id)
+    {
+        playerId = id;
+    }
+
+    public override bool RecycleSelf()
+    {
+        return RecycleSelf<Modal>();
+    }
+
+    public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
+    {
+        SetPlayerData(elemId);
+        return true;
+    }
+
+    public override void OnReuse(ObjectPool.ElementType tid, int elemId)
+    {
+    }
+
+    public override bool OnUnuse(ObjectPool.ElementType tid, int elemId)
+    {
+        mainPlayer = false;
+        return true;
+    }
 
     public Animator animator{ get { return GetComponent<Animator>(); }}
 
     private int runningTime;
     private Vector2 movedLength;
+    private int playerId;
+    private bool mainPlayer = false;
 }

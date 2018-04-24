@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class Modal : MonoBehaviour
+public class Modal : ObjectPool.AElement
 {
     const double RUN_STATE_DELAY = 0.4;
     public enum ModalType{
@@ -12,6 +11,17 @@ public class Modal : MonoBehaviour
         Npc,
         Monster,
         Player
+    }
+
+    public override ObjectPool.ElementType GetPoolTypeId()
+    {
+        return ObjectPool.ElementType.Sprite;
+    }
+
+    public override string ResourcePath {
+        get {
+            return Constant.PREFAB_DIR + DataCenter.instance.modals[modId].prefabPath;
+        }
     }
 
     public int TypeId
@@ -62,10 +72,7 @@ public class Modal : MonoBehaviour
         if (callManager)
             MapManager.instance.RemoveThingOnMap(posx, posy, mapId);
         MapManager.instance.RemoveMod(uuid);
-        if (gameObject != null)
-            Destroy(gameObject);
-        else
-            Destroy(this);
+        ObjectPool.instance.RecycleAnElement(this);
     }
 
     public void RemoveSelf(Constant.EmptyCallBack dCB) {
@@ -92,6 +99,27 @@ public class Modal : MonoBehaviour
     {
         if (destroyCallBack != null)
             destroyCallBack();
+        destroyCallBack = null;
+    }
+
+    public override bool RecycleSelf()
+    {
+        return RecycleSelf<Modal>();
+    }
+
+    public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
+    {
+        return true;
+    }
+
+    public override void OnReuse(ObjectPool.ElementType tid, int elemId)
+    {
+    }
+
+    public override bool OnUnuse(ObjectPool.ElementType tid, int elemId)
+    {
+        OnDestroy();
+        return true;
     }
 
     public Animator animator { get { return GetComponent<Animator>(); } }
@@ -101,6 +129,7 @@ public class Modal : MonoBehaviour
     public int PosY { get { return posy; } }
     public int EventId { get { return eventId; } }
     public long EventData { get { return eventData; } }
+    
 
     private int eventId = 0;
     private long eventData = 0;

@@ -95,21 +95,20 @@ public class MapManager
     // 在指定处添加物品,仅添加表现, 必须同时配合添加数据的操作, 而且本函数也不检测原先是否已有物品
     public void AddObjectToMap(int posx, int posy, int thingId)
     {
-        UnityEngine.GameObject obj = null;
+        Modal obj = null;
         if (thingId > 0)
         {
             var modal = DataCenter.instance.modals[thingId];
-            obj = UnityEngine.Object.Instantiate(UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + modal.prefabPath));
-            var cmp = obj.GetComponent<Modal>();
-            cmp.InitWithMapPos(maps[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
+            obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
+            obj.InitWithMapPos(maps[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
         }
         if (obj != null)
         {
             obj.name = "MapBlock_" + posx.ToString() + "_" + posy.ToString();
             if (MainScene.instance != null)
-                MainScene.instance.AddObjectToMap(obj, posx, posy, -2);
+                MainScene.instance.AddObjectToMap(obj.gameObject, posx, posy, -2);
             else if (DataEditorScene.instance != null)
-                DataEditorScene.instance.AddObjectToMap(obj, posx, posy, -2);
+                DataEditorScene.instance.AddObjectToMap(obj.gameObject, posx, posy, -2);
         }
     }
 

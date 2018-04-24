@@ -264,7 +264,7 @@ public class DataEditorScene : MonoBehaviour
     // 添加物体到map panel
     public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2)
 	{
-		obj.transform.SetParent(mapMakerCanvas.transform.Find("MapPanel"));
+		obj.transform.SetParent(mapMakerCanvas.transform.Find("MapPanel"), false);
 		obj.transform.position = mapMakerCanvas.transform.Find("MapPanel").transform.
             TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.x / 100 + ScreenAdaptator.instance.MapPartRect.x,
                                        (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.y / 100 + ScreenAdaptator.instance.MapPartRect.y,

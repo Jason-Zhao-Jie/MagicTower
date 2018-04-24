@@ -228,8 +228,8 @@ public class PlayerController
         var modalData = DataCenter.instance.modals[playerId];
         if (player == null || isNew)
         {
-            var obj = UnityEngine.Object.Instantiate(Resources.Load(Constant.PREFAB_DIR + modalData.prefabPath) as UnityEngine.GameObject);
-            player = obj.GetComponent<Player>();
+            player = ObjectPool.instance.GetAnElement<Player>(modalData.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modalData.prefabPath);
+            player.MainPlayer = true;
         }
         if (posx < 0 || posx >= Constant.MAP_BLOCK_LENGTH)
             posx = this.posx;

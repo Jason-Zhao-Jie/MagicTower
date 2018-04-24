@@ -88,7 +88,7 @@ public class EventManager {
     private bool OnChoice(Modal caller, long eventData) {
         int choiceId = (int)eventData;
         var data = DataCenter.instance.choices[choiceId];
-        MainScene.instance.ChoiceBegan(data, caller);
+        MainScene.instance.StartChoice(data, caller);
         return false;
     }
 

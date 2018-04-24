@@ -4,6 +4,7 @@ public static class Constant
 {
     public const string AUDIO_DIR = "Audio/";
     public const string PREFAB_DIR = "Prefab/";
+    public const string DIALOG_DIR = "Controls/";
     public const string MAP_DATA_DIR = "MapData/";
 
     public const int MISS_HITTER = 9;       // TODO: To set the right "MISS" icon
@@ -13,7 +14,6 @@ public static class Constant
     public const int MAP_BLOCK_BASE_SIZE = 32;
 
     public delegate bool EventCallback(Modal caller, long blockData);
-    public delegate bool BattlePauseEventCheck();
     public delegate void EmptyCallBack();
 
     public enum ResourceType

@@ -3,12 +3,15 @@ public class MapManager
 {
     public static MapManager instance = null;
 
-    public void SetData(int floorId = 0, Constant.MapData[] datas = null)
+    public void SetStartData(int floorId = 0, Constant.MapData[] datas = null)
     {
-        maps = new Constant.MapData[DataCenter.instance.mapLength];
         if (datas != null)
         {
             maps = datas;
+        }
+        else
+        {
+            maps = new Constant.MapData[DataCenter.instance.mapLength];
         }
         currentFloor = floorId;
     }
@@ -23,6 +26,8 @@ public class MapManager
         currentFloor = mapid - 1;
         if (currentFloor < 0)
             return false;
+        if(maps == null)
+            maps = new Constant.MapData[DataCenter.instance.mapLength];
 
         // 清除地图块，并载入新的地图
         ClearMap();
@@ -201,7 +206,7 @@ public class MapManager
         }
     }
 
-    private int currentFloor;
+    private int currentFloor = 0;
     private Constant.MapData[] maps;
     private Dictionary<long, Modal> modals = new Dictionary<long, Modal>();
 }

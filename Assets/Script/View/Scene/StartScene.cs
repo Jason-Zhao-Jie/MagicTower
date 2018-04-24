@@ -12,37 +12,16 @@ public class StartScene : MonoBehaviour
         instance = this;
         Input.multiTouchEnabled = true;
 
-        if (DataCenter.instance == null)
-        {
-            LoadData();
-            SetMapLoadingPercent(1);
-        }
-        else
-        {
-            percent = 1;
-            loadedOK = true;
-        }
+        Initializationer.InitBases(GetComponent<RectTransform>().rect.size);
+        SetMapLoadingPercent(1);
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.ClearSoundSource();
         AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
-        ScreenAdaptator.instance.LoadOnStartScene(GetComponent<RectTransform>().rect.size);
     }
 
     private void OnDestroy()
     {
         instance = null;
-    }
-
-    void LoadData()
-    {
-        DataCenter.instance = new DataCenter();
-        DataCenter.instance.LoadData();
-        InputController.instance = new InputController();
-        InputController.instance.Init();
-        EventManager.instance = new EventManager();
-        AudioController.instance = new AudioController();
-        MapManager.instance = new MapManager();
-        PlayerController.instance = new PlayerController();
     }
 
     // Update is called once per frame
@@ -65,8 +44,6 @@ public class StartScene : MonoBehaviour
     {
         if (loadedOK)
         {
-            MapManager.instance.SetData();
-            PlayerController.instance.SetPlayerInfo(62);
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
         }
     }
@@ -85,7 +62,6 @@ public class StartScene : MonoBehaviour
     {
         if (loadedOK)
         {
-            MapManager.instance.SetData();
             UnityEngine.SceneManagement.SceneManager.LoadScene("DataEditorScene");
         }
     }

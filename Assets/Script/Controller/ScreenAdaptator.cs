@@ -9,7 +9,7 @@ public class ScreenAdaptator
     public static ScreenAdaptator instance = new ScreenAdaptator();
     ScreenAdaptator() { }
 
-    public void LoadOnStartScene(Vector2 screen)
+    public void SetScreenSize(Vector2 screen)
     {
         screenSize = screen;
     }

@@ -278,7 +278,7 @@ public class DataCenter
         if (pos == null)
             return false;
         PlayerController.instance.PlayerData = new Constant.PlayerData() { Json = jo["player"] as JObject };
-        //TODO: MapManager.instance.SetData(pos["mapId"].ToInt(), GetMapDataOfJson(jo["maps"].ToString()));
+        //TODO: MapManager.instance.SetStartData(pos["mapId"].ToInt(), GetMapDataOfJson(jo["maps"].ToString()));
         PlayerController.instance.posx = pos["x"].ToInt();
         PlayerController.instance.posy = pos["y"].ToInt();
         return true;

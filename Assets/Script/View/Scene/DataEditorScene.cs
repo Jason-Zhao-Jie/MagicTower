@@ -10,6 +10,8 @@ public class DataEditorScene : MonoBehaviour
     void Start()
     {
         instance = this;
+        Initializationer.InitBases(GetComponent<RectTransform>().rect.size);
+
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.ClearSoundSource();
         AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());

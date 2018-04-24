@@ -10,7 +10,7 @@ public class MainScene : MonoBehaviour
     void Start()
     {
         instance = this;
-
+        Initializationer.InitBases(GetComponent<RectTransform>().rect.size);
 
         var heroPanel = transform.Find("HeroPanel");
         var itemPanel = transform.Find("ItemPanel");

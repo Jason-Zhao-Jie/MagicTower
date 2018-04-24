@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class PlayerController
 {
+    public const int DEFALUT_PLAYER_ID = 62;
     public static PlayerController instance = null;
 
     public enum Direction
@@ -217,8 +218,13 @@ public class PlayerController
     public void ShowPlayer(int posx = -1, int posy = -1, int playerId = 0, bool isNew = false)
     {
         if (playerId == 0)
-            playerId = this.data.id;
-        else if (playerId != this.data.id)
+            playerId = data.id;
+        if (playerId == 0)
+        {
+            SetPlayerInfo(DEFALUT_PLAYER_ID);
+            playerId = DEFALUT_PLAYER_ID;
+        }
+        else if (playerId != data.id)
         {
             if (player != null)
                 player.RemoveSelf();

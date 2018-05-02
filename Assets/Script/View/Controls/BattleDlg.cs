@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class BattleDlg : ObjectPool.AElement
@@ -39,22 +40,35 @@ public class BattleDlg : ObjectPool.AElement
         // 关联战斗框的控件
         playerSprite = transform.Find("Player").gameObject;
         playerNameText = transform.Find("Name_Player").GetComponent<Text>();
+        playerNameText.fontSize = Convert.ToInt32(playerNameText.fontSize * ScreenAdaptator.instance.RealFontSize);
         playerSprite.transform.position = new Vector3(playerNameText.transform.position.x, playerSprite.transform.position.y, playerSprite.transform.position.z);
         playerLifeText = transform.Find("Life_Player").GetComponent<Text>();
+        playerLifeText.fontSize = Convert.ToInt32(playerLifeText.fontSize * ScreenAdaptator.instance.RealFontSize);
         playerAttackText = transform.Find("Attack_Player").GetComponent<Text>();
+        playerAttackText.fontSize = Convert.ToInt32(playerAttackText.fontSize * ScreenAdaptator.instance.RealFontSize);
         playerDefenseText = transform.Find("Defense_Player").GetComponent<Text>();
+        playerDefenseText.fontSize = Convert.ToInt32(playerDefenseText.fontSize * ScreenAdaptator.instance.RealFontSize);
         playerSpeedText = transform.Find("Speed_Player").GetComponent<Text>();
+        playerSpeedText.fontSize = Convert.ToInt32(playerSpeedText.fontSize * ScreenAdaptator.instance.RealFontSize);
         enemySprite = transform.Find("Enemy").gameObject;
         enemyNameText = transform.Find("Name_Enemy").GetComponent<Text>();
+        enemyNameText.fontSize = Convert.ToInt32(enemyNameText.fontSize * ScreenAdaptator.instance.RealFontSize);
         enemySprite.transform.position = new Vector3(enemyNameText.transform.position.x, enemySprite.transform.position.y, enemySprite.transform.position.z);
         enemyLifeText = transform.Find("Life_Enemy").GetComponent<Text>();
+        enemyLifeText.fontSize = Convert.ToInt32(enemyLifeText.fontSize * ScreenAdaptator.instance.RealFontSize);
         enemyAttackText = transform.Find("Attack_Enemy").GetComponent<Text>();
+        enemyAttackText.fontSize = Convert.ToInt32(enemyAttackText.fontSize * ScreenAdaptator.instance.RealFontSize);
         enemyDefenseText = transform.Find("Defense_Enemy").GetComponent<Text>();
+        enemyDefenseText.fontSize = Convert.ToInt32(enemyDefenseText.fontSize * ScreenAdaptator.instance.RealFontSize);
         enemySpeedText = transform.Find("Speed_Enemy").GetComponent<Text>();
+        enemySpeedText.fontSize = Convert.ToInt32(enemySpeedText.fontSize * ScreenAdaptator.instance.RealFontSize);
         battleResultPanel = transform.Find("BattleResultPanel").gameObject;
         battleResultGoldText = battleResultPanel.transform.Find("GoldText").GetComponent<Text>();
+        battleResultGoldText.fontSize = Convert.ToInt32(battleResultGoldText.fontSize*ScreenAdaptator.instance.RealFontSize);
         battleResultExpText = battleResultPanel.transform.Find("ExpText").GetComponent<Text>();
+        battleResultExpText.fontSize = Convert.ToInt32(battleResultExpText.fontSize*ScreenAdaptator.instance.RealFontSize);
         battleHurtedText = battleResultPanel.transform.Find("HurtedText").GetComponent<Text>();
+        battleHurtedText.fontSize = Convert.ToInt32(battleHurtedText.fontSize * ScreenAdaptator.instance.RealFontSize);
         battleResultPanel.SetActive(false);
 
     }

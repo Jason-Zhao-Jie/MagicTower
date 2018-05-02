@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class ChatDlg : ObjectPool.AElement
     public const int TOP_PREFAB_ID = 4;
     public const string BOTTOM_PREFAB_DIR = "BottomChat";
     public const int BOTTOM_PREFAB_ID = 5;
+
+    public const int SPEAKER_SORTING_ORDER = 1;
 
     public static ChatDlg ShowChat(bool isTop)
     {
@@ -32,8 +35,10 @@ public class ChatDlg : ObjectPool.AElement
     {
         speaker = transform.Find("Speaker").gameObject;
         speakerText = transform.Find("SpeakerName").GetComponent<UnityEngine.UI.Text>();
+        speakerText.fontSize = Convert.ToInt32(speakerText.fontSize * ScreenAdaptator.instance.RealFontSize);
         speaker.transform.position = new Vector3(speakerText.transform.position.x, speaker.transform.position.y, speaker.transform.position.z);
         text = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
+        text.fontSize = Convert.ToInt32(text.fontSize * ScreenAdaptator.instance.RealFontSize);
     }
 
     public void SetChat(string content, int speakerId = -1)
@@ -54,12 +59,14 @@ public class ChatDlg : ObjectPool.AElement
         obj.transform.SetParent(transform, false);
         obj.transform.position = speaker.transform.position;
         obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
-        obj.GetComponent<SpriteRenderer>().sortingOrder = speaker.GetComponent<SpriteRenderer>().sortingOrder;
+        obj.GetComponent<SpriteRenderer>().sortingOrder = SPEAKER_SORTING_ORDER;
         var mod = speaker.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);
-        else
+        else if (speaker.GetComponent<Player>() != null)
             speaker.GetComponent<Player>().RemoveSelf();
+        else
+            Destroy(speaker);
         speaker = obj.gameObject;
         // 对话者名字
         speakerText.text = modal.name;

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,6 +17,7 @@ public class ChoiceDlg : ObjectPool.AElement
         ret.choiceMod = mod;
         ret.nextStatus = nextStatus;
         ret.transform.SetParent(parent, false);
+        ret.transform.localPosition = new Vector3(0, 0, ret.transform.localPosition.z);
         ret.ShowChoice();
         return ret;
     }
@@ -26,11 +28,19 @@ public class ChoiceDlg : ObjectPool.AElement
         var choiceInfoPanel = transform.Find("ChoiceInfoPanel").gameObject;
         choiceSpeaker = choiceInfoPanel.transform.Find("Speaker").gameObject;
         choiceSpeakerText = choiceInfoPanel.transform.Find("SpeakerName").GetComponent<Text>();
+        choiceSpeakerText.fontSize = Convert.ToInt32(choiceSpeakerText.fontSize*ScreenAdaptator.instance.RealFontSize);
         choiceSpeaker.transform.position = new Vector3(choiceSpeakerText.transform.position.x, choiceSpeaker.transform.position.y, choiceSpeaker.transform.position.z);
         choiceTitleText = choiceInfoPanel.transform.Find("TitleText").GetComponent<Text>();
+        choiceTitleText.fontSize = Convert.ToInt32(choiceTitleText.fontSize*ScreenAdaptator.instance.RealFontSize);
         choiceItemPanel = transform.Find("ItemPanel").gameObject;
+        choiceItemPanel.GetComponent<VerticalLayoutGroup>().spacing *= ScreenAdaptator.instance.RealFontSize;
         firstChoiceItem = choiceItemPanel.transform.Find("FirstItem").gameObject;
         firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = "";
+        firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize = Convert.ToInt32(firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize*ScreenAdaptator.instance.RealFontSize);
+        firstChoiceItem.GetComponent<LayoutElement>().minHeight *= ScreenAdaptator.instance.RealFontSize;
+        var itemRect = firstChoiceItem.GetComponent<RectTransform>().sizeDelta;
+        itemRect.y = firstChoiceItem.GetComponent<LayoutElement>().minHeight;
+        firstChoiceItem.GetComponent<RectTransform>().sizeDelta = itemRect;
         choiceItems = new List<GameObject>();
     }
 
@@ -118,12 +128,13 @@ public class ChoiceDlg : ObjectPool.AElement
     {
         // 计算选择部分总高度,排列选项
         // firstChoiceItem.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, 0, firstChoiceItem.transform.localPosition.z);
-        var unitHeight = firstChoiceItem.GetComponent<RectTransform>().rect.height;
+        var unitHeight = firstChoiceItem.GetComponent<LayoutElement>().minHeight;
+        var spacing = choiceItemPanel.GetComponent<VerticalLayoutGroup>().spacing;
         var totalHeight = unitHeight;
         foreach (var v in choiceItems)
         {
             // v.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, totalHeight, firstChoiceItem.transform.localPosition.z);
-            totalHeight += unitHeight + 8;
+            totalHeight += unitHeight + spacing * 2;
         }
 
         // 调整选择框总大小

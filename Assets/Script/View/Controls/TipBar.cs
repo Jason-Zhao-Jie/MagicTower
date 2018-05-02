@@ -16,6 +16,7 @@ public class TipBar : ObjectPool.AElement
     // Use this for initialization
     void Awake() {
         tipsText = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
+        tipsText.fontSize = System.Convert.ToInt32(tipsText.fontSize * ScreenAdaptator.instance.RealFontSize);
     }
 
     public void SetTipText(string content)

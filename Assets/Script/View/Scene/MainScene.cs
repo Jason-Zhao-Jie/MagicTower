@@ -129,9 +129,25 @@ public class MainScene : MonoBehaviour
         obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
     }
 
+    public void OnMapClicked(Vector3 pos)
+    {
+        var mapPanel = transform.Find("MapPanel").GetComponent<RectTransform>();
+        var panelPos = transform.InverseTransformPoint(mapPanel.position);
+        pos.x -= panelPos.x + ScreenAdaptator.instance.MapPartRect.x + GetComponent<RectTransform>().rect.width / 2;
+        pos.y -= panelPos.y + ScreenAdaptator.instance.MapPartRect.y + GetComponent<RectTransform>().rect.height / 2;
+        if (pos.x >= 0 && pos.y >= 0)
+        {
+            var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / ScreenAdaptator.instance.MapPartRect.width);
+            var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / ScreenAdaptator.instance.MapPartRect.height);
+            if (_posx >= Constant.MAP_BLOCK_LENGTH || _posy >= Constant.MAP_BLOCK_LENGTH)
+                return;
+            // TODO : 自动寻路到 _posx , _posy
+        }
+    }
+
 /********************** Chat Part **************************************/
 
-	public void ShowChatOnTop(string content, int speakerId = -1)
+    public void ShowChatOnTop(string content, int speakerId = -1)
     {
         DataCenter.instance.Status = Constant.EGameStatus.OnTipChat;
         topChatPanel.gameObject.SetActive(true);

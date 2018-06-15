@@ -26,7 +26,7 @@ public class MapManager
         currentFloor = mapid - 1;
         if (currentFloor < 0)
             return false;
-        if(maps == null)
+        if (maps == null)
             maps = new Constant.MapData[DataCenter.instance.mapLength];
 
         // 清除地图块，并载入新的地图
@@ -189,15 +189,59 @@ public class MapManager
         modals.Remove(uuid);
     }
 
+    public int[][] ConvertCurrentMapToFinderArray()
+    {
+        var ret = new List<int[]>();
+        var mapBlockData = maps[currentFloor].mapBlocks;
+        foreach(var i in mapBlockData)
+        {
+            var inserted = new List<int>();
+            foreach (var i_elem in i)
+            {
+                var thingData = DataCenter.instance.modals[i_elem.thing];
+                if (thingData == null)
+                {
+                    inserted.Add(0);
+                }
+                else {
+                    switch ((Modal.ModalType)thingData.typeId)
+                    {
+                        case Modal.ModalType.Walkable:
+                            inserted.Add(0);
+                            break;
+                        case Modal.ModalType.MapBlock:
+                            inserted.Add(9);    // TODO : 是否需要处理门? 目前这种写法不能自动通过门
+                            break;
+                        case Modal.ModalType.Item:
+                            inserted.Add(2);
+                            break;
+                        case Modal.ModalType.Npc:
+                            inserted.Add(9);
+                            break;
+                        case Modal.ModalType.Monster:
+                            inserted.Add(4);
+                            break;
+                        case Modal.ModalType.Player:
+                            inserted.Add(9);
+                            break;
+                        default:
+                            inserted.Add(9);
+                            break;
+                    }
+                }
+            }
+            ret.Add(inserted.ToArray());
+        }
+        return ret.ToArray();
+    }
+
     public Constant.MapData[] MapData { get { return maps; } }
     public Constant.MapData this[int index] { get { return maps[index]; } }
     public Constant.MapData CurrentMap { get { return maps[currentFloor]; } }
     public int CurrentFloorId { get { return maps[currentFloor].mapId; } }
 
-    private Curtain Curtain
-    {
-        get
-        {
+    private Curtain Curtain {
+        get {
             if (MainScene.instance != null)
                 return MainScene.instance.Curtain;
             else if (DataEditorScene.instance != null)

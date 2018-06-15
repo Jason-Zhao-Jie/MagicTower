@@ -125,6 +125,7 @@ public class InputController
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
+                MainScene.instance.OnMapClicked(touchedPos);
                 break;
             case Constant.EGameStatus.InEditor:
                 DataEditorScene.instance.OnMapClicked(touchedPos);

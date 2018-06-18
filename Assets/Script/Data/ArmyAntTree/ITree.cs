@@ -1,18 +1,39 @@
 ﻿using System.Collections.Generic;
 
-enum ETreeTraversalWay
+public enum ETreeTraversalWay
 {
-    RandomTraversal,    // 随机遍历
-    LayerorderTraversal,// 逐层遍历 ( 广度优先遍历 )
-    PreorderTraversal,  // 先序遍历 ( 深度优先遍历 )
-    PostorderTraversal, // 后序遍历
+    Unknown,
+    /// <summary>
+    /// 仅遍历直接子节点
+    /// </summary>
+    ChildrenOnly,
+    /// <summary>
+    /// 仅遍历所有叶子节点
+    /// </summary>
+    LeavesOnly,
+    /// <summary>
+    /// 随机遍历
+    /// </summary>
+    RandomTraversal,
+    /// <summary>
+    /// 逐层遍历 ( 广度优先遍历 )
+    /// </summary>
+    LayerorderTraversal,
+    /// <summary>
+    /// 先序遍历 ( 深度优先遍历 )
+    /// </summary>
+    PreorderTraversal,
+    /// <summary>
+    /// 后序遍历
+    /// </summary>
+    PostorderTraversal,
 }
 
-interface ITree<T_Tag, T_Val> : IEnumerable<KeyValuePair<T_Tag, T_Val>>
+public interface ITree<T_Tag, T_Val> : IEnumerable<ITree<T_Tag, T_Val>>
 {
     T_Tag Tag { get; set; }
     T_Val Value { get; set; }
-
+    int ChildrenCount { get; }
     ETreeTraversalWay EnumeratorType { get; set; }
 
     ITree<T_Tag, T_Val> GetParent();

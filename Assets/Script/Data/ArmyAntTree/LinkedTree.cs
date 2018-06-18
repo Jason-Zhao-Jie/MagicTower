@@ -3,8 +3,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
+public class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
 {
+// 实现接口
     public LinkedTree(T_Tag tag, T_Val val, LinkedTree<T_Tag, T_Val>parent )
     {
         Tag = tag;
@@ -31,16 +32,9 @@ class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
 
     public T_Val Value { get; set; }
 
+    public int ChildrenCount { get { return children.Count; } }
+
     public ETreeTraversalWay EnumeratorType { get; set; }
-
-    public bool IsCheckTag { get; set; }
-
-    public static LinkedTree<T_Tag, T_Val> ToLinkedTree(ITree<T_Tag, T_Val> value)
-    {
-        if (value.GetType() != typeof(LinkedTree<T_Tag, T_Val>))
-            return null;
-        return (LinkedTree<T_Tag, T_Val>)value;
-    }
 
     public bool AddChild(T_Tag tag, T_Val value)
     {
@@ -49,18 +43,6 @@ class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
         if (children.ContainsKey(tag))
             return false;
         children.Add(tag, new LinkedTree<T_Tag, T_Val>(tag, value, this));
-        return true;
-    }
-
-    public bool AddChild(LinkedTree<T_Tag, T_Val> tree)
-    {
-        if (IsCheckTag && (GetRoot().Tag.Equals(tree.Tag) || GetRoot().GetChildInTree(tree.Tag) != null))
-            return false;
-        if (children.ContainsKey(tree.Tag))
-            return false;
-        tree.GetParent().RemoveChild(tree.Tag);
-        tree.parent = this;
-        children.Add(tree.Tag, tree);
         return true;
     }
 
@@ -109,9 +91,9 @@ class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
         return ret;
     }
 
-    public IEnumerator<KeyValuePair<T_Tag, T_Val>> GetEnumerator()
+    public IEnumerator<ITree<T_Tag, T_Val>> GetEnumerator()
     {
-        throw new System.NotImplementedException(); // TODO
+        return new Enumerator(this);
     }
 
     public bool RemoveChild(T_Tag tag)
@@ -142,7 +124,7 @@ class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        throw new System.NotImplementedException();
+        return GetEnumerator();
     }
 
     public ITree<T_Tag, T_Val> GetParent()
@@ -158,6 +140,106 @@ class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
         return ret;
     }
 
+// 自带方法
+    public bool IsCheckTag { get; set; }
+
+    public bool AddChild(LinkedTree<T_Tag, T_Val> tree)
+    {
+        if (IsCheckTag && (GetRoot().Tag.Equals(tree.Tag) || GetRoot().GetChildInTree(tree.Tag) != null))
+            return false;
+        if (children.ContainsKey(tree.Tag))
+            return false;
+        tree.GetParent().RemoveChild(tree.Tag);
+        tree.parent = this;
+        children.Add(tree.Tag, tree);
+        return true;
+    }
+
+    public Enumerator GetEnumerator(ETreeTraversalWay type)
+    {
+        return new Enumerator(this, type);
+    }
+
+    public static LinkedTree<T_Tag, T_Val> ToLinkedTree(ITree<T_Tag, T_Val> value)
+    {
+        if (value.GetType() != typeof(LinkedTree<T_Tag, T_Val>))
+            return null;
+        return (LinkedTree<T_Tag, T_Val>)value;
+    }
+
+// 成员
     private LinkedTree<T_Tag, T_Val> parent;
     private Dictionary<T_Tag, LinkedTree<T_Tag, T_Val>> children;
+
+    public class Enumerator : IEnumerator<ITree<T_Tag, T_Val>>
+    {
+        public Enumerator(LinkedTree<T_Tag, T_Val> tree, ETreeTraversalWay traversalWay = ETreeTraversalWay.Unknown)
+        {
+            targetTree = tree;
+            if (enumeratorType == ETreeTraversalWay.Unknown)
+                enumeratorType = targetTree.EnumeratorType;
+            else
+                enumeratorType = traversalWay;
+            Reset();
+            if (enumeratorType == ETreeTraversalWay.ChildrenOnly) {
+                targetCurr.Push(tree.children.GetEnumerator());
+                Current = targetCurr.Peek().Current.Value;
+            }
+        }
+
+        ~Enumerator()
+        {
+            Dispose();
+        }
+
+        public ITree<T_Tag, T_Val> Current { get; private set; }
+
+        object IEnumerator.Current {
+            get {
+                return Current;
+            }
+        }
+
+        public void Dispose()
+        {
+        }
+
+        /// <summary>
+        /// 迭代器遍历算法, 见 <see cref="ETreeTraversalWay"/>
+        /// 实现采用非递归算法, 不可逆遍历的效率略低
+        /// </summary>
+        /// <returns></returns>
+        public bool MoveNext()
+        {
+            bool ret = false;
+            switch (enumeratorType)
+            {   // TODO : 需要完善遍历算法, 但目前暂不需要
+                case ETreeTraversalWay.ChildrenOnly:
+                    ret = targetCurr.Peek().MoveNext();
+                    Current = targetCurr.Peek().Current.Value;
+                    break;
+                case ETreeTraversalWay.LeavesOnly:
+                    break;
+                case ETreeTraversalWay.RandomTraversal:
+                    break;
+                case ETreeTraversalWay.LayerorderTraversal:
+                    break;
+                case ETreeTraversalWay.PreorderTraversal:
+                    break;
+                case ETreeTraversalWay.PostorderTraversal:
+                    break;
+            }
+            return ret;
+        }
+
+        public void Reset()
+        {
+            targetCurr = new Stack<Dictionary<T_Tag, LinkedTree<T_Tag, T_Val>>.Enumerator>();
+            Current = targetTree;
+        }
+        
+        private Stack<Dictionary<T_Tag, LinkedTree<T_Tag, T_Val>>.Enumerator> targetCurr;
+        private readonly LinkedTree<T_Tag, T_Val> targetTree;
+        private readonly ETreeTraversalWay enumeratorType;
+    }
 }

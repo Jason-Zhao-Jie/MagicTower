@@ -142,8 +142,48 @@ public static class MathHelper
             nextStep = newNextStep.ToArray();
         }
 
-        // TODO 从可选路径中搜寻最佳路径
+        // 从可选路径中搜寻最佳路径
+        ableRoad.EnumeratorType = ETreeTraversalWay.LeavesOnly;
+        if (ableRoad.ChildrenCount == 0)
+            return null;
+        ITree<UnityEngine.Vector2, int>[] road = null;
+        int maxVal = 9;
+        int maxNum = 999;
+        foreach(var leaf in ableRoad)
+        {
+            var tmpRoad = leaf.GetBranchRoad();
+            int tmpMaxVal = 0;
+            int tmpMaxNum = 0;
+            foreach(var roadBlock in tmpRoad)
+            {
+                if(roadBlock.Value > tmpMaxVal)
+                {
+                    tmpMaxVal = roadBlock.Value;
+                    tmpMaxNum = 1;
+                }else if(roadBlock.Value == tmpMaxVal)
+                {
+                    tmpMaxNum++;
+                }
+            }
+            if(tmpMaxVal < maxVal)
+            {
+                road = tmpRoad;
+                maxVal = tmpMaxVal;
+                maxNum = tmpMaxNum;
+            }else if(tmpMaxVal == maxVal && tmpMaxNum < maxNum)
+            {
+                road = tmpRoad;
+                maxNum = tmpMaxNum;
+            }
+        }
 
+        // 记录最佳路径
+        if (maxVal == 9 || road == null || road.Length <= 0)
+            return null;
+        foreach(var i in road)
+        {
+            ret.Add(i.Tag);
+        }
 
         return ret.ToArray();
     }

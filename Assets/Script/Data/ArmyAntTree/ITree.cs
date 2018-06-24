@@ -53,6 +53,10 @@ public interface ITree<T_Tag, T_Val> : IEnumerable<ITree<T_Tag, T_Val>>
     bool RemoveChildInTree(T_Tag tag);
     void ClearChildren();
 
+    int GetBranchDepth();
+    int GetDepthInRoot();
+    ITree<T_Tag, T_Val>[] GetBranchRoad();
+
     ITree<T_Tag, T_Val> this[T_Tag tag]{get;set;}
 
 }

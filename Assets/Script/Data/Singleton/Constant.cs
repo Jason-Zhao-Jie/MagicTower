@@ -57,6 +57,7 @@ public static class Constant
         OnDialog,
         OnCG,
         OnSmallGame,
+        AutoStepping,
     }
 
     [System.Serializable]

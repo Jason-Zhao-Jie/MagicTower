@@ -212,7 +212,7 @@ public class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
 
     // 成员
     private LinkedTree<T_Tag, T_Val> parent;
-    private Dictionary<T_Tag, LinkedTree<T_Tag, T_Val>> children;
+    private Dictionary<T_Tag, LinkedTree<T_Tag, T_Val>> children = new Dictionary<T_Tag, LinkedTree<T_Tag, T_Val>>();
 
     public class Enumerator : IEnumerator<ITree<T_Tag, T_Val>>
     {
@@ -224,17 +224,9 @@ public class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
             else
                 enumeratorType = traversalWay;
             Reset();
+            Current = null;
             if (enumeratorType == ETreeTraversalWay.ChildrenOnly) {
                 targetCurr.Push(tree.children.GetEnumerator());
-                Current = targetCurr.Peek().Current.Value;
-            }else if(enumeratorType == ETreeTraversalWay.LeavesOnly)
-            {
-                while (tree.children.Count > 0)
-                    targetCurr.Push(tree.children.GetEnumerator());
-                if (targetCurr.Count > 0)
-                    Current = targetCurr.Peek().Current.Value;
-                else
-                    Current = null;
             }
         }
 
@@ -270,8 +262,21 @@ public class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
                     Current = targetCurr.Peek().Current.Value;
                     break;
                 case ETreeTraversalWay.LeavesOnly:
-                    // 终点或无可遍历
-                    if(targetCurr.Count <= 0)
+                    // 终点
+                    if(Current == null)
+                    {
+                        Current = targetTree;
+                        while (Current.ChildrenCount > 0)
+                        {
+                            var en = ToLinkedTree(Current).children.GetEnumerator();
+                            en.MoveNext();
+                            targetCurr.Push(en);
+                            Current = en.Current.Value;
+                        }
+                        ret = Current != null;
+                        break;
+                    }
+                    if (targetCurr.Count <= 0)
                     {
                         Current = null;
                         ret = false;
@@ -279,9 +284,14 @@ public class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
                     }
                     // 前往下一个, 若无下一个, 则返回到父节点的下一个, 若父节点也无,则继续寻找父节点
                     ret = targetCurr.Peek().MoveNext();
-                    while (targetCurr.Count < 0 && !ret)
+                    while (!ret)
                     {
                         targetCurr.Pop();
+                        // 若上一步一直追溯到根节点也没有下一个, 则证明已遍历完毕
+                        if (targetCurr.Count <= 0)
+                        {
+                            break;
+                        }
                         ret = targetCurr.Peek().MoveNext();
                     }
                     // 若上一步一直追溯到根节点也没有下一个, 则证明已遍历完毕
@@ -292,7 +302,7 @@ public class LinkedTree<T_Tag, T_Val> : ITree<T_Tag, T_Val>
                         break;
                     }
                     // 寻找到下一个后, 查询是否有子节点, 若有, 则转移为子节点, 若无则证明是叶子节点, 为遍历目标
-                    while(targetCurr.Peek().Current.Value.children.Count > 0)
+                    while (targetCurr.Peek().Current.Value.children.Count > 0)
                     {
                         targetCurr.Push(targetCurr.Peek().Current.Value.children.GetEnumerator());
                     }

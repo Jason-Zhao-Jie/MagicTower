@@ -198,12 +198,13 @@ public class MapManager
             var inserted = new List<int>();
             foreach (var i_elem in i)
             {
-                var thingData = DataCenter.instance.modals[i_elem.thing];
-                if (thingData == null)
+                if (i_elem.thing == 0)
                 {
                     inserted.Add(0);
                 }
-                else {
+                else
+                {
+                    var thingData = DataCenter.instance.modals[i_elem.thing];
                     switch ((Modal.ModalType)thingData.typeId)
                     {
                         case Modal.ModalType.Walkable:

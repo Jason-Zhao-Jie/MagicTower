@@ -92,35 +92,40 @@ public static class MathHelper
     /// <param name="startPos"> 寻路起始点 </param>
     /// <param name="endPos"> 寻路终点, 不检测寻路终点是否可行走 </param>
     /// <returns> 最佳路径. 如为null则表示无法到达 </returns>
-    public static UnityEngine.Vector2[] AutoFindBestRoad(int[][] mapBlockData, int startPosx, int startPosy, int endPosx, int endPosy)
+    public static UnityEngine.Vector2Int[] AutoFindBestRoad(int[][] mapBlockData, int startPosx, int startPosy, int endPosx, int endPosy)
     {
-        var ret = new System.Collections.Generic.List<UnityEngine.Vector2>();
+        if (startPosx == endPosx && startPosy == endPosy)
+            return null;
+        if(IsPosNearly(new UnityEngine.Vector2Int(startPosx, startPosy), new UnityEngine.Vector2Int(endPosx, endPosy)))
+        {
+            return new UnityEngine.Vector2Int[] { new UnityEngine.Vector2Int(startPosx, startPosy), new UnityEngine.Vector2Int(endPosx, endPosy) };
+        }
+
+        var ret = new System.Collections.Generic.List<UnityEngine.Vector2Int>();
         
         // 搜寻所有可到达路径
         mapBlockData[startPosx][startPosy] = 9;
-        var ableRoad = new LinkedTree<UnityEngine.Vector2, int>(new UnityEngine.Vector2(startPosx, startPosy), 9, null);
-        ITree<UnityEngine.Vector2, int>[] nextStep = new LinkedTree<UnityEngine.Vector2, int>[] { ableRoad };
+        var ableRoad = new LinkedTree<UnityEngine.Vector2Int, int>(new UnityEngine.Vector2Int(startPosx, startPosy), 9, null);
+        ITree<UnityEngine.Vector2Int, int>[] nextStep = new LinkedTree<UnityEngine.Vector2Int, int>[] { ableRoad };
         while (nextStep != null && nextStep.Length > 0)
         {
-            var newNextStep = new System.Collections.Generic.List<ITree<UnityEngine.Vector2, int>>();
+            var newNextStep = new System.Collections.Generic.List<ITree<UnityEngine.Vector2Int, int>>();
             foreach (var stepElem in nextStep)
             {
                 // 广度优先遍历
-                var founded = GetNearlyPos(mapBlockData, System.Convert.ToInt32(stepElem.Tag.x), System.Convert.ToInt32(stepElem.Tag.y));
+                var founded = GetNearlyPos(mapBlockData, stepElem.Tag.x, stepElem.Tag.y);
                 int realUsefulCount = 0;
                 // 逐个记录路径
                 foreach (var elem in founded)
                 {
-                    int thisX = System.Convert.ToInt32(elem.x);
-                    int thisY = System.Convert.ToInt32(elem.y);
-                    int mapValue = mapBlockData[thisX][thisY];
+                    int mapValue = mapBlockData[elem.x][elem.y];
                     if (mapValue < 9)
                     {
-                        mapBlockData[thisX][thisY] = 9;
+                        mapBlockData[elem.x][elem.y] = 9;
                         stepElem.AddChild(elem, mapValue);
                         realUsefulCount += 1;
                     }
-                    if(thisX != endPosx || thisY != endPosy)
+                    if(elem.x != endPosx || elem.y != endPosy)
                     {
                         newNextStep.Add(stepElem[elem]);
                     }
@@ -146,7 +151,7 @@ public static class MathHelper
         ableRoad.EnumeratorType = ETreeTraversalWay.LeavesOnly;
         if (ableRoad.ChildrenCount == 0)
             return null;
-        ITree<UnityEngine.Vector2, int>[] road = null;
+        ITree<UnityEngine.Vector2Int, int>[] road = null;
         int maxVal = 9;
         int maxNum = 999;
         foreach(var leaf in ableRoad)
@@ -154,9 +159,11 @@ public static class MathHelper
             var tmpRoad = leaf.GetBranchRoad();
             int tmpMaxVal = 0;
             int tmpMaxNum = 0;
-            foreach(var roadBlock in tmpRoad)
+            foreach (var roadBlock in tmpRoad)
             {
-                if(roadBlock.Value > tmpMaxVal)
+                if (roadBlock.ChildrenCount <= 0 || roadBlock == tmpRoad[0])
+                    continue;
+                else if(roadBlock.Value > tmpMaxVal)
                 {
                     tmpMaxVal = roadBlock.Value;
                     tmpMaxNum = 1;
@@ -196,46 +203,46 @@ public static class MathHelper
     /// <returns>
     ///     返回一个数组
     /// </returns>
-    private static UnityEngine.Vector2[] GetNearlyPos(int[][] mapBlockData, int posx, int posy)
+    private static UnityEngine.Vector2Int[] GetNearlyPos(int[][] mapBlockData, int posx, int posy)
     {
-        var ret = new System.Collections.Generic.List<UnityEngine.Vector2>();
+        var ret = new System.Collections.Generic.List<UnityEngine.Vector2Int>();
         // 左边块
         if (posx > 0)
         {
             var leftInfo = mapBlockData[posx - 1][posy];
             if (leftInfo < 9)
-                ret.Add(new UnityEngine.Vector2(posx - 1, posy));
+                ret.Add(new UnityEngine.Vector2Int(posx - 1, posy));
         }
         // 右边块
         if (posx < mapBlockData.Length - 1)
         {
             var rightInfo = mapBlockData[posx + 1][posy];
             if (rightInfo < 9)
-                ret.Add(new UnityEngine.Vector2(posx + 1, posy));
+                ret.Add(new UnityEngine.Vector2Int(posx + 1, posy));
         }
         // 下边块
         if (posy > 0)
         {
             var downInfo = mapBlockData[posx][posy - 1];
             if (downInfo < 9)
-                ret.Add(new UnityEngine.Vector2(posx, posy - 1));
+                ret.Add(new UnityEngine.Vector2Int(posx, posy - 1));
         }
         // 上边块
         if (posy < mapBlockData[posx].Length - 1)
         {
             var upInfo = mapBlockData[posx][posy + 1];
             if (upInfo < 9)
-                ret.Add(new UnityEngine.Vector2(posx, posy + 1));
+                ret.Add(new UnityEngine.Vector2Int(posx, posy + 1));
         }
-        ret.Sort((UnityEngine.Vector2 x, UnityEngine.Vector2 y) =>
+        ret.Sort((UnityEngine.Vector2Int x, UnityEngine.Vector2Int y) =>
         {
-            var xx = System.Convert.ToInt32(x.x);
-            var xy = System.Convert.ToInt32(x.y);
-            var yx = System.Convert.ToInt32(y.x);
-            var yy = System.Convert.ToInt32(y.y);
-            return mapBlockData[xx][xy] - mapBlockData[yx][yy];
+            return mapBlockData[x.x][x.y] - mapBlockData[y.x][y.y];
         });
         return ret.ToArray();
     }
 
+    private static bool IsPosNearly(UnityEngine.Vector2Int pos1, UnityEngine.Vector2Int pos2)
+    {
+        return ((pos1.x == pos2.x) && (System.Math.Abs(pos1.y - pos2.y) <= 1)) || ((System.Math.Abs(pos1.x - pos2.x) <= 1) && (pos1.y == pos2.y));
+    }
 }

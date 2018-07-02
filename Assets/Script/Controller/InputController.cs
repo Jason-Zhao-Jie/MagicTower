@@ -64,7 +64,19 @@ public class InputController
                 break;
             case Constant.EGameStatus.OnSmallGame:
                 break;
-			default:
+            case Constant.EGameStatus.AutoStepping:
+                switch (keyCode)
+                {
+                    case KeyCode.UpArrow:
+                    case KeyCode.DownArrow:
+                    case KeyCode.LeftArrow:
+                    case KeyCode.RightArrow:
+                        PlayerController.instance.StopAutoStepping();
+                        OnChangeWalkState();
+                        break;
+                }
+                break;
+            default:
 				break;
         }
     }
@@ -112,7 +124,19 @@ public class InputController
                 break;
             case Constant.EGameStatus.OnSmallGame:
 				break;
-			default:
+            case Constant.EGameStatus.AutoStepping:
+                switch (keyCode)
+                {
+                    case KeyCode.UpArrow:
+                    case KeyCode.DownArrow:
+                    case KeyCode.LeftArrow:
+                    case KeyCode.RightArrow:
+                        PlayerController.instance.StopAutoStepping();
+                        OnChangeWalkState();
+                        break;
+                }
+                break;
+            default:
 				break;
 		}
     }
@@ -125,6 +149,7 @@ public class InputController
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
+                //MainScene.instance.ShowTips("Click Called !");
                 MainScene.instance.OnMapClicked(touchedPos);
                 break;
             case Constant.EGameStatus.InEditor:
@@ -145,6 +170,9 @@ public class InputController
                 MainScene.instance.StopBattle();
                 break;
             case Constant.EGameStatus.OnSmallGame:
+                break;
+            case Constant.EGameStatus.AutoStepping:
+                PlayerController.instance.StopAutoStepping();
                 break;
             default:
                 break;
@@ -190,7 +218,7 @@ public class InputController
             else
                 PlayerController.instance.StartWalk((PlayerController.Direction)(trueNum / 10));
         }
-        else
+        else if(DataCenter.instance.Status != Constant.EGameStatus.AutoStepping)
         {
             PlayerController.instance.StopWalk();
         }

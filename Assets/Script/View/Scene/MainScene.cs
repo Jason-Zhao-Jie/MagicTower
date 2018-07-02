@@ -141,7 +141,7 @@ public class MainScene : MonoBehaviour
             var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / ScreenAdaptator.instance.MapPartRect.height);
             if (_posx >= Constant.MAP_BLOCK_LENGTH || _posy >= Constant.MAP_BLOCK_LENGTH)
                 return;
-            // TODO : 自动寻路到 _posx , _posy
+            PlayerController.instance.StartAutoStep(_posx, _posy);
         }
     }
 
@@ -179,6 +179,8 @@ public class MainScene : MonoBehaviour
 
     public void ClearChats()
     {
+        chat = null;
+        chatIndex = 0;
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(false);
@@ -193,7 +195,11 @@ public class MainScene : MonoBehaviour
     }
 
     public void ChatStepOn(){
-        if (chatIndex >= chat.data.Length)
+        if(chat == null)    // 没有chat数据, 说明是代码呼出的临时chat
+        {
+            ClearChats();
+        }
+        else if (chatIndex >= chat.data.Length)
         {
             chatIndex = 0;
             ClearChats();

@@ -26,20 +26,48 @@ public class PlayerController
     {
         int targetPosX = posx;
         int targetPosY = posy;
-        switch (direction)
+        if (DataCenter.instance.Status == Constant.EGameStatus.AutoStepping)
         {
-            case Direction.Up:
-                ++targetPosY;
-                break;
-            case Direction.Down:
-                --targetPosY;
-                break;
-            case Direction.Right:
-                ++targetPosX;
-                break;
-            case Direction.Left:
-                --targetPosX;
-                break;
+            if (AutoSteppingRoad.Count <= 0)
+            {
+                StopAutoStepping();
+                return false;
+            }
+            var target = AutoSteppingRoad.Pop();
+            targetPosX = target.x;
+            targetPosY = target.y;
+            if (targetPosX == posx)
+            {
+                if (targetPosY > posy)
+                    Dir = Direction.Up;
+                else
+                    Dir = Direction.Down;
+            }
+            else
+            {
+                if (targetPosX > posx)
+                    Dir = Direction.Right;
+                else
+                    Dir = Direction.Left;
+            }
+        }
+        else
+        {
+            switch (Dir)
+            {
+                case Direction.Up:
+                    ++targetPosY;
+                    break;
+                case Direction.Down:
+                    --targetPosY;
+                    break;
+                case Direction.Right:
+                    ++targetPosX;
+                    break;
+                case Direction.Left:
+                    --targetPosX;
+                    break;
+            }
         }
 
         // Check if the player is at the condition
@@ -329,20 +357,46 @@ public class PlayerController
         IsRunning = true;
     }
 
+    public bool StartAutoStep(int targetPosx, int targetPosy)
+    {
+        var findedRoad = MathHelper.AutoFindBestRoad(MapManager.instance.ConvertCurrentMapToFinderArray(), posx, posy, targetPosx, targetPosy);
+        if (findedRoad == null || findedRoad.Length <= 0)
+        {
+            MainScene.instance.ShowTips("Cannot auto step to the position: (" + targetPosx + "," + targetPosy + ")");
+            return false;
+        }
+        DataCenter.instance.Status = Constant.EGameStatus.AutoStepping;
+        TargetAutoStep = new Vector2Int(targetPosx, targetPosy);
+        AutoSteppingRoad = new Stack<Vector2Int>();
+        for (int i = findedRoad.Length - 1; i > 0; --i)
+        {
+            AutoSteppingRoad.Push(findedRoad[i]);
+        }
+        IsRunning = true;
+        return true;
+    }
+
+    public void StopAutoStepping()
+    {
+        IsRunning = false;
+        DataCenter.instance.Status = Constant.EGameStatus.InGame;
+    }
+
     public void StopWalk()
     {
         IsRunning = false;
     }
 
 
-    public Direction Dir
-    {
-        get { return direction; }
-        set
-        {
-            direction = value;
+    public Direction Dir {
+        get { return dir; }
+        set {
+            dirChanged = dir != value;
+            dir = value;
         }
     }
+    public Vector2Int TargetAutoStep { get; private set; }
+    public Stack<Vector2Int> AutoSteppingRoad { get; private set; }
 
     public bool IsRunning
     {
@@ -358,6 +412,6 @@ public class PlayerController
     public bool dirChanged = false;
 
     private bool isRunning;
-    private Direction direction;
+    private Direction dir;
     private Player player;
 }

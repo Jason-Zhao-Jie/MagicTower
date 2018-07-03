@@ -111,10 +111,13 @@ public class MainScene : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && !InputController.instance.isMouseLeftDown)
-            InputController.instance.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-        if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
-            InputController.instance.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
+        if (Input.touchCount <= 0)
+        {
+            if (Input.GetMouseButtonDown(0) && !InputController.instance.isMouseLeftDown)
+                InputController.instance.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
+            if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
+                InputController.instance.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
+        }
     }
 
     /********************** Map Utilities **************************************/
@@ -129,7 +132,7 @@ public class MainScene : MonoBehaviour
         obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
     }
 
-    public void OnMapClicked(Vector3 pos)
+    public void OnMapClicked(Vector2 pos)
     {
         var mapPanel = transform.Find("MapPanel").GetComponent<RectTransform>();
         var panelPos = transform.InverseTransformPoint(mapPanel.position);
@@ -202,8 +205,8 @@ public class MainScene : MonoBehaviour
         else if (chatIndex >= chat.data.Length)
         {
             chatIndex = 0;
-            ClearChats();
             EventManager.instance.DispatchEvent(chat.lastEventId, chatMod, chat.lastEventData);
+            ClearChats();
         }
         else{
             var chatData = chat.data[chatIndex];

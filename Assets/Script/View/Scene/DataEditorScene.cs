@@ -159,11 +159,13 @@ public class DataEditorScene : MonoBehaviour
 			}
 		}
 
-		if (Input.GetMouseButtonDown(0) && !InputController.instance.isMouseLeftDown)
-			InputController.instance.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-		if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
-			InputController.instance.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
-
+        if (Input.touchCount <= 0)
+        {
+            if (Input.GetMouseButtonDown(0) && !InputController.instance.isMouseLeftDown)
+                InputController.instance.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
+            if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
+                InputController.instance.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
+        }
 	}
 
     // "Map"按钮回调
@@ -491,7 +493,7 @@ public class DataEditorScene : MonoBehaviour
         panel.transform.Find("Music").GetComponent<Dropdown>().value = DataCenter.instance.GetGameMap(mapId - 1).music - 1;
         panel.transform.Find("BackModal").GetComponent<Dropdown>().value = DataCenter.instance.GetGameMap(mapId - 1).backThing - 1;
 		MapManager.instance.ShowMap(mapId);
-        OnMapClicked(new Vector3(0, 0));
+        OnMapClicked(new Vector2(0, 0));
         AudioController.instance.StopMusic();
     }
 
@@ -511,7 +513,7 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Map选定地图块位置的回调
-    public void OnMapClicked(Vector3 pos)
+    public void OnMapClicked(Vector2 pos)
     {
         if (!mapMakerCanvas.activeSelf)
             return;

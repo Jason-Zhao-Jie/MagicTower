@@ -40,7 +40,6 @@ public class Zzhit : ObjectPool.AElement
     public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
     {
         prefabPath = resourcePath;
-        id = elemId;
         return true;
     }
 
@@ -69,6 +68,5 @@ public class Zzhit : ObjectPool.AElement
 
     private Constant.WeaponData data;
     private bool isCrit;
-    private int id;
     private string prefabPath;
 }

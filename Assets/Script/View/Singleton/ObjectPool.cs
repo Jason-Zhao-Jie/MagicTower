@@ -34,11 +34,17 @@ public class ObjectPool {
         public abstract bool OnCreate(ElementType tid, int elemId, string resourcePath);
         public abstract void OnReuse(ElementType tid, int elemId);
         public abstract bool OnUnuse(ElementType tid, int elemId);
-
         public abstract bool RecycleSelf();
+
         public bool RecycleSelf<T>() where T:AElement
         {
             return instance.RecycleAnElement((T)this);
+        }
+
+        internal bool OnCreateId(ElementType tid, int elemId, string resourcePath)
+        {
+            Id = elemId;
+            return OnCreate(tid, elemId, resourcePath);
         }
 
         public long GetPoolUuid()
@@ -82,7 +88,7 @@ public class ObjectPool {
             ret = ret_obj.GetComponent<T>();
             if (ret == null)
                 return null;
-            if (!ret.OnCreate(typeid, id, resourcePath))
+            if (!ret.OnCreateId(typeid, id, resourcePath))
                 return null;
         }
         else
@@ -93,6 +99,7 @@ public class ObjectPool {
                 tar.Enqueue(deq);
                 return null;
             }
+            deq.gameObject.SetActive(true);
             ret = deq.GetComponent<T>();
             ret.OnReuse(typeid, id);
         }
@@ -119,10 +126,10 @@ public class ObjectPool {
         }
         if (!tarElem.OnUnuse(tarElem.GetPoolTypeId(), tarElem.Id))
             return false;
-        tarElem.gameObject.SetActive(false);
         tarElem.transform.SetParent(null, false);
         tarElem.usingTag = false;
         tar.Enqueue(tarElem);
+        tarElem.gameObject.SetActive(false);
         return true;
     }
     

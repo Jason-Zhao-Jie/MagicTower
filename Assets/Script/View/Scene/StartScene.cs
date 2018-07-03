@@ -10,7 +10,7 @@ public class StartScene : MonoBehaviour
     void Start()
     {
         instance = this;
-        Input.multiTouchEnabled = true;
+        Input.multiTouchEnabled = false;    // Note : 多点触摸会导致寻路出现bug, 先禁用
 
         Initializationer.InitBases(GetComponent<RectTransform>().rect.size);
         SetMapLoadingPercent(1);

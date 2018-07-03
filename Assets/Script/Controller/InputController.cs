@@ -141,6 +141,11 @@ public class InputController
 		}
     }
 
+    public void OnTouchDown(Vector2 touchedPos, bool changeMouseStatue)
+    {
+        OnTouchDown(touchedPos);
+        isMouseLeftDown = changeMouseStatue;
+    }
     public void OnTouchDown(Vector2 touchedPos)
     {
 
@@ -177,7 +182,11 @@ public class InputController
             default:
                 break;
         }
+    }
 
+    public void OnTouchUp(Vector2 end, bool changeMouseStatue)
+    {
+        OnTouchUp(end, end, changeMouseStatue);
     }
 
     public void OnTouchUp(Vector2 end)
@@ -185,10 +194,16 @@ public class InputController
         OnTouchUp(end, end);
     }
 
-	public void OnTouchUp(Vector2 end, Vector2 begin)
-	{
+    public void OnTouchUp(Vector2 end, Vector2 begin, bool changeMouseStatue)
+    {
+        OnTouchUp(end, begin);
+        isMouseLeftDown = changeMouseStatue;
+    }
 
-	}
+    public void OnTouchUp(Vector2 end, Vector2 begin)
+	{
+        // TODO
+    }
 
     public void Init()
     {

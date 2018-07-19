@@ -65,9 +65,9 @@ public class ChoiceDlg : ObjectPool.AElement
         else
             choiceSpeaker.GetComponent<Player>().RemoveSelf();
         choiceSpeaker = obj.gameObject;
-        choiceSpeakerText.text = modal.name;
+        choiceSpeakerText.text = StringInternational.GetValue(modal.name);
         // 设定选择的标题介绍对话的内容
-        choiceTitleText.text = choice.title;
+        choiceTitleText.text = StringInternational.GetValue(choice.title);
         // 添加选项
         foreach (var i in choice.data)
         {
@@ -95,13 +95,13 @@ public class ChoiceDlg : ObjectPool.AElement
     {
         if (firstChoiceItem.transform.Find("Text").GetComponent<Text>().text.Equals(""))
         {
-            firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = content;
+            firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = StringInternational.GetValue(content);
             return firstChoiceItem;
         }
         else
         {
             var clonedItem = Instantiate(firstChoiceItem, choiceItemPanel.transform, false);
-            clonedItem.transform.Find("Text").GetComponent<Text>().text = content;
+            clonedItem.transform.Find("Text").GetComponent<Text>().text = StringInternational.GetValue(content);
             choiceItems.Add(clonedItem);
             clonedItem.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
             clonedItem.GetComponent<Button>().onClick.AddListener(delegate () { OnItemClicked(choiceItems.Count); });

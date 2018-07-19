@@ -3,32 +3,33 @@ using System.Collections;
 
 public static class StringInternational
 {
-	public static string GetValue(int id)
-	{
-        var str = DataCenter.instance.strings[id];
-        if (str == null)
-            return id.ToString();
-        var ret = str[languageKey];
-        if (ret == null)
-		{
-			ret = str["en-us"];
-			if (ret == null)
-				ret = id.ToString();
-		}
-		return ret;
-	}
-
-	public static string GetValue(string key)
-	{
-        var index = getIndexByKey(key);
-		if (index < 0)
-			return key;
-        var ret = DataCenter.instance.strings[index][languageKey];
+	public static string GetValue(string key, params string[] values)
+    {
+        if (!DataCenter.instance.strings.ContainsKey(key))
+            return key;
+        var str = DataCenter.instance.strings[key];
+        var ret = str[Language];
         if (ret == null)
         {
-            ret = DataCenter.instance.strings[index]["en-us"];
+            ret = str["en-us"];
             if (ret == null)
                 ret = key;
+        }
+        if (values != null && values.Length > 0)
+        {
+            var index = 0;
+            var lastLen = 0;
+            for (var i = 0; i < values.Length; ++i)
+            {
+                index = ret.IndexOf("##", index + lastLen);
+                if (index < 0)
+                    break;
+                var tarStr = values[i];
+                if (tarStr == null)
+                    tarStr = "";
+                ret = ret.Remove(index, 2).Insert(index, tarStr);
+                lastLen = tarStr.Length;
+            }
         }
 		return ret;
 	}
@@ -39,25 +40,17 @@ public static class StringInternational
         var ret = DataCenter.instance.languages[id];
         if (ret == null)
             return false;
-        languageKey = ret.key;
+        Language = ret.key;
         return true;
     }
 
     public static string Language
     {
-        get { return languageKey; }
-        set { languageKey = value; }
+        get;set;
     }
 
-    private static int getIndexByKey(string key)
+    static StringInternational()
     {
-        foreach (var i in DataCenter.instance.strings)
-        {
-            i.Value.key.Equals(key);
-            return i.Key;
-        }
-        return -1;
+        Language = "en-us";
     }
-
-    private static string languageKey = "en-us";
 }

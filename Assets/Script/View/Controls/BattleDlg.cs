@@ -9,6 +9,10 @@ public class BattleDlg : ObjectPool.AElement
     public delegate bool BattlePauseEventCheck();
     public delegate void BattleOverCallback(int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long nextEventData);
 
+    private const string BATTLE_GOLD_GET_TEXT = "str_battleGoldGet";
+    private const string BATTLE_EXP_GET_TEXT = "str_battleExpGet";
+    private const string BATTLE_HURTED_TEXT = "str_battleHurted";
+
     public static BattleDlg StartBattle(Transform parent, BattleOverCallback cb, long enemyUuid, long yourUuid = -1, BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
     {
         // 弹出战斗框
@@ -209,12 +213,12 @@ public class BattleDlg : ObjectPool.AElement
         enemySprite = obj.gameObject;
 
         // 将双方数据显示到界面
-        playerNameText.text = playerModal.name;
+        playerNameText.text = StringInternational.GetValue(playerModal.name);
         playerLifeText.text = playerBattleData.life.ToString();
         playerAttackText.text = playerBattleData.attack.ToString();
         playerDefenseText.text = playerBattleData.defense.ToString();
         playerSpeedText.text = playerBattleData.speed.ToString();
-        enemyNameText.text = enemyModal.name;
+        enemyNameText.text = StringInternational.GetValue(enemyModal.name);
         enemyLifeText.text = enemyBattleData.life.ToString();
         enemyAttackText.text = enemyBattleData.attack.ToString();
         enemyDefenseText.text = enemyBattleData.defense.ToString();
@@ -252,9 +256,9 @@ public class BattleDlg : ObjectPool.AElement
     private void OnBattleOver()
     {
         isBattlePaused = true;
-        battleResultGoldText.text = enemyBattleData.gold.ToString();
-        battleResultExpText.text = enemyBattleData.exp.ToString();
-        battleHurtedText.text = hurted.ToString();
+        battleResultGoldText.text = StringInternational.GetValue(BATTLE_GOLD_GET_TEXT, enemyBattleData.gold.ToString());
+        battleResultExpText.text = StringInternational.GetValue(BATTLE_EXP_GET_TEXT, enemyBattleData.exp.ToString());
+        battleHurtedText.text = StringInternational.GetValue(BATTLE_HURTED_TEXT, hurted.ToString());
         battleResultPanel.SetActive(true);
         overCallback(playerBattleData.id, playerBattleData.life, enemyBattleData.gold, enemyBattleData.exp, 0, 0);
         DataCenter.instance.Status = Constant.EGameStatus.OnBattleResult;

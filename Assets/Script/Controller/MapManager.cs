@@ -40,11 +40,11 @@ public class MapManager
                 AddObjectToMap(x, y, thingId);
             }
 
-        // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识
+        // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识   ( TODO : 未实现渐变方式 )
         if (MainScene.instance != null)
         {
             MainScene.instance.BackgroundImage = DataCenter.instance.modals[maps[currentFloor].backThing].prefabPath;
-            MainScene.instance.MapName = maps[currentFloor].mapName;
+            MainScene.instance.MapName = StringInternational.GetValue(maps[currentFloor].mapName);
             AudioController.instance.PlayMusicLoop(maps[currentFloor].music);
         }
         else

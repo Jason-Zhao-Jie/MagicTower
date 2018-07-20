@@ -88,7 +88,13 @@ public class InputController
 		switch (DataCenter.instance.Status)
 		{
 			case Constant.EGameStatus.Start:
-				break;
+                switch (keyCode)
+                {
+                    case KeyCode.Escape:
+                        StartScene.instance.OnExitGame();
+                        break;
+                }
+                break;
 			case Constant.EGameStatus.InGame:
 				switch (keyCode)
 				{
@@ -98,7 +104,10 @@ public class InputController
 					case KeyCode.RightArrow:
 						OnChangeWalkState();
 						break;
-				}
+                    case KeyCode.Escape:
+                        BackToStartScene();
+                        break;
+                }
 				break;
 			case Constant.EGameStatus.InEditor:
 				break;
@@ -239,4 +248,8 @@ public class InputController
         }
 	}
 
+    public void BackToStartScene()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
+    }
 }

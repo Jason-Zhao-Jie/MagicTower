@@ -15,7 +15,7 @@ public class DataCenter
     public readonly Dictionary<int, Constant.ChatData> chats = new Dictionary<int, Constant.ChatData>();
     public readonly Dictionary<int, Constant.ChoiceData> choices = new Dictionary<int, Constant.ChoiceData>();
     public readonly Dictionary<int, Constant.LanguageData> languages = new Dictionary<int, Constant.LanguageData>();
-    public readonly Dictionary<int, Constant.InternationalString> strings = new Dictionary<int, Constant.InternationalString>();
+    public readonly Dictionary<string, Constant.InternationalString> strings = new Dictionary<string, Constant.InternationalString>();
 
     public DataCenter()
     {
@@ -155,7 +155,7 @@ public class DataCenter
         for (var i = 0; i < json_strings.Length; ++i)
         {
             var elem = new Constant.InternationalString() { Json = json_strings[i] as JObject };
-            strings.Add(elem.id, elem);
+            strings.Add(elem.key, elem);
         }
     }
 

@@ -69,9 +69,9 @@ public class ChatDlg : ObjectPool.AElement
             Destroy(speaker);
         speaker = obj.gameObject;
         // 对话者名字
-        speakerText.text = modal.name;
+        speakerText.text = StringInternational.GetValue(modal.name);
         // 对话内容
-        text.text = content;
+        text.text = StringInternational.GetValue(content);
     }
 
     public override ObjectPool.ElementType GetPoolTypeId()

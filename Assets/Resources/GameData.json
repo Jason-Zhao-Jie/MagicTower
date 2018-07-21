@@ -494,7 +494,7 @@
       "prefabPath": "Jack",
       "eventId": 0,
       "eventData": 0,
-      "name": "Adam"
+      "name": "str_Jack"
     },
     {
       "id": 63,
@@ -542,7 +542,7 @@
       "prefabPath": "Lilith",
       "eventId": 0,
       "eventData": 0,
-      "name": "Lilith"
+      "name": "str_Lilith"
     },
     {
       "id": 69,
@@ -2266,15 +2266,15 @@
       "data": [
         {
           "speakerId": 0,
-          "content": "按照地图指示，应该就是这座塔"
+          "content": "str_JackStartSay1"
         },
         {
           "speakerId": 0,
-          "content": "......"
+          "content": "str_saySilent"
         },
         {
           "speakerId": 0,
-          "content": "感觉气氛有点诡异，里面似乎有不少魔物，小心前进吧"
+          "content": "str_JackStartSay2"
         }
       ]
     },
@@ -2286,15 +2286,15 @@
       "data": [
         {
           "speakerId": 0,
-          "content": "哇，这是什么鬼？"
+          "content": "str_JackBeforeFirstBattle1"
         },
         {
           "speakerId": 0,
-          "content": "......"
+          "content": "str_saySilent"
         },
         {
           "speakerId": 0,
-          "content": "来者不善。。。先干掉再说"
+          "content": "str_JackBeforeFirstBattle2"
         }
       ]
     },
@@ -2306,15 +2306,15 @@
       "data": [
         {
           "speakerId": -1,
-          "content": "呵呵，又来了一个挑战者。"
+          "content": "str_JackSecretMan1"
         },
         {
           "speakerId": 0,
-          "content": "......？？"
+          "content": "str_saySilentAsk"
         },
         {
           "speakerId": 0,
-          "content": "您是谁？为什么会在这里？"
+          "content": "str_JackSecretMan2"
         }
       ]
     },
@@ -2326,7 +2326,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得黄钥匙，可以消耗黄钥匙来开启黄色的门"
+          "content": "str_FirstGetYellowKey"
         }
       ]
     },
@@ -2338,7 +2338,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得蓝钥匙，可以消耗蓝钥匙来开启蓝色的门"
+          "content": "str_FirstGetBlueKey"
         }
       ]
     },
@@ -2350,7 +2350,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得红钥匙，可以消耗红钥匙来开启红色的门"
+          "content": "str_FirstGetRedKey"
         }
       ]
     },
@@ -2362,7 +2362,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得绿钥匙，可以消耗绿钥匙来开启绿色的门"
+          "content": "str_FirstGetGreenKey"
         }
       ]
     },
@@ -2374,7 +2374,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得红宝石，攻击+3"
+          "content": "str_FirstGetRedDiamond"
         }
       ]
     },
@@ -2386,7 +2386,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得蓝宝石，防御+3"
+          "content": "str_FirstGetBlueDiamond"
         }
       ]
     },
@@ -2398,7 +2398,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得绿宝石，敏捷+1"
+          "content": "str_FirstGetGreenDiamond"
         }
       ]
     },
@@ -2410,7 +2410,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得黄宝石，暴击率+1%"
+          "content": "str_FirstGetYellowDiamond"
         }
       ]
     },
@@ -2422,7 +2422,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得红药水，生命+150"
+          "content": "str_FirstGetRedBottle"
         }
       ]
     },
@@ -2434,7 +2434,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得蓝药水，生命+500"
+          "content": "str_FirstGetBlueBottle"
         }
       ]
     },
@@ -2446,7 +2446,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得绿药水，生命+1000"
+          "content": "str_FirstGetGreenBottle"
         }
       ]
     },
@@ -2458,7 +2458,7 @@
       "data": [
         {
           "speakerId": -255,
-          "content": "获得黄药水，生命+350"
+          "content": "str_FirstGetYellowBottle"
         }
       ]
     }
@@ -2467,48 +2467,48 @@
     {
       "id": 1,
       "speakerId": 17,
-      "title": "伟大的勇士，我将助你完成你的使命。你可以用你历练来的经验换取以下提升",
+      "title": "str_ExpShopTitle1",
       "tail": "",
       "canOn": false,
       "data": [
         {
           "eventId": 37,
           "eventData": 0,
-          "content": "##经验换取1敏捷"
+          "content": "str_ExpShopBuySpeed"
         },
         {
           "eventId": 38,
           "eventData": 0,
-          "content": "##经验换取1%暴击"
+          "content": "str_ExpShopBuyCrit"
         },
         {
           "eventId": 40,
           "eventData": 0,
-          "content": "##经验提升1个等级"
+          "content": "str_ExpShopBuyLevel"
         }
       ]
     },
     {
       "id": 2,
       "speakerId": 23,
-      "title": "我这里有很多宝贝，只要你有足够的钱，就能得到我的东西",
+      "title": "str_GoldShopTitle1",
       "tail": "",
       "canOn": false,
       "data": [
         {
           "eventId": 34,
           "eventData": 0,
-          "content": "##金币换取5攻击力"
+          "content": "str_GoldShopBuyLife"
         },
         {
           "eventId": 35,
           "eventData": 0,
-          "content": "##金币换取5防御力"
+          "content": "str_GoldShopBuyAttack"
         },
         {
           "eventId": 36,
           "eventData": 0,
-          "content": "##金币换取1200生命值"
+          "content": "str_GoldShopBuyDefense"
         }
       ]
     }
@@ -2528,16 +2528,509 @@
       "id": 3,
       "key": "zh-tw",
       "name": "繁體中文"
+    },
+    {
+      "id": 4,
+      "key": "sp-sp",
+      "name": "Español"
+    },
+    {
+      "id": 5,
+      "key": "ge-ge",
+      "name": "Deutsch"
+    },
+    {
+      "id": 6,
+      "key": "fr-fr",
+      "name": "Français"
+    },
+    {
+      "id": 7,
+      "key": "ru-ru",
+      "name": "русский"
+    },
+    {
+      "id": 8,
+      "key": "jp-jp",
+      "name": "日本語"
+    },
+    {
+      "id": 9,
+      "key": "kr-kr",
+      "name": "한국어"
+    },
+    {
+      "id": 10,
+      "key": "hi-in",
+      "name": "इंडिक भाषा"
     }
   ],
   "strings": [
     {
       "id": 1,
-      "key": "gameover",
+      "key": "str_gameover",
       "strings": [
         {
           "langKey": "en-us",
           "content": "gameover"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "游戏结束"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "key": "str_battleGoldGet",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Gold+##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "金币+##"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "key": "str_battleExpGet",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Exp+##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "经验+##"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "key": "str_battleHurted",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Life-##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "生命-##"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "key": "str_Jack",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Jack"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "勇者杰克"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "key": "str_Lilith",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Lilith"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "公主莉莉丝"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "key": "str_saySilent",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "......"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "key": "str_saySilentAsk",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "......??"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "key": "str_JackStartSay1",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Here it is, the tower, according to the map."
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "按照地图指示，应该就是这座塔"
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "key": "str_JackStartSay2",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "The atmosphere is a little weird, Seems to be a lot of monsters. I must be careful forward it"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "感觉气氛有点诡异，里面似乎有不少魔物，小心前进吧"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "key": "str_JackBeforeFirstBattle1",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Woooow, what the hell is this?"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "哇，这是什么鬼？"
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "key": "str_JackBeforeFirstBattle2",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Seems not very friendly. I have to be vigilant."
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "来者不善。。。先干掉再说"
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "key": "str_JackSecretMan1",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Oh, another challenger."
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "呵呵，又来了一个挑战者。"
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "key": "str_JackSecretMan2",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Who are you? Why are you here?"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "您是谁？为什么会在这里？"
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "key": "str_FirstGetYellowKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a yellow key, which can be used to open yellow door once time"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得黄钥匙，可以消耗黄钥匙来开启黄色的门"
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "key": "str_FirstGetBlueKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a blue key, which can be used to open blue door once time"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得蓝钥匙，可以消耗蓝钥匙来开启蓝色的门"
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "key": "str_FirstGetRedKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a red key, which can be used to open red door once time"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得红钥匙，可以消耗红钥匙来开启红色的门"
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "key": "str_FirstGetGreenKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a green key, which can be used to open green door once time"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得绿钥匙，可以消耗绿钥匙来开启绿色的门"
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "key": "str_FirstGetRedDiamond",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a red diamond, attack +3"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得红宝石，攻击+3"
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "key": "str_FirstGetBlueDiamond",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a blue diamond, defense +3"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得蓝宝石，防御+3"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "key": "str_FirstGetGreenDiamond",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a green diamond, speed +1"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得绿宝石，敏捷+1"
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "key": "str_FirstGetYellowDiamond",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a yellow diamond, crit rate +1%"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得黄宝石，暴击率+1%"
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "key": "str_FirstGetRedBottle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a red bottle, life +150"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得红药水，生命+150"
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "key": "str_FirstGetBlueBottle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a blue bottle, life +500"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得蓝药水，生命+500"
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "key": "str_FirstGetGreenBottle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a green bottle, life +1000"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得绿药水，生命+1000"
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "key": "str_FirstGetYellowBottle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Got a yellow bottle, life +350"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "获得黄药水，生命+350"
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "key": "str_ExpShopTitle1",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Brave challenger, I will help you complete your mission. You can use the experience you have experienced to exchange for the following improvements."
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "勇敢的挑战者，我将助你完成你的使命。你可以用你历练来的经验换取以下提升"
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "key": "str_ExpShopBuySpeed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Cost ## exp points to get ## speed"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "##经验换取##敏捷"
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "key": "str_ExpShopBuyCrit",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Use ## exp points to get ##% crit rate"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "##经验换取##%暴击"
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "key": "str_ExpShopBuyLevel",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Use ## exp points to upgrade ## level"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "##经验提升##等级"
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "key": "str_GoldShopTitle1",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "I have a lot of treasures here, as long as you have enough money, you can get my things."
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "我这里有很多宝贝，只要你有足够的钱，就能得到我的东西"
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "key": "str_GoldShopBuyLife",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Cost ## golds to buy ## life points"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "##金币购买##生命值"
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "key": "str_GoldShopBuyAttack",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Cost ## golds to buy ##% attack points"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "##金币购买##攻击"
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "key": "str_GoldShopBuyDefense",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Cost ## golds to buy ## defense points"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "##金币购买##防御"
         }
       ]
     }

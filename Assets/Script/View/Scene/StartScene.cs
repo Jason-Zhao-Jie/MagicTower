@@ -22,6 +22,7 @@ public class StartScene : MonoBehaviour
     private void OnDestroy()
     {
         instance = null;
+        ObjectPool.instance.ClearAll();
     }
 
     // Update is called once per frame

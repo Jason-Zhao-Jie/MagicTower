@@ -2,7 +2,7 @@
 
 此文档记录策划思路以及工作安排
 
-## 2017年7月21日，Friday
+## 2017年7月21日, Friday
 
 接下来需要完成的任务:
 
@@ -18,7 +18,7 @@
 1. 打出android包和iOS包，通过功能测试和适配测试
 1. 添加几个大型动画资源，例如开场动画，VS boss动画等
 
-## 2017年8月23日，Wednesday
+## 2017年8月23日, Wednesday
 
 + 事件结构已优化, 基本通过测试
 + 地图编辑器的bug已修复, 现在可以正常编辑地图了
@@ -49,7 +49,7 @@
 1. 优化数据读取(如20170721中第5点所述)
 1. 配置好android包, ios包和 win-app-store的包, 尝试打包
 
-## 2017年9月29日，Friday
+## 2017年9月29日, Friday
 
 1. 完成CallEventAt事件和CannotMove事件
 1. 完成部分道具的实际效果数值及首次Tips提示
@@ -123,3 +123,8 @@
 
 ## 2018年7月20日, Friday
 1. 完成了对国际化语言字符串的整理和调用, 现在继续整理和优化数据编辑器以便更好地设置数据
+
+## 2018年12月5日, Wednesday
+1. 修复了一个bug, 曾导致从StartScene进入DataEditorScene然后退回到StartScene之后, 此时若再进入到MainScene或DataEditorScene, 将会崩溃. bug原因是: 退出Scene时没有对ObjectPool进行清空
+
+## 2018年12月6日, Thursday

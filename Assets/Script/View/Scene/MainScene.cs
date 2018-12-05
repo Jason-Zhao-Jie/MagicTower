@@ -79,6 +79,7 @@ public class MainScene : MonoBehaviour
         MapManager.instance.ClearMap();
         DataCenter.instance.Status = Constant.EGameStatus.Start;
         instance = null;
+        ObjectPool.instance.ClearAll();
     }
 
     // Update is called once per frame

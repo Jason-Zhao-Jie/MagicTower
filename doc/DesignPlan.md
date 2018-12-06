@@ -128,3 +128,6 @@
 1. 修复了一个bug, 曾导致从StartScene进入DataEditorScene然后退回到StartScene之后, 此时若再进入到MainScene或DataEditorScene, 将会崩溃. bug原因是: 退出Scene时没有对ObjectPool进行清空
 
 ## 2018年12月6日, Thursday
+1. 修复了一个bug, 曾导致DataCenter的数据被(DataEditorScene)改变之后, 没有同步到MapManager, 也没有清空MapManager, 致使改动无法实际生效 (仅仅是在编辑器选项栏中生效, 地图栏刷新以后也会复原)
+1. 完成了对话/选择设计编辑器的UI摆放, 下一步完成功能, 同时优化编辑器其他部分
+   

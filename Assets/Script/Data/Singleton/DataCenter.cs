@@ -43,6 +43,18 @@ public class DataCenter
         return newGameMaps[index];
     }
 
+    public void SaveMapTo(int index)
+    {
+        if (!newGameMaps.ContainsKey(index))
+        {
+            UnityEngine.Debug.LogError("Saving map " + index + " failed, cannot find map old data.");
+        }
+        else
+        {
+            MapManager.instance.OverrideMapData(index, newGameMaps[index]);
+        }
+    }
+
     public Constant.MapData GetCopiedMap(int index)
     {
         var dt = GetGameMap(index);

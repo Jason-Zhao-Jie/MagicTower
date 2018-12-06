@@ -175,6 +175,9 @@ public class DataEditorScene : MonoBehaviour
         mapMakerCanvas.SetActive(true);
         modalMakerCanvas.SetActive(false);
         eventMakerCanvas.SetActive(false);
+        var panel = mapMakerCanvas.transform.Find("SetPanel");
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        MapManager.instance.ShowMap(mapId);
     }
 
     // Modal&Audio按钮回调
@@ -183,6 +186,7 @@ public class DataEditorScene : MonoBehaviour
         mapMakerCanvas.SetActive(false);
         modalMakerCanvas.SetActive(true);
         eventMakerCanvas.SetActive(false);
+        BackgroundImage = "BrownWall";
     }
 
     // Event 按钮回调
@@ -191,6 +195,7 @@ public class DataEditorScene : MonoBehaviour
         mapMakerCanvas.SetActive(false);
         modalMakerCanvas.SetActive(false);
         eventMakerCanvas.SetActive(true);
+        BackgroundImage = "BrownWall";
     }
 
     // GetDataJson按钮回调
@@ -475,14 +480,21 @@ public class DataEditorScene : MonoBehaviour
 		var bgModal = panel.transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
 		var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value;
         var eventId = panel.transform.Find("EventId").GetComponent<Dropdown>().value;
-        var eventData = System.Convert.ToInt64(panel.transform.Find("EventData").GetComponent<InputField>().text);
-
+        long eventData = 0;
+        try
+        {
+            eventData = System.Convert.ToInt64(panel.transform.Find("EventData").GetComponent<InputField>().text);
+        }catch (System.FormatException e)
+        {
+            eventData = 0;
+        }
         DataCenter.instance.GetGameMap(mapId).mapName = mapName;
         DataCenter.instance.GetGameMap(mapId).backThing = bgModal;
 		DataCenter.instance.GetGameMap(mapId).music = bgMusic;
 		DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].thing = currModal;
         DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].eventId = eventId;
         DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].eventData = eventData;
+        DataCenter.instance.SaveMapTo(mapId);
     }
 
     // Map选择框回调

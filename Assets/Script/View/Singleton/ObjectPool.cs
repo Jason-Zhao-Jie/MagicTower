@@ -24,9 +24,15 @@ public class ObjectPool {
             }
         }
 
+        public bool Destroyed {
+            get {
+                return destroyed || (null == this);
+            }
+        }
+
         private void OnDestroy()
         {
-            
+            destroyed = true;
         }
 
         public abstract ElementType GetPoolTypeId();
@@ -54,6 +60,7 @@ public class ObjectPool {
 
         internal bool usingTag = true;
         private int id = 0;
+        private bool destroyed = false;
     }
 
     public static ObjectPool instance = new ObjectPool();
@@ -61,6 +68,16 @@ public class ObjectPool {
 
     public void ClearAll()
     {
+        foreach(var k in unusePool)
+        {
+            if(k.Value != null)
+            {
+                foreach(var v in k.Value)
+                {
+                    UnityEngine.Object.Destroy(v);
+                }
+            }
+        }
         unusePool.Clear();
     }
 
@@ -126,10 +143,13 @@ public class ObjectPool {
         }
         if (!tarElem.OnUnuse(tarElem.GetPoolTypeId(), tarElem.Id))
             return false;
-        tarElem.transform.SetParent(null, false);
         tarElem.usingTag = false;
-        tar.Enqueue(tarElem);
-        tarElem.gameObject.SetActive(false);
+        if (!tarElem.Destroyed)
+        {
+            tarElem.transform.SetParent(null, false);
+            tar.Enqueue(tarElem);
+            tarElem.gameObject.SetActive(false);
+        }
         return true;
     }
     

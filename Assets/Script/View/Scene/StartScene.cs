@@ -70,6 +70,9 @@ public class StartScene : MonoBehaviour
     public void OnExitGame()
     {
         Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     private double percent = 0;

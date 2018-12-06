@@ -7,11 +7,11 @@ public class MapManager
     {
         if (datas != null)
         {
-            maps = datas;
+            MapData = datas;
         }
         else
         {
-            maps = new Constant.MapData[DataCenter.instance.mapLength];
+            MapData = new Constant.MapData[DataCenter.instance.mapLength];
         }
         currentFloor = floorId;
     }
@@ -26,30 +26,30 @@ public class MapManager
         currentFloor = mapid - 1;
         if (currentFloor < 0)
             return false;
-        if (maps == null)
-            maps = new Constant.MapData[DataCenter.instance.mapLength];
+        if (MapData == null)
+            MapData = new Constant.MapData[DataCenter.instance.mapLength];
 
         // 清除地图块，并载入新的地图
         ClearMap();
-        if (maps[currentFloor] == null)
-            maps[currentFloor] = DataCenter.instance.GetCopiedMap(currentFloor);
-        for (int x = 0; x < maps[currentFloor].mapBlocks.Length; ++x)
-            for (int y = 0; y < maps[currentFloor].mapBlocks[x].Length; ++y)
+        if (MapData[currentFloor] == null)
+            MapData[currentFloor] = DataCenter.instance.GetCopiedMap(currentFloor);
+        for (int x = 0; x < MapData[currentFloor].mapBlocks.Length; ++x)
+            for (int y = 0; y < MapData[currentFloor].mapBlocks[x].Length; ++y)
             {
-                var thingId = maps[currentFloor].mapBlocks[x][y].thing;
+                var thingId = MapData[currentFloor].mapBlocks[x][y].thing;
                 AddObjectToMap(x, y, thingId);
             }
 
         // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识   ( TODO : 未实现渐变方式 )
         if (MainScene.instance != null)
         {
-            MainScene.instance.BackgroundImage = DataCenter.instance.modals[maps[currentFloor].backThing].prefabPath;
-            MainScene.instance.MapName = StringInternational.GetValue(maps[currentFloor].mapName);
-            AudioController.instance.PlayMusicLoop(maps[currentFloor].music);
+            MainScene.instance.BackgroundImage = DataCenter.instance.modals[MapData[currentFloor].backThing].prefabPath;
+            MainScene.instance.MapName = StringInternational.GetValue(MapData[currentFloor].mapName);
+            AudioController.instance.PlayMusicLoop(MapData[currentFloor].music);
         }
         else
         {
-            DataEditorScene.instance.BackgroundImage = DataCenter.instance.modals[maps[currentFloor].backThing].prefabPath;
+            DataEditorScene.instance.BackgroundImage = DataCenter.instance.modals[MapData[currentFloor].backThing].prefabPath;
         }
 
         return true;
@@ -64,6 +64,12 @@ public class MapManager
             modals[vs[i]].RemoveSelf(false);
         }
         modals.Clear();
+    }
+
+    // 用地图数据覆盖某地图层, 一般用于地图编辑器, 但也可用于某些事件技巧, 注意仅仅只改变了数据
+    public void OverrideMapData(int mapid, Constant.MapData mapdata)
+    {
+        MapData[mapid] = mapdata;
     }
 
     // 更改背景图片
@@ -85,11 +91,11 @@ public class MapManager
     public void ChangeThingOnMap(int thingId, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
     {
         if (oldPosx >= 0 && oldPosy >= 0)
-            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.modals[maps[currentFloor].mapBlocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
-        if (maps[currentFloor].mapBlocks[posx][posy].thing == thingId)
+            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.modals[MapData[currentFloor].mapBlocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+        if (MapData[currentFloor].mapBlocks[posx][posy].thing == thingId)
             return;
-        maps[currentFloor].mapBlocks[posx][posy].thing = thingId;
-        long uuid = maps[currentFloor].mapId * 10000 + posy + posx * 100;
+        MapData[currentFloor].mapBlocks[posx][posy].thing = thingId;
+        long uuid = MapData[currentFloor].mapId * 10000 + posy + posx * 100;
         if (modals.ContainsKey(uuid))
         {
             RemoveThingOnMapWithModal(uuid);
@@ -105,7 +111,7 @@ public class MapManager
         {
             var modal = DataCenter.instance.modals[thingId];
             obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
-            obj.InitWithMapPos(maps[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
+            obj.InitWithMapPos(MapData[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
         }
         if (obj != null)
         {
@@ -124,9 +130,9 @@ public class MapManager
             mapId = currentFloor;
         else
             mapId--;
-        if (maps[mapId] == null)
-            maps[mapId] = DataCenter.instance.GetCopiedMap(mapId);
-        maps[mapId].mapBlocks[posx][posy].thing = 0;
+        if (MapData[mapId] == null)
+            MapData[mapId] = DataCenter.instance.GetCopiedMap(mapId);
+        MapData[mapId].mapBlocks[posx][posy].thing = 0;
     }
 
     // 从地图上永久删除mod,包括表现和数据
@@ -151,10 +157,10 @@ public class MapManager
             mapId = currentFloor;
         else
             mapId--;
-        if (maps[mapId] == null)
-            maps[mapId] = DataCenter.instance.GetCopiedMap(mapId);
-        maps[mapId].mapBlocks[posx][posy].eventId = eventId;
-        maps[mapId].mapBlocks[posx][posy].eventData = eventData;
+        if (MapData[mapId] == null)
+            MapData[mapId] = DataCenter.instance.GetCopiedMap(mapId);
+        MapData[mapId].mapBlocks[posx][posy].eventId = eventId;
+        MapData[mapId].mapBlocks[posx][posy].eventData = eventData;
         return true;
     }
 
@@ -192,7 +198,7 @@ public class MapManager
     public int[][] ConvertCurrentMapToFinderArray()
     {
         var ret = new List<int[]>();
-        var mapBlockData = maps[currentFloor].mapBlocks;
+        var mapBlockData = MapData[currentFloor].mapBlocks;
         foreach(var i in mapBlockData)
         {
             var inserted = new List<int>();
@@ -236,10 +242,10 @@ public class MapManager
         return ret.ToArray();
     }
 
-    public Constant.MapData[] MapData { get { return maps; } }
-    public Constant.MapData this[int index] { get { return maps[index]; } }
-    public Constant.MapData CurrentMap { get { return maps[currentFloor]; } }
-    public int CurrentFloorId { get { return maps[currentFloor].mapId; } }
+    public Constant.MapData[] MapData { get; private set; }
+    public Constant.MapData this[int index] { get { return MapData[index]; } }
+    public Constant.MapData CurrentMap { get { return MapData[currentFloor]; } }
+    public int CurrentFloorId { get { return MapData[currentFloor].mapId; } }
 
     private Curtain Curtain {
         get {
@@ -252,6 +258,5 @@ public class MapManager
     }
 
     private int currentFloor = 0;
-    private Constant.MapData[] maps;
     private Dictionary<long, Modal> modals = new Dictionary<long, Modal>();
 }

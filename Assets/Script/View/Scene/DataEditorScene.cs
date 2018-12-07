@@ -6,31 +6,32 @@ using UnityEngine.UI;
 public class DataEditorScene : MonoBehaviour
 {
     public static DataEditorScene instance;
+
     // Use this for initialization
     void Start()
     {
+        // 初始化游戏信息
         instance = this;
         Initializationer.InitBases(GetComponent<RectTransform>().rect.size);
-
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.ClearSoundSource();
         AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
+
         // 设定canvas
         mapMakerCanvas = GameObject.Find("MapMakerCanvas");
         modalMakerCanvas = GameObject.Find("ModalMakerCanvas");
         eventMakerCanvas = GameObject.Find("AudioAndEventsCanvas");
         saveResult = GameObject.Find("SaveResult");
         saveResult.SetActive(false);
-
+        // 设定背景和地图区域
         backgroundImg = GetComponent<UnityEngine.UI.Image>();
         ScreenAdaptator.instance.LoadOnMainScene(mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect);
-
+        // 设定幕布和填充墙
         curtain = mapMakerCanvas.transform.Find("MapPanel").transform.Find("Curtain").GetComponent<Curtain>();
         curtain.gameObject.SetActive(false);
-        UnityEngine.Debug.Log("The current map whole rect is: " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " +
-            mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
-		UnityEngine.Debug.Log("The current map part rect is: " + ScreenAdaptator.instance.MapPartRect.x + ", " + ScreenAdaptator.instance.MapPartRect.y + ", " + ScreenAdaptator.instance.MapPartRect.width + ", " + ScreenAdaptator.instance.MapPartRect.height);
-		UnityEngine.Debug.Log("The current map block size is: " + ScreenAdaptator.instance.BlockSize.x + ", " + ScreenAdaptator.instance.BlockSize.y);
+        //UnityEngine.Debug.Log("The current map whole rect is: " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
+		//UnityEngine.Debug.Log("The current map part rect is: " + ScreenAdaptator.instance.MapPartRect.x + ", " + ScreenAdaptator.instance.MapPartRect.y + ", " + ScreenAdaptator.instance.MapPartRect.width + ", " + ScreenAdaptator.instance.MapPartRect.height);
+		//UnityEngine.Debug.Log("The current map block size is: " + ScreenAdaptator.instance.BlockSize.x + ", " + ScreenAdaptator.instance.BlockSize.y);
 		//TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
 		// 载入所有资源
@@ -122,8 +123,9 @@ public class DataEditorScene : MonoBehaviour
             OnModalSelected(0);
             OnWeaponSelected(0);
 
-            // 显示所有prefabs
+            // 显示所有prefabs     TODO
             var prefabList = modalMakerCanvas.transform.Find("prefabs").GetComponent<ScrollRect>();
+            
 
             DataCenter.instance.Status = Constant.EGameStatus.InEditor;
         }

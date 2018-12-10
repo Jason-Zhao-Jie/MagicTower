@@ -25,17 +25,17 @@ public class Curtain : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         // 置为透明
         var color = GetComponent<UnityEngine.UI.Image>().color;
         color.a = 0;
         GetComponent<UnityEngine.UI.Image>().color = color;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
 
     private void OnMiddle() {
         if (midCallback != null)

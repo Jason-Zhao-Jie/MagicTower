@@ -1,53 +1,43 @@
 using UnityEngine;
 using System.Collections;
 
-public class Player : ObjectPool.AElement
-{
+public class Player : ObjectPool.AElement {
     const int RUN_SPEED = 10;
 
-	void Start()
-	{
+    void Start() {
         runningTime = 0;
         movedLength = new Vector2(transform.lossyScale.x * Constant.MAP_BLOCK_BASE_SIZE / 100, transform.lossyScale.y * Constant.MAP_BLOCK_BASE_SIZE / 100);
-	}
+    }
 
-	void Update()
-	{
-        if (PlayerController.instance.dirChanged && mainPlayer)
-        {
-            switch (PlayerController.instance.Dir)
-            {
+    void Update() {
+        if (PlayerController.instance.dirChanged && mainPlayer) {
+            switch (PlayerController.instance.Dir) {
                 case PlayerController.Direction.Up:
-                    animator.Play(PlayerController.instance.IsRunning ? "Up" : "Up_Stand");
+                    Animator.Play(PlayerController.instance.IsRunning ? "Up" : "Up_Stand");
                     break;
                 case PlayerController.Direction.Down:
-                    animator.Play(PlayerController.instance.IsRunning ? "Down" : "Down_Stand");
+                    Animator.Play(PlayerController.instance.IsRunning ? "Down" : "Down_Stand");
                     break;
                 case PlayerController.Direction.Left:
-                    animator.Play(PlayerController.instance.IsRunning ? "Left" : "Left_Stand");
+                    Animator.Play(PlayerController.instance.IsRunning ? "Left" : "Left_Stand");
                     break;
                 case PlayerController.Direction.Right:
-                    animator.Play(PlayerController.instance.IsRunning ? "Right" : "Right_Stand");
+                    Animator.Play(PlayerController.instance.IsRunning ? "Right" : "Right_Stand");
                     break;
             }
             PlayerController.instance.dirChanged = false;
         }
-	}
+    }
 
-    void FixedUpdate()
-	{
-        if (PlayerController.instance.IsRunning && mainPlayer)
-        {
+    void FixedUpdate() {
+        if (PlayerController.instance.IsRunning && mainPlayer) {
             if (runningTime < RUN_SPEED)
                 ++runningTime;
-            else
-            {
+            else {
                 runningTime = 0;
-                if (PlayerController.instance.GoToNextBlock())
-                {
+                if (PlayerController.instance.GoToNextBlock()) {
                     var posController = transform;
-                    switch (PlayerController.instance.Dir)
-                    {
+                    switch (PlayerController.instance.Dir) {
                         case PlayerController.Direction.Up:
                             posController.position = new Vector3(posController.position.x, posController.position.y + movedLength.y, posController.position.z);
                             break;
@@ -63,25 +53,21 @@ public class Player : ObjectPool.AElement
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             runningTime = RUN_SPEED - 1;
         }
-	}
+    }
 
     public bool MainPlayer {
         get { return mainPlayer; }
         set { mainPlayer = value; }
     }
 
-	public void RemoveSelf()
-	{
+    public void RemoveSelf() {
         ObjectPool.instance.RecycleAnElement(this);
-	}
+    }
 
-    public override ObjectPool.ElementType GetPoolTypeId()
-    {
+    public override ObjectPool.ElementType GetPoolTypeId() {
         return ObjectPool.ElementType.Sprite;
     }
 
@@ -91,33 +77,28 @@ public class Player : ObjectPool.AElement
         }
     }
 
-    public void SetPlayerData(int id)
-    {
+    public void SetPlayerData(int id) {
         playerId = id;
     }
 
-    public override bool RecycleSelf()
-    {
+    public override bool RecycleSelf() {
         return RecycleSelf<Modal>();
     }
 
-    public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
-    {
+    public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath) {
         SetPlayerData(elemId);
         return true;
     }
 
-    public override void OnReuse(ObjectPool.ElementType tid, int elemId)
-    {
+    public override void OnReuse(ObjectPool.ElementType tid, int elemId) {
     }
 
-    public override bool OnUnuse(ObjectPool.ElementType tid, int elemId)
-    {
+    public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
         mainPlayer = false;
         return true;
     }
 
-    public Animator animator{ get { return GetComponent<Animator>(); }}
+    public Animator Animator { get { return GetComponent<Animator>(); } }
 
     private int runningTime;
     private Vector2 movedLength;

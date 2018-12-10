@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
-public static class Constant
-{
+public static class Constant {
     public const string AUDIO_DIR = "Audio/";
     public const string PREFAB_DIR = "Prefab/";
     public const string DIALOG_DIR = "Controls/";
@@ -16,8 +15,7 @@ public static class Constant
     public delegate bool EventCallback(Modal caller, long blockData);
     public delegate void EmptyCallBack();
 
-    public enum ResourceType
-    {
+    public enum ResourceType {
         Unknown = 0,
         Life = 1,
         Attack = 2,
@@ -33,8 +31,7 @@ public static class Constant
         GreenKey = 12,
     }
 
-    public enum ChatType
-    {
+    public enum ChatType {
         None,
         Bubble,
         Tip,
@@ -43,8 +40,7 @@ public static class Constant
         Top,
     }
 
-    public enum EGameStatus
-    {
+    public enum EGameStatus {
         Start,
         InGame,
         InEditor,
@@ -61,8 +57,7 @@ public static class Constant
     }
 
     [System.Serializable]
-    public struct MapBlock
-    {
+    public struct MapBlock {
         public int thing;
         public int eventId;
         public long eventData;   // optional
@@ -87,8 +82,7 @@ public static class Constant
     }
 
     [System.Serializable]
-    public class MapData
-    {
+    public class MapData {
         public int mapId;
         public string mapName;
         public int backThing;
@@ -98,11 +92,9 @@ public static class Constant
         public JObject Json {
             get {
                 var blocks = new JArray();
-                for (int x = 0; x < mapBlocks.Length; ++x)
-                {
+                for (int x = 0; x < mapBlocks.Length; ++x) {
                     var blockX = new JArray();
-                    for (int y = 0; y < mapBlocks[x].Length; ++y)
-                    {
+                    for (int y = 0; y < mapBlocks[x].Length; ++y) {
                         blockX.Add(mapBlocks[x][y].Json);
                     }
                     blocks.Add(blockX);
@@ -122,12 +114,10 @@ public static class Constant
                 music = value["music"].ToInt();
                 var blocks = value["mapBlocks"] as JArray;
                 mapBlocks = new MapBlock[blocks.Length][];
-                for(var x = 0; x < mapBlocks.Length; ++x)
-                {
+                for (var x = 0; x < mapBlocks.Length; ++x) {
                     var blockX = blocks[x] as JArray;
                     mapBlocks[x] = new MapBlock[blockX.Length];
-                    for(var y = 0; y < blockX.Length; ++y)
-                    {
+                    for (var y = 0; y < blockX.Length; ++y) {
                         mapBlocks[x][y] = new MapBlock() { Json = blockX[y] as JObject };
                     }
                 }
@@ -136,8 +126,7 @@ public static class Constant
     }
 
     [System.Serializable]
-    public class ModalData
-    {
+    public class ModalData {
         public int id;
         public int typeId;
         public string name;
@@ -168,11 +157,10 @@ public static class Constant
         }
     }
 
-	[System.Serializable]
-	public class Audio
-	{
-		public int id;
-		public string path;
+    [System.Serializable]
+    public class Audio {
+        public int id;
+        public string path;
 
         public JObject Json {
             get {
@@ -187,29 +175,27 @@ public static class Constant
                 path = value["path"].ToString();
             }
         }
-	}
+    }
 
-	[System.Serializable]
-	public class MonsterData
-	{
-		public int id;
-		public int level;
-		public int exp;
-		public int life;
-		public int attack;
-		public int defense;
-		public int speed;
-		public double critical;
-		public int gold;
-		public int[] special;
-		public int weaponId;
+    [System.Serializable]
+    public class MonsterData {
+        public int id;
+        public int level;
+        public int exp;
+        public int life;
+        public int attack;
+        public int defense;
+        public int speed;
+        public double critical;
+        public int gold;
+        public int[] special;
+        public int weaponId;
 
         public JObject Json {
             get {
                 var special_list = new JArray();
                 if (special != null)
-                    for (var i = 0; i < special.Length; ++i)
-                    {
+                    for (var i = 0; i < special.Length; ++i) {
                         special_list.Add(new JNumber(special[i]));
                     }
                 return new JObject(new Dictionary<string, IUnit>()
@@ -240,11 +226,9 @@ public static class Constant
                 var special_list = value["special"] as JArray;
                 if (special_list.Length <= 0)
                     special = null;
-                else
-                {
+                else {
                     special = new int[special_list.Length];
-                    for (int i = 0; i < special.Length; ++i)
-                    {
+                    for (int i = 0; i < special.Length; ++i) {
                         special[i] = special_list[i].ToInt();
                     }
                 }
@@ -252,10 +236,8 @@ public static class Constant
             }
         }
 
-        public MonsterData Clone()
-        {
-            return new MonsterData()
-            {
+        public MonsterData Clone() {
+            return new MonsterData() {
                 id = id,
                 level = level,
                 exp = exp,
@@ -268,21 +250,20 @@ public static class Constant
                 weaponId = weaponId,
             };
         }
-	}
+    }
 
-	[System.Serializable]
-	public struct PlayerData
-	{
-		public int id;
-		public int level;
-		public int exp;
-		public int life;
-		public int attack;
-		public int defense;
-		public int speed;
-		public double critical;
-		public int gold;
-		public int weaponId;
+    [System.Serializable]
+    public struct PlayerData {
+        public int id;
+        public int level;
+        public int exp;
+        public int life;
+        public int attack;
+        public int defense;
+        public int speed;
+        public double critical;
+        public int gold;
+        public int weaponId;
         public int yellowKey;
         public int blueKey;
         public int redKey;
@@ -327,15 +308,14 @@ public static class Constant
         }
     }
 
-	[System.Serializable]
-	public class WeaponData
-	{
-		public int id;
-		public string name;
+    [System.Serializable]
+    public class WeaponData {
+        public int id;
+        public string name;
         public string prefabPath;
         public string critPrefabPath;
         public int audioId;
-		public int critAudioId;
+        public int critAudioId;
         public JObject Json {
             get {
                 return new JObject(new Dictionary<string, IUnit>()
@@ -359,11 +339,10 @@ public static class Constant
         }
     }
 
-	[System.Serializable]
-	public struct OneChatData
-	{
-		public int speakerId;
-		public string content;
+    [System.Serializable]
+    public struct OneChatData {
+        public int speakerId;
+        public string content;
 
         public JObject Json {
             get {
@@ -380,20 +359,18 @@ public static class Constant
         }
     }
 
-	[System.Serializable]
-	public class ChatData
-	{
-		public int id;
-		public int lastEventId;
+    [System.Serializable]
+    public class ChatData {
+        public int id;
+        public int lastEventId;
         public long lastEventData;
-		public bool canOn;
-		public OneChatData[] data;
+        public bool canOn;
+        public OneChatData[] data;
 
         public JObject Json {
             get {
                 var data_list = new JArray();
-                for(var i = 0; i < data.Length; ++i)
-                {
+                for (var i = 0; i < data.Length; ++i) {
                     data_list.Add(data[i].Json);
                 }
                 return new JObject(new Dictionary<string, IUnit>()
@@ -413,8 +390,7 @@ public static class Constant
                 canOn = value["canOn"].ToBool();
                 var data_list = value["data"] as JArray;
                 data = new OneChatData[data_list.Length];
-                for(var i = 0; i < data.Length; ++i)
-                {
+                for (var i = 0; i < data.Length; ++i) {
                     data[i] = new OneChatData() { Json = data_list[i] as JObject };
                 }
             }
@@ -422,8 +398,7 @@ public static class Constant
     }
 
     [System.Serializable]
-    public class OneChoiceData
-    {
+    public class OneChoiceData {
         public string content;
         public int eventId;
         public long eventData;
@@ -446,21 +421,19 @@ public static class Constant
         }
     }
 
-	[System.Serializable]
-	public class ChoiceData
-	{
-		public int id;
-		public int speakerId;
-		public string title;
-		public string tail;
-		public bool canOn;
-		public OneChoiceData[] data;
+    [System.Serializable]
+    public class ChoiceData {
+        public int id;
+        public int speakerId;
+        public string title;
+        public string tail;
+        public bool canOn;
+        public OneChoiceData[] data;
 
         public JObject Json {
             get {
                 var data_list = new JArray();
-                for (var i = 0; i < data.Length; ++i)
-                {
+                for (var i = 0; i < data.Length; ++i) {
                     data_list.Add(data[i].Json);
                 }
                 return new JObject(new Dictionary<string, IUnit>()
@@ -481,8 +454,7 @@ public static class Constant
                 canOn = value["canOn"].ToBool();
                 var data_list = value["data"] as JArray;
                 data = new OneChoiceData[data_list.Length];
-                for (var i = 0; i < data.Length; ++i)
-                {
+                for (var i = 0; i < data.Length; ++i) {
                     data[i] = new OneChoiceData() { Json = data_list[i] as JObject };
                 }
             }
@@ -490,7 +462,7 @@ public static class Constant
     }
 
     [System.Serializable]
-    public class LanguageData{
+    public class LanguageData {
         public int id;
         public string name;
         public string key;
@@ -513,7 +485,7 @@ public static class Constant
     }
 
     [System.Serializable]
-    public class StringInOneLanguage{
+    public class StringInOneLanguage {
         public string langKey;
         public string content;
 
@@ -533,14 +505,14 @@ public static class Constant
     }
 
     [System.Serializable]
-    public class InternationalString{
+    public class InternationalString {
         public int id;
         public string key;
         public StringInOneLanguage[] strings;
 
-        public string this[string key]{
-            get{
-                for (int i = 0; i < strings.Length;++i){
+        public string this[string key] {
+            get {
+                for (int i = 0; i < strings.Length; ++i) {
                     if (key.Equals(strings[i].langKey))
                         return strings[i].content;
                 }
@@ -551,8 +523,7 @@ public static class Constant
         public JObject Json {
             get {
                 var strings_list = new JArray();
-                for (var i = 0; i < strings.Length; ++i)
-                {
+                for (var i = 0; i < strings.Length; ++i) {
                     strings_list.Add(strings[i].Json);
                 }
                 return new JObject(new Dictionary<string, IUnit>()
@@ -567,8 +538,7 @@ public static class Constant
                 key = value["key"].ToString();
                 var strings_list = value["strings"] as JArray;
                 strings = new StringInOneLanguage[strings_list.Length];
-                for (var i = 0; i < strings.Length; ++i)
-                {
+                for (var i = 0; i < strings.Length; ++i) {
                     strings[i] = new StringInOneLanguage() { Json = strings_list[i] as JObject };
                 }
             }

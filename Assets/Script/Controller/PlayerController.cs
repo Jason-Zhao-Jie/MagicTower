@@ -1,13 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController
-{
+public class PlayerController {
     public const int DEFALUT_PLAYER_ID = 62;
     public static PlayerController instance = null;
 
-    public enum Direction
-    {
+    public enum Direction {
         Default,
         Up,
         Down,
@@ -22,39 +20,30 @@ public class PlayerController
     public int posx = 9;
     public int posy = 1;
 
-    public bool GoToNextBlock()
-    {
+    public bool GoToNextBlock() {
         int targetPosX = posx;
         int targetPosY = posy;
-        if (DataCenter.instance.Status == Constant.EGameStatus.AutoStepping)
-        {
-            if (AutoSteppingRoad.Count <= 0)
-            {
+        if (DataCenter.instance.Status == Constant.EGameStatus.AutoStepping) {
+            if (AutoSteppingRoad.Count <= 0) {
                 StopAutoStepping();
                 return false;
             }
             var target = AutoSteppingRoad.Pop();
             targetPosX = target.x;
             targetPosY = target.y;
-            if (targetPosX == posx)
-            {
+            if (targetPosX == posx) {
                 if (targetPosY > posy)
                     Dir = Direction.Up;
                 else
                     Dir = Direction.Down;
-            }
-            else
-            {
+            } else {
                 if (targetPosX > posx)
                     Dir = Direction.Right;
                 else
                     Dir = Direction.Left;
             }
-        }
-        else
-        {
-            switch (Dir)
-            {
+        } else {
+            switch (Dir) {
                 case Direction.Up:
                     ++targetPosY;
                     break;
@@ -71,29 +60,24 @@ public class PlayerController
         }
 
         // Check if the player is at the condition
-        if (targetPosY >= Constant.MAP_BLOCK_LENGTH || targetPosY < 0 || targetPosX >= Constant.MAP_BLOCK_LENGTH || targetPosX < 0)
-        {
+        if (targetPosY >= Constant.MAP_BLOCK_LENGTH || targetPosY < 0 || targetPosX >= Constant.MAP_BLOCK_LENGTH || targetPosX < 0) {
             return false;
         }
 
         // Check map event and thing event
         var block = MapManager.instance.CurrentMap.mapBlocks[targetPosX][targetPosY];
         long uuid = MapManager.instance.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
-        if (block.eventId != 0)
-        {
+        if (block.eventId != 0) {
             if (!EventManager.instance.DispatchEvent(block.eventId, MapManager.instance.GetModalByUuid(uuid), block.eventData))
                 return false;
         }
-        if (block.thing != 0)
-        {
+        if (block.thing != 0) {
             var thingData = DataCenter.instance.modals[block.thing];
-            if (thingData.eventId != 0)
-            {
+            if (thingData.eventId != 0) {
                 if (!EventManager.instance.DispatchEvent(thingData.eventId, MapManager.instance.GetModalByUuid(uuid), thingData.eventData))
                     return false;
             }
-            switch ((Modal.ModalType)thingData.typeId)
-            {
+            switch ((Modal.ModalType)thingData.typeId) {
                 case Modal.ModalType.Walkable:
                     break;
                 default:
@@ -107,161 +91,127 @@ public class PlayerController
         return true;
     }
 
-    public int PlayerId
-    {
+    public int PlayerId {
         get { return data.id; }
     }
 
-    public bool SetPlayerInfo(int id)
-    {
+    public bool SetPlayerInfo(int id) {
         data = DataCenter.instance.players[id];
         return true;
     }
 
-    public int Level
-    {
+    public int Level {
         get { return data.level; }
-        set
-        {
+        set {
             data.level = value;
             MainScene.instance.Level = value.ToString();
         }
     }
-    public int Experience
-    {
+    public int Experience {
         get { return data.exp; }
-        set
-        {
+        set {
             data.exp = value;
             MainScene.instance.Experience = value.ToString();
         }
     }
-    public int Life
-    {
+    public int Life {
         get { return data.life; }
-        set
-        {
+        set {
             data.life = value;
             MainScene.instance.Life = value.ToString();
         }
     }
-    public int Attack
-    {
+    public int Attack {
         get { return data.attack; }
-        set
-        {
+        set {
             data.attack = value;
             MainScene.instance.Attack = value.ToString();
         }
     }
-    public int Defense
-    {
+    public int Defense {
         get { return data.defense; }
-        set
-        {
+        set {
             data.defense = value;
             MainScene.instance.Defense = value.ToString();
         }
     }
-    public int Speed
-    {
+    public int Speed {
         get { return data.speed; }
-        set
-        {
+        set {
             data.speed = value;
             MainScene.instance.Speed = value.ToString();
         }
     }
-    public double Critical
-    {
+    public double Critical {
         get { return data.critical; }
         set { data.critical = value; }
     }
 
-    public int Gold
-    {
+    public int Gold {
         get { return data.gold; }
-        set
-        {
+        set {
             data.gold = value;
             MainScene.instance.Gold = value.ToString();
         }
     }
-    public int Weapon
-    {
+    public int Weapon {
         get { return data.weaponId; }
         set { data.weaponId = value; }
     }
-    public int YellowKey
-    {
+    public int YellowKey {
         get { return data.yellowKey; }
-        set
-        {
+        set {
             data.yellowKey = value;
             MainScene.instance.YellowKey = value.ToString();
         }
     }
-    public int BlueKey
-    {
+    public int BlueKey {
         get { return data.blueKey; }
-        set
-        {
+        set {
             data.blueKey = value;
             MainScene.instance.BlueKey = value.ToString();
         }
     }
-    public int RedKey
-    {
+    public int RedKey {
         get { return data.redKey; }
-        set
-        {
+        set {
             data.redKey = value;
             MainScene.instance.RedKey = value.ToString();
         }
     }
-    public int GreenKey
-    {
+    public int GreenKey {
         get { return data.greenKey; }
         set { data.greenKey = value; }
     }
 
 
-    public Constant.PlayerData PlayerData
-    {
-        get
-        {
+    public Constant.PlayerData PlayerData {
+        get {
             return data;
         }
-        set
-        {
+        set {
             data = value;
         }
     }
 
-    public void ShowPlayer(bool isNew)
-    {
+    public void ShowPlayer(bool isNew) {
         ShowPlayer(-1, -1, 0, isNew);
     }
 
-    public void ShowPlayer(int posx = -1, int posy = -1, int playerId = 0, bool isNew = false)
-    {
+    public void ShowPlayer(int posx = -1, int posy = -1, int playerId = 0, bool isNew = false) {
         if (playerId == 0)
             playerId = data.id;
-        if (playerId == 0)
-        {
+        if (playerId == 0) {
             SetPlayerInfo(DEFALUT_PLAYER_ID);
             playerId = DEFALUT_PLAYER_ID;
-        }
-        else if (playerId != data.id)
-        {
+        } else if (playerId != data.id) {
             if (player != null)
                 player.RemoveSelf();
             SetPlayerInfo(playerId);
             player = null;
         }
         var modalData = DataCenter.instance.modals[playerId];
-        if (player == null || isNew)
-        {
+        if (player == null || isNew) {
             player = ObjectPool.instance.GetAnElement<Player>(modalData.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modalData.prefabPath);
             player.MainPlayer = true;
         }
@@ -269,8 +219,7 @@ public class PlayerController
             posx = this.posx;
         else
             this.posx = posx;
-        if (posx < 0 || posx >= Constant.MAP_BLOCK_LENGTH)
-        {
+        if (posx < 0 || posx >= Constant.MAP_BLOCK_LENGTH) {
             posx = 0;
             this.posx = 0;
         }
@@ -278,8 +227,7 @@ public class PlayerController
             posy = this.posy;
         else
             this.posy = posy;
-        if (posy < 0 || posy >= Constant.MAP_BLOCK_LENGTH)
-        {
+        if (posy < 0 || posy >= Constant.MAP_BLOCK_LENGTH) {
             posy = 0;
             this.posy = 0;
         }
@@ -290,8 +238,7 @@ public class PlayerController
         MainScene.instance.Portrait = player.GetComponent<SpriteRenderer>().sprite;
     }
 
-    public void SyncPlayerData()
-    {
+    public void SyncPlayerData() {
         MainScene.instance.Level = data.level.ToString();
         MainScene.instance.Experience = data.exp.ToString();
         MainScene.instance.Life = data.life.ToString();
@@ -304,10 +251,8 @@ public class PlayerController
         MainScene.instance.RedKey = data.redKey.ToString();
     }
 
-    public void ChangePlayerData(Constant.ResourceType type, int count)
-    {
-        switch (type)
-        {
+    public void ChangePlayerData(Constant.ResourceType type, int count) {
+        switch (type) {
             case Constant.ResourceType.Life:
                 data.life += count;
                 break;
@@ -350,40 +295,34 @@ public class PlayerController
         SyncPlayerData();
     }
 
-    public void StartWalk(Direction dir = Direction.Default)
-    {
+    public void StartWalk(Direction dir = Direction.Default) {
         if (dir != Direction.Default)
             Dir = dir;
         IsRunning = true;
     }
 
-    public bool StartAutoStep(int targetPosx, int targetPosy)
-    {
+    public bool StartAutoStep(int targetPosx, int targetPosy) {
         var findedRoad = MathHelper.AutoFindBestRoad(MapManager.instance.ConvertCurrentMapToFinderArray(), posx, posy, targetPosx, targetPosy);
-        if (findedRoad == null || findedRoad.Length <= 0)
-        {
+        if (findedRoad == null || findedRoad.Length <= 0) {
             MainScene.instance.ShowTips("Cannot auto step to the position: (" + targetPosx + "," + targetPosy + ")");
             return false;
         }
         DataCenter.instance.Status = Constant.EGameStatus.AutoStepping;
         TargetAutoStep = new Vector2Int(targetPosx, targetPosy);
         AutoSteppingRoad = new Stack<Vector2Int>();
-        for (int i = findedRoad.Length - 1; i > 0; --i)
-        {
+        for (int i = findedRoad.Length - 1; i > 0; --i) {
             AutoSteppingRoad.Push(findedRoad[i]);
         }
         IsRunning = true;
         return true;
     }
 
-    public void StopAutoStepping()
-    {
+    public void StopAutoStepping() {
         IsRunning = false;
         DataCenter.instance.Status = Constant.EGameStatus.InGame;
     }
 
-    public void StopWalk()
-    {
+    public void StopWalk() {
         IsRunning = false;
     }
 
@@ -398,11 +337,9 @@ public class PlayerController
     public Vector2Int TargetAutoStep { get; private set; }
     public Stack<Vector2Int> AutoSteppingRoad { get; private set; }
 
-    public bool IsRunning
-    {
+    public bool IsRunning {
         get { return isRunning; }
-        set
-        {
+        set {
             if (isRunning != value)
                 dirChanged = true;
             isRunning = value;

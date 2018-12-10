@@ -29,8 +29,7 @@ public enum ETreeTraversalWay
     PostorderTraversal,
 }
 
-public interface ITree<T_Tag, T_Val> : IEnumerable<ITree<T_Tag, T_Val>>
-{
+public interface ITree<T_Tag, T_Val> : IEnumerable<ITree<T_Tag, T_Val>> {
     T_Tag Tag { get; set; }
     T_Val Value { get; set; }
     int ChildrenCount { get; }
@@ -57,6 +56,6 @@ public interface ITree<T_Tag, T_Val> : IEnumerable<ITree<T_Tag, T_Val>>
     int GetDepthInRoot();
     ITree<T_Tag, T_Val>[] GetBranchRoad();
 
-    ITree<T_Tag, T_Val> this[T_Tag tag]{get;set;}
+    ITree<T_Tag, T_Val> this[T_Tag tag] { get; set; }
 
 }

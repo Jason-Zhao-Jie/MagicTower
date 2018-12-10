@@ -3,19 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ScreenAdaptator
-{
+public class ScreenAdaptator {
     public static ScreenAdaptator instance = new ScreenAdaptator();
     ScreenAdaptator() { }
 
-    public void SetScreenSize(Vector2 screen)
-    {
+    public void SetScreenSize(Vector2 screen) {
         screenSize = screen;
         pixes = screen.y;
     }
 
-    public void LoadOnMainScene(Rect map)
-    {
+    public void LoadOnMainScene(Rect map) {
         mapPanel = map;
 
         // 计算游戏场景的有效地图区域

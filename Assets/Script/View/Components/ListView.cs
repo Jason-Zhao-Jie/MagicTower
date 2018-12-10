@@ -9,7 +9,8 @@ using System.Collections.Generic;
 /// </summary>
 public class ListView : UnityEngine.UI.ScrollRect {
     public class DefaultItemNotSetException : System.Exception {
-
+        public DefaultItemNotSetException() : base() { }
+        public DefaultItemNotSetException(string message) : base(message) { }
     }
 
     /// <summary>
@@ -30,7 +31,7 @@ public class ListView : UnityEngine.UI.ScrollRect {
     /// <summary>
     /// 设定 content 的 padding 
     /// </summary>
-    public UnityEngine.RectOffset padding {
+    public UnityEngine.RectOffset Padding {
         get { return content.GetComponent<UnityEngine.UI.LayoutGroup>().padding; }
         set { content.GetComponent<UnityEngine.UI.LayoutGroup>().padding = value; }
     }

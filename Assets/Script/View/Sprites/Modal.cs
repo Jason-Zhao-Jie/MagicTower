@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-public class Modal : ObjectPool.AElement
-{
+public class Modal : ObjectPool.AElement {
     const double RUN_STATE_DELAY = 0.4;
-    public enum ModalType{
+    public enum ModalType {
         Unknown,
         Walkable,
         MapBlock,
@@ -13,8 +12,7 @@ public class Modal : ObjectPool.AElement
         Player
     }
 
-    public override ObjectPool.ElementType GetPoolTypeId()
-    {
+    public override ObjectPool.ElementType GetPoolTypeId() {
         return ObjectPool.ElementType.Sprite;
     }
 
@@ -24,27 +22,21 @@ public class Modal : ObjectPool.AElement
         }
     }
 
-    public int TypeId
-    {
-        get
-        {
+    public int TypeId {
+        get {
             return typeId;
         }
-        protected set
-        {
+        protected set {
             typeId = value;
         }
     }
-    public long Uuid
-    {
-        get
-        {
+    public long Uuid {
+        get {
             return uuid;
         }
     }
 
-    public void InitWithMapPos(int mapId, sbyte posx, sbyte posy, Constant.ModalData data)
-    {
+    public void InitWithMapPos(int mapId, sbyte posx, sbyte posy, Constant.ModalData data) {
         modId = data.id;
         typeId = data.typeId;
         modName = data.name;
@@ -57,18 +49,16 @@ public class Modal : ObjectPool.AElement
         MapManager.instance.AddMod(uuid, this);
     }
 
-    public void GoToRunState(Constant.EmptyCallBack dCB = null)
-    {
-        if (animator.enabled)
+    public void GoToRunState(Constant.EmptyCallBack dCB = null) {
+        if (Animator.enabled)
             return;
         destroyCallBack = dCB;
-        animator.enabled = true;
-        animator.Play("KeyEvent");
+        Animator.enabled = true;
+        Animator.Play("KeyEvent");
         timeBeforeRemove = 0;
     }
 
-    public void RemoveSelf(bool callManager = true)
-    {
+    public void RemoveSelf(bool callManager = true) {
         if (callManager)
             MapManager.instance.RemoveThingOnMap(posx, posy, mapId);
         MapManager.instance.RemoveMod(uuid);
@@ -81,55 +71,48 @@ public class Modal : ObjectPool.AElement
     }
 
     // Use this for initialization
-    void Start(){
-        if (animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName("KeyEvent"))
-            animator.enabled = false;
-        
+    void Start() {
+        if (Animator != null && Animator.GetCurrentAnimatorStateInfo(0).IsName("KeyEvent"))
+            Animator.enabled = false;
+
     }
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         if (timeBeforeRemove > -4)
             timeBeforeRemove += Time.deltaTime;
         if (timeBeforeRemove - RUN_STATE_DELAY > double.Epsilon)
             RemoveSelf();
     }
 
-    private void OnDestroy()
-    {
-        if (destroyCallBack != null)
-            destroyCallBack();
+    private void OnDestroy() {
+        destroyCallBack?.Invoke(); // C#新语法, 表示该委托不为null时才调用
         destroyCallBack = null;
     }
 
-    public override bool RecycleSelf()
-    {
+    public override bool RecycleSelf() {
         return RecycleSelf<Modal>();
     }
 
-    public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
-    {
+    public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath) {
         return true;
     }
 
-    public override void OnReuse(ObjectPool.ElementType tid, int elemId)
-    {
+    public override void OnReuse(ObjectPool.ElementType tid, int elemId) {
     }
 
-    public override bool OnUnuse(ObjectPool.ElementType tid, int elemId)
-    {
+    public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
         OnDestroy();
         return true;
     }
 
-    public Animator animator { get { return GetComponent<Animator>(); } }
+    public Animator Animator { get { return GetComponent<Animator>(); } }
     public int ModId { get { return modId; } }
     public int MapId { get { return mapId; } }
     public int PosX { get { return posx; } }
     public int PosY { get { return posy; } }
     public int EventId { get { return eventId; } }
     public long EventData { get { return eventData; } }
-    
+
 
     private int eventId = 0;
     private long eventData = 0;

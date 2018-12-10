@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DataEditorScene : MonoBehaviour
-{
+public class DataEditorScene : MonoBehaviour {
     public static DataEditorScene instance;
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         // 初始化游戏信息
         instance = this;
         Initializationer.InitBases(GetComponent<RectTransform>().rect.size);
@@ -30,27 +28,25 @@ public class DataEditorScene : MonoBehaviour
         curtain = mapMakerCanvas.transform.Find("MapPanel").transform.Find("Curtain").GetComponent<Curtain>();
         curtain.gameObject.SetActive(false);
         //UnityEngine.Debug.Log("The current map whole rect is: " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " + mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
-		//UnityEngine.Debug.Log("The current map part rect is: " + ScreenAdaptator.instance.MapPartRect.x + ", " + ScreenAdaptator.instance.MapPartRect.y + ", " + ScreenAdaptator.instance.MapPartRect.width + ", " + ScreenAdaptator.instance.MapPartRect.height);
-		//UnityEngine.Debug.Log("The current map block size is: " + ScreenAdaptator.instance.BlockSize.x + ", " + ScreenAdaptator.instance.BlockSize.y);
-		//TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
+        //UnityEngine.Debug.Log("The current map part rect is: " + ScreenAdaptator.instance.MapPartRect.x + ", " + ScreenAdaptator.instance.MapPartRect.y + ", " + ScreenAdaptator.instance.MapPartRect.width + ", " + ScreenAdaptator.instance.MapPartRect.height);
+        //UnityEngine.Debug.Log("The current map block size is: " + ScreenAdaptator.instance.BlockSize.x + ", " + ScreenAdaptator.instance.BlockSize.y);
+        //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
-		// 载入所有资源
-		allPrefabs = Resources.LoadAll<GameObject>(Constant.PREFAB_DIR);
+        // 载入所有资源
+        allPrefabs = Resources.LoadAll<GameObject>(Constant.PREFAB_DIR);
 
         // 载入Map信息
         {
             var mapId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>();
             var mapList = new List<string>();
-            for(int i = 0; i < DataCenter.instance.mapLength; ++i)
-            {
+            for (int i = 0; i < DataCenter.instance.mapLength; ++i) {
                 mapList.Add(i.ToString());
             }
             mapId.AddOptions(mapList);
 
             var musicId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("Music").GetComponent<Dropdown>();
             var audioList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.audios.Count; ++i)
-            {
+            for (int i = 0; i < DataCenter.instance.audios.Count; ++i) {
                 audioList.Add(DataCenter.instance.audios[i + 1].id + ". " + DataCenter.instance.audios[i + 1].path);
             }
             musicId.AddOptions(audioList);
@@ -58,8 +54,7 @@ public class DataEditorScene : MonoBehaviour
             var backModal = mapMakerCanvas.transform.Find("SetPanel").transform.Find("BackModal").GetComponent<Dropdown>();
             var currentModal = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>();
             var modalList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.modals.Count; ++i)
-            {
+            for (int i = 0; i < DataCenter.instance.modals.Count; ++i) {
                 modalList.Add(DataCenter.instance.modals[i + 1].id + ". " + DataCenter.instance.modals[i + 1].name);
             }
             backModal.AddOptions(modalList);
@@ -69,8 +64,7 @@ public class DataEditorScene : MonoBehaviour
             var eventId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("EventId").GetComponent<Dropdown>();
             var eventIdList = new List<string>();
             eventIdList.Add((EventManager.EventName.None).ToString());
-            foreach (var k in EventManager.instance.eventList)
-            {
+            foreach (var k in EventManager.instance.eventList) {
                 eventIdList.Add(k.Key.ToString());
             }
             eventId.AddOptions(eventIdList);
@@ -83,8 +77,7 @@ public class DataEditorScene : MonoBehaviour
         {
             var modalId = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>();
             var modalIdList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.modals.Count; ++i)
-            {
+            for (int i = 0; i < DataCenter.instance.modals.Count; ++i) {
                 modalIdList.Add(DataCenter.instance.modals[i + 1].id + ". " + DataCenter.instance.modals[i + 1].name);
             }
             modalId.AddOptions(modalIdList);
@@ -92,8 +85,7 @@ public class DataEditorScene : MonoBehaviour
             var eventId = modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>();
             var eventIdList = new List<string>();
             eventIdList.Add((EventManager.EventName.None).ToString());
-            foreach (var k in EventManager.instance.eventList)
-            {
+            foreach (var k in EventManager.instance.eventList) {
                 eventIdList.Add(k.Key.ToString());
             }
             eventId.AddOptions(eventIdList);
@@ -101,8 +93,7 @@ public class DataEditorScene : MonoBehaviour
             var weaponIds = modalMakerCanvas.transform.Find("WeaponId").GetComponent<Dropdown>();
             var modalWeaponIds = modalMakerCanvas.transform.Find("ModalWeaponId").GetComponent<Dropdown>();
             var weaponIdList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.weapons.Count; ++i)
-            {
+            for (int i = 0; i < DataCenter.instance.weapons.Count; ++i) {
                 weaponIdList.Add(DataCenter.instance.weapons[i + 1].id + ". " + DataCenter.instance.weapons[i + 1].name);
             }
             weaponIds.AddOptions(weaponIdList);
@@ -111,8 +102,7 @@ public class DataEditorScene : MonoBehaviour
             var weaponHit = modalMakerCanvas.transform.Find("WeaponHit").GetComponent<Dropdown>();
             var weaponCrit = modalMakerCanvas.transform.Find("WeaponCrit").GetComponent<Dropdown>();
             var audioList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.audios.Count; ++i)
-            {
+            for (int i = 0; i < DataCenter.instance.audios.Count; ++i) {
                 audioList.Add(DataCenter.instance.audios[i + 1].id + ". " + DataCenter.instance.audios[i + 1].path);
             }
             weaponHit.AddOptions(audioList);
@@ -125,7 +115,7 @@ public class DataEditorScene : MonoBehaviour
 
             // 显示所有prefabs     TODO
             var prefabList = modalMakerCanvas.transform.Find("prefabs").GetComponent<ScrollRect>();
-            
+
 
             DataCenter.instance.Status = Constant.EGameStatus.InEditor;
         }
@@ -136,8 +126,7 @@ public class DataEditorScene : MonoBehaviour
 
     }
 
-    private void OnDestroy()
-    {
+    private void OnDestroy() {
         MapManager.instance.ClearMap();
         DataCenter.instance.Status = Constant.EGameStatus.Start;
         instance = null;
@@ -145,35 +134,30 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-	{
-		for (int i = 0; i < Input.touchCount; ++i)
-		{
-			var tc = Input.GetTouch(i);
-			switch (tc.phase)
-			{
-				case TouchPhase.Began:
-					InputController.instance.OnTouchDown(tc.position);
-					break;
-				case TouchPhase.Canceled:
-				case TouchPhase.Ended:
-					InputController.instance.OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
-					break;
-			}
-		}
+    void Update() {
+        for (int i = 0; i < Input.touchCount; ++i) {
+            var tc = Input.GetTouch(i);
+            switch (tc.phase) {
+                case TouchPhase.Began:
+                    InputController.instance.OnTouchDown(tc.position);
+                    break;
+                case TouchPhase.Canceled:
+                case TouchPhase.Ended:
+                    InputController.instance.OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
+                    break;
+            }
+        }
 
-        if (Input.touchCount <= 0)
-        {
+        if (Input.touchCount <= 0) {
             if (Input.GetMouseButtonDown(0) && !InputController.instance.isMouseLeftDown)
                 InputController.instance.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
             if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
                 InputController.instance.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
         }
-	}
+    }
 
     // "Map"按钮回调
-    public void OnChangeToMaps()
-    {
+    public void OnChangeToMaps() {
         mapMakerCanvas.SetActive(true);
         modalMakerCanvas.SetActive(false);
         eventMakerCanvas.SetActive(false);
@@ -183,8 +167,7 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Modal&Audio按钮回调
-    public void OnChangeToModals()
-    {
+    public void OnChangeToModals() {
         mapMakerCanvas.SetActive(false);
         modalMakerCanvas.SetActive(true);
         eventMakerCanvas.SetActive(false);
@@ -192,8 +175,7 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Event 按钮回调
-    public void OnChangeToAudioAndEvents()
-    {
+    public void OnChangeToAudioAndEvents() {
         mapMakerCanvas.SetActive(false);
         modalMakerCanvas.SetActive(false);
         eventMakerCanvas.SetActive(true);
@@ -201,67 +183,53 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // GetDataJson按钮回调
-    public void OnSave()
-    {
-        if (saveResult.activeSelf == false)
-        {
+    public void OnSave() {
+        if (saveResult.activeSelf == false) {
             string result = DataCenter.instance.SaveData();
             saveResult.SetActive(true);
             saveResult.GetComponent<InputField>().text = result;
             mapMakerCanvas.SetActive(false);
             modalMakerCanvas.SetActive(false);
             eventMakerCanvas.SetActive(false);
-        }
-        else
-        {
+        } else {
             saveResult.SetActive(false);
         }
     }
 
     // GetMapJson 按钮回调
-    public void OnMapSave()
-    {
-        if (saveResult.activeSelf == false)
-        {
+    public void OnMapSave() {
+        if (saveResult.activeSelf == false) {
             string result = DataCenter.instance.GetGameMap(mapMakerCanvas.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>().value).Json.String;
             saveResult.SetActive(true);
             saveResult.GetComponent<InputField>().text = result;
             mapMakerCanvas.SetActive(false);
             modalMakerCanvas.SetActive(false);
             eventMakerCanvas.SetActive(false);
-        }
-        else
-        {
+        } else {
             saveResult.SetActive(false);
         }
     }
 
     // Refresh audios 按钮回调
-	public void OnRefreshAudio()
-	{
-		var allAudios = Resources.LoadAll<AudioClip>(Constant.AUDIO_DIR);
-		Constant.Audio[] audioData = new Constant.Audio[allAudios.Length];
+    public void OnRefreshAudio() {
+        var allAudios = Resources.LoadAll<AudioClip>(Constant.AUDIO_DIR);
+        Constant.Audio[] audioData = new Constant.Audio[allAudios.Length];
         DataCenter.instance.audios.Clear();
-        for (var i = 0; i < audioData.Length; ++i)
-        {
-            DataCenter.instance.audios.Add(audioData[i].id, new Constant.Audio()
-            {
+        for (var i = 0; i < audioData.Length; ++i) {
+            DataCenter.instance.audios.Add(audioData[i].id, new Constant.Audio() {
                 id = i + 1,
                 path = allAudios[i].name
             });
         }
-		//PlatformUIManager.ShowMessageBox("音效表刷新成功，请立即保存配置然后重新启动游戏！");
-	}
+        //PlatformUIManager.ShowMessageBox("音效表刷新成功，请立即保存配置然后重新启动游戏！");
+    }
 
     // Auto collect prefabs 按钮回调
-	public void OnRefreshPrefab()
-	{
+    public void OnRefreshPrefab() {
         Constant.ModalData[] prefabData = new Constant.ModalData[allPrefabs.Length];
         DataCenter.instance.modals.Clear();
-        for (var i = 0; i < prefabData.Length; ++i)
-        {
-            DataCenter.instance.modals.Add(prefabData[i + 1].id, new Constant.ModalData()
-            {
+        for (var i = 0; i < prefabData.Length; ++i) {
+            DataCenter.instance.modals.Add(prefabData[i + 1].id, new Constant.ModalData() {
                 id = i + 1,
                 name = allPrefabs[i].name,
                 prefabPath = allPrefabs[i].name,
@@ -270,14 +238,13 @@ public class DataEditorScene : MonoBehaviour
                 typeId = 2
             });
         }
-		//PlatformUIManager.ShowMessageBox("模型表刷新成功，请立即保存配置然后重新启动游戏！");
-	}
+        //PlatformUIManager.ShowMessageBox("模型表刷新成功，请立即保存配置然后重新启动游戏！");
+    }
 
     // 添加物体到map panel
-    public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2)
-	{
-		obj.transform.SetParent(mapMakerCanvas.transform.Find("MapPanel"), false);
-		obj.transform.position = mapMakerCanvas.transform.Find("MapPanel").transform.
+    public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2) {
+        obj.transform.SetParent(mapMakerCanvas.transform.Find("MapPanel"), false);
+        obj.transform.position = mapMakerCanvas.transform.Find("MapPanel").transform.
             TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.x / 100 + ScreenAdaptator.instance.MapPartRect.x,
                                        (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.y / 100 + ScreenAdaptator.instance.MapPartRect.y,
                                        posz));
@@ -285,14 +252,12 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // 关闭(X)按钮回调
-    public void OnExitEditor()
-    {
+    public void OnExitEditor() {
         UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
     }
 
     // modal部分modal选择框
-    public void OnModalSelected(int index)
-    {
+    public void OnModalSelected(int index) {
         if (index == 0)
             index = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>().value;
         ++index;
@@ -301,8 +266,7 @@ public class DataEditorScene : MonoBehaviour
         modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.modals[index].eventId;
         modalMakerCanvas.transform.Find("EventData").GetComponent<InputField>().text = DataCenter.instance.modals[index].eventData.ToString();
         modalMakerCanvas.transform.Find("ModalPrefab").GetComponent<InputField>().text = DataCenter.instance.modals[index].prefabPath;
-        if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Player)
-        {
+        if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Player) {
             var player = DataCenter.instance.players[DataCenter.instance.modals[index].id];
             modalMakerCanvas.transform.Find("Level").GetComponent<InputField>().text = player.level.ToString();
             modalMakerCanvas.transform.Find("Exp").GetComponent<InputField>().text = player.exp.ToString();
@@ -313,9 +277,7 @@ public class DataEditorScene : MonoBehaviour
             modalMakerCanvas.transform.Find("Critical").GetComponent<InputField>().text = player.critical.ToString();
             modalMakerCanvas.transform.Find("Gold").GetComponent<InputField>().text = player.gold.ToString();
             modalMakerCanvas.transform.Find("ModalWeaponId").GetComponent<Dropdown>().value = player.weaponId - 1;
-        }
-        else if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Monster)
-        {
+        } else if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Monster) {
             var monster = DataCenter.instance.monsters[DataCenter.instance.modals[index].id];
             modalMakerCanvas.transform.Find("Level").GetComponent<InputField>().text = monster.level.ToString();
             modalMakerCanvas.transform.Find("Exp").GetComponent<InputField>().text = monster.exp.ToString();
@@ -326,9 +288,7 @@ public class DataEditorScene : MonoBehaviour
             modalMakerCanvas.transform.Find("Critical").GetComponent<InputField>().text = monster.critical.ToString();
             modalMakerCanvas.transform.Find("Gold").GetComponent<InputField>().text = monster.gold.ToString();
             modalMakerCanvas.transform.Find("ModalWeaponId").GetComponent<Dropdown>().value = monster.weaponId - 1;
-        }
-        else
-        {
+        } else {
             modalMakerCanvas.transform.Find("Level").GetComponent<InputField>().text = "";
             modalMakerCanvas.transform.Find("Exp").GetComponent<InputField>().text = "";
             modalMakerCanvas.transform.Find("Life").GetComponent<InputField>().text = "";
@@ -342,10 +302,8 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Reset 按钮回调
-    public void OnReset(int part)
-    {
-        switch (part)
-        {
+    public void OnReset(int part) {
+        switch (part) {
             case 0:
                 OnMapSelected();
                 break;
@@ -359,21 +317,17 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Apply modal 按钮回调
-    public void OnModalApply()
-    {
+    public void OnModalApply() {
         var index = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>().value;
         DataCenter.instance.modals[index].name = modalMakerCanvas.transform.Find("ModalName").GetComponent<InputField>().text;
         DataCenter.instance.modals[index].typeId = modalMakerCanvas.transform.Find("ModalType").GetComponent<Dropdown>().value + 1;
         DataCenter.instance.modals[index].eventId = modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>().value;
-        DataCenter.instance.modals[index].eventData =System.Convert.ToInt64(modalMakerCanvas.transform.Find("EventData").GetComponent<InputField>().text);
+        DataCenter.instance.modals[index].eventData = System.Convert.ToInt64(modalMakerCanvas.transform.Find("EventData").GetComponent<InputField>().text);
         DataCenter.instance.modals[index].prefabPath = modalMakerCanvas.transform.Find("ModalPrefab").GetComponent<InputField>().text;
-        if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Player)
-        {
+        if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Player) {
             var playerId = DataCenter.instance.modals[index].id;
-            if (!DataCenter.instance.players.ContainsKey(playerId))
-            {
-                DataCenter.instance.players.Add(playerId, new Constant.PlayerData()
-                {
+            if (!DataCenter.instance.players.ContainsKey(playerId)) {
+                DataCenter.instance.players.Add(playerId, new Constant.PlayerData() {
                     level = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Level").GetComponent<InputField>().text),
                     exp = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Exp").GetComponent<InputField>().text),
                     life = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Life").GetComponent<InputField>().text),
@@ -385,14 +339,10 @@ public class DataEditorScene : MonoBehaviour
                     weaponId = modalMakerCanvas.transform.Find("ModalWeaponId").GetComponent<Dropdown>().value + 1
                 });
             }
-        }
-        else if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Monster)
-        {
+        } else if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Monster) {
             var monsterId = DataCenter.instance.modals[index].id;
-            if (!DataCenter.instance.monsters.ContainsKey(monsterId))
-            {
-                DataCenter.instance.monsters.Add(monsterId, new Constant.MonsterData()
-                {
+            if (!DataCenter.instance.monsters.ContainsKey(monsterId)) {
+                DataCenter.instance.monsters.Add(monsterId, new Constant.MonsterData() {
                     level = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Level").GetComponent<InputField>().text),
                     exp = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Exp").GetComponent<InputField>().text),
                     life = System.Convert.ToInt32(modalMakerCanvas.transform.Find("Life").GetComponent<InputField>().text),
@@ -408,8 +358,7 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Weapon选择框回调
-    public void OnWeaponSelected(int index)
-    {
+    public void OnWeaponSelected(int index) {
         if (index == 0)
             index = modalMakerCanvas.transform.Find("WeaponId").GetComponent<Dropdown>().value;
         ++index;
@@ -420,8 +369,7 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Apply Weapon 按钮回调
-    public void OnWeaponApply()
-    {
+    public void OnWeaponApply() {
         var index = modalMakerCanvas.transform.Find("WeaponId").GetComponent<Dropdown>().value;
         DataCenter.instance.weapons[index].name = modalMakerCanvas.transform.Find("WeaponName").GetComponent<InputField>().text;
         DataCenter.instance.weapons[index].audioId = modalMakerCanvas.transform.Find("WeaponHit").GetComponent<Dropdown>().value + 1;
@@ -430,12 +378,9 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Add map, Add modal, Add weapon 按钮的回调
-    public void OnAdd(int index)
-    {
-        switch (index)
-        {
-            case 0:
-                {
+    public void OnAdd(int index) {
+        switch (index) {
+            case 0: {
                     var drop = mapMakerCanvas.transform.Find("MapPanel").transform.Find("MapId").GetComponent<Dropdown>();
                     //var ind = DataCenter.instance.AddMap();
                     var lst = new List<string>();
@@ -445,8 +390,7 @@ public class DataEditorScene : MonoBehaviour
                     OnMapSelected();
                 }
                 break;
-            case 1:
-                {
+            case 1: {
                     var drop = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>();
                     var ind = DataCenter.instance.modals.Count;
                     DataCenter.instance.modals.Add(ind, new Constant.ModalData() { id = ind });
@@ -457,8 +401,7 @@ public class DataEditorScene : MonoBehaviour
                     OnModalSelected(ind);
                 }
                 break;
-            case 2:
-                {
+            case 2: {
                     var drop = modalMakerCanvas.transform.Find("WeaponId").GetComponent<Dropdown>();
                     var ind = DataCenter.instance.weapons.Count;
                     DataCenter.instance.weapons.Add(ind, new Constant.WeaponData() { id = ind });
@@ -473,71 +416,61 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // Apply Map 回调
-    public void OnMapApply()
-    {
+    public void OnMapApply() {
         var panel = mapMakerCanvas.transform.Find("SetPanel");
         var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value;
         var mapName = panel.transform.Find("MapName").GetComponent<InputField>().text;
         var bgMusic = panel.transform.Find("Music").GetComponent<Dropdown>().value + 1;
-		var bgModal = panel.transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
-		var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value;
+        var bgModal = panel.transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
+        var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value;
         var eventId = panel.transform.Find("EventId").GetComponent<Dropdown>().value;
         long eventData = 0;
-        try
-        {
+        try {
             eventData = System.Convert.ToInt64(panel.transform.Find("EventData").GetComponent<InputField>().text);
-        }catch (System.FormatException e)
-        {
+        } catch (System.FormatException) {
             eventData = 0;
         }
         DataCenter.instance.GetGameMap(mapId).mapName = mapName;
         DataCenter.instance.GetGameMap(mapId).backThing = bgModal;
-		DataCenter.instance.GetGameMap(mapId).music = bgMusic;
-		DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].thing = currModal;
+        DataCenter.instance.GetGameMap(mapId).music = bgMusic;
+        DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].thing = currModal;
         DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].eventId = eventId;
         DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].eventData = eventData;
         DataCenter.instance.SaveMapTo(mapId);
     }
 
     // Map选择框回调
-	void OnMapSelected()
-	{
-		var panel = mapMakerCanvas.transform.Find("SetPanel");
-		var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+    void OnMapSelected() {
+        var panel = mapMakerCanvas.transform.Find("SetPanel");
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
         panel.transform.Find("MapName").GetComponent<InputField>().text = DataCenter.instance.GetGameMap(mapId - 1).mapName;
         panel.transform.Find("Music").GetComponent<Dropdown>().value = DataCenter.instance.GetGameMap(mapId - 1).music - 1;
         panel.transform.Find("BackModal").GetComponent<Dropdown>().value = DataCenter.instance.GetGameMap(mapId - 1).backThing - 1;
-		MapManager.instance.ShowMap(mapId);
+        MapManager.instance.ShowMap(mapId);
         OnMapClicked(new Vector2(0, 0));
         AudioController.instance.StopMusic();
     }
 
     // Map地图块物品选择框回调
-    public void OnMapModalSelected(bool isBack)
-    {
-        if (isBack)
-        {
+    public void OnMapModalSelected(bool isBack) {
+        if (isBack) {
             var index = mapMakerCanvas.transform.Find("SetPanel").transform.Find("BackModal").GetComponent<Dropdown>().value;
             MapManager.instance.ChangeBack(DataCenter.instance.modals[index + 1].prefabPath);
-        }
-        else
-        {
+        } else {
             var index = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>().value;
             MapManager.instance.ChangeThingOnMap(index, posx, posy);
         }
     }
 
     // Map选定地图块位置的回调
-    public void OnMapClicked(Vector2 pos)
-    {
+    public void OnMapClicked(Vector2 pos) {
         if (!mapMakerCanvas.activeSelf)
             return;
         var mapPanel = mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>();
         var panelPos = mapMakerCanvas.transform.InverseTransformPoint(mapPanel.position);
         pos.x -= panelPos.x + ScreenAdaptator.instance.MapPartRect.x + mapMakerCanvas.GetComponent<RectTransform>().rect.width / 2;
         pos.y -= panelPos.y + ScreenAdaptator.instance.MapPartRect.y + mapMakerCanvas.GetComponent<RectTransform>().rect.height / 2;
-        if (pos.x >= 0 && pos.y >= 0)
-        {
+        if (pos.x >= 0 && pos.y >= 0) {
             var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / ScreenAdaptator.instance.MapPartRect.width);
             var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / ScreenAdaptator.instance.MapPartRect.height);
             if (_posx >= Constant.MAP_BLOCK_LENGTH || _posy >= Constant.MAP_BLOCK_LENGTH)
@@ -554,10 +487,8 @@ public class DataEditorScene : MonoBehaviour
     }
 
     // 音乐播放键回调
-    public void OnPlay(int index)
-    {
-        switch (index)
-        {
+    public void OnPlay(int index) {
+        switch (index) {
             case 0:
                 AudioController.instance.PlayMusicLoop(GameObject.Find("Music").GetComponent<Dropdown>().value + 1);
                 break;
@@ -572,8 +503,7 @@ public class DataEditorScene : MonoBehaviour
         }
     }
 
-    public string BackgroundImage
-    {
+    public string BackgroundImage {
         get { return backgroundImg.sprite.name; }
         set { backgroundImg.sprite = Resources.Load<GameObject>(Constant.PREFAB_DIR + value).GetComponent<SpriteRenderer>().sprite; }
     }

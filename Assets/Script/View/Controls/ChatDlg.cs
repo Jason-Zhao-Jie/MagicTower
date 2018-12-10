@@ -27,6 +27,7 @@ public class ChatDlg : ObjectPool.AElement
             id = BOTTOM_PREFAB_ID;
         }
         var ret = ObjectPool.instance.GetAnElement<ChatDlg>(id, ObjectPool.ElementType.Dialog, Constant.DIALOG_DIR + dir);
+        ret.isTop = isTop;
         return ret;
     }
 

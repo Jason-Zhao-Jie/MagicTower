@@ -154,6 +154,4 @@ public class EventManager {
             MapManager.instance.RemoveEventOn((int)(data / 100 % 100), (int)(data % 100), (int)(data / 10000));
         return false;
     }
-
-
 }

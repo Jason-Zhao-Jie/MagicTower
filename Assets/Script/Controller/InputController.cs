@@ -1,8 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-public class InputController
-{
+public class InputController {
     public static InputController instance = null;
 
     public static readonly KeyCode[] listenedKeys = {
@@ -21,52 +20,47 @@ public class InputController
 
     };
 
-    public void OnKeyDown(KeyCode keyCode)
-    {
+    public void OnKeyDown(KeyCode keyCode) {
         keyStatusMap[keyCode] = true;
 
-        switch (DataCenter.instance.Status)
-        {
-			case Constant.EGameStatus.Start:
-				break;
-			case Constant.EGameStatus.InGame:
-				switch (keyCode)
-				{
-					case KeyCode.UpArrow:
-					case KeyCode.DownArrow:
+        switch (DataCenter.instance.Status) {
+            case Constant.EGameStatus.Start:
+                break;
+            case Constant.EGameStatus.InGame:
+                switch (keyCode) {
+                    case KeyCode.UpArrow:
+                    case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
                     case KeyCode.RightArrow:
                         OnChangeWalkState();
                         break;
                 }
-				break;
-			case Constant.EGameStatus.InEditor:
-				break;
-			case Constant.EGameStatus.OnCG:
-				break;
-			case Constant.EGameStatus.OnTipChat:
-				switch (keyCode)
-				{
-					case KeyCode.Return:
-					case KeyCode.KeypadEnter:
-					case KeyCode.Space:
-						MainScene.instance.ChatStepOn();
-						break;
-				}
-				break;
-			case Constant.EGameStatus.OnDialog:
-				break;
-			case Constant.EGameStatus.OnMiddleLoading:
-				break;
-			case Constant.EGameStatus.OnBattle:
-				break;
+                break;
+            case Constant.EGameStatus.InEditor:
+                break;
+            case Constant.EGameStatus.OnCG:
+                break;
+            case Constant.EGameStatus.OnTipChat:
+                switch (keyCode) {
+                    case KeyCode.Return:
+                    case KeyCode.KeypadEnter:
+                    case KeyCode.Space:
+                        MainScene.instance.ChatStepOn();
+                        break;
+                }
+                break;
+            case Constant.EGameStatus.OnDialog:
+                break;
+            case Constant.EGameStatus.OnMiddleLoading:
+                break;
+            case Constant.EGameStatus.OnBattle:
+                break;
             case Constant.EGameStatus.OnBattleResult:
                 break;
             case Constant.EGameStatus.OnSmallGame:
                 break;
             case Constant.EGameStatus.AutoStepping:
-                switch (keyCode)
-                {
+                switch (keyCode) {
                     case KeyCode.UpArrow:
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
@@ -77,53 +71,48 @@ public class InputController
                 }
                 break;
             default:
-				break;
+                break;
         }
     }
 
-    public void OnKeyUp(KeyCode keyCode)
-    {
+    public void OnKeyUp(KeyCode keyCode) {
         keyStatusMap[keyCode] = false;
 
-		switch (DataCenter.instance.Status)
-		{
-			case Constant.EGameStatus.Start:
-                switch (keyCode)
-                {
+        switch (DataCenter.instance.Status) {
+            case Constant.EGameStatus.Start:
+                switch (keyCode) {
                     case KeyCode.Escape:
                         StartScene.instance.OnExitGame();
                         break;
                 }
                 break;
-			case Constant.EGameStatus.InGame:
-				switch (keyCode)
-				{
-					case KeyCode.UpArrow:
-					case KeyCode.DownArrow:
-					case KeyCode.LeftArrow:
-					case KeyCode.RightArrow:
-						OnChangeWalkState();
-						break;
+            case Constant.EGameStatus.InGame:
+                switch (keyCode) {
+                    case KeyCode.UpArrow:
+                    case KeyCode.DownArrow:
+                    case KeyCode.LeftArrow:
+                    case KeyCode.RightArrow:
+                        OnChangeWalkState();
+                        break;
                     case KeyCode.Escape:
                         BackToStartScene();
                         break;
                 }
-				break;
-			case Constant.EGameStatus.InEditor:
-				break;
-			case Constant.EGameStatus.OnCG:
-				break;
-			case Constant.EGameStatus.OnTipChat:
-				break;
-			case Constant.EGameStatus.OnDialog:
-				break;
-			case Constant.EGameStatus.OnMiddleLoading:
-				break;
+                break;
+            case Constant.EGameStatus.InEditor:
+                break;
+            case Constant.EGameStatus.OnCG:
+                break;
+            case Constant.EGameStatus.OnTipChat:
+                break;
+            case Constant.EGameStatus.OnDialog:
+                break;
+            case Constant.EGameStatus.OnMiddleLoading:
+                break;
             case Constant.EGameStatus.OnBattle:
                 break;
             case Constant.EGameStatus.OnBattleResult:
-                switch (keyCode)
-                {
+                switch (keyCode) {
                     case KeyCode.Return:
                     case KeyCode.KeypadEnter:
                     case KeyCode.Space:
@@ -132,10 +121,9 @@ public class InputController
                 }
                 break;
             case Constant.EGameStatus.OnSmallGame:
-				break;
+                break;
             case Constant.EGameStatus.AutoStepping:
-                switch (keyCode)
-                {
+                switch (keyCode) {
                     case KeyCode.UpArrow:
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
@@ -146,20 +134,17 @@ public class InputController
                 }
                 break;
             default:
-				break;
-		}
+                break;
+        }
     }
 
-    public void OnTouchDown(Vector2 touchedPos, bool changeMouseStatue)
-    {
+    public void OnTouchDown(Vector2 touchedPos, bool changeMouseStatue) {
         OnTouchDown(touchedPos);
         isMouseLeftDown = changeMouseStatue;
     }
-    public void OnTouchDown(Vector2 touchedPos)
-    {
+    public void OnTouchDown(Vector2 touchedPos) {
 
-        switch (DataCenter.instance.Status)
-        {
+        switch (DataCenter.instance.Status) {
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
@@ -193,32 +178,26 @@ public class InputController
         }
     }
 
-    public void OnTouchUp(Vector2 end, bool changeMouseStatue)
-    {
+    public void OnTouchUp(Vector2 end, bool changeMouseStatue) {
         OnTouchUp(end, end, changeMouseStatue);
     }
 
-    public void OnTouchUp(Vector2 end)
-    {
+    public void OnTouchUp(Vector2 end) {
         OnTouchUp(end, end);
     }
 
-    public void OnTouchUp(Vector2 end, Vector2 begin, bool changeMouseStatue)
-    {
+    public void OnTouchUp(Vector2 end, Vector2 begin, bool changeMouseStatue) {
         OnTouchUp(end, begin);
         isMouseLeftDown = changeMouseStatue;
     }
 
-    public void OnTouchUp(Vector2 end, Vector2 begin)
-	{
+    public void OnTouchUp(Vector2 end, Vector2 begin) {
         // TODO
     }
 
-    public void Init()
-    {
+    public void Init() {
         keyStatusMap = new Dictionary<KeyCode, bool>();
-        for (int i = 0; i < listenedKeys.Length; ++i)
-        {
+        for (int i = 0; i < listenedKeys.Length; ++i) {
             System.Console.Out.WriteLine("On key listener adding: " + listenedKeys[i].ToString());
             keyStatusMap.Add(listenedKeys[i], false);
         }
@@ -228,10 +207,8 @@ public class InputController
     internal bool isMouseLeftDown = false;
 
 
-	public void OnChangeWalkState()
-	{
-        if (DataCenter.instance.Status == Constant.EGameStatus.InGame)
-        {
+    public void OnChangeWalkState() {
+        if (DataCenter.instance.Status == Constant.EGameStatus.InGame) {
             bool up = keyStatusMap[KeyCode.UpArrow];
             bool down = keyStatusMap[KeyCode.DownArrow];
             bool right = keyStatusMap[KeyCode.RightArrow];
@@ -241,15 +218,12 @@ public class InputController
                 PlayerController.instance.StopWalk();
             else
                 PlayerController.instance.StartWalk((PlayerController.Direction)(trueNum / 10));
-        }
-        else if(DataCenter.instance.Status != Constant.EGameStatus.AutoStepping)
-        {
+        } else if (DataCenter.instance.Status != Constant.EGameStatus.AutoStepping) {
             PlayerController.instance.StopWalk();
         }
-	}
+    }
 
-    public void BackToStartScene()
-    {
+    public void BackToStartScene() {
         UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
     }
 }

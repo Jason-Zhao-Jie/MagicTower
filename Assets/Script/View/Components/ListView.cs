@@ -49,7 +49,7 @@ public class ListView : UnityEngine.UI.ScrollRect {
             if(ItemCount > index) {
                 throw new System.IndexOutOfRangeException();
             }else if(ItemCount == index) {
-                children[index] = value;
+                children.Add(value);
                 value.SetParent(content);
             } else {
                 children[index].SetParent(null);
@@ -58,6 +58,10 @@ public class ListView : UnityEngine.UI.ScrollRect {
                 value.SetSiblingIndex(index);
             }
         }
+    }
+
+    public List<UnityEngine.RectTransform>.Enumerator GetEnumerator() {
+        return children.GetEnumerator();
     }
 
     /// <summary>

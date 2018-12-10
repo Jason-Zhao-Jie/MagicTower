@@ -16,10 +16,35 @@ public class Modal : ObjectPool.AElement {
         return ObjectPool.ElementType.Sprite;
     }
 
+    public string PrefabPath {
+        get {
+            return DataCenter.instance.modals[modId].prefabPath;
+        }
+    }
+
     public override string ResourcePath {
         get {
-            return Constant.PREFAB_DIR + DataCenter.instance.modals[modId].prefabPath;
+            return GetResourcePath(modId);
         }
+    }
+
+    public Sprite BaseSprite {
+        get {
+            return GetResourceBaseSprite(modId);
+        }
+    }
+
+    public static string GetResourcePath(int modId) {
+        return GetResourcePath(DataCenter.instance.modals[modId].prefabPath);
+    }
+
+    public static string GetResourcePath(string prefabPath) {
+        return Constant.PREFAB_DIR + prefabPath;
+    }
+
+    public static Sprite GetResourceBaseSprite(int modId) {
+        var prefab = Resources.Load<GameObject>(GetResourcePath(modId));
+        return prefab.GetComponent<SpriteRenderer>().sprite;
     }
 
     public int TypeId {

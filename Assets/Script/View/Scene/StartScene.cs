@@ -11,7 +11,8 @@ public class StartScene : MonoBehaviour {
         Input.multiTouchEnabled = false;    // Note : 多点触摸会导致寻路出现bug, 先禁用
 
         Initializationer.InitBases(GetComponent<RectTransform>().rect.size);
-        SetMapLoadingPercent(1);
+        MapManager.instance.SetStartData();
+        SetLoadingPercent(1);
         AudioController.instance.MusicSource = GetComponent<AudioSource>();
         AudioController.instance.ClearSoundSource();
         AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
@@ -27,7 +28,7 @@ public class StartScene : MonoBehaviour {
 
     }
 
-    public void SetMapLoadingPercent(double percent) {
+    public void SetLoadingPercent(double percent) {
         this.percent = percent;
         if (1 - percent <= double.Epsilon) {
             loadedOK = true;

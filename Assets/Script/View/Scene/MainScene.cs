@@ -59,8 +59,9 @@ public class MainScene : MonoBehaviour {
             AudioController.instance.AddSoundSource(transform.Find("ItemPanel").GetComponent<AudioSource>());
             AudioController.instance.AddSoundSource(transform.Find("MapPanel").GetComponent<AudioSource>());
         }
-        if (MapManager.instance != null)
+        if (MapManager.instance != null) {
             MapManager.instance.ShowMap();
+        }
         if (PlayerController.instance != null) {
             PlayerController.instance.ShowPlayer(true);
             PlayerController.instance.SyncPlayerData();

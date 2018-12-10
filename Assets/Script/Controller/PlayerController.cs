@@ -235,7 +235,7 @@ public class PlayerController {
         // Set Scene Texts
         MainScene.instance.AddObjectToMap(player.gameObject, posx, posy, -4);
         MainScene.instance.RoleName = StringInternational.GetValue(modalData.name);
-        MainScene.instance.Portrait = player.GetComponent<SpriteRenderer>().sprite;
+        MainScene.instance.Portrait = player.BaseSprite;
     }
 
     public void SyncPlayerData() {

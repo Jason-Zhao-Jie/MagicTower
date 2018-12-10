@@ -26,14 +26,29 @@ public class Zzhit : ObjectPool.AElement {
         return RecycleSelf<Zzhit>();
     }
 
-    public override string ResourcePath {
+    public string PrefabPath {
         get {
-            return prefabPath;
+            return data.prefabPath;
         }
     }
 
+    public override string ResourcePath {
+        get {
+            return GetResourcePath(PrefabPath);
+        }
+    }
+
+    public Sprite BaseSprite {
+        get {
+            return GetComponent<SpriteRenderer>().sprite;
+        }
+    }
+
+    public static string GetResourcePath(string prefabPath) {
+        return Modal.GetResourcePath(prefabPath);
+    }
+
     public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath) {
-        prefabPath = resourcePath;
         return true;
     }
 
@@ -57,5 +72,4 @@ public class Zzhit : ObjectPool.AElement {
 
     private Constant.WeaponData data;
     private bool isCrit;
-    private string prefabPath;
 }

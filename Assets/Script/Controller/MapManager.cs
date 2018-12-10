@@ -44,13 +44,6 @@ public class MapManager {
         return true;
     }
 
-    /// <summary>
-    /// 复位所有地图数据, 用于开启新游戏
-    /// </summary>
-    public void ResetAllMapData() {
-        SetStartData();
-    }
-
     // 清除地图上的一切物块, 不能单独调用, 必须紧跟其他重刷map的操作
     public void ClearMap() {
         var vs = new List<long>(modals.Keys);

@@ -21,8 +21,9 @@ public class DataEditorScene : MonoBehaviour {
         eventMakerCanvas = GameObject.Find("AudioAndEventsCanvas");
         saveResult = GameObject.Find("SaveResult");
         saveResult.SetActive(false);
+        prefabList = modalMakerCanvas.transform.Find("prefabs").GetComponent<ListView>();
         // 设定背景和地图区域
-        backgroundImg = GetComponent<UnityEngine.UI.Image>();
+        backgroundImg = GetComponent<Image>();
         ScreenAdaptator.instance.LoadOnMainScene(mapMakerCanvas.transform.Find("MapPanel").GetComponent<RectTransform>().rect);
         // 设定幕布和填充墙
         curtain = mapMakerCanvas.transform.Find("MapPanel").transform.Find("Curtain").GetComponent<Curtain>();
@@ -75,13 +76,14 @@ public class DataEditorScene : MonoBehaviour {
 
         // 载入Modal信息
         {
+            // modId列表
             var modalId = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>();
             var modalIdList = new List<string>();
             for (int i = 0; i < DataCenter.instance.modals.Count; ++i) {
                 modalIdList.Add(DataCenter.instance.modals[i + 1].id + ". " + DataCenter.instance.modals[i + 1].name);
             }
             modalId.AddOptions(modalIdList);
-
+            // eventId列表
             var eventId = modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>();
             var eventIdList = new List<string>();
             eventIdList.Add((EventManager.EventName.None).ToString());
@@ -89,7 +91,7 @@ public class DataEditorScene : MonoBehaviour {
                 eventIdList.Add(k.Key.ToString());
             }
             eventId.AddOptions(eventIdList);
-
+            // weaponId 列表
             var weaponIds = modalMakerCanvas.transform.Find("WeaponId").GetComponent<Dropdown>();
             var modalWeaponIds = modalMakerCanvas.transform.Find("ModalWeaponId").GetComponent<Dropdown>();
             var weaponIdList = new List<string>();
@@ -110,17 +112,33 @@ public class DataEditorScene : MonoBehaviour {
 
             modalId.value = 0;
             weaponIds.value = 0;
-            OnModalSelected(0);
-            OnWeaponSelected(0);
 
             // 显示所有prefabs     TODO
-            var prefabList = modalMakerCanvas.transform.Find("prefabs").GetComponent<ScrollRect>();
+            var currentPrefab = GameObject.Find("CurrentPrefab");
+            prefabList.DefaultElement = currentPrefab.GetComponent<RectTransform>();
+            foreach(var v in allPrefabs) {
+                if(v.GetComponent<SpriteRenderer>() != null) {
+                    var item = prefabList.PushbackDefaultItem();
+                    item.GetComponent<Image>().sprite = v.GetComponent<SpriteRenderer>().sprite;
+                    item.GetComponent<Button>().onClick.AddListener(() => { OnPrefabSelected(item); });
+                    if (v.GetComponent<Modal>() != null) {
+                        item.GetComponent<UserData>().SetStringData(v.name);
+                    }else if(v.GetComponent<Player>() != null) {
+                        item.GetComponent<UserData>().SetStringData(v.name);
+                    }else if(v.GetComponent<Zzhit>() != null) {
+                        item.GetComponent<UserData>().SetStringData(v.name);
+                    }
+                }
+            }
+            currentPrefab.GetComponent<Button>().enabled = false;
+            GameObject.Find("btnSetModalPrefab").GetComponent<Button>().enabled = false;
 
-
-            DataCenter.instance.Status = Constant.EGameStatus.InEditor;
+            OnModalSelected(0);
+            OnWeaponSelected(0);
         }
 
         // 初始化
+        DataCenter.instance.Status = Constant.EGameStatus.InEditor;
         OnChangeToMaps();
 
 
@@ -265,7 +283,8 @@ public class DataEditorScene : MonoBehaviour {
         modalMakerCanvas.transform.Find("ModalType").GetComponent<Dropdown>().value = DataCenter.instance.modals[index].typeId - 1;
         modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.modals[index].eventId;
         modalMakerCanvas.transform.Find("EventData").GetComponent<InputField>().text = DataCenter.instance.modals[index].eventData.ToString();
-        modalMakerCanvas.transform.Find("ModalPrefab").GetComponent<InputField>().text = DataCenter.instance.modals[index].prefabPath;
+        modalMakerCanvas.transform.Find("ModalPrefabText").GetComponent<InputField>().text = DataCenter.instance.modals[index].prefabPath;
+        modalMakerCanvas.transform.Find("ModalPrefabImage").GetComponent<Image>().sprite = Resources.Load<GameObject>(Modal.GetResourcePath(index)).GetComponent<SpriteRenderer>().sprite;
         if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Player) {
             var player = DataCenter.instance.players[DataCenter.instance.modals[index].id];
             modalMakerCanvas.transform.Find("Level").GetComponent<InputField>().text = player.level.ToString();
@@ -301,6 +320,24 @@ public class DataEditorScene : MonoBehaviour {
         }
     }
 
+    // modal 部分 prefab 列表选项框的 element 点击回调
+    public void OnPrefabSelected(RectTransform sender) {
+        var currentPrefab = GameObject.Find("CurrentPrefab");
+        currentPrefab.GetComponent<Image>().sprite = sender.GetComponent<Image>().sprite;
+        currentPrefab.GetComponent<UserData>().SetStringData(sender.GetComponent<UserData>().GetStringData());
+        var prefabPath = currentPrefab.GetComponent<UserData>().GetStringData();
+        modalMakerCanvas.transform.Find("SelectedModalPrefab").GetComponent<InputField>().text = prefabPath;
+        modalMakerCanvas.transform.Find("CurrentPrefab").GetComponent<Image>().sprite = Resources.Load<GameObject>(Modal.GetResourcePath(prefabPath)).GetComponent<SpriteRenderer>().sprite;
+
+        GameObject.Find("btnSetModalPrefab").GetComponent<Button>().enabled = true;
+    }
+
+    // btnSetModalPrefab 按钮回调
+    public void OnSetModalPrefab() {
+        modalMakerCanvas.transform.Find("ModalPrefabText").GetComponent<InputField>().text = modalMakerCanvas.transform.Find("SelectedModalPrefab").GetComponent<InputField>().text;
+        modalMakerCanvas.transform.Find("ModalPrefabImage").GetComponent<Image>().sprite = modalMakerCanvas.transform.Find("CurrentPrefab").GetComponent<Image>().sprite;
+    }
+
     // Reset 按钮回调
     public void OnReset(int part) {
         switch (part) {
@@ -318,12 +355,12 @@ public class DataEditorScene : MonoBehaviour {
 
     // Apply modal 按钮回调
     public void OnModalApply() {
-        var index = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>().value;
+        var index = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>().value + 1;
         DataCenter.instance.modals[index].name = modalMakerCanvas.transform.Find("ModalName").GetComponent<InputField>().text;
         DataCenter.instance.modals[index].typeId = modalMakerCanvas.transform.Find("ModalType").GetComponent<Dropdown>().value + 1;
         DataCenter.instance.modals[index].eventId = modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>().value;
         DataCenter.instance.modals[index].eventData = System.Convert.ToInt64(modalMakerCanvas.transform.Find("EventData").GetComponent<InputField>().text);
-        DataCenter.instance.modals[index].prefabPath = modalMakerCanvas.transform.Find("ModalPrefab").GetComponent<InputField>().text;
+        DataCenter.instance.modals[index].prefabPath = modalMakerCanvas.transform.Find("ModalPrefabText").GetComponent<InputField>().text;
         if (DataCenter.instance.modals[index].typeId == (int)Modal.ModalType.Player) {
             var playerId = DataCenter.instance.modals[index].id;
             if (!DataCenter.instance.players.ContainsKey(playerId)) {
@@ -519,4 +556,5 @@ public class DataEditorScene : MonoBehaviour {
     private GameObject saveResult;
     private int posx = 0;
     private int posy = 0;
+    private ListView prefabList;
 }

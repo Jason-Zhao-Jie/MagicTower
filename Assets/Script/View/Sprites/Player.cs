@@ -71,10 +71,34 @@ public class Player : ObjectPool.AElement {
         return ObjectPool.ElementType.Sprite;
     }
 
+    public string PrefabPath {
+        get {
+            return DataCenter.instance.modals[playerId].prefabPath;
+        }
+    }
+
     public override string ResourcePath {
         get {
-            return Constant.PREFAB_DIR + DataCenter.instance.modals[playerId].prefabPath;
+            return GetResourcePath(playerId);
         }
+    }
+
+    public Sprite BaseSprite {
+        get {
+            return GetResourceBaseSprite(playerId);
+        }
+    }
+
+    public static string GetResourcePath(int playerId) {
+        return Modal.GetResourcePath(playerId);
+    }
+
+    public static string GetResourcePath(string prefabPath) {
+        return Modal.GetResourcePath(prefabPath);
+    }
+
+    public static Sprite GetResourceBaseSprite(int playerId) {
+        return Modal.GetResourceBaseSprite(playerId);
     }
 
     public void SetPlayerData(int id) {

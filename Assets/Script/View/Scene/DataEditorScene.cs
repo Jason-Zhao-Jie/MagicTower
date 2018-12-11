@@ -54,17 +54,18 @@ public class DataEditorScene : MonoBehaviour {
 
             var backModal = mapMakerCanvas.transform.Find("SetPanel").transform.Find("BackModal").GetComponent<Dropdown>();
             var currentModal = mapMakerCanvas.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>();
-            var modalList = new List<string>();
+            var modalList = new List<Dropdown.OptionData>();
             for (int i = 0; i < DataCenter.instance.modals.Count; ++i) {
-                modalList.Add(DataCenter.instance.modals[i + 1].id + ". " + DataCenter.instance.modals[i + 1].name);
+                modalList.Add(new Dropdown.OptionData(DataCenter.instance.modals[i + 1].id + ". " + DataCenter.instance.modals[i + 1].name, Modal.GetResourceBaseSprite(DataCenter.instance.modals[i + 1].id)));
             }
             backModal.AddOptions(modalList);
-            modalList.Insert(0, "None");
+            modalList.Insert(0, new Dropdown.OptionData("None", null));
             currentModal.AddOptions(modalList);
 
             var eventId = mapMakerCanvas.transform.Find("SetPanel").transform.Find("EventId").GetComponent<Dropdown>();
-            var eventIdList = new List<string>();
-            eventIdList.Add((EventManager.EventName.None).ToString());
+            var eventIdList = new List<string> {
+                (EventManager.EventName.None).ToString()
+            };
             foreach (var k in EventManager.instance.eventList) {
                 eventIdList.Add(k.Key.ToString());
             }
@@ -85,8 +86,9 @@ public class DataEditorScene : MonoBehaviour {
             modalId.AddOptions(modalIdList);
             // eventId列表
             var eventId = modalMakerCanvas.transform.Find("EventId").GetComponent<Dropdown>();
-            var eventIdList = new List<string>();
-            eventIdList.Add((EventManager.EventName.None).ToString());
+            var eventIdList = new List<string> {
+                (EventManager.EventName.None).ToString()
+            };
             foreach (var k in EventManager.instance.eventList) {
                 eventIdList.Add(k.Key.ToString());
             }
@@ -431,8 +433,9 @@ public class DataEditorScene : MonoBehaviour {
                     var drop = modalMakerCanvas.transform.Find("ModalId").GetComponent<Dropdown>();
                     var ind = DataCenter.instance.modals.Count;
                     DataCenter.instance.modals.Add(ind, new Constant.ModalData() { id = ind });
-                    var lst = new List<string>();
-                    lst.Add(ind + 1 + ". (new)");
+                    var lst = new List<string> {
+                        ind + 1 + ". (new)"
+                    };
                     drop.AddOptions(lst);
                     drop.value = ind;
                     OnModalSelected(ind);
@@ -442,8 +445,9 @@ public class DataEditorScene : MonoBehaviour {
                     var drop = modalMakerCanvas.transform.Find("WeaponId").GetComponent<Dropdown>();
                     var ind = DataCenter.instance.weapons.Count;
                     DataCenter.instance.weapons.Add(ind, new Constant.WeaponData() { id = ind });
-                    var lst = new List<string>();
-                    lst.Add(ind + 1 + ". (new)");
+                    var lst = new List<string> {
+                        ind + 1 + ". (new)"
+                    };
                     drop.AddOptions(lst);
                     drop.value = ind;
                     OnWeaponSelected(ind);

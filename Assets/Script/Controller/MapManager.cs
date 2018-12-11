@@ -87,25 +87,25 @@ public class MapManager {
 
     // 在指定处添加物品,仅添加表现, 必须同时配合添加数据的操作, 而且本函数也不检测原先是否已有物品
     public void AddObjectToMap(int posx, int posy, int thingId) {
-        Modal obj = null;
         if (thingId > 0) {
+            RemoveThingOnMapWithModal(posx, posy);
             var modal = DataCenter.instance.modals[thingId];
-            obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
+            Modal obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
             obj.InitWithMapPos(MapData[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
-        }
-        if (obj != null) {
             obj.name = "MapBlock_" + posx.ToString() + "_" + posy.ToString();
             if (MainScene.instance != null)
                 MainScene.instance.AddObjectToMap(obj.gameObject, posx, posy, -2);
             else if (DataEditorScene.instance != null)
                 DataEditorScene.instance.AddObjectToMap(obj.gameObject, posx, posy, -2);
+        } else if(thingId == 0) {
+            RemoveThingOnMapWithModal(posx, posy);
         }
     }
 
     // 从地图上永久删除mod的信息, 仅数据
     public void RemoveThingOnMap(int posx, int posy, int mapId = -1) {
         if (mapId < 0)
-            mapId = currentFloor;
+            mapId = MapData[currentFloor].mapId;
         else
             mapId--;
         if (MapData[mapId] == null)
@@ -115,15 +115,19 @@ public class MapManager {
 
     // 从地图上永久删除mod,包括表现和数据
     public void RemoveThingOnMapWithModal(long uuid) {
-        modals[uuid].RemoveSelf();
+        if (modals.ContainsKey(uuid)) {
+            modals[uuid].RemoveSelf();
+        }
     }
     public void RemoveThingOnMapWithModal(int posx, int posy, int mapId = -1) {
         if (mapId < 0)
-            mapId = currentFloor;
+            mapId = MapData[currentFloor].mapId;
         else
             mapId--;
         long uuid = mapId * 10000 + posx * 100 + posy;
-        modals[uuid].RemoveSelf();
+        if (modals.ContainsKey(uuid)) {
+            modals[uuid].RemoveSelf();
+        }
     }
 
     // 更改指定地点的event

@@ -19,10 +19,23 @@ public class TipBar : ObjectPool.AElement
         tipsText.fontSize = System.Convert.ToInt32(tipsText.fontSize * ScreenAdaptator.instance.RealFontSize);
     }
 
+    void FixedUpdate() {
+        if(hideTime > 0) {
+            hideTime--;
+        }else if(hideTime == 0) {
+            hideTime--;
+            RecycleSelf();
+        }
+    }
+
     public void SetTipText(string content)
     {
         tipsText.text = StringInternational.GetValue(content);
         AudioController.instance.PlaySound(20);
+    }
+
+    public void StartAutoRemove(int time) {
+        hideTime = time;
     }
 
     public override ObjectPool.ElementType GetPoolTypeId()
@@ -56,4 +69,5 @@ public class TipBar : ObjectPool.AElement
     }
 
     private UnityEngine.UI.Text tipsText;
+    private int hideTime = -1;
 }

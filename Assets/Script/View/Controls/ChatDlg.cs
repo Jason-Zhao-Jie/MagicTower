@@ -37,7 +37,7 @@ public class ChatDlg : ObjectPool.AElement
         speaker = transform.Find("Speaker").gameObject;
         speakerText = transform.Find("SpeakerName").GetComponent<UnityEngine.UI.Text>();
         speakerText.fontSize = Convert.ToInt32(speakerText.fontSize * ScreenAdaptator.instance.RealFontSize);
-        speaker.transform.position = new Vector3(speakerText.transform.position.x, speaker.transform.position.y, speaker.transform.position.z);
+        speaker.transform.position = new Vector3(speakerText.transform.position.x, speaker.transform.position.y, baseZOrder);
         text = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
         text.fontSize = Convert.ToInt32(text.fontSize * ScreenAdaptator.instance.RealFontSize);
     }
@@ -105,8 +105,19 @@ public class ChatDlg : ObjectPool.AElement
         return true;
     }
 
+    public float BaseZOrder {
+        get { return baseZOrder; }
+        set {
+            baseZOrder = value;
+            transform.position = new Vector3(transform.position.x, transform.position.y, value);
+            speaker.transform.position = new Vector3(speakerText.transform.position.x, speaker.transform.position.y, value);
+        }
+    }
+
     private GameObject speaker;
     private UnityEngine.UI.Text speakerText;
     private UnityEngine.UI.Text text;
     private bool isTop = false;
+
+    private float baseZOrder;
 }

@@ -29,7 +29,7 @@ public class ChoiceDlg : ObjectPool.AElement
         choiceSpeaker = choiceInfoPanel.transform.Find("Speaker").gameObject;
         choiceSpeakerText = choiceInfoPanel.transform.Find("SpeakerName").GetComponent<Text>();
         choiceSpeakerText.fontSize = Convert.ToInt32(choiceSpeakerText.fontSize*ScreenAdaptator.instance.RealFontSize);
-        choiceSpeaker.transform.position = new Vector3(choiceSpeakerText.transform.position.x, choiceSpeaker.transform.position.y, choiceSpeaker.transform.position.z);
+        choiceSpeaker.transform.position = new Vector3(choiceSpeakerText.transform.position.x, choiceSpeaker.transform.position.y, baseZOrder);
         choiceTitleText = choiceInfoPanel.transform.Find("TitleText").GetComponent<Text>();
         choiceTitleText.fontSize = Convert.ToInt32(choiceTitleText.fontSize*ScreenAdaptator.instance.RealFontSize);
         choiceItemPanel = transform.Find("ItemPanel").gameObject;
@@ -177,6 +177,15 @@ public class ChoiceDlg : ObjectPool.AElement
         return true;
     }
 
+    public float BaseZOrder {
+        get { return baseZOrder; }
+        set {
+            baseZOrder = value;
+            transform.position = new Vector3(transform.position.x, transform.position.y, value);
+            choiceSpeaker.transform.position = new Vector3(choiceSpeakerText.transform.position.x, choiceSpeaker.transform.position.y, value);
+        }
+    }
+
     private GameObject choiceSpeaker;
     private Text choiceTitleText;
     private Text choiceSpeakerText;
@@ -187,4 +196,6 @@ public class ChoiceDlg : ObjectPool.AElement
     private List<GameObject> choiceItems;
     private uint chosenIndex;
     private Constant.EGameStatus nextStatus;
+
+    private float baseZOrder;
 }

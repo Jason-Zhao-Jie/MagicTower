@@ -45,7 +45,7 @@ public class BattleDlg : ObjectPool.AElement
         playerSprite = transform.Find("Player").gameObject;
         playerNameText = transform.Find("Name_Player").GetComponent<Text>();
         playerNameText.fontSize = Convert.ToInt32(playerNameText.fontSize * ScreenAdaptator.instance.RealFontSize);
-        playerSprite.transform.position = new Vector3(playerNameText.transform.position.x, playerSprite.transform.position.y, playerSprite.transform.position.z);
+        playerSprite.transform.position = new Vector3(playerNameText.transform.position.x, playerSprite.transform.position.y, baseZOrder);
         playerLifeText = transform.Find("Life_Player").GetComponent<Text>();
         playerLifeText.fontSize = Convert.ToInt32(playerLifeText.fontSize * ScreenAdaptator.instance.RealFontSize);
         playerAttackText = transform.Find("Attack_Player").GetComponent<Text>();
@@ -57,7 +57,7 @@ public class BattleDlg : ObjectPool.AElement
         enemySprite = transform.Find("Enemy").gameObject;
         enemyNameText = transform.Find("Name_Enemy").GetComponent<Text>();
         enemyNameText.fontSize = Convert.ToInt32(enemyNameText.fontSize * ScreenAdaptator.instance.RealFontSize);
-        enemySprite.transform.position = new Vector3(enemyNameText.transform.position.x, enemySprite.transform.position.y, enemySprite.transform.position.z);
+        enemySprite.transform.position = new Vector3(enemyNameText.transform.position.x, enemySprite.transform.position.y, baseZOrder);
         enemyLifeText = transform.Find("Life_Enemy").GetComponent<Text>();
         enemyLifeText.fontSize = Convert.ToInt32(enemyLifeText.fontSize * ScreenAdaptator.instance.RealFontSize);
         enemyAttackText = transform.Find("Attack_Enemy").GetComponent<Text>();
@@ -291,6 +291,16 @@ public class BattleDlg : ObjectPool.AElement
     public override string ResourcePath { get { return Constant.DIALOG_DIR + PREFAB_DIR; } }
     public static string GetResourcePath() { return Constant.DIALOG_DIR + PREFAB_DIR; }
 
+    public float BaseZOrder {
+        get { return baseZOrder;}
+        set {
+            baseZOrder = value;
+            transform.position = new Vector3(transform.position.x, transform.position.y, value);
+            playerSprite.transform.position = new Vector3(playerNameText.transform.position.x, playerSprite.transform.position.y, value);
+            enemySprite.transform.position = new Vector3(playerNameText.transform.position.x, playerSprite.transform.position.y, value);
+        }
+    }
+
     private GameObject playerSprite;
     private Text playerNameText;
     private Text playerLifeText;
@@ -318,4 +328,6 @@ public class BattleDlg : ObjectPool.AElement
     private int hurted;
     private bool isOurRound;
     internal Zzhit hitter;
+
+    private float baseZOrder;
 }

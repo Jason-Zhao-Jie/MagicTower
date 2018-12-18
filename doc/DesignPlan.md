@@ -146,3 +146,12 @@
 1. 完成了字符串编辑功能
 2. 整理了 DataEditorScene 的结构, 将多 Canvas 改成 Panel, 计划把 MainScene 也按此修改, 以后不再出现多个 Canvas 的情况
 3. 为 TipBar 添加延时自移除功能
+
+## 2018年12月18日, Tuesday
+1. 编辑器的 Chat/Choice 内容列表还未完成, 决定先把游戏内的功能解决一波
+2. 尝试了一下将 DialogCanvas 合并进主 Canvas, 发现不太好使, 又还原了
+   
+
+
+
+   

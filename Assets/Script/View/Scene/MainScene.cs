@@ -52,8 +52,8 @@ public class MainScene : MonoBehaviour {
 
         if (AudioController.instance != null) {
             AudioController.instance.ClearSoundSource();
-            AudioController.instance.MusicSource = GetComponent<AudioSource>();
-            AudioController.instance.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
+            AudioController.instance.MusicSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+            AudioController.instance.AddSoundSource(GetComponent<AudioSource>());
             AudioController.instance.AddSoundSource(dialogCanvas.GetComponent<AudioSource>());
             AudioController.instance.AddSoundSource(transform.Find("HeroPanel").GetComponent<AudioSource>());
             AudioController.instance.AddSoundSource(transform.Find("ItemPanel").GetComponent<AudioSource>());

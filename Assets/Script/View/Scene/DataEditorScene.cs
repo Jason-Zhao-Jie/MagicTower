@@ -36,6 +36,7 @@ public class DataEditorScene : MonoBehaviour {
         saveResult = GameObject.Find("SaveResult");
         saveResult.SetActive(false);
         prefabList = modalMakerPanel.transform.Find("prefabs").GetComponent<ListView>();
+        dataList = stringChatsAndChoicesPanel.transform.Find("DataList").GetComponent<ListView>();
         // 设定背景和地图区域
         backgroundImg = GetComponent<Image>();
         ScreenAdaptator.instance.LoadOnMainScene(mapMakerPanel.transform.Find("MapPanel").GetComponent<RectTransform>().rect);
@@ -49,6 +50,22 @@ public class DataEditorScene : MonoBehaviour {
 
         // 载入所有资源
         allPrefabs = Resources.LoadAll<GameObject>(Constant.PREFAB_DIR);
+
+        // dropdown 公共数据列表
+        var eventIdList = new List<string> {
+                (EventManager.EventName.None).ToString()
+            };
+        foreach (var k in EventManager.instance.eventList) {
+            eventIdList.Add(k.Key.ToString());
+        }
+        var modalIdList = new List<string>();
+        for (int i = 0; i < DataCenter.instance.modals.Count; ++i) {
+            modalIdList.Add(DataCenter.instance.modals[i + 1].id + ". " + DataCenter.instance.modals[i + 1].name);
+        }
+        var modalList = new List<Dropdown.OptionData>();
+        for (int i = 0; i < DataCenter.instance.modals.Count; ++i) {
+            modalList.Add(new Dropdown.OptionData(DataCenter.instance.modals[i + 1].id + ". " + DataCenter.instance.modals[i + 1].name, Modal.GetResourceBaseSprite(DataCenter.instance.modals[i + 1].id)));
+        }
 
         // 载入Map信息
         {
@@ -68,21 +85,11 @@ public class DataEditorScene : MonoBehaviour {
 
             var backModal = mapMakerPanel.transform.Find("SetPanel").transform.Find("BackModal").GetComponent<Dropdown>();
             var currentModal = mapMakerPanel.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>();
-            var modalList = new List<Dropdown.OptionData>();
-            for (int i = 0; i < DataCenter.instance.modals.Count; ++i) {
-                modalList.Add(new Dropdown.OptionData(DataCenter.instance.modals[i + 1].id + ". " + DataCenter.instance.modals[i + 1].name, Modal.GetResourceBaseSprite(DataCenter.instance.modals[i + 1].id)));
-            }
             backModal.AddOptions(modalList);
-            modalList.Insert(0, new Dropdown.OptionData("None", null));
+            currentModal.AddOptions(new List<Dropdown.OptionData>() { new Dropdown.OptionData("None", null) });
             currentModal.AddOptions(modalList);
 
             var eventId = mapMakerPanel.transform.Find("SetPanel").transform.Find("EventId").GetComponent<Dropdown>();
-            var eventIdList = new List<string> {
-                (EventManager.EventName.None).ToString()
-            };
-            foreach (var k in EventManager.instance.eventList) {
-                eventIdList.Add(k.Key.ToString());
-            }
             eventId.AddOptions(eventIdList);
 
             mapId.value = 0;
@@ -93,19 +100,9 @@ public class DataEditorScene : MonoBehaviour {
         {
             // modId列表
             var modalId = modalMakerPanel.transform.Find("ModalId").GetComponent<Dropdown>();
-            var modalIdList = new List<string>();
-            for (int i = 0; i < DataCenter.instance.modals.Count; ++i) {
-                modalIdList.Add(DataCenter.instance.modals[i + 1].id + ". " + DataCenter.instance.modals[i + 1].name);
-            }
             modalId.AddOptions(modalIdList);
             // eventId列表
             var eventId = modalMakerPanel.transform.Find("EventId").GetComponent<Dropdown>();
-            var eventIdList = new List<string> {
-                (EventManager.EventName.None).ToString()
-            };
-            foreach (var k in EventManager.instance.eventList) {
-                eventIdList.Add(k.Key.ToString());
-            }
             eventId.AddOptions(eventIdList);
             // weaponId 列表
             var weaponIds = modalMakerPanel.transform.Find("WeaponId").GetComponent<Dropdown>();
@@ -155,18 +152,58 @@ public class DataEditorScene : MonoBehaviour {
         // 载入String Chats 和 Choice 信息
         {
             // 数据部分
-            var StringList = new List<string>(DataCenter.instance.strings.Count);
+            var stringList = new List<string>(DataCenter.instance.strings.Count);
             foreach (var v in DataCenter.instance.strings) {
-                StringList.Add(v.Key);
+                stringList.Add(v.Key);
+            }
+            var chatList = new List<string>(DataCenter.instance.chats.Count);
+            foreach (var v in DataCenter.instance.chats) {
+                chatList.Add(v.Value.id.ToString());
+            }
+            var choiceList = new List<string>(DataCenter.instance.choices.Count);
+            foreach (var v in DataCenter.instance.choices) {
+                choiceList.Add(v.Value.id.ToString());
             }
 
             // String 编辑部分
             var stringMakerPanel = stringChatsAndChoicesPanel.transform.Find("StringMakerPanel");
             var stringIds = stringMakerPanel.Find("StringId").GetComponent<Dropdown>();
-            stringIds.AddOptions(StringList);
+            stringIds.AddOptions(stringList);
             OnStringSelected(-1);
 
             // Chat 编辑部分
+            var chatDataPanel = stringChatsAndChoicesPanel.transform.Find("ChatDataPanel");
+            var chatIds = chatDataPanel.Find("ChatId").GetComponent<Dropdown>();
+            chatIds.AddOptions(chatList);
+            var chatlastEventIds = chatDataPanel.Find("LastEventId").GetComponent<Dropdown>();
+            chatlastEventIds.AddOptions(eventIdList);
+            OnChatSelected(-1);
+
+            // Choice 编辑部分
+            var choiceDataPanel = stringChatsAndChoicesPanel.transform.Find("ChoiceDataPanel");
+            var choiceIds = choiceDataPanel.Find("ChoiceId").GetComponent<Dropdown>();
+            choiceIds.AddOptions(choiceList);
+            var choiceSpeakers = choiceDataPanel.Find("Speaker").GetComponent<Dropdown>();
+            choiceSpeakers.AddOptions(new List<string>() { "-200 None", "-1 ChatTarget", "0 SelfPlayer"});
+            choiceSpeakers.AddOptions(modalList);
+            var choiceTitleStrings = choiceDataPanel.Find("TitleString").GetComponent<Dropdown>();
+            var choiceTailStrings = choiceDataPanel.Find("TailString").GetComponent<Dropdown>();
+            choiceTitleStrings.AddOptions(new List<string>() { "0 (None)" });
+            choiceTitleStrings.AddOptions(stringList);
+            choiceTailStrings.AddOptions(new List<string>() { "0 (None)" });
+            choiceTailStrings.AddOptions(stringList);
+            OnChoiceSelected(-1);
+
+            // DataList 部分
+            var chatSpeaker = chatDataPanel.Find("DataSpeaker").GetComponent<Dropdown>();
+            chatSpeaker.AddOptions(new List<string>() { "-200 None", "-1 ChatTarget", "0 SelfPlayer" });
+            chatSpeaker.AddOptions(modalList);
+            var chatContent = chatDataPanel.Find("DataContent").GetComponent<Dropdown>();
+            chatContent.AddOptions(stringList);
+            var choiceEventId = choiceDataPanel.Find("DataEventId").GetComponent<Dropdown>();
+            choiceEventId.AddOptions(eventIdList);
+            var choiceContent = choiceDataPanel.Find("DataContent").GetComponent<Dropdown>();
+            choiceContent.AddOptions(stringList);
         }
 
         // 初始化
@@ -589,7 +626,7 @@ public class DataEditorScene : MonoBehaviour {
             ShowTips("请先将之前添加的字符串编辑完成并保存!");
             return;
         }
-        DataCenter.instance.strings.Add("#####", new Constant.InternationalString { id = DataCenter.instance.strings.Count, key = "#####", strings = new Constant.StringInOneLanguage[] { new Constant.StringInOneLanguage { langKey = "en-us", content = "" } } });
+        DataCenter.instance.strings.Add("#####", new Constant.InternationalString { id = DataCenter.instance.strings.Count + 1, key = "#####", strings = new Constant.StringInOneLanguage[] { new Constant.StringInOneLanguage { langKey = "en-us", content = "" } } });
 
         var stringMakerPanel = stringChatsAndChoicesPanel.transform.Find("StringMakerPanel");
         var dropdown = stringMakerPanel.transform.Find("StringId").GetComponent<Dropdown>();
@@ -634,6 +671,108 @@ public class DataEditorScene : MonoBehaviour {
         }
     }
 
+    public void OnChatSelected(int index) {
+        var chatDataPanel = stringChatsAndChoicesPanel.transform.Find("ChatDataPanel");
+        var dropdown = chatDataPanel.Find("ChatId").GetComponent<Dropdown>();
+        if (index == -1) {
+            index = dropdown.value;
+        } else {
+            dropdown.value = index;
+        }
+        var id = index + 1;
+        var chatLastEventIds = chatDataPanel.Find("LastEventId").GetComponent<Dropdown>();
+        chatLastEventIds.value = DataCenter.instance.chats[id].lastEventId;
+        var chatLastEventData = chatDataPanel.Find("LastEventData").GetComponent<InputField>();
+        chatLastEventData.text = DataCenter.instance.chats[id].lastEventData.ToString();
+        var chatCanOn = chatDataPanel.Find("CanOn").GetComponent<Dropdown>();
+        chatCanOn.value = DataCenter.instance.chats[id].canOn ? 0 : 1;
+    }
+
+    // Add chat 按钮回调
+    public void OnAddChat() {
+        var id = DataCenter.instance.chats.Count + 1;
+        DataCenter.instance.chats.Add(id, new Constant.ChatData { id = id, lastEventId = 0, lastEventData = 0, canOn = true, data = new Constant.OneChatData[0] });
+
+        var chatDataPanel = stringChatsAndChoicesPanel.transform.Find("ChatDataPanel");
+        var dropdown = chatDataPanel.transform.Find("ChatId").GetComponent<Dropdown>();
+        dropdown.AddOptions(new List<string> { id.ToString() });
+        OnStringSelected(dropdown.options.Count - 1);
+    }
+
+    // Save chat 按钮回调
+    public void OnSaveChat() {
+        var chatDataPanel = stringChatsAndChoicesPanel.transform.Find("ChatDataPanel");
+        var dropdown = chatDataPanel.transform.Find("ChatId").GetComponent<Dropdown>();
+        var key = System.Convert.ToInt32(dropdown.options[dropdown.value].text);
+        var chatLastEventIds = chatDataPanel.Find("LastEventId").GetComponent<Dropdown>();
+        DataCenter.instance.chats[key].lastEventId = chatLastEventIds.value;
+        var chatLastEventData = chatDataPanel.Find("LastEventData").GetComponent<InputField>();
+        DataCenter.instance.chats[key].lastEventData = System.Convert.ToInt64(chatLastEventData.text);
+        var chatCanOn = chatDataPanel.Find("CanOn").GetComponent<Dropdown>();
+        DataCenter.instance.chats[key].canOn = chatCanOn.value == 0 ? true : false;
+    }
+
+    public void OnChoiceSelected(int index) {
+        var choiceDataPanel = stringChatsAndChoicesPanel.transform.Find("ChoiceDataPanel");
+        var dropdown = choiceDataPanel.Find("ChoiceId").GetComponent<Dropdown>();
+        if (index == -1) {
+            index = dropdown.value;
+        } else {
+            dropdown.value = index;
+        }
+        var id = index + 1;
+        var choiceSpeaker = choiceDataPanel.Find("Speaker").GetComponent<Dropdown>();
+        if (DataCenter.instance.choices[id].speakerId < -100) {
+            choiceSpeaker.value = 0;
+        } else if (DataCenter.instance.choices[id].speakerId < 0) {
+            choiceSpeaker.value = 1;
+        } else if (DataCenter.instance.choices[id].speakerId == 0) {
+            choiceSpeaker.value = 2;
+        } else {
+            choiceSpeaker.value = DataCenter.instance.choices[id].speakerId + 2;
+        }
+            var choiceTitleString = choiceDataPanel.Find("TitleString").GetComponent<Dropdown>();
+        choiceTitleString.value = choiceTitleString.options.IndexOf(new Dropdown.OptionData(DataCenter.instance.choices[id].title));
+        var choiceTailString = choiceDataPanel.Find("TailString").GetComponent<Dropdown>();
+        choiceTailString.value = choiceTailString.options.IndexOf(new Dropdown.OptionData(DataCenter.instance.choices[id].tail));
+        var choiceCanOn = choiceDataPanel.Find("CanOn").GetComponent<Dropdown>();
+        choiceCanOn.value = DataCenter.instance.choices[id].canOn ? 0 : 1;
+    }
+
+    // Add choice 按钮回调
+    public void OnAddChoice() {
+        var id = DataCenter.instance.choices.Count + 1;
+        DataCenter.instance.choices.Add(id, new Constant.ChoiceData { id = id, speakerId = 0, title = "", tail = "", canOn = true, data = new Constant.OneChoiceData[0] });
+
+        var choiceDataPanel = stringChatsAndChoicesPanel.transform.Find("ChoiceDataPanel");
+        var dropdown = choiceDataPanel.Find("ChoiceId").GetComponent<Dropdown>();
+        dropdown.AddOptions(new List<string> { id.ToString() });
+        OnStringSelected(dropdown.options.Count - 1);
+    }
+
+    // Save choice 按钮回调
+    public void OnSaveChoice() {
+        var choiceDataPanel = stringChatsAndChoicesPanel.transform.Find("ChoiceDataPanel");
+        var dropdown = choiceDataPanel.Find("ChoiceId").GetComponent<Dropdown>();
+        var key = System.Convert.ToInt32(dropdown.options[dropdown.value].text);
+        var choiceSpeakerId = choiceDataPanel.Find("Speaker").GetComponent<Dropdown>();
+        if (choiceSpeakerId.value == 0) {
+            DataCenter.instance.choices[key].speakerId = -200;
+        } else if (choiceSpeakerId.value == 1) {
+            DataCenter.instance.choices[key].speakerId = -1;
+        } else if (choiceSpeakerId.value == 2) {
+            DataCenter.instance.choices[key].speakerId = 0;
+        } else {
+            DataCenter.instance.choices[key].speakerId = choiceSpeakerId.value - 2;
+        }
+        var choiceTitleString = choiceDataPanel.Find("TitleString").GetComponent<Dropdown>();
+        DataCenter.instance.choices[key].title = choiceTitleString.captionText.text;
+        var choiceTailString = choiceDataPanel.Find("TailString").GetComponent<Dropdown>();
+        DataCenter.instance.choices[key].tail = choiceTailString.captionText.text;
+        var choiceCanOn = choiceDataPanel.Find("CanOn").GetComponent<Dropdown>();
+        DataCenter.instance.choices[key].canOn = choiceCanOn.value == 0 ? true : false;
+    }
+
     // 弹出Tips提示, 并在一定时间后消失
     public void ShowTips(string text) {
         var tipbar = TipBar.ShowTip();
@@ -660,6 +799,30 @@ public class DataEditorScene : MonoBehaviour {
     public Curtain Curtain { get { return curtain; } }
 
 
+    private void RefreshDataList() {
+        var chatDataPanel = stringChatsAndChoicesPanel.transform.Find("ChatDataPanel");
+        var choiceDataPanel = stringChatsAndChoicesPanel.transform.Find("ChoiceDataPanel");
+
+        var chatSpeaker = chatDataPanel.Find("DataSpeaker").GetComponent<Dropdown>();
+        var chatContent = chatDataPanel.Find("DataContent").GetComponent<Dropdown>();
+        var chatSaveDataList = chatDataPanel.Find("btnSaveChatDatas").GetComponent<Button>();
+        var choiceEventId = choiceDataPanel.Find("DataEventId").GetComponent<Dropdown>();
+        var choiceEventData = choiceDataPanel.Find("DataEventData").GetComponent<InputField>();
+        var choiceContent = choiceDataPanel.Find("DataContent").GetComponent<Dropdown>();
+        var choiceSaveDataList = chatDataPanel.Find("btnSaveChoiceDatas").GetComponent<Button>();
+
+        // TODO : 以下部分需要理清
+        chatSpeaker.enabled = isDataListForChat && dataList.ItemCount > 0;
+        chatContent.enabled = isDataListForChat && dataList.ItemCount > 0;
+        chatSaveDataList.enabled = isDataListForChat && dataList.ItemCount > 0;
+        choiceEventId.enabled = !isDataListForChat && dataList.ItemCount > 0;
+        choiceEventData.enabled = !isDataListForChat && dataList.ItemCount > 0;
+        choiceContent.enabled = !isDataListForChat && dataList.ItemCount > 0;
+        choiceSaveDataList.enabled = !isDataListForChat && dataList.ItemCount > 0;
+
+
+    }
+
     private Image backgroundImg;
     private Curtain curtain;
     private GameObject[] allPrefabs;
@@ -670,4 +833,6 @@ public class DataEditorScene : MonoBehaviour {
     private int posx = 0;
     private int posy = 0;
     private ListView prefabList;
+    private ListView dataList;
+    private bool isDataListForChat = true;
 }

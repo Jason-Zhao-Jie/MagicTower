@@ -135,7 +135,9 @@ public class ListView : UnityEngine.UI.ScrollRect {
     // Use this for initialization
     protected override void Start() {
         base.Start();
-
+        if (defaultElement != null && content.GetComponent<UnityEngine.UI.GridLayoutGroup>() != null) {
+            content.GetComponent<UnityEngine.UI.GridLayoutGroup>().cellSize = defaultElement.rect.size;
+        }
     }
 
     // Update is called once per frame
@@ -143,6 +145,8 @@ public class ListView : UnityEngine.UI.ScrollRect {
 
     }
 
+    [UnityEngine.Tooltip("要添加的默认项目")]
+    [UnityEngine.Space(4)]
     private UnityEngine.RectTransform defaultElement;
     private List<UnityEngine.RectTransform> children = new List<UnityEngine.RectTransform>();
 }

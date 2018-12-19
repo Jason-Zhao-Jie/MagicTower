@@ -9,6 +9,7 @@ public class BattleDlg : ObjectPool.AElement
     public delegate bool BattlePauseEventCheck();
     public delegate void BattleOverCallback(int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long nextEventData);
 
+    private const int BATTLE_SLEEP_TIME = 2; // 修改此值以控制两次攻击之间的间隔, 使得攻击表现更为流畅, 已扣除攻击动画时间. 单位:帧
     private const string BATTLE_GOLD_GET_TEXT = "str_battleGoldGet";
     private const string BATTLE_EXP_GET_TEXT = "str_battleExpGet";
     private const string BATTLE_HURTED_TEXT = "str_battleHurted";
@@ -28,6 +29,7 @@ public class BattleDlg : ObjectPool.AElement
         // 设定状态, 战斗开始
         DataCenter.instance.Status = Constant.EGameStatus.OnBattle;
         ret.isBattlePaused = false;
+        ret.battleResultPanel.SetActive(false);
 
         return ret;
     }
@@ -45,7 +47,6 @@ public class BattleDlg : ObjectPool.AElement
         playerSprite = transform.Find("Player").gameObject;
         playerNameText = transform.Find("Name_Player").GetComponent<Text>();
         playerNameText.fontSize = Convert.ToInt32(playerNameText.fontSize * ScreenAdaptator.instance.RealFontSize);
-        playerSprite.transform.position = new Vector3(playerNameText.transform.position.x, playerSprite.transform.position.y, baseZOrder);
         playerLifeText = transform.Find("Life_Player").GetComponent<Text>();
         playerLifeText.fontSize = Convert.ToInt32(playerLifeText.fontSize * ScreenAdaptator.instance.RealFontSize);
         playerAttackText = transform.Find("Attack_Player").GetComponent<Text>();
@@ -57,7 +58,6 @@ public class BattleDlg : ObjectPool.AElement
         enemySprite = transform.Find("Enemy").gameObject;
         enemyNameText = transform.Find("Name_Enemy").GetComponent<Text>();
         enemyNameText.fontSize = Convert.ToInt32(enemyNameText.fontSize * ScreenAdaptator.instance.RealFontSize);
-        enemySprite.transform.position = new Vector3(enemyNameText.transform.position.x, enemySprite.transform.position.y, baseZOrder);
         enemyLifeText = transform.Find("Life_Enemy").GetComponent<Text>();
         enemyLifeText.fontSize = Convert.ToInt32(enemyLifeText.fontSize * ScreenAdaptator.instance.RealFontSize);
         enemyAttackText = transform.Find("Attack_Enemy").GetComponent<Text>();
@@ -74,84 +74,65 @@ public class BattleDlg : ObjectPool.AElement
         battleHurtedText = battleResultPanel.transform.Find("HurtedText").GetComponent<Text>();
         battleHurtedText.fontSize = Convert.ToInt32(battleHurtedText.fontSize * ScreenAdaptator.instance.RealFontSize);
         battleResultPanel.SetActive(false);
-
+        battleHitSleep = 0;
     }
-	
-	// Update is called once per frame
-	void FixedUpdate () {
 
-        if (gameObject.activeSelf && !isBattlePaused && DataCenter.instance.Status == Constant.EGameStatus.OnBattle && (hitter == null || !hitter.isActiveAndEnabled))
-        {
-            if (playerBattleData.life <= 0 || enemyBattleData.life <= 0)
-            {
-                OnBattleOver();
-            }
-            else
-            {
-                int hurt = 0;
-                if (isOurRound)
-                {
-                    hurt = MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
-                    if (hurt == -1)
-                    {
-                        CreateHitter(Constant.MISS_HITTER, true, 0, false);
-                        Debug.Log("Enemy has missed a hurt");
+    // Update is called once per frame
+    void FixedUpdate() {
+        if (gameObject.activeSelf && !isBattlePaused && DataCenter.instance.Status == Constant.EGameStatus.OnBattle && (hitter == null || !hitter.isActiveAndEnabled)) {
+            ++battleHitSleep;
+            if (battleHitSleep > BATTLE_SLEEP_TIME) {
+                battleHitSleep -= BATTLE_SLEEP_TIME;
+                if (playerBattleData.life <= 0 || enemyBattleData.life <= 0) {
+                    OnBattleOver();
+                } else {
+                    int hurt = 0;
+                    if (isOurRound) {
+                        hurt = MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
+                        if (hurt == -1) {
+                            CreateHitter(Constant.MISS_HITTER, true, 0, false);
+                            Debug.Log("Enemy has missed a hurt");
+                        } else if (hurt == 0) {
+                            CreateHitter(Constant.NOHURT_HITTER, true, 0, false);
+                            Debug.Log("Enemy was hurted failed");
+                        } else if (hurt < 0) {
+                            CreateHitter(playerBattleData.weaponId, true, -hurt, true);
+                            enemyBattleData.life += hurt;
+                            Debug.Log("Enemy was hurted critical : " + -hurt);
+                        } else {
+                            CreateHitter(playerBattleData.weaponId, true, hurt, false);
+                            enemyBattleData.life -= hurt;
+                            Debug.Log("Enemy was hurted normally : " + hurt);
+                        }
+                        if (enemyBattleData.life < 0)
+                            enemyBattleData.life = 0;
+                        enemyLifeText.text = enemyBattleData.life.ToString();
+                        ++rounds;
+                    } else {
+                        hurt = MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
+                        if (hurt == -1) {
+                            CreateHitter(Constant.MISS_HITTER, false, 0, false);
+                            Debug.Log("Player has missed a hurt");
+                        } else if (hurt == 0) {
+                            CreateHitter(Constant.NOHURT_HITTER, false, 0, false);
+                            Debug.Log("Player was hurted failed");
+                        } else if (hurt < 0) {
+                            CreateHitter(enemyBattleData.weaponId, false, -hurt, true);
+                            playerBattleData.life += hurt;
+                            Debug.Log("Player was hurted critical : " + -hurt);
+                            hurted -= hurt;
+                        } else {
+                            CreateHitter(enemyBattleData.weaponId, false, hurt, false);
+                            playerBattleData.life -= hurt;
+                            Debug.Log("Player was hurted normally : " + hurt);
+                            hurted += hurt;
+                        }
+                        if (playerBattleData.life < 0)
+                            playerBattleData.life = 0;
+                        playerLifeText.text = playerBattleData.life.ToString();
                     }
-                    else if (hurt == 0)
-                    {
-                        CreateHitter(Constant.NOHURT_HITTER, true, 0, false);
-                        Debug.Log("Enemy was hurted failed");
-                    }
-                    else if (hurt < 0)
-                    {
-                        CreateHitter(playerBattleData.weaponId, true, -hurt, true);
-                        enemyBattleData.life += hurt;
-                        Debug.Log("Enemy was hurted critical : " + -hurt);
-                    }
-                    else
-                    {
-                        CreateHitter(playerBattleData.weaponId, true, hurt, false);
-                        enemyBattleData.life -= hurt;
-                        Debug.Log("Enemy was hurted normally : " + hurt);
-                    }
-                    if (enemyBattleData.life < 0)
-                        enemyBattleData.life = 0;
-                    enemyLifeText.text = enemyBattleData.life.ToString();
-                    ++rounds;
+                    isOurRound = !isOurRound;
                 }
-
-                else
-                {
-                    hurt = MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
-                    if (hurt == -1)
-                    {
-                        CreateHitter(Constant.MISS_HITTER, false, 0, false);
-                        Debug.Log("Player has missed a hurt");
-                    }
-                    else if (hurt == 0)
-                    {
-                        CreateHitter(Constant.NOHURT_HITTER, false, 0, false);
-                        Debug.Log("Player was hurted failed");
-                    }
-                    else if (hurt < 0)
-                    {
-                        CreateHitter(enemyBattleData.weaponId, false, -hurt, true);
-                        playerBattleData.life += hurt;
-                        Debug.Log("Player was hurted critical : " + -hurt);
-                        hurted -= hurt;
-                    }
-                    else
-                    {
-                        CreateHitter(enemyBattleData.weaponId, false, hurt, false);
-                        playerBattleData.life -= hurt;
-                        Debug.Log("Player was hurted normally : " + hurt);
-                        hurted += hurt;
-                    }
-                    if (playerBattleData.life < 0)
-                        playerBattleData.life = 0;
-                    playerLifeText.text = playerBattleData.life.ToString();
-                }
-                isOurRound = !isOurRound;
             }
         }
     }
@@ -184,32 +165,36 @@ public class BattleDlg : ObjectPool.AElement
 
         // 设定我方的头像
         var playerModal = DataCenter.instance.modals[playerBattleData.id];
-        ObjectPool.AElement obj = ObjectPool.instance.GetAnElement<Modal>(playerModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + playerModal.prefabPath);
+        ObjectPool.AElement obj = ObjectPool.instance.GetAnElement<Modal>(playerModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + playerModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         if(obj == null)
-            obj = ObjectPool.instance.GetAnElement<Player>(playerModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + playerModal.prefabPath);
-        obj.transform.SetParent(transform, false);
+            obj = ObjectPool.instance.GetAnElement<Player>(playerModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + playerModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+        obj.transform.SetParent(playerSprite.transform.parent, false);
         obj.transform.position = playerSprite.transform.position;
         obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
-        obj.GetComponent<SpriteRenderer>().sortingOrder = playerSprite.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = playerSprite.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);
-        else
+        else if (playerSprite.GetComponent<Player>() != null)
             playerSprite.GetComponent<Player>().RemoveSelf();
+        else
+            Destroy(playerSprite);
         playerSprite = obj.gameObject;
 
         // 设定敌方的头像
         var enemyModal = DataCenter.instance.modals[enemyBattleData.id];
-        obj = ObjectPool.instance.GetAnElement<Modal>(enemyModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + enemyModal.prefabPath);
-        obj.transform.SetParent(transform, false);
+        obj = ObjectPool.instance.GetAnElement<Modal>(enemyModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + enemyModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+        if (obj == null)
+            obj = ObjectPool.instance.GetAnElement<Player>(enemyModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + enemyModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+        obj.transform.SetParent(enemySprite.transform.parent, false);
         obj.transform.position = enemySprite.transform.position;
         obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
-        obj.GetComponent<SpriteRenderer>().sortingOrder = enemySprite.GetComponent<SpriteRenderer>().sortingOrder;
         mod = enemySprite.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);
-        else
+        else if (enemySprite.GetComponent<Player>() != null)
             enemySprite.GetComponent<Player>().RemoveSelf();
+        else
+            Destroy(enemySprite);
         enemySprite = obj.gameObject;
 
         // 将双方数据显示到界面
@@ -245,12 +230,11 @@ public class BattleDlg : ObjectPool.AElement
     private void CreateHitter(int weaponId, bool isOnEnemy, int damage, bool isCritical)
     {
         var data = DataCenter.instance.weapons[weaponId];
-        hitter = ObjectPool.instance.GetAnElement<Zzhit>(weaponId * 2 + (isCritical?0:1),ObjectPool.ElementType.Hitter, Constant.PREFAB_DIR + (isCritical ? data.critPrefabPath : data.prefabPath));
+        hitter = ObjectPool.instance.GetAnElement<Zzhit>(weaponId * 2 + (isCritical?0:1),ObjectPool.ElementType.Hitter, Constant.PREFAB_DIR + (isCritical ? data.critPrefabPath : data.prefabPath), Constant.HITTER_IN_DIALOG_SORTING_ORDER);
         hitter.SetParam(data, isCritical);
         hitter.transform.SetParent((isOnEnemy ? enemySprite : playerSprite).transform, false);
         hitter.transform.position = hitter.transform.parent.position;
         hitter.transform.localScale = ScreenAdaptator.instance.BlockSize / 200;
-        hitter.GetComponent<SpriteRenderer>().sortingOrder = hitter.transform.parent.GetComponent<SpriteRenderer>().sortingOrder + 1;
     }
 
     private void OnBattleOver()
@@ -291,16 +275,6 @@ public class BattleDlg : ObjectPool.AElement
     public override string ResourcePath { get { return Constant.DIALOG_DIR + PREFAB_DIR; } }
     public static string GetResourcePath() { return Constant.DIALOG_DIR + PREFAB_DIR; }
 
-    public float BaseZOrder {
-        get { return baseZOrder;}
-        set {
-            baseZOrder = value;
-            transform.position = new Vector3(transform.position.x, transform.position.y, value);
-            playerSprite.transform.position = new Vector3(playerNameText.transform.position.x, playerSprite.transform.position.y, value);
-            enemySprite.transform.position = new Vector3(playerNameText.transform.position.x, playerSprite.transform.position.y, value);
-        }
-    }
-
     private GameObject playerSprite;
     private Text playerNameText;
     private Text playerLifeText;
@@ -328,6 +302,6 @@ public class BattleDlg : ObjectPool.AElement
     private int hurted;
     private bool isOurRound;
     internal Zzhit hitter;
-
-    private float baseZOrder;
+    
+    private int battleHitSleep;
 }

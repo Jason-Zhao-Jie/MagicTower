@@ -142,7 +142,7 @@ public class MainScene : MonoBehaviour {
     public void ShowChatOnTop(string content, int speakerId = -1) {
         DataCenter.instance.Status = Constant.EGameStatus.OnTipChat;
         topChatPanel.gameObject.SetActive(true);
-        topChatPanel.SetChat(content, speakerId);
+        topChatPanel.SetChat(StringInternational.GetValue(content), speakerId);
         topChatPanel.gameObject.SetActive(true);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(false);
@@ -151,7 +151,7 @@ public class MainScene : MonoBehaviour {
     public void ShowChatOnBottom(string content, int speakerId = -1) {
         DataCenter.instance.Status = Constant.EGameStatus.OnTipChat;
         bottomChatPanel.gameObject.SetActive(true);
-        bottomChatPanel.SetChat(content, speakerId);
+        bottomChatPanel.SetChat(StringInternational.GetValue(content), speakerId);
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(true);
         tipsPanel.gameObject.SetActive(false);
@@ -160,7 +160,7 @@ public class MainScene : MonoBehaviour {
     public void ShowTips(string content) {
         DataCenter.instance.Status = Constant.EGameStatus.OnTipChat;
         tipsPanel.gameObject.SetActive(true);
-        tipsPanel.SetTipText(content);
+        tipsPanel.SetTipText(StringInternational.GetValue(content));
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(true);

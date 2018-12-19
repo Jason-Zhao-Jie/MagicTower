@@ -29,18 +29,17 @@ public class ChoiceDlg : ObjectPool.AElement
         choiceSpeaker = choiceInfoPanel.transform.Find("Speaker").gameObject;
         choiceSpeakerText = choiceInfoPanel.transform.Find("SpeakerName").GetComponent<Text>();
         choiceSpeakerText.fontSize = Convert.ToInt32(choiceSpeakerText.fontSize*ScreenAdaptator.instance.RealFontSize);
-        choiceSpeaker.transform.position = new Vector3(choiceSpeakerText.transform.position.x, choiceSpeaker.transform.position.y, baseZOrder);
         choiceTitleText = choiceInfoPanel.transform.Find("TitleText").GetComponent<Text>();
         choiceTitleText.fontSize = Convert.ToInt32(choiceTitleText.fontSize*ScreenAdaptator.instance.RealFontSize);
         choiceItemPanel = transform.Find("ItemPanel").gameObject;
-        choiceItemPanel.GetComponent<VerticalLayoutGroup>().spacing *= ScreenAdaptator.instance.RealFontSize;
+        //choiceItemPanel.GetComponent<VerticalLayoutGroup>().spacing *= ScreenAdaptator.instance.RealFontSize;
         firstChoiceItem = choiceItemPanel.transform.Find("FirstItem").gameObject;
         firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = "";
         firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize = Convert.ToInt32(firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize*ScreenAdaptator.instance.RealFontSize);
-        firstChoiceItem.GetComponent<LayoutElement>().minHeight *= ScreenAdaptator.instance.RealFontSize;
-        var itemRect = firstChoiceItem.GetComponent<RectTransform>().sizeDelta;
-        itemRect.y = firstChoiceItem.GetComponent<LayoutElement>().minHeight;
-        firstChoiceItem.GetComponent<RectTransform>().sizeDelta = itemRect;
+        //firstChoiceItem.GetComponent<LayoutElement>().minHeight *= ScreenAdaptator.instance.RealFontSize;
+        //var itemRect = firstChoiceItem.GetComponent<RectTransform>().sizeDelta;
+        //itemRect.y = firstChoiceItem.GetComponent<LayoutElement>().minHeight;
+        //firstChoiceItem.GetComponent<RectTransform>().sizeDelta = itemRect;
         choiceItems = new List<GameObject>();
     }
 
@@ -54,16 +53,22 @@ public class ChoiceDlg : ObjectPool.AElement
         if (choice.speakerId < 0)
             choice.speakerId = PlayerController.instance.PlayerId;
         var modal = DataCenter.instance.modals[choice.speakerId];
-        var obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
-        obj.transform.SetParent(transform, false);
+        ObjectPool.AElement obj = null;
+        if ((Modal.ModalType)modal.typeId == Modal.ModalType.Player) {
+            obj = ObjectPool.instance.GetAnElement<Player>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+        } else {
+            obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+        }
+        obj.transform.SetParent(choiceSpeaker.transform.parent, false);
         obj.transform.position = choiceSpeaker.transform.position;
         obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
-        obj.GetComponent<SpriteRenderer>().sortingOrder = choiceSpeaker.GetComponent<SpriteRenderer>().sortingOrder;
         var mod = choiceSpeaker.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);
-        else
+        else if(choiceSpeaker.GetComponent<Player>() != null)
             choiceSpeaker.GetComponent<Player>().RemoveSelf();
+        else
+            Destroy(choiceSpeaker);
         choiceSpeaker = obj.gameObject;
         choiceSpeakerText.text = StringInternational.GetValue(modal.name);
         // 设定选择的标题介绍对话的内容
@@ -71,10 +76,8 @@ public class ChoiceDlg : ObjectPool.AElement
         // 添加选项
         foreach (var i in choice.data)
         {
-            CreateChoiceItem(i.content);
+            CreateChoiceItem(StringInternational.GetValue(i.content, i.contentData));
         }
-        // 矫正选择框的大小
-        RedrawItems();
     }
 
     public void ClearChoice()
@@ -95,16 +98,17 @@ public class ChoiceDlg : ObjectPool.AElement
     {
         if (firstChoiceItem.transform.Find("Text").GetComponent<Text>().text.Equals(""))
         {
-            firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = StringInternational.GetValue(content);
+            firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = content;
             return firstChoiceItem;
         }
         else
         {
             var clonedItem = Instantiate(firstChoiceItem, choiceItemPanel.transform, false);
-            clonedItem.transform.Find("Text").GetComponent<Text>().text = StringInternational.GetValue(content);
+            clonedItem.transform.Find("Text").GetComponent<Text>().text = content;
             choiceItems.Add(clonedItem);
             clonedItem.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
-            clonedItem.GetComponent<Button>().onClick.AddListener(delegate () { OnItemClicked(choiceItems.Count); });
+            var index = choiceItems.Count;
+            clonedItem.GetComponent<Button>().onClick.AddListener(delegate () { OnItemClicked(index); });
             return clonedItem;
         }
     }
@@ -122,25 +126,6 @@ public class ChoiceDlg : ObjectPool.AElement
         else
             choiceItems[System.Convert.ToInt32(chosenIndex) + 1].transform.Find("Text").GetComponent<Text>().fontStyle = FontStyle.Normal;
         chosenIndex = index;
-    }
-
-    private void RedrawItems()
-    {
-        // 计算选择部分总高度,排列选项
-        // firstChoiceItem.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, 0, firstChoiceItem.transform.localPosition.z);
-        var unitHeight = firstChoiceItem.GetComponent<LayoutElement>().minHeight;
-        var spacing = choiceItemPanel.GetComponent<VerticalLayoutGroup>().spacing;
-        var totalHeight = unitHeight;
-        foreach (var v in choiceItems)
-        {
-            // v.transform.localPosition = new Vector3(firstChoiceItem.transform.localPosition.x, totalHeight, firstChoiceItem.transform.localPosition.z);
-            totalHeight += unitHeight + spacing * 2;
-        }
-
-        // 调整选择框总大小
-        var newRect = new Vector2(GetComponent<RectTransform>().sizeDelta.x, GetComponent<RectTransform>().rect.height);
-        newRect.y += totalHeight - unitHeight - 25;
-        GetComponent<RectTransform>().sizeDelta = newRect;
     }
 
     public void OnItemClicked(int index)
@@ -177,15 +162,6 @@ public class ChoiceDlg : ObjectPool.AElement
         return true;
     }
 
-    public float BaseZOrder {
-        get { return baseZOrder; }
-        set {
-            baseZOrder = value;
-            transform.position = new Vector3(transform.position.x, transform.position.y, value);
-            choiceSpeaker.transform.position = new Vector3(choiceSpeakerText.transform.position.x, choiceSpeaker.transform.position.y, value);
-        }
-    }
-
     private GameObject choiceSpeaker;
     private Text choiceTitleText;
     private Text choiceSpeakerText;
@@ -196,6 +172,4 @@ public class ChoiceDlg : ObjectPool.AElement
     private List<GameObject> choiceItems;
     private uint chosenIndex;
     private Constant.EGameStatus nextStatus;
-
-    private float baseZOrder;
 }

@@ -1,16 +1,22 @@
 ﻿using UnityEngine;
 
 public class Zzhit : ObjectPool.AElement {
-    private int runTime = 15;
+    private const int BASE_RUN_TIME = 15;   // 修改此项以控制攻击动画的停留时长, 但是具体攻击动画的单段时长需要配合修改Anim文件, 否则若此值超过实际动画长度, 会循环播放. 单位: 帧
+    private int runTime = BASE_RUN_TIME;
 
     public void SetParam(Constant.WeaponData data, bool crit) {
         this.data = data;
         isCrit = crit;
     }
 
+    private void Awake() {
+        runTime = BASE_RUN_TIME;
+    }
+
     // Use this for initialization
     void Start() {
         AudioController.instance.PlaySound(isCrit ? data.critAudioId : data.audioId);
+        runTime = BASE_RUN_TIME;
     }
 
     // Update is called once per frame
@@ -49,10 +55,12 @@ public class Zzhit : ObjectPool.AElement {
     }
 
     public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath) {
+        runTime = BASE_RUN_TIME;
         return true;
     }
 
     public override void OnReuse(ObjectPool.ElementType tid, int elemId) {
+        runTime = BASE_RUN_TIME;
         GetComponent<Animator>().enabled = true;
     }
 

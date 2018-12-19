@@ -70,7 +70,7 @@ public class ObjectPool {
         unusePool.Clear();
     }
 
-    public T GetAnElement<T>(int id, ElementType typeid, string resourcePath) where T : AElement {
+    public T GetAnElement<T>(int id, ElementType typeid, string resourcePath, int spriteSortingOrder = Constant.SPRITE_DEFAULT_SORTING_ORDER) where T : AElement {
         var uuid = id + (long)(typeid) * 0x0100000000;
         // 找到目标对象队列, 如不存在, 新建
         Queue<AElement> tar = null;
@@ -100,6 +100,10 @@ public class ObjectPool {
             deq.gameObject.SetActive(true);
             ret = deq.GetComponent<T>();
             ret.OnReuse(typeid, id);
+        }
+        // 设定 Sprite 的 SortingOrder
+        if(ret.GetComponent<UnityEngine.SpriteRenderer>() != null) {
+            ret.GetComponent<UnityEngine.SpriteRenderer>().sortingOrder = spriteSortingOrder;
         }
         // 返回对象
         ret.usingTag = true;

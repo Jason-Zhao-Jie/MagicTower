@@ -2147,8 +2147,8 @@
       "level": 1,
       "exp": 0,
       "life": 1000,
-      "attack": 1000,
-      "defense": 5,
+      "attack": 10,
+      "defense": 10,
       "speed": 0,
       "critical": 5,
       "gold": 0,
@@ -2162,10 +2162,10 @@
       "id": 68,
       "level": 1,
       "exp": 0,
-      "life": 10000,
+      "life": 800,
       "attack": 7,
-      "defense": 8,
-      "speed": 0,
+      "defense": 6,
+      "speed": 2,
       "critical": 2,
       "gold": 0,
       "yellowKey": 0,
@@ -2474,17 +2474,20 @@
         {
           "eventId": 37,
           "eventData": 0,
-          "content": "str_ExpShopBuySpeed"
+          "content": "str_ExpShopBuySpeed",
+          "contentData": ["100", "1"]
         },
         {
           "eventId": 38,
           "eventData": 0,
-          "content": "str_ExpShopBuyCrit"
+          "content": "str_ExpShopBuyCrit",
+          "contentData": [ "50", "0.2" ]
         },
         {
           "eventId": 40,
           "eventData": 0,
-          "content": "str_ExpShopBuyLevel"
+          "content": "str_ExpShopBuyLevel",
+          "contentData": [ "200", "1" ]
         }
       ]
     },
@@ -2498,17 +2501,20 @@
         {
           "eventId": 34,
           "eventData": 0,
-          "content": "str_GoldShopBuyLife"
+          "content": "str_GoldShopBuyLife",
+          "contentData": [ "25", "140" ]
         },
         {
           "eventId": 35,
           "eventData": 0,
-          "content": "str_GoldShopBuyAttack"
+          "content": "str_GoldShopBuyAttack",
+          "contentData": [ "40", "2" ]
         },
         {
           "eventId": 36,
           "eventData": 0,
-          "content": "str_GoldShopBuyDefense"
+          "content": "str_GoldShopBuyDefense",
+          "contentData": [ "20", "2" ]
         }
       ]
     }

@@ -151,7 +151,13 @@
 1. 编辑器的 Chat/Choice 内容列表还未完成, 决定先把游戏内的功能解决一波
 2. 尝试了一下将 DialogCanvas 合并进主 Canvas, 发现不太好使, 又还原了
    
-
+## 2018年12月19日, Wednesday
+1. 使用 ContentSizeFitter 和 VerticalLayoutGroup 的结合, 彻底解决了 Choice 对话框的大小自动适配问题, 删掉了代码的原相关功能部分
+2. 精调了所有5个对话框的适配问题, 现在总体上没问题了, 剩下如下bug:
+ + Choice 对话框人物头像位置仍有问题, 原因不明, 但另需要注意, Choice 对话框并没有在进入 Mainscene 时进行预加载
+ + Battle 对话框的文字位置仍需要调整
+3. 给 ObjectPool 添加了设定 Sprite 的 SortingOrder 的功能, 以解决 Sprite 层级混乱的问题
+4. 修复了一个 bug, 曾导致 Zzhit 被瞬间移除, 并因此导致攻击频率过高, 原因是加入 ObjectPool 后, Zzhit 在被 reuse 时没有重置计时器
 
 
    

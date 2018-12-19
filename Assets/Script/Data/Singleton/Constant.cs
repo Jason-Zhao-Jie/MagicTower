@@ -12,6 +12,10 @@ public static class Constant {
     public const int MAP_BLOCK_LENGTH = 18;
     public const int MAP_BLOCK_BASE_SIZE = 32;
 
+    public const int SPRITE_DEFAULT_SORTING_ORDER = 0;
+    public const int SPRITE_IN_DIALOG_SORTING_ORDER = 2;
+    public const int HITTER_IN_DIALOG_SORTING_ORDER = 3;
+
     public delegate bool EventCallback(Modal caller, long blockData);
     public delegate void EmptyCallBack();
 
@@ -400,23 +404,37 @@ public static class Constant {
     [System.Serializable]
     public class OneChoiceData {
         public string content;
+        public string[] contentData;
         public int eventId;
         public long eventData;
 
         public JObject Json {
             get {
+                var js = new JString[contentData.Length];
+                for(var i = 0; i < contentData.Length; ++i) {
+                    js[i] = new JString(contentData[i]);
+                }
                 return new JObject(new Dictionary<string, IUnit>()
                 {
                     {"content",new JString(content) },
+                    {"contentData",new JArray(js) },
                     {"eventId",new JNumber(eventId) },
-                    {"eventData",new JNumber(eventData) }
+                    {"eventData",new JNumber(eventData) },
                 });
             }
             set {
                 content = value["content"].ToString();
+                if (value.ContainsKey("contentData")) {
+                    var jContentData = value["contentData"].ToArray();
+                    contentData = new string[jContentData.Length];
+                    for(var i = 0; i < contentData.Length; ++i) {
+                        contentData[i] = jContentData[i].ToString();
+                    }
+                }
                 eventId = value["eventId"].ToInt();
-                if (value.ContainsKey("eventData"))
+                if (value.ContainsKey("eventData")) {
                     eventData = value["eventData"].ToLong();
+                }
             }
         }
     }

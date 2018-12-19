@@ -3,14 +3,19 @@ using System.Collections;
 
 public static class StringInternational {
     public static string GetValue(string key, params string[] values) {
-        if (!DataCenter.instance.strings.ContainsKey(key))
+        if (!DataCenter.instance.strings.ContainsKey(key)) {
+            Debug.LogWarning("Undefined string key \"" + key + "\" in any language");
             return key;
+        }
         var str = DataCenter.instance.strings[key];
         var ret = str[Language];
         if (ret == null) {
             ret = str["en-us"];
-            if (ret == null)
+            Debug.LogWarning("Undefined string key \"" + key + "\" in language " + Language);
+            if (ret == null) {
                 ret = key;
+                Debug.LogWarning("Undefined string key \"" + key + "\" in language en-us");
+            }
         }
         if (values != null && values.Length > 0) {
             var index = 0;
@@ -44,6 +49,6 @@ public static class StringInternational {
     }
 
     static StringInternational() {
-        Language = "en-us";
+        Language = "zh-cn";
     }
 }

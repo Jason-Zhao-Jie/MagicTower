@@ -35,7 +35,7 @@ public class MapManager {
         // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识   ( TODO : 未实现渐变方式 )
         if (MainScene.instance != null) {
             MainScene.instance.BackgroundImage = DataCenter.instance.modals[MapData[currentFloor].backThing].prefabPath;
-            MainScene.instance.MapName = StringInternational.GetValue(MapData[currentFloor].mapName);
+            MainScene.instance.MapName = StringInternational.GetValue(MapData[currentFloor].mapName, currentFloor.ToString());
             AudioController.instance.PlayMusicLoop(MapData[currentFloor].music);
         } else {
             DataEditorScene.instance.BackgroundImage = DataCenter.instance.modals[MapData[currentFloor].backThing].prefabPath;

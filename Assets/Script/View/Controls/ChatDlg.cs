@@ -10,8 +10,6 @@ public class ChatDlg : ObjectPool.AElement
     public const string BOTTOM_PREFAB_DIR = "BottomChat";
     public const int BOTTOM_PREFAB_ID = 5;
 
-    public const int SPEAKER_SORTING_ORDER = 1;
-
     public static ChatDlg ShowChat(bool isTop)
     {
         string dir;
@@ -37,7 +35,6 @@ public class ChatDlg : ObjectPool.AElement
         speaker = transform.Find("Speaker").gameObject;
         speakerText = transform.Find("SpeakerName").GetComponent<UnityEngine.UI.Text>();
         speakerText.fontSize = Convert.ToInt32(speakerText.fontSize * ScreenAdaptator.instance.RealFontSize);
-        speaker.transform.position = new Vector3(speakerText.transform.position.x, speaker.transform.position.y, baseZOrder);
         text = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
         text.fontSize = Convert.ToInt32(text.fontSize * ScreenAdaptator.instance.RealFontSize);
     }
@@ -51,16 +48,15 @@ public class ChatDlg : ObjectPool.AElement
         ObjectPool.AElement obj = null;
         if ((Modal.ModalType)modal.typeId == Modal.ModalType.Player)
         {
-            obj = ObjectPool.instance.GetAnElement<Player>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
+            obj = ObjectPool.instance.GetAnElement<Player>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         }
         else
         {
-            obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
+            obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         }
-        obj.transform.SetParent(transform, false);
+        obj.transform.SetParent(speaker.transform.parent, false);
         obj.transform.position = speaker.transform.position;
         obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
-        obj.GetComponent<SpriteRenderer>().sortingOrder = SPEAKER_SORTING_ORDER;
         var mod = speaker.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);
@@ -72,7 +68,7 @@ public class ChatDlg : ObjectPool.AElement
         // 对话者名字
         speakerText.text = StringInternational.GetValue(modal.name);
         // 对话内容
-        text.text = StringInternational.GetValue(content);
+        text.text = content;
     }
 
     public override ObjectPool.ElementType GetPoolTypeId()
@@ -105,19 +101,8 @@ public class ChatDlg : ObjectPool.AElement
         return true;
     }
 
-    public float BaseZOrder {
-        get { return baseZOrder; }
-        set {
-            baseZOrder = value;
-            transform.position = new Vector3(transform.position.x, transform.position.y, value);
-            speaker.transform.position = new Vector3(speakerText.transform.position.x, speaker.transform.position.y, value);
-        }
-    }
-
     private GameObject speaker;
     private UnityEngine.UI.Text speakerText;
     private UnityEngine.UI.Text text;
     private bool isTop = false;
-
-    private float baseZOrder;
 }

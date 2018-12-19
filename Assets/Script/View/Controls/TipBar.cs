@@ -30,7 +30,7 @@ public class TipBar : ObjectPool.AElement
 
     public void SetTipText(string content)
     {
-        tipsText.text = StringInternational.GetValue(content);
+        tipsText.text = content;
         AudioController.instance.PlaySound(20);
     }
 

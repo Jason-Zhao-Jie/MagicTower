@@ -26,25 +26,23 @@ public class ChoiceDlg : ObjectPool.AElement
     void Awake()
     {
         var choiceInfoPanel = transform.Find("ChoiceInfoPanel").gameObject;
-        choiceSpeaker = choiceInfoPanel.transform.Find("Speaker").gameObject;
+        choiceSpeakerFrame = choiceInfoPanel.transform.Find("SpeakerFrame").gameObject;
+        choiceSpeaker = choiceInfoPanel.transform.Find("Speaker")?.gameObject;
         choiceSpeakerText = choiceInfoPanel.transform.Find("SpeakerName").GetComponent<Text>();
         choiceSpeakerText.fontSize = Convert.ToInt32(choiceSpeakerText.fontSize*ScreenAdaptator.instance.RealFontSize);
         choiceTitleText = choiceInfoPanel.transform.Find("TitleText").GetComponent<Text>();
         choiceTitleText.fontSize = Convert.ToInt32(choiceTitleText.fontSize*ScreenAdaptator.instance.RealFontSize);
         choiceItemPanel = transform.Find("ItemPanel").gameObject;
         //choiceItemPanel.GetComponent<VerticalLayoutGroup>().spacing *= ScreenAdaptator.instance.RealFontSize;
-        firstChoiceItem = choiceItemPanel.transform.Find("FirstItem").gameObject;
+        firstChoiceItem = choiceItemPanel.transform.Find("FirstItem").GetComponent<Button>();
         firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = "";
         firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize = Convert.ToInt32(firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize*ScreenAdaptator.instance.RealFontSize);
-        //firstChoiceItem.GetComponent<LayoutElement>().minHeight *= ScreenAdaptator.instance.RealFontSize;
-        //var itemRect = firstChoiceItem.GetComponent<RectTransform>().sizeDelta;
-        //itemRect.y = firstChoiceItem.GetComponent<LayoutElement>().minHeight;
-        //firstChoiceItem.GetComponent<RectTransform>().sizeDelta = itemRect;
-        choiceItems = new List<GameObject>();
+        choiceItems = new List<Button>();
     }
 
-    private void ShowChoice()
-    {
+    private void ShowChoice() {
+        firstChoiceItem.enabled = true;
+        choiceSpeaker?.SetActive(true);
         // 设定游戏状态
         DataCenter.instance.Status = Constant.EGameStatus.OnChoice;
         // 显示选择对话框
@@ -59,16 +57,18 @@ public class ChoiceDlg : ObjectPool.AElement
         } else {
             obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         }
-        obj.transform.SetParent(choiceSpeaker.transform.parent, false);
-        obj.transform.position = choiceSpeaker.transform.position;
+        obj.transform.SetParent(choiceSpeakerFrame.transform, false);
+        obj.transform.localPosition = new Vector3(0, 0, obj.transform.localPosition.z);
         obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
-        var mod = choiceSpeaker.GetComponent<Modal>();
-        if (mod != null)
-            mod.RemoveSelf(false);
-        else if(choiceSpeaker.GetComponent<Player>() != null)
-            choiceSpeaker.GetComponent<Player>().RemoveSelf();
-        else
-            Destroy(choiceSpeaker);
+        if (choiceSpeaker != null) {
+            var mod = choiceSpeaker.GetComponent<Modal>();
+            if (mod != null)
+                mod.RemoveSelf(false);
+            else if (choiceSpeaker.GetComponent<Player>() != null)
+                choiceSpeaker.GetComponent<Player>().RemoveSelf();
+            else
+                Destroy(choiceSpeaker);
+        }
         choiceSpeaker = obj.gameObject;
         choiceSpeakerText.text = StringInternational.GetValue(modal.name);
         // 设定选择的标题介绍对话的内容
@@ -78,23 +78,44 @@ public class ChoiceDlg : ObjectPool.AElement
         {
             CreateChoiceItem(StringInternational.GetValue(i.content, i.contentData));
         }
+        firstChoiceItem.Select();   // 选中第一项
+        if(choice.data != null && choice.data.Length > 0) {
+            // 若上此点选过第一项, 则由于第一项未被销毁, 本次调用select不会使按钮高亮, 这样的话需要做如下处理
+            choiceItems[0].Select();
+            firstChoiceItem.Select();
+        }
     }
 
     public void ClearChoice()
     {
-        gameObject.SetActive(true);
         // 清除选项
         foreach (var i in choiceItems)
         {
-            Destroy(i);
+            var nav = i.navigation;
+            nav.selectOnDown = null;
+            nav.selectOnUp = null;
+            nav.selectOnLeft = null;
+            nav.selectOnRight = null;
+            i.navigation = nav;
+            Destroy(i.gameObject);
         }
         choiceItems.Clear();
         firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = "";
+        var firstnav = firstChoiceItem.navigation;
+        firstnav.selectOnDown = null;
+        firstnav.selectOnUp = null;
+        firstnav.selectOnLeft = null;
+        firstnav.selectOnRight = null;
+        firstChoiceItem.navigation = firstnav;
+        firstChoiceItem.enabled = false;
+
         // 隐藏选择对话框
+        choiceSpeaker?.SetActive(false);
+        gameObject.SetActive(false);
         DataCenter.instance.Status = nextStatus;
     }
 
-    private GameObject CreateChoiceItem(string content)
+    private Button CreateChoiceItem(string content)
     {
         if (firstChoiceItem.transform.Find("Text").GetComponent<Text>().text.Equals(""))
         {
@@ -103,13 +124,30 @@ public class ChoiceDlg : ObjectPool.AElement
         }
         else
         {
-            var clonedItem = Instantiate(firstChoiceItem, choiceItemPanel.transform, false);
+            var clonedItem = Instantiate(firstChoiceItem.gameObject, choiceItemPanel.transform, false);
             clonedItem.transform.Find("Text").GetComponent<Text>().text = content;
-            choiceItems.Add(clonedItem);
             clonedItem.GetComponent<Button>().onClick = new Button.ButtonClickedEvent();
-            var index = choiceItems.Count;
+            var index = choiceItems.Count + 1;
             clonedItem.GetComponent<Button>().onClick.AddListener(delegate () { OnItemClicked(index); });
-            return clonedItem;
+            choiceItems.Add(clonedItem.GetComponent<Button>());
+            if (index == 1) {
+                var lastnav = firstChoiceItem.navigation;
+                lastnav.selectOnDown = clonedItem.GetComponent<Button>();
+                firstChoiceItem.navigation = lastnav;
+                var nav = clonedItem.GetComponent<Button>().navigation;
+                nav.selectOnUp = firstChoiceItem;
+                nav.selectOnDown = null;
+                clonedItem.GetComponent<Button>().navigation = nav;
+            } else {
+                var lastnav = choiceItems[index - 2].GetComponent<Button>().navigation;
+                lastnav.selectOnDown = clonedItem.GetComponent<Button>();
+                choiceItems[index - 2].GetComponent<Button>().navigation = lastnav;
+                var nav = clonedItem.GetComponent<Button>().navigation;
+                nav.selectOnUp = choiceItems[index - 2].GetComponent<Button>();
+                nav.selectOnDown = null;
+                clonedItem.GetComponent<Button>().navigation = nav;
+            }
+            return clonedItem.GetComponent<Button>();
         }
     }
 
@@ -162,14 +200,15 @@ public class ChoiceDlg : ObjectPool.AElement
         return true;
     }
 
+    private GameObject choiceSpeakerFrame;
     private GameObject choiceSpeaker;
     private Text choiceTitleText;
     private Text choiceSpeakerText;
     private GameObject choiceItemPanel;
     private Constant.ChoiceData choice;
     private Modal choiceMod;
-    private GameObject firstChoiceItem;
-    private List<GameObject> choiceItems;
+    private Button firstChoiceItem;
+    private List<Button> choiceItems;
     private uint chosenIndex;
     private Constant.EGameStatus nextStatus;
 }

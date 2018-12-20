@@ -2466,7 +2466,7 @@
   "choices": [
     {
       "id": 1,
-      "speakerId": 17,
+      "speakerId": 158,
       "title": "str_ExpShopTitle1",
       "tail": "",
       "canOn": false,
@@ -2493,7 +2493,7 @@
     },
     {
       "id": 2,
-      "speakerId": 23,
+      "speakerId": 158,
       "title": "str_GoldShopTitle1",
       "tail": "",
       "canOn": false,

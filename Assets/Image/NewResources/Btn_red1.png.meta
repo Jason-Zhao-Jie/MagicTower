@@ -1,9 +1,8 @@
 fileFormatVersion: 2
-guid: acc85cfcfcfd14a4a882030f347a7cfa
+guid: 44aed7dac49d72d4787c4afb8e12f569
 TextureImporter:
   fileIDToRecycleName:
-    21300000: common_4_0
-    21300002: common_4_1
+    21300000: Btn_red1_0
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -139,41 +138,21 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: common_4_0
+      name: Btn_red1_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 1162
-        width: 417
-        height: 203
+        x: 7
+        y: 9
+        width: 225
+        height: 73
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 150, y: 80, z: 150, w: 80}
+      border: {x: 112, y: 36, z: 112, w: 36}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36aa66554deaf0747976a37d115bc9b0
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: common_4_1
-      rect:
-        serializedVersion: 2
-        x: 231
-        y: 911
-        width: 184
-        height: 121
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1a3261be94ac6db409908eb73df6c82e
+      spriteID: bb7840346ad28294f874f42df165f331
       vertices: []
       indices: 
       edges: []
@@ -181,7 +160,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9e577a1ed243f4543a8669b6c5b22aa1
+    spriteID: 1d9908633f7da1f4284cab6e221622fd
     vertices: []
     indices: 
     edges: []

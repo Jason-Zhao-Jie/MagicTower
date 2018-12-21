@@ -95,7 +95,7 @@ public class InputController {
                         OnChangeWalkState();
                         break;
                     case KeyCode.Escape:
-                        BackToStartScene();
+                        MainScene.instance.BackToStartScene();
                         break;
                 }
                 break;
@@ -221,9 +221,5 @@ public class InputController {
         } else if (DataCenter.instance.Status != Constant.EGameStatus.AutoStepping) {
             PlayerController.instance.StopWalk();
         }
-    }
-
-    public void BackToStartScene() {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
     }
 }

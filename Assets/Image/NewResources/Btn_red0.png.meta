@@ -1,9 +1,8 @@
 fileFormatVersion: 2
-guid: acc85cfcfcfd14a4a882030f347a7cfa
+guid: af617a388fed2c44d807bc587096fd21
 TextureImporter:
   fileIDToRecycleName:
-    21300000: common_4_0
-    21300002: common_4_1
+    21300000: Btn_red0_0
   externalObjects: {}
   serializedVersion: 5
   mipmaps:
@@ -46,7 +45,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 119, y: 45, z: 119, w: 45}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -139,41 +138,21 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: common_4_0
+      name: Btn_red0_0
       rect:
         serializedVersion: 2
-        x: 5
-        y: 1162
-        width: 417
-        height: 203
+        x: 7
+        y: 9
+        width: 225
+        height: 73
       alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 150, y: 80, z: 150, w: 80}
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 112, y: 36, z: 112, w: 36}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 36aa66554deaf0747976a37d115bc9b0
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: common_4_1
-      rect:
-        serializedVersion: 2
-        x: 231
-        y: 911
-        width: 184
-        height: 121
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1a3261be94ac6db409908eb73df6c82e
+      spriteID: 82ef4387d0662e94198cd10df3373dae
       vertices: []
       indices: 
       edges: []
@@ -181,7 +160,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 9e577a1ed243f4543a8669b6c5b22aa1
+    spriteID: 327fd7da40b3a254c93b4890dc37a3f9
     vertices: []
     indices: 
     edges: []

@@ -112,6 +112,10 @@ public class MainScene : MonoBehaviour {
         }
     }
 
+    public void BackToStartScene() {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
+    }
+
     /********************** Map Utilities **************************************/
 
     public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2) {

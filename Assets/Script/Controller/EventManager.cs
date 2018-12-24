@@ -47,9 +47,14 @@ public class EventManager {
         int mapId = (int)(eventData / 10000);
         if (mapId > 0 && mapId != MapManager.instance.CurrentMap.mapId) {
             AudioController.instance.PlaySound(AudioController.stairSound);
+            var status = DataCenter.instance.Status;
             MapManager.instance.ShowLoadingCurtain(() => {
                 MapManager.instance.ShowMap(mapId);
                 PlayerController.instance.ShowPlayer(posx, posy);
+                return true;
+            }, ()=> {
+                DataCenter.instance.Status = status;
+                return false;
             });
             return true;
         } else {
@@ -154,4 +159,7 @@ public class EventManager {
             MapManager.instance.RemoveEventOn((int)(data / 100 % 100), (int)(data % 100), (int)(data / 10000));
         return false;
     }
+
+    ////////////// ¸¨Öúº¯Êı ////////////////////////////////////
+    
 }

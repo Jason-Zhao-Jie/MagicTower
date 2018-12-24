@@ -3,81 +3,81 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Curtain : MonoBehaviour {
-    private const int SHOW_HIDE_TIME = 30;
+    private Constant.EmptyBoolCallBack firstcallback = null;
+    private Constant.EmptyBoolCallBack[] callbacks = null;
 
-    private bool isShowing = false;
-    private bool isMiddled = false;
-    private int lastTime = -1;
-    private Constant.EmptyCallBack midCallback = null;
-    private Constant.EGameStatus lastStatue = Constant.EGameStatus.Start;
-
-    public void StartShow(Constant.EmptyCallBack cb) {
-        lastStatue = DataCenter.instance.Status;
-        DataCenter.instance.Status = Constant.EGameStatus.OnMiddleLoading;
+    public void StartShow(Constant.EmptyBoolCallBack hideCb, params Constant.EmptyBoolCallBack[] showCb) {
         gameObject.SetActive(true);
-        midCallback = cb;
-        lastTime = SHOW_HIDE_TIME;
-        isShowing = true;
-        // TODO: 完成幕布的动画后, 在此处播放show动画,以代替下列语句
-        var color = GetComponent<UnityEngine.UI.Image>().color;
-        color.a = 0;
-        GetComponent<UnityEngine.UI.Image>().color = color;
+        firstcallback = hideCb;
+        callbacks = showCb;
+        Animator.enabled = true;
+
+        Animator.Play("Curtain_show");
+    }
+
+    public void StartHide(Constant.EmptyBoolCallBack showCb, params Constant.EmptyBoolCallBack[] hideCb) {
+        gameObject.SetActive(true);
+        firstcallback = showCb;
+        callbacks = hideCb;
+        Animator.enabled = true;
+
+        Animator.Play("Curtain_hide");
     }
 
     // Use this for initialization
-    void Start() {
-        // 置为透明
-        var color = GetComponent<UnityEngine.UI.Image>().color;
-        color.a = 0;
-        GetComponent<UnityEngine.UI.Image>().color = color;
+    void Awake() {
+        Animator.enabled = false;
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update() {
-
     }
 
-    private void OnMiddle() {
-        if (midCallback != null)
-            midCallback();
-        isMiddled = true;
-        lastTime = SHOW_HIDE_TIME;
-        // TODO: 完成幕布的动画后, 在此处播放hide动画,以代替下列语句
-        var color = GetComponent<UnityEngine.UI.Image>().color;
-        color.a = 255;
-        GetComponent<UnityEngine.UI.Image>().color = color;
+    private void OnShow() {
+        Animator.enabled = false;
+        if (firstcallback != null) {
+            if (firstcallback()) {
+                Constant.EmptyBoolCallBack cb = null;
+                Constant.EmptyBoolCallBack[] cbs = null;
+                if (callbacks != null && callbacks.Length > 0) {
+                    cb = callbacks[0]; }
+                if (callbacks != null && callbacks.Length > 1) {
+                    cbs = new Constant.EmptyBoolCallBack[callbacks.Length-1];
+                    for(var i=0;i< cbs.Length; ++i) {
+                        cbs[i] = callbacks[i + 1];
+                    }
+
+                }
+                StartHide(cb, cbs);
+            }
+        }
     }
 
     private void OnHide() {
-        isShowing = false;
-        isMiddled = false;
-        DataCenter.instance.Status = lastStatue;
-        // TODO: 完成幕布的动画后, 删除下列语句
-        var color = GetComponent<UnityEngine.UI.Image>().color;
-        color.a = 0;
-        GetComponent<UnityEngine.UI.Image>().color = color;
+        Animator.enabled = false;
+        if (firstcallback != null) {
+            if (firstcallback()) {
+                Constant.EmptyBoolCallBack cb = null;
+                Constant.EmptyBoolCallBack[] cbs = null;
+                if (callbacks != null && callbacks.Length > 0) {
+                    cb = callbacks[0];
+                }
+                if (callbacks != null && callbacks.Length > 1) {
+                    cbs = new Constant.EmptyBoolCallBack[callbacks.Length - 1];
+                    for (var i = 0; i < cbs.Length; ++i) {
+                        cbs[i] = callbacks[i + 1];
+                    }
 
-        gameObject.SetActive(false);
-    }
-
-    private void OnCurtainOpacity() {
-        // TODO: 完成幕布的动画后, 删除下列语句
-        var color = GetComponent<UnityEngine.UI.Image>().color;
-        if (isMiddled)
-            color.a = 255 * lastTime / SHOW_HIDE_TIME;
-        else
-            color.a = 255 * (SHOW_HIDE_TIME - lastTime) / SHOW_HIDE_TIME;
-        GetComponent<UnityEngine.UI.Image>().color = color;
+                }
+                StartShow(cb, cbs);
+            }
+        }
     }
 
     private void FixedUpdate() {
-        if (isShowing)
-            if (lastTime > 0) {
-                --lastTime;
-                OnCurtainOpacity();
-            } else if (isMiddled)
-                OnHide();
-            else
-                OnMiddle();
+
     }
+
+    private Animator Animator { get { return GetComponent<Animator>(); } }
 }

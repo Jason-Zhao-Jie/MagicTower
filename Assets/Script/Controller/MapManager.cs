@@ -67,8 +67,18 @@ public class MapManager {
     }
 
     // 显示黑色幕布, 以便执行一些操作, 例如换楼层
-    public void ShowLoadingCurtain(Constant.EmptyCallBack cb = null) {
-        Curtain.StartShow(cb);
+    public void ShowLoadingCurtain(Constant.EmptyBoolCallBack cb, params Constant.EmptyBoolCallBack[] hidecbs) {
+        var lastStatus = DataCenter.instance.Status;
+        DataCenter.instance.Status = Constant.EGameStatus.OnMiddleLoading;
+        Curtain.StartShow(cb, hidecbs);
+    }
+
+    public void HideLoadingCurtain(Constant.EGameStatus status) {
+        DataCenter.instance.Status = Constant.EGameStatus.OnMiddleLoading;
+        Curtain.StartHide(() => {
+            DataCenter.instance.Status = status;
+            return false;
+        });
     }
 
     // 更改或移动指定处的物品及数据
@@ -214,7 +224,7 @@ public class MapManager {
     public Constant.MapData CurrentMap { get { return MapData[currentFloor]; } }
     public int CurrentFloorId { get { return MapData[currentFloor].mapId; } }
 
-    private Curtain Curtain {
+    public Curtain Curtain {
         get {
             if (MainScene.instance != null)
                 return MainScene.instance.Curtain;

@@ -18,6 +18,7 @@ public static class Constant {
 
     public delegate bool EventCallback(Modal caller, long blockData);
     public delegate void EmptyCallBack();
+    public delegate bool EmptyBoolCallBack();
 
     public enum ResourceType {
         Unknown = 0,

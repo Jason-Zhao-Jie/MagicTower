@@ -9,13 +9,16 @@ public class Zzhit : ObjectPool.AElement {
         isCrit = crit;
     }
 
+    public void PlaySound() {
+        AudioController.instance.PlaySound(isCrit ? data.critAudioId : data.audioId);
+    }
+
     private void Awake() {
         runTime = BASE_RUN_TIME;
     }
 
     // Use this for initialization
     void Start() {
-        AudioController.instance.PlaySound(isCrit ? data.critAudioId : data.audioId);
         runTime = BASE_RUN_TIME;
     }
 
@@ -55,7 +58,7 @@ public class Zzhit : ObjectPool.AElement {
     }
 
     public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath) {
-        runTime = BASE_RUN_TIME;
+        OnReuse(tid, elemId);
         return true;
     }
 

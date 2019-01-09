@@ -20,6 +20,14 @@ public class InputController {
 
     };
 
+    public InputController() {
+        keyStatusMap = new Dictionary<KeyCode, bool>();
+        for (int i = 0; i < listenedKeys.Length; ++i) {
+            System.Console.Out.WriteLine("On key listener adding: " + listenedKeys[i].ToString());
+            keyStatusMap.Add(listenedKeys[i], false);
+        }
+    }
+
     public void OnKeyDown(KeyCode keyCode) {
         keyStatusMap[keyCode] = true;
 
@@ -193,14 +201,6 @@ public class InputController {
 
     public void OnTouchUp(Vector2 end, Vector2 begin) {
         // TODO
-    }
-
-    public void Init() {
-        keyStatusMap = new Dictionary<KeyCode, bool>();
-        for (int i = 0; i < listenedKeys.Length; ++i) {
-            System.Console.Out.WriteLine("On key listener adding: " + listenedKeys[i].ToString());
-            keyStatusMap.Add(listenedKeys[i], false);
-        }
     }
 
     internal Dictionary<KeyCode, bool> keyStatusMap;

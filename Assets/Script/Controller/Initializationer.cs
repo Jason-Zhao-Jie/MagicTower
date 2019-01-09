@@ -7,15 +7,15 @@
         // 程序退出时按顺序回收, 或做其他必要操作
         UnityEngine.Application.quitting += OnApplicationExit;
 
-
-
         if (DataCenter.instance == null) {
             DataCenter.instance = new DataCenter();
             DataCenter.instance.LoadData();
         }
+        if (IODriver.instance == null) {
+            IODriver.instance = new IODriver();
+        }
         if (InputController.instance == null) {
             InputController.instance = new InputController();
-            InputController.instance.Init();
         }
         if (EventManager.instance == null) {
             EventManager.instance = new EventManager();

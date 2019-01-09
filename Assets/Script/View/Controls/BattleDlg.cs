@@ -232,6 +232,7 @@ public class BattleDlg : ObjectPool.AElement
         var data = DataCenter.instance.weapons[weaponId];
         hitter = ObjectPool.instance.GetAnElement<Zzhit>(weaponId * 2 + (isCritical?0:1),ObjectPool.ElementType.Hitter, Constant.PREFAB_DIR + (isCritical ? data.critPrefabPath : data.prefabPath), Constant.HITTER_IN_DIALOG_SORTING_ORDER);
         hitter.SetParam(data, isCritical);
+        hitter.PlaySound();
         hitter.transform.SetParent((isOnEnemy ? enemySprite : playerSprite).transform, false);
         hitter.transform.position = hitter.transform.parent.position;
         hitter.transform.localScale = ScreenAdaptator.instance.BlockSize / 200;

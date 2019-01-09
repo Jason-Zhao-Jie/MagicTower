@@ -151,26 +151,16 @@ public class ChoiceDlg : ObjectPool.AElement
         }
     }
 
-    public void ChooseToItem(uint index)
+    public void ChooseToItem(UnityEngine.EventSystems.BaseEventData data)
     {
-        if (index > choiceItems.Count)
-            return;
-        if (index == 0)
-            firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontStyle = FontStyle.Bold;
-        else
-            choiceItems[System.Convert.ToInt32(index) + 1].transform.Find("Text").GetComponent<Text>().fontStyle = FontStyle.Bold;
-        if (chosenIndex == 0)
-            firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontStyle = FontStyle.Bold;
-        else
-            choiceItems[System.Convert.ToInt32(chosenIndex) + 1].transform.Find("Text").GetComponent<Text>().fontStyle = FontStyle.Normal;
-        chosenIndex = index;
+        (data as UnityEngine.EventSystems.PointerEventData).pointerEnter.GetComponent<Button>().Select();
     }
 
     public void OnItemClicked(int index)
     {
         ObjectPool.instance.RecycleAnElement(this);
         ClearChoice();
-        EventManager.instance.DispatchEvent(choice.data[chosenIndex].eventId, choiceMod, choice.data[chosenIndex].eventData);
+        EventManager.instance.DispatchEvent(choice.data[index].eventId, choiceMod, choice.data[index].eventData);
     }
 
     public override ObjectPool.ElementType GetPoolTypeId()
@@ -209,6 +199,5 @@ public class ChoiceDlg : ObjectPool.AElement
     private Modal choiceMod;
     private Button firstChoiceItem;
     private List<Button> choiceItems;
-    private uint chosenIndex;
     private Constant.EGameStatus nextStatus;
 }

@@ -26,9 +26,9 @@ public class MapManager {
         ClearMap();
         if (MapData[currentFloor] == null)
             MapData[currentFloor] = DataCenter.instance.GetCopiedMap(currentFloor);
-        for (int x = 0; x < MapData[currentFloor].mapBlocks.Length; ++x)
-            for (int y = 0; y < MapData[currentFloor].mapBlocks[x].Length; ++y) {
-                var thingId = MapData[currentFloor].mapBlocks[x][y].thing;
+        for (int x = 0; x < MapData[currentFloor].blocks.Length; ++x)
+            for (int y = 0; y < MapData[currentFloor].blocks[x].Length; ++y) {
+                var thingId = MapData[currentFloor].blocks[x][y].thing;
                 AddObjectToMap(x, y, thingId);
             }
 
@@ -84,10 +84,12 @@ public class MapManager {
     // 更改或移动指定处的物品及数据
     public void ChangeThingOnMap(int thingId, int posx, int posy, int oldPosx = -1, int oldPosy = -1) {
         if (oldPosx >= 0 && oldPosy >= 0)
-            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.modals[MapData[currentFloor].mapBlocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
-        if (MapData[currentFloor].mapBlocks[posx][posy].thing == thingId)
+            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.modals[MapData[currentFloor].blocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+        if (MapData[currentFloor].blocks[posx][posy].thing == thingId)
             return;
-        MapData[currentFloor].mapBlocks[posx][posy].thing = thingId;
+        var block = MapData[currentFloor].blocks[posx][posy];
+        block.thing = thingId;
+        MapData[currentFloor].blocks[posx][posy] = block;
         long uuid = MapData[currentFloor].mapId * 10000 + posy + posx * 100;
         if (modals.ContainsKey(uuid)) {
             RemoveThingOnMapWithModal(uuid);
@@ -120,7 +122,9 @@ public class MapManager {
             mapId--;
         if (MapData[mapId] == null)
             MapData[mapId] = DataCenter.instance.GetCopiedMap(mapId);
-        MapData[mapId].mapBlocks[posx][posy].thing = 0;
+        var block = MapData[mapId].blocks[posx][posy];
+        block.thing = 0;
+        MapData[mapId].blocks[posx][posy] = block;
     }
 
     // 从地图上永久删除mod,包括表现和数据
@@ -148,8 +152,10 @@ public class MapManager {
             mapId--;
         if (MapData[mapId] == null)
             MapData[mapId] = DataCenter.instance.GetCopiedMap(mapId);
-        MapData[mapId].mapBlocks[posx][posy].eventId = eventId;
-        MapData[mapId].mapBlocks[posx][posy].eventData = eventData;
+        var block = MapData[mapId].blocks[posx][posy];
+        block.eventId = eventId;
+        block.eventData = eventData;
+        MapData[mapId].blocks[posx][posy] = block;
         return true;
     }
 
@@ -181,7 +187,7 @@ public class MapManager {
 
     public int[][] ConvertCurrentMapToFinderArray() {
         var ret = new List<int[]>();
-        var mapBlockData = MapData[currentFloor].mapBlocks;
+        var mapBlockData = MapData[currentFloor].blocks;
         foreach (var i in mapBlockData) {
             var inserted = new List<int>();
             foreach (var i_elem in i) {

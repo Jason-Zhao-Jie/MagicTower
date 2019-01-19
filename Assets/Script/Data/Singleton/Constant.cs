@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 
 public static class Constant {
@@ -66,23 +67,37 @@ public static class Constant {
         public int thing;
         public int eventId;
         public long eventData;   // optional
+    }
 
-        public JObject Json {
+    [System.Serializable]
+    public class MapBlockRaw : IEnumerable<MapBlock> {
+        public MapBlock[] blocks;
+        public MapBlock this[int index] {
             get {
-                return new JObject(new Dictionary<string, IUnit> {
-                    { "thing", new JNumber(thing) },
-                    { "eventId", new JNumber(eventId) },
-                    { "eventData", new JNumber(eventData) }
-                });
+                return blocks[index];
             }
             set {
-                thing = value["thing"].ToInt();
-                eventId = value["eventId"].ToInt();
-                if (value.ContainsKey("eventData"))
-                    eventData = value["eventData"].ToLong();
-                else
-                    eventData = 0;
+                blocks[index] = value;
             }
+        }
+        public int Length {
+            get {
+                if(blocks == null)
+                    return 0;
+                return blocks.Length;
+            }
+        }
+
+        public IEnumerator<MapBlock> GetEnumerator() {
+            if (blocks != null) {
+                foreach (var i in blocks) {
+                    yield return i;
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator() {
+            return GetEnumerator();
         }
     }
 
@@ -92,42 +107,7 @@ public static class Constant {
         public string mapName;
         public int backThing;
         public int music;
-        public MapBlock[][] mapBlocks;
-
-        public JObject Json {
-            get {
-                var blocks = new JArray();
-                for (int x = 0; x < mapBlocks.Length; ++x) {
-                    var blockX = new JArray();
-                    for (int y = 0; y < mapBlocks[x].Length; ++y) {
-                        blockX.Add(mapBlocks[x][y].Json);
-                    }
-                    blocks.Add(blockX);
-                }
-                return new JObject(new Dictionary<string, IUnit> {
-                    { "mapId", new JNumber(mapId) },
-                    { "mapName", new JString(mapName) },
-                    { "backThing", new JNumber(backThing) },
-                    { "music", new JNumber(music) },
-                    { "mapBlocks", blocks }
-                });
-            }
-            set {
-                mapId = value["mapId"].ToInt();
-                mapName = value["mapName"].ToString();
-                backThing = value["backThing"].ToInt();
-                music = value["music"].ToInt();
-                var blocks = value["mapBlocks"] as JArray;
-                mapBlocks = new MapBlock[blocks.Length][];
-                for (var x = 0; x < mapBlocks.Length; ++x) {
-                    var blockX = blocks[x] as JArray;
-                    mapBlocks[x] = new MapBlock[blockX.Length];
-                    for (var y = 0; y < blockX.Length; ++y) {
-                        mapBlocks[x][y] = new MapBlock() { Json = blockX[y] as JObject };
-                    }
-                }
-            }
-        }
+        public MapBlockRaw[] blocks;
     }
 
     [System.Serializable]
@@ -138,48 +118,12 @@ public static class Constant {
         public string prefabPath;
         public int eventId;
         public long eventData;   // optional
-
-        public JObject Json {
-            get {
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"id",new JNumber(id) },
-                    {"typeId",new JNumber(typeId) },
-                    {"name",new JString(name) },
-                    {"prefabPath",new JString(prefabPath) },
-                    {"eventId",new JNumber(eventId) },
-                    {"eventData",new JNumber(eventData) },
-                });
-            }
-            set {
-                id = value["id"].ToInt();
-                typeId = value["typeId"].ToInt();
-                name = value["name"].ToString();
-                prefabPath = value["prefabPath"].ToString();
-                eventId = value["eventId"].ToInt();
-                eventData = value["eventData"].ToLong();
-            }
-        }
     }
 
     [System.Serializable]
     public class Audio {
         public int id;
         public string path;
-
-        public JObject Json {
-            get {
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"id",new JNumber(id) },
-                    {"path",new JString(path) }
-                });
-            }
-            set {
-                id = value["id"].ToInt();
-                path = value["path"].ToString();
-            }
-        }
     }
 
     [System.Serializable]
@@ -195,51 +139,6 @@ public static class Constant {
         public int gold;
         public int[] special;
         public int weaponId;
-
-        public JObject Json {
-            get {
-                var special_list = new JArray();
-                if (special != null)
-                    for (var i = 0; i < special.Length; ++i) {
-                        special_list.Add(new JNumber(special[i]));
-                    }
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"id",new JNumber(id) },
-                    {"level",new JNumber(level) },
-                    {"exp",new JNumber(exp) },
-                    {"life",new JNumber(life) },
-                    {"attack",new JNumber(attack) },
-                    {"defense",new JNumber(defense) },
-                    {"speed",new JNumber(speed) },
-                    {"critical",new JNumber(critical) },
-                    {"gold",new JNumber(gold) },
-                    {"special",special_list },
-                    {"weaponId",new JNumber(weaponId) },
-                });
-            }
-            set {
-                id = value["id"].ToInt();
-                level = value["level"].ToInt();
-                exp = value["exp"].ToInt();
-                life = value["life"].ToInt();
-                attack = value["attack"].ToInt();
-                defense = value["defense"].ToInt();
-                speed = value["speed"].ToInt();
-                critical = value["critical"].ToFloat();
-                gold = value["gold"].ToInt();
-                var special_list = value["special"] as JArray;
-                if (special_list.Length <= 0)
-                    special = null;
-                else {
-                    special = new int[special_list.Length];
-                    for (int i = 0; i < special.Length; ++i) {
-                        special[i] = special_list[i].ToInt();
-                    }
-                }
-                weaponId = value["weaponId"].ToInt();
-            }
-        }
 
         public MonsterData Clone() {
             return new MonsterData() {
@@ -273,44 +172,6 @@ public static class Constant {
         public int blueKey;
         public int redKey;
         public int greenKey;
-
-        public JObject Json {
-            get {
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"id",new JNumber(id) },
-                    {"level",new JNumber(level) },
-                    {"exp",new JNumber(exp) },
-                    {"life",new JNumber(life) },
-                    {"attack",new JNumber(attack) },
-                    {"defense",new JNumber(defense) },
-                    {"speed",new JNumber(speed) },
-                    {"critical",new JNumber(critical) },
-                    {"gold",new JNumber(gold) },
-                    {"weaponId",new JNumber(weaponId) },
-                    {"yellowKey",new JNumber(yellowKey) },
-                    {"blueKey",new JNumber(blueKey) },
-                    {"redKey",new JNumber(redKey) },
-                    {"greenKey",new JNumber(greenKey) },
-                });
-            }
-            set {
-                id = value["id"].ToInt();
-                level = value["level"].ToInt();
-                exp = value["exp"].ToInt();
-                life = value["life"].ToInt();
-                attack = value["attack"].ToInt();
-                defense = value["defense"].ToInt();
-                speed = value["speed"].ToInt();
-                critical = value["critical"].ToFloat();
-                gold = value["gold"].ToInt();
-                weaponId = value["weaponId"].ToInt();
-                yellowKey = value["yellowKey"].ToInt();
-                blueKey = value["blueKey"].ToInt();
-                redKey = value["redKey"].ToInt();
-                greenKey = value["greenKey"].ToInt();
-            }
-        }
     }
 
     [System.Serializable]
@@ -321,47 +182,12 @@ public static class Constant {
         public string critPrefabPath;
         public int audioId;
         public int critAudioId;
-        public JObject Json {
-            get {
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"id",new JNumber(id) },
-                    {"name",new JString(name) },
-                    {"prefabPath",new JString(prefabPath) },
-                    {"critPrefabPath",new JString(critPrefabPath) },
-                    {"audioId",new JNumber(audioId) },
-                    {"critAudioId",new JNumber(critAudioId) },
-                });
-            }
-            set {
-                id = value["id"].ToInt();
-                name = value["name"].ToString();
-                prefabPath = value["prefabPath"].ToString();
-                critPrefabPath = value["critPrefabPath"].ToString();
-                audioId = value["audioId"].ToInt();
-                critAudioId = value["critAudioId"].ToInt();
-            }
-        }
     }
 
     [System.Serializable]
     public struct OneChatData {
         public int speakerId;
         public string content;
-
-        public JObject Json {
-            get {
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"speakerId",new JNumber(speakerId) },
-                    {"content",new JString(content) }
-                });
-            }
-            set {
-                speakerId = value["speakerId"].ToInt();
-                content = value["content"].ToString();
-            }
-        }
     }
 
     [System.Serializable]
@@ -371,35 +197,6 @@ public static class Constant {
         public long lastEventData;
         public bool canOn;
         public OneChatData[] data;
-
-        public JObject Json {
-            get {
-                var data_list = new JArray();
-                for (var i = 0; i < data.Length; ++i) {
-                    data_list.Add(data[i].Json);
-                }
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"id",new JNumber(id) },
-                    {"lastEventId",new JNumber(lastEventId) },
-                    {"lastEventData",new JNumber(lastEventData) },
-                    {"canOn",new JBoolean(canOn) },
-                    {"data", data_list }
-                });
-            }
-            set {
-                id = value["id"].ToInt();
-                lastEventId = value["lastEventId"].ToInt();
-                if (value.ContainsKey("lastEventData"))
-                    lastEventData = value["lastEventData"].ToLong();
-                canOn = value["canOn"].ToBool();
-                var data_list = value["data"] as JArray;
-                data = new OneChatData[data_list.Length];
-                for (var i = 0; i < data.Length; ++i) {
-                    data[i] = new OneChatData() { Json = data_list[i] as JObject };
-                }
-            }
-        }
     }
 
     [System.Serializable]
@@ -408,36 +205,6 @@ public static class Constant {
         public string[] contentData;
         public int eventId;
         public long eventData;
-
-        public JObject Json {
-            get {
-                var js = new JString[contentData.Length];
-                for(var i = 0; i < contentData.Length; ++i) {
-                    js[i] = new JString(contentData[i]);
-                }
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"content",new JString(content) },
-                    {"contentData",new JArray(js) },
-                    {"eventId",new JNumber(eventId) },
-                    {"eventData",new JNumber(eventData) },
-                });
-            }
-            set {
-                content = value["content"].ToString();
-                if (value.ContainsKey("contentData")) {
-                    var jContentData = value["contentData"].ToArray();
-                    contentData = new string[jContentData.Length];
-                    for(var i = 0; i < contentData.Length; ++i) {
-                        contentData[i] = jContentData[i].ToString();
-                    }
-                }
-                eventId = value["eventId"].ToInt();
-                if (value.ContainsKey("eventData")) {
-                    eventData = value["eventData"].ToLong();
-                }
-            }
-        }
     }
 
     [System.Serializable]
@@ -448,36 +215,6 @@ public static class Constant {
         public string tail;
         public bool canOn;
         public OneChoiceData[] data;
-
-        public JObject Json {
-            get {
-                var data_list = new JArray();
-                for (var i = 0; i < data.Length; ++i) {
-                    data_list.Add(data[i].Json);
-                }
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"id",new JNumber(id) },
-                    {"speakerId",new JNumber(speakerId) },
-                    {"title",new JString(title) },
-                    {"tail",new JString(tail) },
-                    {"canOn",new JBoolean(canOn) },
-                    {"data", data_list }
-                });
-            }
-            set {
-                id = value["id"].ToInt();
-                speakerId = value["speakerId"].ToInt();
-                title = value["title"].ToString();
-                tail = value["tail"].ToString();
-                canOn = value["canOn"].ToBool();
-                var data_list = value["data"] as JArray;
-                data = new OneChoiceData[data_list.Length];
-                for (var i = 0; i < data.Length; ++i) {
-                    data[i] = new OneChoiceData() { Json = data_list[i] as JObject };
-                }
-            }
-        }
     }
 
     [System.Serializable]
@@ -485,42 +222,12 @@ public static class Constant {
         public int id;
         public string name;
         public string key;
-
-        public JObject Json {
-            get {
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"id",new JNumber(id) },
-                    {"name",new JString(name) },
-                    {"key",new JString(key) },
-                });
-            }
-            set {
-                id = value["id"].ToInt();
-                name = value["name"].ToString();
-                key = value["key"].ToString();
-            }
-        }
     }
 
     [System.Serializable]
     public class StringInOneLanguage {
         public string langKey;
         public string content;
-
-        public JObject Json {
-            get {
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"langKey",new JString(langKey) },
-                    {"content",new JString(content) },
-                });
-            }
-            set {
-                langKey = value["langKey"].ToString();
-                content = value["content"].ToString();
-            }
-        }
     }
 
     [System.Serializable]
@@ -536,30 +243,6 @@ public static class Constant {
                         return strings[i].content;
                 }
                 return null;
-            }
-        }
-
-        public JObject Json {
-            get {
-                var strings_list = new JArray();
-                for (var i = 0; i < strings.Length; ++i) {
-                    strings_list.Add(strings[i].Json);
-                }
-                return new JObject(new Dictionary<string, IUnit>()
-                {
-                    {"id",new JNumber(id) },
-                    {"key",new JString(key) },
-                    {"strings", strings_list }
-                });
-            }
-            set {
-                id = value["id"].ToInt();
-                key = value["key"].ToString();
-                var strings_list = value["strings"] as JArray;
-                strings = new StringInOneLanguage[strings_list.Length];
-                for (var i = 0; i < strings.Length; ++i) {
-                    strings[i] = new StringInOneLanguage() { Json = strings_list[i] as JObject };
-                }
             }
         }
     }

@@ -284,7 +284,7 @@ public class DataEditorScene : MonoBehaviour {
     // GetMapJson 按钮回调
     public void OnMapSave() {
         if (saveResult.activeSelf == false) {
-            string result = DataCenter.instance.GetGameMap(mapMakerPanel.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>().value).Json.String;
+            string result = JsonUtility.ToJson(DataCenter.instance.GetGameMap(mapMakerPanel.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>().value), true);
             saveResult.SetActive(true);
             saveResult.GetComponent<InputField>().text = result;
             mapMakerPanel.SetActive(false);
@@ -313,9 +313,11 @@ public class DataEditorScene : MonoBehaviour {
         DataCenter.instance.GetGameMap(mapId).mapName = mapName;
         DataCenter.instance.GetGameMap(mapId).backThing = bgModal;
         DataCenter.instance.GetGameMap(mapId).music = bgMusic;
-        DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].thing = currModal;
-        DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].eventId = eventId;
-        DataCenter.instance.GetGameMap(mapId).mapBlocks[posx][posy].eventData = eventData;
+        var block = DataCenter.instance.GetGameMap(mapId).blocks[posx][posy];
+        block.thing = currModal;
+        block.eventId = eventId;
+        block.eventData = eventData;
+        DataCenter.instance.GetGameMap(mapId).blocks[posx][posy] = block;
         DataCenter.instance.SaveMapTo(mapId);
     }
 
@@ -360,9 +362,9 @@ public class DataEditorScene : MonoBehaviour {
             var panel = mapMakerPanel.transform.Find("SetPanel");
             var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
             panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
-            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.GetGameMap(mapId - 1).mapBlocks[posx][posy].thing;
-            panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.GetGameMap(mapId - 1).mapBlocks[posx][posy].eventId;
-            panel.transform.Find("EventData").GetComponent<InputField>().text = DataCenter.instance.GetGameMap(mapId - 1).mapBlocks[posx][posy].eventData.ToString();
+            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = DataCenter.instance.GetGameMap(mapId - 1).blocks[posx][posy].thing;
+            panel.transform.Find("EventId").GetComponent<Dropdown>().value = DataCenter.instance.GetGameMap(mapId - 1).blocks[posx][posy].eventId;
+            panel.transform.Find("EventData").GetComponent<InputField>().text = DataCenter.instance.GetGameMap(mapId - 1).blocks[posx][posy].eventData.ToString();
         }
     }
 

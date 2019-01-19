@@ -3,8 +3,9 @@
     "mapName": "Floor 25",
     "backThing": 138,
     "music": 9,
-    "mapBlocks": [
-      [
+  "blocks": [
+    {
+      "blocks": [
         {
           "eventId": 1,
           "thing": 138
@@ -77,8 +78,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -151,8 +154,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -225,8 +230,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -299,8 +306,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -373,8 +382,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -447,8 +458,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -521,8 +534,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -595,8 +610,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -669,8 +686,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -743,8 +762,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -817,8 +838,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -891,8 +914,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -965,8 +990,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -1039,8 +1066,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -1113,8 +1142,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -1187,8 +1218,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -1261,8 +1294,10 @@
           "eventId": 0,
           "thing": 138
         }
-      ],
-      [
+      ]
+    },
+    {
+      "blocks": [
         {
           "eventId": 0,
           "thing": 138
@@ -1336,5 +1371,6 @@
           "thing": 138
         }
       ]
-    ]
+    }
+  ]
   }

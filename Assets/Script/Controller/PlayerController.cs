@@ -65,7 +65,7 @@ public class PlayerController {
         }
 
         // Check map event and thing event
-        var block = MapManager.instance.CurrentMap.mapBlocks[targetPosX][targetPosY];
+        var block = MapManager.instance.CurrentMap.blocks[targetPosX][targetPosY];
         long uuid = MapManager.instance.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
         if (block.eventId != 0) {
             if(DataCenter.instance.Status == Constant.EGameStatus.AutoStepping)
@@ -88,6 +88,7 @@ public class PlayerController {
                     return false;
             }
         }
+        MapManager.instance.CurrentMap.blocks[targetPosX][targetPosY] = block;
 
         posx = targetPosX;
         posy = targetPosY;

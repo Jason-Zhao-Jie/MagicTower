@@ -9,7 +9,6 @@
 
         if (DataCenter.instance == null) {
             DataCenter.instance = new DataCenter();
-            DataCenter.instance.LoadData();
         }
         if (IODriver.instance == null) {
             IODriver.instance = new IODriver();

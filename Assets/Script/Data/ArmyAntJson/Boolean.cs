@@ -2,7 +2,7 @@
 {
     public static IUnit Create(string text)
     {
-        var realText = text.Trim().Trim(new char[] { '\r', '\n' });
+        var realText = text.Trim().Trim('\r', '\n');
         switch (realText)
         {
             case "true":
@@ -27,7 +27,7 @@
         }
         set
         {
-            switch (value.Trim().Trim(new char[] { '\r', '\n' }))
+            switch (value.Trim().Trim('\r', '\n'))
             {
                 case "true":
                     this.value = true;

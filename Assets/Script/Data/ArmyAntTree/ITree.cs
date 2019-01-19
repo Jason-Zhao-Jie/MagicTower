@@ -34,6 +34,7 @@ public interface ITree<T_Tag, T_Val> : IEnumerable<ITree<T_Tag, T_Val>> {
     T_Val Value { get; set; }
     int ChildrenCount { get; }
     ETreeTraversalWay EnumeratorType { get; set; }
+    string Json { get; }
 
     ITree<T_Tag, T_Val> GetParent();
     ITree<T_Tag, T_Val> GetRoot();

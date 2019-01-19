@@ -47,7 +47,7 @@ public class JObject : IUnit, IJsonCollection, IDictionary<string, IUnit>
         }
         set
         {
-            var realValue = value.Trim().Trim(new char[] { '\r', '\n' });
+            var realValue = value.Trim().Trim('\r', '\n');
             if (realValue.Length<=0 || realValue[realValue.Length - 1] != '\0')
                 realValue += '\0';
             if (realValue[0] != '{' || realValue[realValue.Length - 2] != '}')
@@ -55,7 +55,7 @@ public class JObject : IUnit, IJsonCollection, IDictionary<string, IUnit>
                 throw new ArmyAntJson.JException();
             }
             realValue = realValue.Remove(realValue.Length - 2).Remove(0, 1);
-            realValue = realValue.Trim().Trim(new char[] { '\r', '\n' });
+            realValue = realValue.Trim().Trim('\r', '\n');
             keys = new List<string>();
             values = new List<IUnit>();
             if (realValue != "")
@@ -191,7 +191,7 @@ public class JObject : IUnit, IJsonCollection, IDictionary<string, IUnit>
     }
     private static KeyValuePair<string, string> CutKeyValue(string str)
     {
-        str = str.Trim().Trim(new char[] { '\r', '\n' });
+        str = str.Trim().Trim('\r', '\n');
         char isSingleKey = str[0];
         if (str[0] != '"' && str[0] != '\'')
             throw new Exception();
@@ -204,10 +204,10 @@ public class JObject : IUnit, IJsonCollection, IDictionary<string, IUnit>
             else
                 key += str[count++];
         }
-        str = str.Remove(0, count + 1).Trim().Trim(new char[] { '\r', '\n' });
+        str = str.Remove(0, count + 1).Trim().Trim('\r', '\n');
         if (str[0] != ':')
             throw new Exception();
-        return new KeyValuePair<string, string>(key, str.Remove(0, 1).Trim().Trim(new char[] { '\r', '\n' }));
+        return new KeyValuePair<string, string>(key, str.Remove(0, 1).Trim().Trim('\r', '\n'));
     }
 
     public virtual bool ContainsKey(string key)

@@ -51,7 +51,7 @@ public static class ArmyAntJson
 
     internal static string[] CutByComma(string value)
     {
-        value = value.Trim().Trim(new char[] { '\r', '\n' });
+        value = value.Trim().Trim('\r', '\n');
         var ret = new List<string>();
         var tmp = "";
         bool isInSingleString = false;
@@ -82,7 +82,7 @@ public static class ArmyAntJson
             {
                 ret.Add(tmp);
                 tmp = "";
-                value = value.Remove(0, i + 1).Trim().Trim(new char[] { '\r', '\n' });
+                value = value.Remove(0, i + 1).Trim().Trim('\r', '\n');
                 i = -1;
             }
             else

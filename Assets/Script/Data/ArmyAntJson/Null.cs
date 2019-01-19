@@ -2,7 +2,7 @@
 {
     public static IUnit Create(string text)
     {
-        return text.Trim().Trim(new char[] { '\r', '\n' }) == "null" ? new Undefined() : null;
+        return text.Trim().Trim('\r', '\n') == "null" ? new Undefined() : null;
     }
 
     public string String

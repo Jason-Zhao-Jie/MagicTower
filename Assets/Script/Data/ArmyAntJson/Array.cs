@@ -41,7 +41,7 @@ public class JArray : IUnit, IJsonCollection, IList<IUnit>, ICollection<IUnit>
         }
         set
         {
-            var realValue = value.Trim().Trim(new char[] { '\r', '\n' });
+            var realValue = value.Trim().Trim('\r', '\n');
             if (realValue.Length <= 0 || realValue[realValue.Length - 1] != '\0')
                 realValue += '\0';
             if (realValue[0] != '[' || realValue[realValue.Length - 2] != ']')
@@ -49,7 +49,7 @@ public class JArray : IUnit, IJsonCollection, IList<IUnit>, ICollection<IUnit>
                 return;
             }
             realValue = realValue.Remove(realValue.Length - 2).Remove(0, 1);
-            realValue = realValue.Trim().Trim(new char[] { '\r', '\n' });
+            realValue = realValue.Trim().Trim('\r', '\n');
             if (realValue != "")
                 try
                 {

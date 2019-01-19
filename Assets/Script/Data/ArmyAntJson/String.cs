@@ -2,7 +2,7 @@
 {
     public static IUnit Create(string text)
     {
-        var realValue = text.Trim().Trim(new char[] { '\r', '\n' });
+        var realValue = text.Trim().Trim('\r', '\n');
         if (realValue.Length<=0 || realValue[realValue.Length - 1] != '\0')
             realValue += '\0';
         if (realValue[0] != '"' || realValue[realValue.Length - 2] != '"')
@@ -24,7 +24,7 @@
         }
         set
         {
-            var realValue = value.Trim().Trim(new char[] { '\r', '\n' });
+            var realValue = value.Trim().Trim('\r', '\n');
             if (realValue[realValue.Length - 1] != '\0')
                 realValue += '\0';
             if (realValue[0] != '"' || realValue[realValue.Length - 2] != '"')

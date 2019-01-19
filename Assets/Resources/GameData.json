@@ -234,7 +234,7 @@
     },
     {
       "id": 30,
-      "typeId": 1,
+      "typeId": 7,
       "prefabPath": "DownStair",
       "eventId": 0,
       "eventData": 0,
@@ -682,7 +682,7 @@
     },
     {
       "id": 86,
-      "typeId": 1,
+      "typeId": 7,
       "prefabPath": "Sender",
       "eventId": 0,
       "eventData": 0,
@@ -1074,7 +1074,7 @@
     },
     {
       "id": 135,
-      "typeId": 1,
+      "typeId": 7,
       "prefabPath": "UpStair",
       "eventId": 0,
       "eventData": 0,

@@ -23,7 +23,7 @@ public class InputController {
     public InputController() {
         keyStatusMap = new Dictionary<KeyCode, bool>();
         for (int i = 0; i < listenedKeys.Length; ++i) {
-            System.Console.Out.WriteLine("On key listener adding: " + listenedKeys[i].ToString());
+            Debug.Log("On key listener adding: " + listenedKeys[i].ToString());
             keyStatusMap.Add(listenedKeys[i], false);
         }
     }
@@ -151,7 +151,6 @@ public class InputController {
         isMouseLeftDown = changeMouseStatue;
     }
     public void OnTouchDown(Vector2 touchedPos) {
-
         switch (DataCenter.instance.Status) {
             case Constant.EGameStatus.Start:
                 break;

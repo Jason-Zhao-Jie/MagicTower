@@ -208,6 +208,9 @@ public class MapManager {
                         case Modal.ModalType.Player:
                             inserted.Add(9);
                             break;
+                        case Modal.ModalType.SendingBlock:
+                            inserted.Add(9);
+                            break;
                         default:
                             inserted.Add(9);
                             break;

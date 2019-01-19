@@ -68,12 +68,16 @@ public class PlayerController {
         var block = MapManager.instance.CurrentMap.mapBlocks[targetPosX][targetPosY];
         long uuid = MapManager.instance.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
         if (block.eventId != 0) {
+            if(DataCenter.instance.Status == Constant.EGameStatus.AutoStepping)
+                DataCenter.instance.Status = Constant.EGameStatus.InGame;
             if (!EventManager.instance.DispatchEvent(block.eventId, MapManager.instance.GetModalByUuid(uuid), block.eventData))
                 return false;
         }
         if (block.thing != 0) {
             var thingData = DataCenter.instance.modals[block.thing];
             if (thingData.eventId != 0) {
+                if (DataCenter.instance.Status == Constant.EGameStatus.AutoStepping)
+                    DataCenter.instance.Status = Constant.EGameStatus.InGame;
                 if (!EventManager.instance.DispatchEvent(thingData.eventId, MapManager.instance.GetModalByUuid(uuid), thingData.eventData))
                     return false;
             }
@@ -304,7 +308,7 @@ public class PlayerController {
     public bool StartAutoStep(int targetPosx, int targetPosy) {
         var findedRoad = MathHelper.AutoFindBestRoad(MapManager.instance.ConvertCurrentMapToFinderArray(), posx, posy, targetPosx, targetPosy);
         if (findedRoad == null || findedRoad.Length <= 0) {
-            MainScene.instance.ShowTips("Cannot auto step to the position: (" + targetPosx + "," + targetPosy + ")");
+            AudioController.instance.PlaySound(AudioController.disableSound);
             return false;
         }
         DataCenter.instance.Status = Constant.EGameStatus.AutoStepping;

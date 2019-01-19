@@ -9,7 +9,8 @@ public class Modal : ObjectPool.AElement {
         Item,
         Npc,
         Monster,
-        Player
+        Player,
+        SendingBlock,
     }
 
     public override ObjectPool.ElementType GetPoolTypeId() {

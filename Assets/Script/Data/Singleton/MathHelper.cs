@@ -157,14 +157,14 @@ public static class MathHelper {
         ITree<UnityEngine.Vector2Int, int>[] road = null;
         int maxVal = unableValue;
         int maxNum = 999;
-        UnityEngine.Debug.Log("Start LinkedTree Emulator");
-        UnityEngine.Debug.Log("The whole tree is : " + ableRoad.ToString());
+        int minRoadLength = 999;
         foreach (var leaf in ableRoad) {
-            UnityEngine.Debug.Log("LinkedTree Emulator moved once, position (" + leaf.Tag.x + "," + leaf.Tag.y + ")");
             var tmpRoad = leaf.GetBranchRoad();
             int tmpMaxVal = 0;
             int tmpMaxNum = 0;
+            int tmpRoadLength = 0;
             foreach (var roadBlock in tmpRoad) {
+                ++tmpRoadLength;
                 if (roadBlock.ChildrenCount <= 0 || roadBlock == tmpRoad[0])
                     continue;
                 else if (roadBlock.Value > tmpMaxVal) {
@@ -178,13 +178,18 @@ public static class MathHelper {
                 road = tmpRoad;
                 maxVal = tmpMaxVal;
                 maxNum = tmpMaxNum;
-            } else if (tmpMaxVal == maxVal && tmpMaxNum < maxNum) {
-                road = tmpRoad;
-                maxNum = tmpMaxNum;
+                minRoadLength = tmpRoadLength;
+            } else if (tmpMaxVal == maxVal) {
+                if (tmpMaxNum < maxNum) {
+                    road = tmpRoad;
+                    maxNum = tmpMaxNum;
+                    minRoadLength = tmpRoadLength;
+                } else if (tmpMaxNum == maxNum && tmpRoadLength < minRoadLength) {
+                    road = tmpRoad;
+                    minRoadLength = tmpRoadLength;
+                }
             }
         }
-        UnityEngine.Debug.Log("LinkedTree Emulator Move Over");
-
         // ¼ÇÂ¼×î¼ÑÂ·¾¶
         if (maxVal >= unableValue || road == null || road.Length <= 0)
             return null;

@@ -82,6 +82,7 @@ public class MainScene : MonoBehaviour {
     void Update() {
         if (InputController.instance == null)
             return;
+        // 监测键盘和手柄按键
         for (int i = 0; i < InputController.listenedKeys.Length; ++i) {
             bool isDown = Input.GetKey(InputController.listenedKeys[i]);
             bool hasDown = InputController.instance.keyStatusMap[InputController.listenedKeys[i]];
@@ -91,6 +92,15 @@ public class MainScene : MonoBehaviour {
                 InputController.instance.OnKeyUp(InputController.listenedKeys[i]);
         }
 
+        // 检测手柄摇杆
+        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.LeftHorizontal, Input.GetAxis("Horizontal_Left"));
+        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.LeftVertical, Input.GetAxis("Vertical_Left"));
+        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.RightHorizontal, Input.GetAxis("Horizontal_XBoxRight"));
+        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.RightVertical, Input.GetAxis("Vertical_XBoxRight"));
+        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.SpecialHorizontal, Input.GetAxis("Horizontal_XBoxSpecial"));
+        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.SpecialVertical, Input.GetAxis("Vertical_XBoxSpecial"));
+
+        // 监测鼠标和触屏
         for (int i = 0; i < Input.touchCount; ++i) {
             var tc = Input.GetTouch(i);
             switch (tc.phase) {

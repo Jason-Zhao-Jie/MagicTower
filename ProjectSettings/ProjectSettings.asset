@@ -245,7 +245,7 @@ PlayerSettings:
   clonedFromGUID: 00000000000000000000000000000000
   templatePackageId: 
   templateDefaultScene: 
-  AndroidTargetArchitectures: 5
+  AndroidTargetArchitectures: 7
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
   AndroidKeystoreName: 
@@ -703,12 +703,13 @@ PlayerSettings:
     1: CROSS_PLATFORM_INPUT
     2: CROSS_PLATFORM_INPUT
     4: CROSS_PLATFORM_INPUT;MOBILE_INPUT
-    7: CROSS_PLATFORM_INPUT;MOBILE_INPUT
+    7: CROSS_PLATFORM_INPUT;MOBILE_INPUT;DISABLESTEAMWORKS
     14: MOBILE_INPUT
     17: MOBILE_INPUT
     20: MOBILE_INPUT
   platformArchitecture: {}
   scriptingBackend:
+    Android: 1
     Standalone: 0
     WebPlayer: 0
   il2cppCompilerConfiguration: {}

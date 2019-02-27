@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.UI;
@@ -33,8 +32,6 @@ public class DataEditorScene : MonoBehaviour {
         mapMakerPanel = GameObject.Find("MapMakerPanel");
         modalMakerPanel = GameObject.Find("ModalMakerPanel");
         stringChatsAndChoicesPanel = GameObject.Find("StringChatsAndChoicesPanel");
-        saveResult = GameObject.Find("SaveResult");
-        saveResult.SetActive(false);
         prefabList = modalMakerPanel.transform.Find("prefabs").GetComponent<ListView>();
         dataList = stringChatsAndChoicesPanel.transform.Find("DataList").GetComponent<ListView>();
         // 设定背景和地图区域
@@ -268,31 +265,35 @@ public class DataEditorScene : MonoBehaviour {
     }
 
     // GetDataJson按钮回调
-    public void OnSave() {
-        if (saveResult.activeSelf == false) {
-            string result = DataCenter.instance.SaveData();
-            saveResult.SetActive(true);
-            saveResult.GetComponent<InputField>().text = result;
-            mapMakerPanel.SetActive(false);
-            modalMakerPanel.SetActive(false);
-            stringChatsAndChoicesPanel.SetActive(false);
-        } else {
-            saveResult.SetActive(false);
-        }
+    public async void OnSave()
+    {
+        string result = DataCenter.instance.SaveData();
+        await IODriver.instance.SaveToFile("GameData.json", System.Text.Encoding.UTF8.GetBytes(result));
+        ShowTips("已保存成功！路径：" + IODriver.FileDirRoot + "GameData.json");
     }
 
     // GetMapJson 按钮回调
-    public void OnMapSave() {
-        if (saveResult.activeSelf == false) {
-            string result = JsonUtility.ToJson(DataCenter.instance.GetGameMap(mapMakerPanel.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>().value), true);
-            saveResult.SetActive(true);
-            saveResult.GetComponent<InputField>().text = result;
-            mapMakerPanel.SetActive(false);
-            modalMakerPanel.SetActive(false);
-            stringChatsAndChoicesPanel.SetActive(false);
-        } else {
-            saveResult.SetActive(false);
+    public async void OnMapSave()
+    {
+        string result = JsonUtility.ToJson(DataCenter.instance.GetGameMap(mapMakerPanel.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>().value), false);
+        var panel = mapMakerPanel.transform.Find("SetPanel");
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        string number = "";
+        if (mapId < 10)
+        {
+            number = "00" + mapId.ToString();
         }
+        else if (mapId < 100)
+        {
+            number = "0" + mapId.ToString();
+        }
+        else
+        {
+            number = mapId.ToString();
+        }
+        var filepath = "MapData" + System.IO.Path.DirectorySeparatorChar + number + ".json";
+        await IODriver.instance.SaveToFile(filepath, System.Text.Encoding.UTF8.GetBytes(result));
+        ShowTips("已保存成功！路径：" + IODriver.FileDirRoot + filepath);
     }
 
     // Apply Map 回调
@@ -831,7 +832,6 @@ public class DataEditorScene : MonoBehaviour {
     private GameObject mapMakerPanel;
     private GameObject modalMakerPanel;
     private GameObject stringChatsAndChoicesPanel;
-    private GameObject saveResult;
     private int posx = 0;
     private int posy = 0;
     private ListView prefabList;

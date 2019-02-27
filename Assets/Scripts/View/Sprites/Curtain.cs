@@ -26,6 +26,10 @@ public class Curtain : MonoBehaviour {
 
     // Use this for initialization
     void Awake() {
+    }
+
+    private void Start()
+    {
         Animator.enabled = false;
         gameObject.SetActive(false);
     }

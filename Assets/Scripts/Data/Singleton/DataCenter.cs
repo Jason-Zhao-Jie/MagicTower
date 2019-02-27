@@ -118,7 +118,7 @@ public class DataCenter {
     }
 
     public string SaveData() {
-        return UnityEngine.JsonUtility.ToJson(gamedata, true);
+        return UnityEngine.JsonUtility.ToJson(gamedata, false);
     }
 
     public Constant.EGameStatus Status {
@@ -143,7 +143,7 @@ public class DataCenter {
                 mapId = MapManager.instance.CurrentFloorId,
             },
             maps = maps
-        }, true);
+        }, false);
     }
 
     public static bool LoadRuntimeInfoDataFromJson(string json) {

@@ -25,17 +25,28 @@ public class EventManager {
     }
 
     public enum EventName {
-        None = 0,
-        NormalBattle = 1,
-        OpenFreeDoor = 2,
-        NormalSend = 3,
-        NormalChat = 4,
-        NormalChoice = 5,
-        CallGame = 6,
-        GetBaseResourceItem = 7,
-        GetFunctionItem = 8,
-        OpenNormalDoor = 9,
-        RemoveEvent = 10,
+        None = 0,           //无事件
+        NormalBattle = 1,   //战斗
+        OpenFreeDoor = 2,   //免费门
+        NormalSend = 3,     //传送或楼梯
+        NormalChat = 4,     //对话或提示
+        NormalChoice = 5,   //选择性对话
+        CallGame = 6,       //小游戏
+        GetBaseResourceItem = 7,    //获取固定基本资源
+        GetFunctionItem = 8,    //获取特殊用途道具
+        OpenNormalDoor = 9,     //打开普通门
+        RemoveEvent = 10,       //移除指定处的事件
+        GetVariableResource = 11,   //获取变价资源，用于商店，此事件考虑重构时是否与7合并
+    }
+
+    /// <summary>
+    /// 定义变价资源的价格缓存位，每个缓存位有其独特的变价算法
+    /// </summary>
+    public enum VariablePriceType
+    {
+        NoChange = 0, // 默认值，不变价
+        GoldenIncreasing = 1, // 每次+1价格，用于普通金币商店
+        KeyStoreDoubling = 2, // 每次价格乘以2，用于后期钥匙商店
     }
 
     public readonly Dictionary<EventName, Constant.EventCallback> eventList = null;

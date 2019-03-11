@@ -1,12 +1,10 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 public class MapManager {
-    public static MapManager instance = null;
-
     public void SetStartData(int floorId = 0, Constant.MapData[] datas = null) {
         if (datas != null) {
             MapData = datas;
         } else {
-            MapData = new Constant.MapData[DataCenter.instance.mapLength];
+            MapData = new Constant.MapData[Game.Data.Config.mapLength];
         }
         currentFloor = floorId;
     }
@@ -20,12 +18,12 @@ public class MapManager {
         if (currentFloor < 0)
             return false;
         if (MapData == null)
-            MapData = new Constant.MapData[DataCenter.instance.mapLength];
+            MapData = new Constant.MapData[Game.Data.Config.mapLength];
 
         // 清除地图块，并载入新的地图
         ClearMap();
         if (MapData[currentFloor] == null)
-            MapData[currentFloor] = DataCenter.instance.GetCopiedMap(currentFloor);
+            MapData[currentFloor] = Game.Data.Config.GetCopiedMap(currentFloor);
         for (int x = 0; x < MapData[currentFloor].blocks.Length; ++x)
             for (int y = 0; y < MapData[currentFloor].blocks[x].Length; ++y) {
                 var thingId = MapData[currentFloor].blocks[x][y].thing;
@@ -34,11 +32,11 @@ public class MapManager {
 
         // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识   ( TODO : 未实现渐变方式 )
         if (MainScene.instance != null) {
-            MainScene.instance.BackgroundImage = DataCenter.instance.modals[MapData[currentFloor].backThing].prefabPath;
+            MainScene.instance.BackgroundImage = Game.Data.Config.modals[MapData[currentFloor].backThing].prefabPath;
             MainScene.instance.MapName = StringInternational.GetValue(MapData[currentFloor].mapName, currentFloor.ToString());
-            AudioController.instance.PlayMusicLoop(MapData[currentFloor].music);
+            Game.Controller.Audio.PlayMusicLoop(MapData[currentFloor].music);
         } else {
-            DataEditorScene.instance.BackgroundImage = DataCenter.instance.modals[MapData[currentFloor].backThing].prefabPath;
+            DataEditorScene.instance.BackgroundImage = Game.Data.Config.modals[MapData[currentFloor].backThing].prefabPath;
         }
 
         return true;
@@ -68,15 +66,15 @@ public class MapManager {
 
     // 显示黑色幕布, 以便执行一些操作, 例如换楼层
     public void ShowLoadingCurtain(Constant.EmptyBoolCallBack cb, params Constant.EmptyBoolCallBack[] hidecbs) {
-        var lastStatus = DataCenter.instance.Status;
-        DataCenter.instance.Status = Constant.EGameStatus.OnMiddleLoading;
+        var lastStatus = Game.Data.Config.Status;
+        Game.Data.Config.Status = Constant.EGameStatus.OnMiddleLoading;
         Curtain.StartShow(cb, hidecbs);
     }
 
     public void HideLoadingCurtain(Constant.EGameStatus status) {
-        DataCenter.instance.Status = Constant.EGameStatus.OnMiddleLoading;
+        Game.Data.Config.Status = Constant.EGameStatus.OnMiddleLoading;
         Curtain.StartHide(() => {
-            DataCenter.instance.Status = status;
+            Game.Data.Config.Status = status;
             return false;
         });
     }
@@ -84,7 +82,7 @@ public class MapManager {
     // 更改或移动指定处的物品及数据
     public void ChangeThingOnMap(int thingId, int posx, int posy, int oldPosx = -1, int oldPosy = -1) {
         if (oldPosx >= 0 && oldPosy >= 0)
-            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + DataCenter.instance.modals[MapData[currentFloor].blocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + Game.Data.Config.modals[MapData[currentFloor].blocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
         if (MapData[currentFloor].blocks[posx][posy].thing == thingId)
             return;
         var block = MapData[currentFloor].blocks[posx][posy];
@@ -101,8 +99,8 @@ public class MapManager {
     public void AddObjectToMap(int posx, int posy, int thingId) {
         if (thingId > 0) {
             RemoveThingOnMapWithModal(posx, posy);
-            var modal = DataCenter.instance.modals[thingId];
-            Modal obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
+            var modal = Game.Data.Config.modals[thingId];
+            Modal obj = Game.View.ObjPool.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
             obj.InitWithMapPos(MapData[currentFloor].mapId, (sbyte)posx, (sbyte)posy, modal);
             obj.name = "MapBlock_" + posx.ToString() + "_" + posy.ToString();
             if (MainScene.instance != null)
@@ -121,7 +119,7 @@ public class MapManager {
         else
             mapId--;
         if (MapData[mapId] == null)
-            MapData[mapId] = DataCenter.instance.GetCopiedMap(mapId);
+            MapData[mapId] = Game.Data.Config.GetCopiedMap(mapId);
         var block = MapData[mapId].blocks[posx][posy];
         block.thing = 0;
         MapData[mapId].blocks[posx][posy] = block;
@@ -151,7 +149,7 @@ public class MapManager {
         else
             mapId--;
         if (MapData[mapId] == null)
-            MapData[mapId] = DataCenter.instance.GetCopiedMap(mapId);
+            MapData[mapId] = Game.Data.Config.GetCopiedMap(mapId);
         var block = MapData[mapId].blocks[posx][posy];
         block.eventId = eventId;
         block.eventData = eventData;
@@ -165,7 +163,7 @@ public class MapManager {
 
     public Constant.MonsterData GetMonsterDataByUuid(long uuid) {
         var modId = modals[uuid].ModId;
-        return DataCenter.instance.monsters[modId].Clone();
+        return Game.Data.Config.monsters[modId].Clone();
     }
 
     public Modal GetModalByUuid(long uuid) {
@@ -194,7 +192,7 @@ public class MapManager {
                 if (i_elem.thing == 0) {
                     inserted.Add(0);
                 } else {
-                    var thingData = DataCenter.instance.modals[i_elem.thing];
+                    var thingData = Game.Data.Config.modals[i_elem.thing];
                     switch ((Modal.ModalType)thingData.typeId) {
                         case Modal.ModalType.Walkable:
                             inserted.Add(0);

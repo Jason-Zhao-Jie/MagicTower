@@ -24,7 +24,7 @@ public class ChatDlg : ObjectPool.AElement
             dir = BOTTOM_PREFAB_DIR;
             id = BOTTOM_PREFAB_ID;
         }
-        var ret = ObjectPool.instance.GetAnElement<ChatDlg>(id, ObjectPool.ElementType.Dialog, Constant.DIALOG_DIR + dir);
+        var ret = Game.View.ObjPool.GetAnElement<ChatDlg>(id, ObjectPool.ElementType.Dialog, Constant.DIALOG_DIR + dir);
         ret.isTop = isTop;
         return ret;
     }
@@ -34,29 +34,29 @@ public class ChatDlg : ObjectPool.AElement
     {
         speaker = transform.Find("Speaker").gameObject;
         speakerText = transform.Find("SpeakerName").GetComponent<UnityEngine.UI.Text>();
-        speakerText.fontSize = Convert.ToInt32(speakerText.fontSize * ScreenAdaptator.instance.RealFontSize);
+        speakerText.fontSize = Convert.ToInt32(speakerText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
         text = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
-        text.fontSize = Convert.ToInt32(text.fontSize * ScreenAdaptator.instance.RealFontSize);
+        text.fontSize = Convert.ToInt32(text.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
     }
 
     public void SetChat(string content, int speakerId = -1)
     {
         // 查找对话者数据, 贴上人物头像
         if (speakerId < 0)
-            speakerId = PlayerController.instance.PlayerId;
-        var modal = DataCenter.instance.modals[speakerId];
+            speakerId = Game.Controller.Player.PlayerId;
+        var modal = Game.Data.Config.modals[speakerId];
         ObjectPool.AElement obj = null;
         if ((Modal.ModalType)modal.typeId == Modal.ModalType.Player)
         {
-            obj = ObjectPool.instance.GetAnElement<Player>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+            obj = Game.View.ObjPool.GetAnElement<Player>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         }
         else
         {
-            obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+            obj = Game.View.ObjPool.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         }
         obj.transform.SetParent(speaker.transform.parent, false);
         obj.transform.position = speaker.transform.position;
-        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
+        obj.transform.localScale = Game.View.ScreenAdaptorInst.BlockSize;
         var mod = speaker.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);

@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 
 public class IODriver {
-    public static IODriver instance = null;
-
     public static string FileDirRoot
     {
         get

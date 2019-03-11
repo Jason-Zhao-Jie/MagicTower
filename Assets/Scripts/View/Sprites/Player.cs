@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class Player : ObjectPool.AElement {
@@ -10,34 +10,34 @@ public class Player : ObjectPool.AElement {
     }
 
     void Update() {
-        if (PlayerController.instance.dirChanged && mainPlayer) {
-            switch (PlayerController.instance.Dir) {
+        if (Game.Controller.Player.dirChanged && mainPlayer) {
+            switch (Game.Controller.Player.Dir) {
                 case PlayerController.Direction.Up:
-                    Animator.Play(PlayerController.instance.IsRunning ? "Up" : "Up_Stand");
+                    Animator.Play(Game.Controller.Player.IsRunning ? "Up" : "Up_Stand");
                     break;
                 case PlayerController.Direction.Down:
-                    Animator.Play(PlayerController.instance.IsRunning ? "Down" : "Down_Stand");
+                    Animator.Play(Game.Controller.Player.IsRunning ? "Down" : "Down_Stand");
                     break;
                 case PlayerController.Direction.Left:
-                    Animator.Play(PlayerController.instance.IsRunning ? "Left" : "Left_Stand");
+                    Animator.Play(Game.Controller.Player.IsRunning ? "Left" : "Left_Stand");
                     break;
                 case PlayerController.Direction.Right:
-                    Animator.Play(PlayerController.instance.IsRunning ? "Right" : "Right_Stand");
+                    Animator.Play(Game.Controller.Player.IsRunning ? "Right" : "Right_Stand");
                     break;
             }
-            PlayerController.instance.dirChanged = false;
+            Game.Controller.Player.dirChanged = false;
         }
     }
 
     void FixedUpdate() {
-        if (PlayerController.instance.IsRunning && mainPlayer) {
+        if (Game.Controller.Player.IsRunning && mainPlayer) {
             if (runningTime < RUN_SPEED)
                 ++runningTime;
             else {
                 runningTime = 0;
-                if (PlayerController.instance.GoToNextBlock()) {
+                if (Game.Controller.Player.GoToNextBlock()) {
                     var posController = transform;
-                    switch (PlayerController.instance.Dir) {
+                    switch (Game.Controller.Player.Dir) {
                         case PlayerController.Direction.Up:
                             posController.position = new Vector3(posController.position.x, posController.position.y + movedLength.y, posController.position.z);
                             break;
@@ -64,7 +64,7 @@ public class Player : ObjectPool.AElement {
     }
 
     public void RemoveSelf() {
-        ObjectPool.instance.RecycleAnElement(this);
+        Game.View.ObjPool.RecycleAnElement(this);
     }
 
     public override ObjectPool.ElementType GetPoolTypeId() {
@@ -73,7 +73,7 @@ public class Player : ObjectPool.AElement {
 
     public string PrefabPath {
         get {
-            return DataCenter.instance.modals[playerId].prefabPath;
+            return Game.Data.Config.modals[playerId].prefabPath;
         }
     }
 

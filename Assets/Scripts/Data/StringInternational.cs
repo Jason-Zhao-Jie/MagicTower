@@ -1,13 +1,13 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public static class StringInternational {
     public static string GetValue(string key, params string[] values) {
-        if (!DataCenter.instance.strings.ContainsKey(key)) {
+        if (!Game.Data.Config.strings.ContainsKey(key)) {
             Debug.LogWarning("Undefined string key \"" + key + "\" in any language");
             return key;
         }
-        var str = DataCenter.instance.strings[key];
+        var str = Game.Data.Config.strings[key];
         var ret = str[Language];
         if (ret == null) {
             ret = str["en-us"];
@@ -21,7 +21,7 @@ public static class StringInternational {
             var index = 0;
             var lastLen = 0;
             for (var i = 0; i < values.Length; ++i) {
-                index = ret.IndexOf("##", index + lastLen);
+                index = ret.IndexOf("##", index + lastLen, System.StringComparison.InvariantCulture);
                 if (index < 0)
                     break;
                 var tarStr = values[i];
@@ -37,7 +37,7 @@ public static class StringInternational {
     public static bool SetLanguageById(int id) {
         if (id <= 0)
             return false;
-        var ret = DataCenter.instance.languages[id];
+        var ret = Game.Data.Config.languages[id];
         if (ret == null)
             return false;
         Language = ret.key;

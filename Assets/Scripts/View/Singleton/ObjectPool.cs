@@ -39,7 +39,7 @@ public class ObjectPool {
         public abstract bool RecycleSelf();
 
         public bool RecycleSelf<T>() where T : AElement {
-            return instance.RecycleAnElement((T)this);
+            return Game.View.ObjPool.RecycleAnElement((T)this);
         }
 
         internal bool OnCreateId(ElementType tid, int elemId, string resourcePath) {
@@ -55,9 +55,6 @@ public class ObjectPool {
         private int id = 0;
         private bool destroyed = false;
     }
-
-    public static ObjectPool instance = new ObjectPool();
-    ObjectPool() { }
 
     public void ClearAll() {
         foreach (var k in unusePool) {

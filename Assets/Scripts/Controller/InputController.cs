@@ -1,9 +1,7 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using System.Collections.Generic;
 
 public class InputController {
-    public static InputController instance = null;
-
     public static class JoysticsCode {
         public const KeyCode A = KeyCode.Joystick1Button0;
         public const KeyCode B = KeyCode.Joystick1Button1;
@@ -13,17 +11,17 @@ public class InputController {
         public const KeyCode RightBumper = KeyCode.Joystick1Button5;
         public const KeyCode Back = KeyCode.Joystick1Button6;
         public const KeyCode Start = KeyCode.Joystick1Button7;
-        public const KeyCode LeftRocker = KeyCode.Joystick1Button8;    // ×óÒ¡¸Ë°´ÏÂ
-        public const KeyCode RightRocker = KeyCode.Joystick1Button9;   // ÓÒÒ¡¸Ë°´ÏÂ
+        public const KeyCode LeftRocker = KeyCode.Joystick1Button8;    // å·¦æ‘‡æ†æŒ‰ä¸‹
+        public const KeyCode RightRocker = KeyCode.Joystick1Button9;   // å³æ‘‡æ†æŒ‰ä¸‹
     };
 
     public enum JoysticsAxes {
-        LeftHorizontal, // ×óÒ¡¸ËXÖá
-        LeftVertical,   // ×óÒ¡¸ËYÖá
-        RightHorizontal,// ÓÒÒ¡¸ËXÖá
-        RightVertical,  // ÓÒÒ¡¸ËYÖá
-        SpecialHorizontal,// Ê®×Ö¼üXÖá
-        SpecialVertical,  // Ê®×Ö¼üYÖá
+        LeftHorizontal, // å·¦æ‘‡æ†Xè½´
+        LeftVertical,   // å·¦æ‘‡æ†Yè½´
+        RightHorizontal,// å³æ‘‡æ†Xè½´
+        RightVertical,  // å³æ‘‡æ†Yè½´
+        SpecialHorizontal,// åå­—é”®Xè½´
+        SpecialVertical,  // åå­—é”®Yè½´
     }
 
     public static readonly KeyCode[] listenedKeys = {
@@ -70,7 +68,7 @@ public class InputController {
     public void OnKeyDown(KeyCode keyCode) {
         keyStatusMap[keyCode] = true;
 
-        switch (DataCenter.instance.Status) {
+        switch (Game.Data.Config.Status) {
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
@@ -113,7 +111,7 @@ public class InputController {
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
                     case KeyCode.RightArrow:
-                        PlayerController.instance.StopAutoStepping();
+                        Game.Controller.Player.StopAutoStepping();
                         OnChangeWalkState();
                         break;
                 }
@@ -126,7 +124,7 @@ public class InputController {
     public void OnKeyUp(KeyCode keyCode) {
         keyStatusMap[keyCode] = false;
 
-        switch (DataCenter.instance.Status) {
+        switch (Game.Data.Config.Status) {
             case Constant.EGameStatus.Start:
                 switch (keyCode) {
                     case KeyCode.Escape:
@@ -181,7 +179,7 @@ public class InputController {
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
                     case KeyCode.RightArrow:
-                        PlayerController.instance.StopAutoStepping();
+                        Game.Controller.Player.StopAutoStepping();
                         OnChangeWalkState();
                         break;
                 }
@@ -196,7 +194,7 @@ public class InputController {
         isMouseLeftDown = changeMouseStatue;
     }
     public void OnTouchDown(Vector2 touchedPos) {
-        switch (DataCenter.instance.Status) {
+        switch (Game.Data.Config.Status) {
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
@@ -223,7 +221,7 @@ public class InputController {
             case Constant.EGameStatus.OnSmallGame:
                 break;
             case Constant.EGameStatus.AutoStepping:
-                PlayerController.instance.StopAutoStepping();
+                Game.Controller.Player.StopAutoStepping();
                 break;
             default:
                 break;
@@ -258,12 +256,12 @@ public class InputController {
             case JoysticsAxes.SpecialHorizontal:
             case JoysticsAxes.SpecialVertical:
                 if ((oldValue > 0.1 && value < 0.1) || (oldValue < -0.1 && value > -0.1) || (Mathf.Abs(oldValue) < 0.1 && Mathf.Abs(value) > 0.1)) {
-                    switch (DataCenter.instance.Status) {
+                    switch (Game.Data.Config.Status) {
                         case Constant.EGameStatus.InGame:
                             OnChangeWalkState();
                             break;
                         case Constant.EGameStatus.AutoStepping:
-                            PlayerController.instance.StopAutoStepping();
+                            Game.Controller.Player.StopAutoStepping();
                             break;
                     }
                 }
@@ -277,18 +275,18 @@ public class InputController {
 
 
     public void OnChangeWalkState() {
-        if (DataCenter.instance.Status == Constant.EGameStatus.InGame) {;
+        if (Game.Data.Config.Status == Constant.EGameStatus.InGame) {;
             bool up = keyStatusMap[KeyCode.UpArrow] || axesStatusMap[JoysticsAxes.LeftVertical] < -0.1 || axesStatusMap[JoysticsAxes.RightVertical] < -0.1 || axesStatusMap[JoysticsAxes.SpecialVertical] > 0.1;
             bool down = keyStatusMap[KeyCode.DownArrow] || axesStatusMap[JoysticsAxes.LeftVertical] > 0.1 || axesStatusMap[JoysticsAxes.RightVertical] > 0.1 || axesStatusMap[JoysticsAxes.SpecialVertical] < -0.1;
             bool right = keyStatusMap[KeyCode.RightArrow] || axesStatusMap[JoysticsAxes.LeftHorizontal] > 0.1 || axesStatusMap[JoysticsAxes.RightHorizontal] > 0.1 || axesStatusMap[JoysticsAxes.SpecialHorizontal] > 0.1;
             bool left = keyStatusMap[KeyCode.LeftArrow] || axesStatusMap[JoysticsAxes.LeftHorizontal] < -0.1 || axesStatusMap[JoysticsAxes.RightHorizontal] < -0.1 || axesStatusMap[JoysticsAxes.SpecialHorizontal] < -0.1;
             int trueNum = (up ? 11 : 0) + (down ? 21 : 0) + (right ? 31 : 0) + (left ? 41 : 0);
             if (trueNum % 10 != 1)
-                PlayerController.instance.StopWalk();
+                Game.Controller.Player.StopWalk();
             else
-                PlayerController.instance.StartWalk((PlayerController.Direction)(trueNum / 10));
-        } else if (DataCenter.instance.Status != Constant.EGameStatus.AutoStepping) {
-            PlayerController.instance.StopWalk();
+                Game.Controller.Player.StartWalk((PlayerController.Direction)(trueNum / 10));
+        } else if (Game.Data.Config.Status != Constant.EGameStatus.AutoStepping) {
+            Game.Controller.Player.StopWalk();
         }
     }
 }

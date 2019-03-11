@@ -6,16 +6,17 @@ using UnityEngine.UI;
 public class MainScene : MonoBehaviour {
     public static MainScene instance;
     // Use this for initialization
-    void Start() {
+    void Start()
+    {
         instance = this;
-        Initializationer.InitBases(GetComponent<RectTransform>().rect.size);
+        Game.Initial(GetComponent<RectTransform>().rect.size);
 
         var heroPanel = transform.Find("HeroPanel");
         var itemPanel = transform.Find("ItemPanel");
         var mapPanel = transform.Find("MapPanel");
         dialogCanvas = GameObject.Find("DialogCanvas");
         backgroundImg = GetComponent<Image>();
-        ScreenAdaptator.instance.LoadOnMainScene(mapPanel.GetComponent<RectTransform>().rect);
+        Game.View.ScreenAdaptorInst.LoadOnMainScene(mapPanel.GetComponent<RectTransform>().rect);
 
         curtain = dialogCanvas.transform.Find("Curtain").GetComponent<Curtain>();
         curtain.gameObject.SetActive(false);
@@ -50,75 +51,69 @@ public class MainScene : MonoBehaviour {
         tipsPanel.transform.SetParent(dialogCanvas.transform, false);
         tipsPanel.gameObject.SetActive(false);
 
-        if (AudioController.instance != null) {
-            AudioController.instance.ClearSoundSource();
-            AudioController.instance.MusicSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
-            AudioController.instance.AddSoundSource(GetComponent<AudioSource>());
-            AudioController.instance.AddSoundSource(dialogCanvas.GetComponent<AudioSource>());
-            AudioController.instance.AddSoundSource(transform.Find("HeroPanel").GetComponent<AudioSource>());
-            AudioController.instance.AddSoundSource(transform.Find("ItemPanel").GetComponent<AudioSource>());
-            AudioController.instance.AddSoundSource(transform.Find("MapPanel").GetComponent<AudioSource>());
-        }
-        if (MapManager.instance != null) {
-            MapManager.instance.ShowMap();
-        }
-        if (PlayerController.instance != null) {
-            PlayerController.instance.ShowPlayer(true);
-            PlayerController.instance.SyncPlayerData();
-        }
-        if (DataCenter.instance != null)
-            DataCenter.instance.Status = Constant.EGameStatus.InGame;
+        Game.Controller.Audio.ClearSoundSource();
+        Game.Controller.Audio.MusicSource = GameObject.Find("Main Camera").GetComponent<AudioSource>();
+        Game.Controller.Audio.AddSoundSource(GetComponent<AudioSource>());
+        Game.Controller.Audio.AddSoundSource(dialogCanvas.GetComponent<AudioSource>());
+        Game.Controller.Audio.AddSoundSource(transform.Find("HeroPanel").GetComponent<AudioSource>());
+        Game.Controller.Audio.AddSoundSource(transform.Find("ItemPanel").GetComponent<AudioSource>());
+        Game.Controller.Audio.AddSoundSource(transform.Find("MapPanel").GetComponent<AudioSource>());
+
+        Game.Controller.MapMgr.ShowMap();
+
+        Game.Controller.Player.ShowPlayer(true);
+        Game.Controller.Player.SyncPlayerData();
+
+        Game.Data.Config.Status = Constant.EGameStatus.InGame;
 
     }
 
     void OnDestroy() {
-        MapManager.instance.ClearMap();
-        DataCenter.instance.Status = Constant.EGameStatus.Start;
+        Game.Controller.MapMgr.ClearMap();
+        Game.Data.Config.Status = Constant.EGameStatus.Start;
         instance = null;
-        ObjectPool.instance.ClearAll();
+        Game.View.ObjPool.ClearAll();
     }
 
     // Update is called once per frame
     void Update() {
-        if (InputController.instance == null)
-            return;
         // 监测键盘和手柄按键
         for (int i = 0; i < InputController.listenedKeys.Length; ++i) {
             bool isDown = Input.GetKey(InputController.listenedKeys[i]);
-            bool hasDown = InputController.instance.keyStatusMap[InputController.listenedKeys[i]];
+            bool hasDown = Game.Controller.Input.keyStatusMap[InputController.listenedKeys[i]];
             if (isDown && !hasDown)
-                InputController.instance.OnKeyDown(InputController.listenedKeys[i]);
+                Game.Controller.Input.OnKeyDown(InputController.listenedKeys[i]);
             else if (hasDown && !isDown)
-                InputController.instance.OnKeyUp(InputController.listenedKeys[i]);
+                Game.Controller.Input.OnKeyUp(InputController.listenedKeys[i]);
         }
 
         // 检测手柄摇杆
-        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.LeftHorizontal, Input.GetAxis("Horizontal_Left"));
-        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.LeftVertical, Input.GetAxis("Vertical_Left"));
-        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.RightHorizontal, Input.GetAxis("Horizontal_XBoxRight"));
-        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.RightVertical, Input.GetAxis("Vertical_XBoxRight"));
-        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.SpecialHorizontal, Input.GetAxis("Horizontal_XBoxSpecial"));
-        InputController.instance.OnJoysticsRockerAxes(InputController.JoysticsAxes.SpecialVertical, Input.GetAxis("Vertical_XBoxSpecial"));
+        Game.Controller.Input.OnJoysticsRockerAxes(InputController.JoysticsAxes.LeftHorizontal, Input.GetAxis("Horizontal_Left"));
+        Game.Controller.Input.OnJoysticsRockerAxes(InputController.JoysticsAxes.LeftVertical, Input.GetAxis("Vertical_Left"));
+        Game.Controller.Input.OnJoysticsRockerAxes(InputController.JoysticsAxes.RightHorizontal, Input.GetAxis("Horizontal_XBoxRight"));
+        Game.Controller.Input.OnJoysticsRockerAxes(InputController.JoysticsAxes.RightVertical, Input.GetAxis("Vertical_XBoxRight"));
+        Game.Controller.Input.OnJoysticsRockerAxes(InputController.JoysticsAxes.SpecialHorizontal, Input.GetAxis("Horizontal_XBoxSpecial"));
+        Game.Controller.Input.OnJoysticsRockerAxes(InputController.JoysticsAxes.SpecialVertical, Input.GetAxis("Vertical_XBoxSpecial"));
 
         // 监测鼠标和触屏
         for (int i = 0; i < Input.touchCount; ++i) {
             var tc = Input.GetTouch(i);
             switch (tc.phase) {
                 case TouchPhase.Began:
-                    InputController.instance.OnTouchDown(tc.position);
+                    Game.Controller.Input.OnTouchDown(tc.position);
                     break;
                 case TouchPhase.Canceled:
                 case TouchPhase.Ended:
-                    InputController.instance.OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
+                    Game.Controller.Input.OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
                     break;
             }
         }
 
         if (Input.touchCount <= 0) {
-            if (Input.GetMouseButtonDown(0) && !InputController.instance.isMouseLeftDown)
-                InputController.instance.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
-            if (Input.GetMouseButtonUp(0) && InputController.instance.isMouseLeftDown)
-                InputController.instance.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
+            if (Input.GetMouseButtonDown(0) && !Game.Controller.Input.isMouseLeftDown)
+                Game.Controller.Input.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
+            if (Input.GetMouseButtonUp(0) && Game.Controller.Input.isMouseLeftDown)
+                Game.Controller.Input.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
         }
     }
 
@@ -131,30 +126,30 @@ public class MainScene : MonoBehaviour {
     public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2) {
         obj.transform.SetParent(transform.Find("MapPanel"), false);
         obj.transform.position = transform.Find("MapPanel").transform.
-            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.x / 100 + ScreenAdaptator.instance.MapPartRect.x,
-                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * ScreenAdaptator.instance.BlockSize.y / 100 + ScreenAdaptator.instance.MapPartRect.y,
+            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * Game.View.ScreenAdaptorInst.BlockSize.x / 100 + Game.View.ScreenAdaptorInst.MapPartRect.x,
+                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * Game.View.ScreenAdaptorInst.BlockSize.y / 100 + Game.View.ScreenAdaptorInst.MapPartRect.y,
                                        posz));
-        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
+        obj.transform.localScale = Game.View.ScreenAdaptorInst.BlockSize;
     }
 
     public void OnMapClicked(Vector2 pos) {
         var mapPanel = transform.Find("MapPanel").GetComponent<RectTransform>();
         var panelPos = transform.InverseTransformPoint(mapPanel.position);
-        pos.x -= panelPos.x + ScreenAdaptator.instance.MapPartRect.x + GetComponent<RectTransform>().rect.width / 2;
-        pos.y -= panelPos.y + ScreenAdaptator.instance.MapPartRect.y + GetComponent<RectTransform>().rect.height / 2;
+        pos.x -= panelPos.x + Game.View.ScreenAdaptorInst.MapPartRect.x + GetComponent<RectTransform>().rect.width / 2;
+        pos.y -= panelPos.y + Game.View.ScreenAdaptorInst.MapPartRect.y + GetComponent<RectTransform>().rect.height / 2;
         if (pos.x >= 0 && pos.y >= 0) {
-            var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / ScreenAdaptator.instance.MapPartRect.width);
-            var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / ScreenAdaptator.instance.MapPartRect.height);
+            var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / Game.View.ScreenAdaptorInst.MapPartRect.width);
+            var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / Game.View.ScreenAdaptorInst.MapPartRect.height);
             if (_posx >= Constant.MAP_BLOCK_LENGTH || _posy >= Constant.MAP_BLOCK_LENGTH)
                 return;
-            PlayerController.instance.StartAutoStep(_posx, _posy);
+            Game.Controller.Player.StartAutoStep(_posx, _posy);
         }
     }
 
     /********************** Chat Part **************************************/
 
     public void ShowChatOnTop(string content, int speakerId = -1) {
-        DataCenter.instance.Status = Constant.EGameStatus.OnTipChat;
+        Game.Data.Config.Status = Constant.EGameStatus.OnTipChat;
         topChatPanel.gameObject.SetActive(true);
         topChatPanel.SetChat(StringInternational.GetValue(content), speakerId);
         topChatPanel.gameObject.SetActive(true);
@@ -163,7 +158,7 @@ public class MainScene : MonoBehaviour {
     }
 
     public void ShowChatOnBottom(string content, int speakerId = -1) {
-        DataCenter.instance.Status = Constant.EGameStatus.OnTipChat;
+        Game.Data.Config.Status = Constant.EGameStatus.OnTipChat;
         bottomChatPanel.gameObject.SetActive(true);
         bottomChatPanel.SetChat(StringInternational.GetValue(content), speakerId);
         topChatPanel.gameObject.SetActive(false);
@@ -172,7 +167,7 @@ public class MainScene : MonoBehaviour {
     }
 
     public void ShowTips(string content) {
-        DataCenter.instance.Status = Constant.EGameStatus.OnTipChat;
+        Game.Data.Config.Status = Constant.EGameStatus.OnTipChat;
         tipsPanel.gameObject.SetActive(true);
         tipsPanel.SetTipText(StringInternational.GetValue(content));
         topChatPanel.gameObject.SetActive(false);
@@ -186,7 +181,7 @@ public class MainScene : MonoBehaviour {
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(false);
-        DataCenter.instance.Status = (battlePanel != null && battlePanel.isActiveAndEnabled) ? Constant.EGameStatus.OnBattle : Constant.EGameStatus.InGame;
+        Game.Data.Config.Status = (battlePanel != null && battlePanel.isActiveAndEnabled) ? Constant.EGameStatus.OnBattle : Constant.EGameStatus.InGame;
     }
 
     public void ChatBegan(Constant.ChatData chat, Modal mod) {
@@ -201,7 +196,7 @@ public class MainScene : MonoBehaviour {
             ClearChats();
         } else if (chatIndex >= chat.data.Length) {
             chatIndex = 0;
-            EventManager.instance.DispatchEvent(chat.lastEventId, chatMod, chat.lastEventData);
+            Game.Controller.EventMgr.DispatchEvent(chat.lastEventId, chatMod, chat.lastEventData);
             ClearChats();
         } else {
             var chatData = chat.data[chatIndex];
@@ -210,7 +205,7 @@ public class MainScene : MonoBehaviour {
             else if (chatData.speakerId < 0)
                 ShowChatOnTop(chatData.content, chatMod.ModId);
             else if (chatData.speakerId == 0)
-                ShowChatOnBottom(chatData.content, PlayerController.instance.PlayerId);
+                ShowChatOnBottom(chatData.content, Game.Controller.Player.PlayerId);
             else
                 ShowChatOnTop(chatData.content, chatData.speakerId);
             ++chatIndex;
@@ -234,10 +229,10 @@ public class MainScene : MonoBehaviour {
 
     private void OnBattleOver(int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long nextEventData) {
         // 记录应用战斗结果（金币，经验，血量）
-        if (yourId == PlayerController.instance.PlayerId) {
-            PlayerController.instance.Life = yourLife;
-            PlayerController.instance.Gold += goldGain;
-            PlayerController.instance.Experience += expGain;
+        if (yourId == Game.Controller.Player.PlayerId) {
+            Game.Controller.Player.Life = yourLife;
+            Game.Controller.Player.Gold += goldGain;
+            Game.Controller.Player.Experience += expGain;
         }
         // TODO 添加对后续event的处理
     }

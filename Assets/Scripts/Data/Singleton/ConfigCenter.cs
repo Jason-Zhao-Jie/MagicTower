@@ -1,8 +1,9 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-public class DataCenter {
-    public static DataCenter instance = null;
-
+/// <summary>
+/// 游戏核心数据处理类
+/// </summary>
+public class ConfigCenter {
     public readonly int mapLength;
 
     public readonly Dictionary<int, Constant.ModalData> modals = new Dictionary<int, Constant.ModalData>();
@@ -15,7 +16,7 @@ public class DataCenter {
     public readonly Dictionary<int, Constant.LanguageData> languages = new Dictionary<int, Constant.LanguageData>();
     public readonly Dictionary<string, Constant.InternationalString> strings = new Dictionary<string, Constant.InternationalString>();
 
-    public DataCenter() {
+    public ConfigCenter() {
         mapLength = UnityEngine.Resources.LoadAll<UnityEngine.TextAsset>(Constant.MAP_DATA_DIR).Length;
         status = Constant.EGameStatus.Start;
 
@@ -71,6 +72,11 @@ public class DataCenter {
         }
     }
 
+    /// <summary>
+    /// 获得原始的游戏地图数据，如不在内存中，则读取配置文件
+    /// </summary>
+    /// <returns>The game map.</returns>
+    /// <param name="index">Index.</param>
     public Constant.MapData GetGameMap(int index) {
         if (!mapdata.ContainsKey(index)) {
             string path = Constant.MAP_DATA_DIR;
@@ -87,14 +93,23 @@ public class DataCenter {
         return mapdata[index];
     }
 
+    /// <summary>
+    /// 将原始地图数据覆盖到游戏当前数据
+    /// </summary>
+    /// <param name="index">Index.</param>
     public void SaveMapTo(int index) {
         if (!mapdata.ContainsKey(index)) {
             UnityEngine.Debug.LogError("Saving map " + index + " failed, cannot find map old data.");
         } else {
-            MapManager.instance.OverrideMapData(index, mapdata[index]);
+            Game.Controller.MapMgr.OverrideMapData(index, mapdata[index]);
         }
     }
 
+    /// <summary>
+    /// 将原始地图数据深拷贝一份出来
+    /// </summary>
+    /// <returns>The copied map.</returns>
+    /// <param name="index">Index.</param>
     public Constant.MapData GetCopiedMap(int index) {
         var dt = GetGameMap(index);
         var ret = new Constant.MapData {
@@ -117,6 +132,10 @@ public class DataCenter {
         return ret;
     }
 
+    /// <summary>
+    /// 将修改过后的游戏配置保存到原始数据，只用于编辑器
+    /// </summary>
+    /// <returns>The data.</returns>
     public string SaveData() {
         return UnityEngine.JsonUtility.ToJson(gamedata, false);
     }
@@ -125,7 +144,7 @@ public class DataCenter {
         get { return status; }
         set {
             status = value;
-            InputController.instance.OnChangeWalkState();
+            Game.Controller.Input.OnChangeWalkState();
         }
     }
 
@@ -136,11 +155,11 @@ public class DataCenter {
             maps[index++] = item.Value;
         }
         return UnityEngine.JsonUtility.ToJson(new RuntimeGameData {
-            player = PlayerController.instance.PlayerData,
+            player = Game.Controller.Player.PlayerData,
             pos = new RuntimePositionData {
-                x = PlayerController.instance.posx,
-                y = PlayerController.instance.posy,
-                mapId = MapManager.instance.CurrentFloorId,
+                x = Game.Controller.Player.posx,
+                y = Game.Controller.Player.posy,
+                mapId = Game.Controller.MapMgr.CurrentFloorId,
             },
             maps = maps
         }, false);
@@ -148,10 +167,10 @@ public class DataCenter {
 
     public static bool LoadRuntimeInfoDataFromJson(string json) {
         var data = UnityEngine.JsonUtility.FromJson<RuntimeGameData>(json);
-        PlayerController.instance.PlayerData = data.player;
-        MapManager.instance.SetStartData(data.pos.mapId, data.maps);
-        PlayerController.instance.posx = data.pos.x;
-        PlayerController.instance.posy = data.pos.y;
+        Game.Controller.Player.PlayerData = data.player;
+        Game.Controller.MapMgr.SetStartData(data.pos.mapId, data.maps);
+        Game.Controller.Player.posx = data.pos.x;
+        Game.Controller.Player.posy = data.pos.y;
         return true;
     }
 

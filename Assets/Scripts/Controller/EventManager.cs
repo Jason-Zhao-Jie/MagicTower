@@ -1,6 +1,5 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 public class EventManager {
-    public static EventManager instance = null;
 
     public EventManager() {
         eventList = new Dictionary<EventName, Constant.EventCallback>{
@@ -25,28 +24,28 @@ public class EventManager {
     }
 
     public enum EventName {
-        None = 0,           //ÎŞÊÂ¼ş
-        NormalBattle = 1,   //Õ½¶·
-        OpenFreeDoor = 2,   //Ãâ·ÑÃÅ
-        NormalSend = 3,     //´«ËÍ»òÂ¥Ìİ
-        NormalChat = 4,     //¶Ô»°»òÌáÊ¾
-        NormalChoice = 5,   //Ñ¡ÔñĞÔ¶Ô»°
-        CallGame = 6,       //Ğ¡ÓÎÏ·
-        GetBaseResourceItem = 7,    //»ñÈ¡¹Ì¶¨»ù±¾×ÊÔ´
-        GetFunctionItem = 8,    //»ñÈ¡ÌØÊâÓÃÍ¾µÀ¾ß
-        OpenNormalDoor = 9,     //´ò¿ªÆÕÍ¨ÃÅ
-        RemoveEvent = 10,       //ÒÆ³ıÖ¸¶¨´¦µÄÊÂ¼ş
-        GetVariableResource = 11,   //»ñÈ¡±ä¼Û×ÊÔ´£¬ÓÃÓÚÉÌµê£¬´ËÊÂ¼ş¿¼ÂÇÖØ¹¹Ê±ÊÇ·ñÓë7ºÏ²¢
+        None = 0,           //æ— äº‹ä»¶
+        NormalBattle = 1,   //æˆ˜æ–—
+        OpenFreeDoor = 2,   //å…è´¹é—¨
+        NormalSend = 3,     //ä¼ é€æˆ–æ¥¼æ¢¯
+        NormalChat = 4,     //å¯¹è¯æˆ–æç¤º
+        NormalChoice = 5,   //é€‰æ‹©æ€§å¯¹è¯
+        CallGame = 6,       //å°æ¸¸æˆ
+        GetBaseResourceItem = 7,    //è·å–å›ºå®šåŸºæœ¬èµ„æº
+        GetFunctionItem = 8,    //è·å–ç‰¹æ®Šç”¨é€”é“å…·
+        OpenNormalDoor = 9,     //æ‰“å¼€æ™®é€šé—¨
+        RemoveEvent = 10,       //ç§»é™¤æŒ‡å®šå¤„çš„äº‹ä»¶
+        GetVariableResource = 11,   //è·å–å˜ä»·èµ„æºï¼Œç”¨äºå•†åº—ï¼Œæ­¤äº‹ä»¶è€ƒè™‘é‡æ„æ—¶æ˜¯å¦ä¸7åˆå¹¶
     }
 
     /// <summary>
-    /// ¶¨Òå±ä¼Û×ÊÔ´µÄ¼Û¸ñ»º´æÎ»£¬Ã¿¸ö»º´æÎ»ÓĞÆä¶ÀÌØµÄ±ä¼ÛËã·¨
+    /// å®šä¹‰å˜ä»·èµ„æºçš„ä»·æ ¼ç¼“å­˜ä½ï¼Œæ¯ä¸ªç¼“å­˜ä½æœ‰å…¶ç‹¬ç‰¹çš„å˜ä»·ç®—æ³•
     /// </summary>
     public enum VariablePriceType
     {
-        NoChange = 0, // Ä¬ÈÏÖµ£¬²»±ä¼Û
-        GoldenIncreasing = 1, // Ã¿´Î+1¼Û¸ñ£¬ÓÃÓÚÆÕÍ¨½ğ±ÒÉÌµê
-        KeyStoreDoubling = 2, // Ã¿´Î¼Û¸ñ³ËÒÔ2£¬ÓÃÓÚºóÆÚÔ¿³×ÉÌµê
+        NoChange = 0, // é»˜è®¤å€¼ï¼Œä¸å˜ä»·
+        GoldenIncreasing = 1, // æ¯æ¬¡+1ä»·æ ¼ï¼Œç”¨äºæ™®é€šé‡‘å¸å•†åº—
+        KeyStoreDoubling = 2, // æ¯æ¬¡ä»·æ ¼ä¹˜ä»¥2ï¼Œç”¨äºåæœŸé’¥åŒ™å•†åº—
     }
 
     public readonly Dictionary<EventName, Constant.EventCallback> eventList = null;
@@ -56,32 +55,32 @@ public class EventManager {
         int posx = (int)(eventData / 100 % 100);
         int posy = (int)(eventData % 100);
         int mapId = (int)(eventData / 10000);
-        if (mapId > 0 && mapId != MapManager.instance.CurrentMap.mapId) {
-            AudioController.instance.PlaySound(AudioController.stairSound);
-            var status = DataCenter.instance.Status;
-            MapManager.instance.ShowLoadingCurtain(() => {
-                MapManager.instance.ShowMap(mapId);
-                PlayerController.instance.ShowPlayer(posx, posy);
+        if (mapId > 0 && mapId != Game.Controller.MapMgr.CurrentMap.mapId) {
+            Game.Controller.Audio.PlaySound(AudioController.stairSound);
+            var status = Game.Data.Config.Status;
+            Game.Controller.MapMgr.ShowLoadingCurtain(() => {
+                Game.Controller.MapMgr.ShowMap(mapId);
+                Game.Controller.Player.ShowPlayer(posx, posy);
                 return true;
             }, ()=> {
-                DataCenter.instance.Status = status;
+                Game.Data.Config.Status = status;
                 return false;
             });
             return true;
         } else {
-            PlayerController.instance.ShowPlayer(posx, posy);
+            Game.Controller.Player.ShowPlayer(posx, posy);
             return false;
         }
     }
 
     private bool OnGetBaseResourceItem(Modal caller, long eventData) {
-        var lastStatus = DataCenter.instance.Status;
-        DataCenter.instance.Status = Constant.EGameStatus.OnEvent;
+        var lastStatus = Game.Data.Config.Status;
+        Game.Data.Config.Status = Constant.EGameStatus.OnEvent;
         var type = (Constant.ResourceType)(eventData % 100);
         var count = (int)(eventData / 100);
-        PlayerController.instance.ChangePlayerData(type, count);
-        AudioController.instance.PlaySound(AudioController.itemGetSound);
-        caller.RemoveSelf(()=> { DataCenter.instance.Status = lastStatus; });
+        Game.Controller.Player.ChangePlayerData(type, count);
+        Game.Controller.Audio.PlaySound(AudioController.itemGetSound);
+        caller.RemoveSelf(()=> { Game.Data.Config.Status = lastStatus; });
         return false;
     }
 
@@ -96,14 +95,14 @@ public class EventManager {
     }
 
     private bool OnChat(Modal caller, long eventData) {
-        var data = DataCenter.instance.chats[(int)eventData];
+        var data = Game.Data.Config.chats[(int)eventData];
         MainScene.instance.ChatBegan(data, caller);
         return data.canOn;
     }
 
     private bool OnChoice(Modal caller, long eventData) {
         int choiceId = (int)eventData;
-        var data = DataCenter.instance.choices[choiceId];
+        var data = Game.Data.Config.choices[choiceId];
         MainScene.instance.StartChoice(data, caller);
         return false;
     }
@@ -116,34 +115,34 @@ public class EventManager {
     }
 
     private bool OpenFreeDoor(Modal caller, long blockData) {
-        var lastStatus = DataCenter.instance.Status;
-        DataCenter.instance.Status = Constant.EGameStatus.OnEvent;
-        AudioController.instance.PlaySound(AudioController.openDoorSound);
-        caller.GoToRunState(() => { DataCenter.instance.Status = lastStatus; });
+        var lastStatus = Game.Data.Config.Status;
+        Game.Data.Config.Status = Constant.EGameStatus.OnEvent;
+        Game.Controller.Audio.PlaySound(AudioController.openDoorSound);
+        caller.GoToRunState(() => { Game.Data.Config.Status = lastStatus; });
         return false;
     }
 
     private bool OpenNormalDoor(Modal caller, long data) {
         switch (data) {
             case 9:
-                if (PlayerController.instance.YellowKey <= 0)
+                if (Game.Controller.Player.YellowKey <= 0)
                     return false;
-                --PlayerController.instance.YellowKey;
+                --Game.Controller.Player.YellowKey;
                 break;
             case 10:
-                if (PlayerController.instance.BlueKey <= 0)
+                if (Game.Controller.Player.BlueKey <= 0)
                     return false;
-                --PlayerController.instance.BlueKey;
+                --Game.Controller.Player.BlueKey;
                 break;
             case 11:
-                if (PlayerController.instance.RedKey <= 0)
+                if (Game.Controller.Player.RedKey <= 0)
                     return false;
-                --PlayerController.instance.RedKey;
+                --Game.Controller.Player.RedKey;
                 break;
             case 12: // TODO: have not set the green door's modal
-                if (PlayerController.instance.GreenKey <= 0)
+                if (Game.Controller.Player.GreenKey <= 0)
                     return false;
-                --PlayerController.instance.GreenKey;
+                --Game.Controller.Player.GreenKey;
                 break;
             case 13:    // brozen
                         // TODO
@@ -153,24 +152,24 @@ public class EventManager {
                         // TODO
                 return false;
         }
-        var lastStatus = DataCenter.instance.Status;
-        DataCenter.instance.Status = Constant.EGameStatus.OnEvent;
-        AudioController.instance.PlaySound(AudioController.openDoorSound);
-        caller.GoToRunState(() => { DataCenter.instance.Status = lastStatus; });
+        var lastStatus = Game.Data.Config.Status;
+        Game.Data.Config.Status = Constant.EGameStatus.OnEvent;
+        Game.Controller.Audio.PlaySound(AudioController.openDoorSound);
+        caller.GoToRunState(() => { Game.Data.Config.Status = lastStatus; });
         return false;
     }
 
     private bool RemoveEventAtBlock(Modal caller, long data) {
         if (data == 0)
             if (caller == null)
-                MapManager.instance.RemoveEventOn(PlayerController.instance.posx, PlayerController.instance.posy);
+                Game.Controller.MapMgr.RemoveEventOn(Game.Controller.Player.posx, Game.Controller.Player.posy);
             else
-                MapManager.instance.RemoveEventOn(caller.PosX, caller.PosY, caller.MapId);
+                Game.Controller.MapMgr.RemoveEventOn(caller.PosX, caller.PosY, caller.MapId);
         else
-            MapManager.instance.RemoveEventOn((int)(data / 100 % 100), (int)(data % 100), (int)(data / 10000));
+            Game.Controller.MapMgr.RemoveEventOn((int)(data / 100 % 100), (int)(data % 100), (int)(data / 10000));
         return false;
     }
 
-    ////////////// ¸¨Öúº¯Êı ////////////////////////////////////
+    ////////////// è¾…åŠ©å‡½æ•° ////////////////////////////////////
     
 }

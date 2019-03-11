@@ -1,9 +1,8 @@
-using System.Collections.Generic;
+Ôªøusing System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController {
     public const int DEFALUT_PLAYER_ID = 62;
-    public static PlayerController instance = null;
 
     public enum Direction {
         Default,
@@ -23,7 +22,7 @@ public class PlayerController {
     public bool GoToNextBlock() {
         int targetPosX = posx;
         int targetPosY = posy;
-        if (DataCenter.instance.Status == Constant.EGameStatus.AutoStepping) {
+        if (Game.Data.Config.Status == Constant.EGameStatus.AutoStepping) {
             if (AutoSteppingRoad.Count <= 0) {
                 StopAutoStepping();
                 return false;
@@ -65,20 +64,20 @@ public class PlayerController {
         }
 
         // Check map event and thing event
-        var block = MapManager.instance.CurrentMap.blocks[targetPosX][targetPosY];
-        long uuid = MapManager.instance.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
+        var block = Game.Controller.MapMgr.CurrentMap.blocks[targetPosX][targetPosY];
+        long uuid = Game.Controller.MapMgr.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
         if (block.eventId != 0) {
-            if(DataCenter.instance.Status == Constant.EGameStatus.AutoStepping)
-                DataCenter.instance.Status = Constant.EGameStatus.InGame;
-            if (!EventManager.instance.DispatchEvent(block.eventId, MapManager.instance.GetModalByUuid(uuid), block.eventData))
+            if(Game.Data.Config.Status == Constant.EGameStatus.AutoStepping)
+                Game.Data.Config.Status = Constant.EGameStatus.InGame;
+            if (!Game.Controller.EventMgr.DispatchEvent(block.eventId, Game.Controller.MapMgr.GetModalByUuid(uuid), block.eventData))
                 return false;
         }
         if (block.thing != 0) {
-            var thingData = DataCenter.instance.modals[block.thing];
+            var thingData = Game.Data.Config.modals[block.thing];
             if (thingData.eventId != 0) {
-                if (DataCenter.instance.Status == Constant.EGameStatus.AutoStepping)
-                    DataCenter.instance.Status = Constant.EGameStatus.InGame;
-                if (!EventManager.instance.DispatchEvent(thingData.eventId, MapManager.instance.GetModalByUuid(uuid), thingData.eventData))
+                if (Game.Data.Config.Status == Constant.EGameStatus.AutoStepping)
+                    Game.Data.Config.Status = Constant.EGameStatus.InGame;
+                if (!Game.Controller.EventMgr.DispatchEvent(thingData.eventId, Game.Controller.MapMgr.GetModalByUuid(uuid), thingData.eventData))
                     return false;
             }
             switch ((Modal.ModalType)thingData.typeId) {
@@ -88,11 +87,11 @@ public class PlayerController {
                     return false;
             }
         }
-        MapManager.instance.CurrentMap.blocks[targetPosX][targetPosY] = block;
+        Game.Controller.MapMgr.CurrentMap.blocks[targetPosX][targetPosY] = block;
 
         posx = targetPosX;
         posy = targetPosY;
-        AudioController.instance.PlaySound(AudioController.stepSound);
+        Game.Controller.Audio.PlaySound(AudioController.stepSound);
         return true;
     }
 
@@ -101,7 +100,7 @@ public class PlayerController {
     }
 
     public bool SetPlayerInfo(int id) {
-        data = DataCenter.instance.players[id];
+        data = Game.Data.Config.players[id];
         return true;
     }
 
@@ -215,9 +214,9 @@ public class PlayerController {
             SetPlayerInfo(playerId);
             player = null;
         }
-        var modalData = DataCenter.instance.modals[playerId];
+        var modalData = Game.Data.Config.modals[playerId];
         if (player == null || isNew) {
-            player = ObjectPool.instance.GetAnElement<Player>(modalData.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modalData.prefabPath);
+            player = Game.View.ObjPool.GetAnElement<Player>(modalData.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modalData.prefabPath);
             player.MainPlayer = true;
         }
         if (posx < 0 || posx >= Constant.MAP_BLOCK_LENGTH)
@@ -268,7 +267,7 @@ public class PlayerController {
                 data.defense += count;
                 break;
             case Constant.ResourceType.Level:
-                // …˝º∂–Ë“™Ãÿ ‚¥¶¿Ì
+                // ÂçáÁ∫ßÈúÄË¶ÅÁâπÊÆäÂ§ÑÁêÜ
                 break;
             case Constant.ResourceType.Experience:
                 data.exp += count;
@@ -307,12 +306,12 @@ public class PlayerController {
     }
 
     public bool StartAutoStep(int targetPosx, int targetPosy) {
-        var findedRoad = MathHelper.AutoFindBestRoad(MapManager.instance.ConvertCurrentMapToFinderArray(), posx, posy, targetPosx, targetPosy);
+        var findedRoad = MathHelper.AutoFindBestRoad(Game.Controller.MapMgr.ConvertCurrentMapToFinderArray(), posx, posy, targetPosx, targetPosy);
         if (findedRoad == null || findedRoad.Length <= 0) {
-            AudioController.instance.PlaySound(AudioController.disableSound);
+            Game.Controller.Audio.PlaySound(AudioController.disableSound);
             return false;
         }
-        DataCenter.instance.Status = Constant.EGameStatus.AutoStepping;
+        Game.Data.Config.Status = Constant.EGameStatus.AutoStepping;
         TargetAutoStep = new Vector2Int(targetPosx, targetPosy);
         AutoSteppingRoad = new Stack<Vector2Int>();
         for (int i = findedRoad.Length - 1; i > 0; --i) {
@@ -324,7 +323,7 @@ public class PlayerController {
 
     public void StopAutoStepping() {
         IsRunning = false;
-        DataCenter.instance.Status = Constant.EGameStatus.InGame;
+        Game.Data.Config.Status = Constant.EGameStatus.InGame;
     }
 
     public void StopWalk() {

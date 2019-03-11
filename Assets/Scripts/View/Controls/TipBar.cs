@@ -9,14 +9,14 @@ public class TipBar : ObjectPool.AElement
 
     public static TipBar ShowTip()
     {
-        var ret = ObjectPool.instance.GetAnElement<TipBar>(PREFAB_ID, ObjectPool.ElementType.Dialog, Constant.DIALOG_DIR + PREFAB_DIR);
+        var ret = Game.View.ObjPool.GetAnElement<TipBar>(PREFAB_ID, ObjectPool.ElementType.Dialog, Constant.DIALOG_DIR + PREFAB_DIR);
         return ret;
     }
 
     // Use this for initialization
     void Awake() {
         tipsText = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
-        tipsText.fontSize = System.Convert.ToInt32(tipsText.fontSize * ScreenAdaptator.instance.RealFontSize);
+        tipsText.fontSize = System.Convert.ToInt32(tipsText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
     }
 
     void FixedUpdate() {
@@ -31,7 +31,7 @@ public class TipBar : ObjectPool.AElement
     public void SetTipText(string content)
     {
         tipsText.text = content;
-        AudioController.instance.PlaySound(20);
+        Game.Controller.Audio.PlaySound(20);
     }
 
     public void StartAutoRemove(int time) {

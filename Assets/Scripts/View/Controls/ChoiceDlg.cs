@@ -11,7 +11,7 @@ public class ChoiceDlg : ObjectPool.AElement
     public static ChoiceDlg StartChoice(Transform parent, Constant.ChoiceData choiceData, Modal mod, Constant.EGameStatus nextStatus = Constant.EGameStatus.InGame)
     {
         // 弹出战斗框
-        var ret = ObjectPool.instance.GetAnElement<ChoiceDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
+        var ret = Game.View.ObjPool.GetAnElement<ChoiceDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
         // 设定信息
         ret.choice = choiceData;
         ret.choiceMod = mod;
@@ -29,14 +29,14 @@ public class ChoiceDlg : ObjectPool.AElement
         choiceSpeakerFrame = choiceInfoPanel.transform.Find("SpeakerFrame").gameObject;
         choiceSpeaker = choiceInfoPanel.transform.Find("Speaker")?.gameObject;
         choiceSpeakerText = choiceInfoPanel.transform.Find("SpeakerName").GetComponent<Text>();
-        choiceSpeakerText.fontSize = Convert.ToInt32(choiceSpeakerText.fontSize*ScreenAdaptator.instance.RealFontSize);
+        choiceSpeakerText.fontSize = Convert.ToInt32(choiceSpeakerText.fontSize*Game.View.ScreenAdaptorInst.RealFontSize);
         choiceTitleText = choiceInfoPanel.transform.Find("TitleText").GetComponent<Text>();
-        choiceTitleText.fontSize = Convert.ToInt32(choiceTitleText.fontSize*ScreenAdaptator.instance.RealFontSize);
+        choiceTitleText.fontSize = Convert.ToInt32(choiceTitleText.fontSize*Game.View.ScreenAdaptorInst.RealFontSize);
         choiceItemPanel = transform.Find("ItemPanel").gameObject;
-        //choiceItemPanel.GetComponent<VerticalLayoutGroup>().spacing *= ScreenAdaptator.instance.RealFontSize;
+        //choiceItemPanel.GetComponent<VerticalLayoutGroup>().spacing *= Game.View.ScreenAdaptorInst.RealFontSize;
         firstChoiceItem = choiceItemPanel.transform.Find("FirstItem").GetComponent<Button>();
         firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = "";
-        firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize = Convert.ToInt32(firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize*ScreenAdaptator.instance.RealFontSize);
+        firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize = Convert.ToInt32(firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize*Game.View.ScreenAdaptorInst.RealFontSize);
         choiceItems = new List<Button>();
     }
 
@@ -44,22 +44,22 @@ public class ChoiceDlg : ObjectPool.AElement
         firstChoiceItem.enabled = true;
         choiceSpeaker?.SetActive(true);
         // 设定游戏状态
-        DataCenter.instance.Status = Constant.EGameStatus.OnChoice;
+        Game.Data.Config.Status = Constant.EGameStatus.OnChoice;
         // 显示选择对话框
         gameObject.SetActive(true);
         // 显示对话者头像
         if (choice.speakerId < 0)
-            choice.speakerId = PlayerController.instance.PlayerId;
-        var modal = DataCenter.instance.modals[choice.speakerId];
+            choice.speakerId = Game.Controller.Player.PlayerId;
+        var modal = Game.Data.Config.modals[choice.speakerId];
         ObjectPool.AElement obj = null;
         if ((Modal.ModalType)modal.typeId == Modal.ModalType.Player) {
-            obj = ObjectPool.instance.GetAnElement<Player>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+            obj = Game.View.ObjPool.GetAnElement<Player>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         } else {
-            obj = ObjectPool.instance.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+            obj = Game.View.ObjPool.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         }
         obj.transform.SetParent(choiceSpeakerFrame.transform, false);
         obj.transform.localPosition = new Vector3(0, 0, obj.transform.localPosition.z);
-        obj.transform.localScale = ScreenAdaptator.instance.BlockSize;
+        obj.transform.localScale = Game.View.ScreenAdaptorInst.BlockSize;
         if (choiceSpeaker != null) {
             var mod = choiceSpeaker.GetComponent<Modal>();
             if (mod != null)
@@ -112,7 +112,7 @@ public class ChoiceDlg : ObjectPool.AElement
         // 隐藏选择对话框
         choiceSpeaker?.SetActive(false);
         gameObject.SetActive(false);
-        DataCenter.instance.Status = nextStatus;
+        Game.Data.Config.Status = nextStatus;
     }
 
     private Button CreateChoiceItem(string content)
@@ -158,9 +158,9 @@ public class ChoiceDlg : ObjectPool.AElement
 
     public void OnItemClicked(int index)
     {
-        ObjectPool.instance.RecycleAnElement(this);
+        Game.View.ObjPool.RecycleAnElement(this);
         ClearChoice();
-        EventManager.instance.DispatchEvent(choice.data[index].eventId, choiceMod, choice.data[index].eventData);
+        Game.Controller.EventMgr.DispatchEvent(choice.data[index].eventId, choiceMod, choice.data[index].eventData);
     }
 
     public override ObjectPool.ElementType GetPoolTypeId()

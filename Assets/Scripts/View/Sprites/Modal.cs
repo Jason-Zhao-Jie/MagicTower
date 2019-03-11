@@ -19,7 +19,7 @@ public class Modal : ObjectPool.AElement {
 
     public string PrefabPath {
         get {
-            return DataCenter.instance.modals[modId].prefabPath;
+            return Game.Data.Config.modals[modId].prefabPath;
         }
     }
 
@@ -36,7 +36,7 @@ public class Modal : ObjectPool.AElement {
     }
 
     public static string GetResourcePath(int modId) {
-        return GetResourcePath(DataCenter.instance.modals[modId].prefabPath);
+        return GetResourcePath(Game.Data.Config.modals[modId].prefabPath);
     }
 
     public static string GetResourcePath(string prefabPath) {
@@ -72,7 +72,7 @@ public class Modal : ObjectPool.AElement {
         this.posx = posx;
         this.posy = posy;
         uuid = mapId * 10000 + posy + posx * 100;
-        MapManager.instance.AddMod(uuid, this);
+        Game.Controller.MapMgr.AddMod(uuid, this);
     }
 
     public void GoToRunState(Constant.EmptyCallBack dCB = null) {
@@ -86,9 +86,9 @@ public class Modal : ObjectPool.AElement {
 
     public void RemoveSelf(bool callManager = true) {
         if (callManager)
-            MapManager.instance.RemoveThingOnMap(posx, posy, mapId);
-        MapManager.instance.RemoveMod(uuid);
-        ObjectPool.instance.RecycleAnElement(this);
+            Game.Controller.MapMgr.RemoveThingOnMap(posx, posy, mapId);
+        Game.Controller.MapMgr.RemoveMod(uuid);
+        Game.View.ObjPool.RecycleAnElement(this);
     }
 
     public void RemoveSelf(Constant.EmptyCallBack dCB) {

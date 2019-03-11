@@ -10,7 +10,7 @@ public class Zzhit : ObjectPool.AElement {
     }
 
     public void PlaySound() {
-        AudioController.instance.PlaySound(isCrit ? data.critAudioId : data.audioId);
+        Game.Controller.Audio.PlaySound(isCrit ? data.critAudioId : data.audioId);
     }
 
     private void Awake() {
@@ -76,7 +76,7 @@ public class Zzhit : ObjectPool.AElement {
         --runTime;
         if (runTime < 0) {
             if (MainScene.instance) {
-                ObjectPool.instance.RecycleAnElement(this);
+                Game.View.ObjPool.RecycleAnElement(this);
             }
         }
     }

@@ -104,7 +104,7 @@ public static class MathHelper {
         return findedRoad;
     }
 
-    public static UnityEngine.Vector2Int[] AutoFindRoad(int[][] mapBlockData, int startPosx, int startPosy, int endPosx, int endPosy, int unableValue = 9) {
+    private static UnityEngine.Vector2Int[] AutoFindRoad(int[][] mapBlockData, int startPosx, int startPosy, int endPosx, int endPosy, int unableValue = 9) {
         if (startPosx == endPosx && startPosy == endPosy)
             return null;
         if (IsPosNearly(new UnityEngine.Vector2Int(startPosx, startPosy), new UnityEngine.Vector2Int(endPosx, endPosy))) {
@@ -204,7 +204,6 @@ public static class MathHelper {
     /// 寻找邻近可走地图块
     /// </summary>
     /// <param name="mapBlockData">整个地图的信息, 由 <see cref="MapManager.ConvertCurrentMapToFinderArray()"/> 转化而来</param>
-    /// <param name="startPos">要搜索的源位置</param>
     /// <returns>
     ///     返回一个数组
     /// </returns>

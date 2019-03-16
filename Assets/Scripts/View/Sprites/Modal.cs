@@ -72,7 +72,7 @@ public class Modal : ObjectPool.AElement {
         this.posx = posx;
         this.posy = posy;
         uuid = mapId * 10000 + posy + posx * 100;
-        Game.Controller.MapMgr.AddMod(uuid, this);
+        Game.Map.AddMod(uuid, this);
     }
 
     public void GoToRunState(Constant.EmptyCallBack dCB = null) {
@@ -86,8 +86,8 @@ public class Modal : ObjectPool.AElement {
 
     public void RemoveSelf(bool callManager = true) {
         if (callManager)
-            Game.Controller.MapMgr.RemoveThingOnMap(posx, posy, mapId);
-        Game.Controller.MapMgr.RemoveMod(uuid);
+            Game.Map.RemoveThingOnMap(posx, posy, mapId);
+        Game.Map.RemoveMod(uuid);
         Game.View.ObjPool.RecycleAnElement(this);
     }
 

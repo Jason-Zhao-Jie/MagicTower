@@ -11,7 +11,7 @@ public class StartScene : MonoBehaviour {
         Input.multiTouchEnabled = false;    // Note : 多点触摸会导致寻路出现bug, 先禁用
 
         Game.Initial(GetComponent<RectTransform>().rect.size);
-        Game.Controller.MapMgr.SetStartData();
+        Game.Map.SetStartData();
         SetLoadingPercent(1);
         Game.Controller.Audio.MusicSource = GetComponent<AudioSource>();
         Game.Controller.Audio.ClearSoundSource();

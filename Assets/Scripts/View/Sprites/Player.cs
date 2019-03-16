@@ -10,34 +10,34 @@ public class Player : ObjectPool.AElement {
     }
 
     void Update() {
-        if (Game.Controller.Player.dirChanged && mainPlayer) {
-            switch (Game.Controller.Player.Dir) {
+        if (Game.Player.DirChanged && mainPlayer) {
+            switch (Game.Player.Dir) {
                 case PlayerController.Direction.Up:
-                    Animator.Play(Game.Controller.Player.IsRunning ? "Up" : "Up_Stand");
+                    Animator.Play(Game.Player.IsRunning ? "Up" : "Up_Stand");
                     break;
                 case PlayerController.Direction.Down:
-                    Animator.Play(Game.Controller.Player.IsRunning ? "Down" : "Down_Stand");
+                    Animator.Play(Game.Player.IsRunning ? "Down" : "Down_Stand");
                     break;
                 case PlayerController.Direction.Left:
-                    Animator.Play(Game.Controller.Player.IsRunning ? "Left" : "Left_Stand");
+                    Animator.Play(Game.Player.IsRunning ? "Left" : "Left_Stand");
                     break;
                 case PlayerController.Direction.Right:
-                    Animator.Play(Game.Controller.Player.IsRunning ? "Right" : "Right_Stand");
+                    Animator.Play(Game.Player.IsRunning ? "Right" : "Right_Stand");
                     break;
             }
-            Game.Controller.Player.dirChanged = false;
+            Game.Player.DirChanged = false;
         }
     }
 
     void FixedUpdate() {
-        if (Game.Controller.Player.IsRunning && mainPlayer) {
+        if (Game.Player.IsRunning && mainPlayer) {
             if (runningTime < RUN_SPEED)
                 ++runningTime;
             else {
                 runningTime = 0;
-                if (Game.Controller.Player.GoToNextBlock()) {
+                if (Game.Player.GoToNextBlock()) {
                     var posController = transform;
-                    switch (Game.Controller.Player.Dir) {
+                    switch (Game.Player.Dir) {
                         case PlayerController.Direction.Up:
                             posController.position = new Vector3(posController.position.x, posController.position.y + movedLength.y, posController.position.z);
                             break;

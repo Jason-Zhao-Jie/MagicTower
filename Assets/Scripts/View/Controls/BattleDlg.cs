@@ -27,7 +27,7 @@ public class BattleDlg : ObjectPool.AElement
         ret.transform.SetParent(parent, false);
         ret.SetBattleInfo(enemyUuid, yourUuid);
         // 设定状态, 战斗开始
-        Game.Data.Config.Status = Constant.EGameStatus.OnBattle;
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnBattle;
         ret.isBattlePaused = false;
         ret.battleResultPanel.SetActive(false);
 
@@ -79,7 +79,7 @@ public class BattleDlg : ObjectPool.AElement
 
     // Update is called once per frame
     void FixedUpdate() {
-        if (gameObject.activeSelf && !isBattlePaused && Game.Data.Config.Status == Constant.EGameStatus.OnBattle && (hitter == null || !hitter.isActiveAndEnabled)) {
+        if (gameObject.activeSelf && !isBattlePaused && Game.Data.RuntimeData.Status == Constant.EGameStatus.OnBattle && (hitter == null || !hitter.isActiveAndEnabled)) {
             ++battleHitSleep;
             if (battleHitSleep > BATTLE_SLEEP_TIME) {
                 battleHitSleep -= BATTLE_SLEEP_TIME;
@@ -141,23 +141,23 @@ public class BattleDlg : ObjectPool.AElement
     {
         // 设定战斗双方的属性数据
         enemyUuid = enemy;        
-        enemyBattleData = Game.Controller.MapMgr.GetMonsterDataByUuid(enemyUuid);
+        enemyBattleData = Game.Map.GetMonsterDataByUuid(enemyUuid);
         if (you < 0)
             playerBattleData = new Constant.MonsterData()
             {
-                id = Game.Controller.Player.PlayerId,
-                level = Game.Controller.Player.Level,
+                id = Game.Player.PlayerId,
+                level = Game.Player.Level,
                 exp = 0,
-                life = Game.Controller.Player.Life,
-                attack = Game.Controller.Player.Attack,
-                defense = Game.Controller.Player.Defense,
-                speed = Game.Controller.Player.Speed,
-                critical = Game.Controller.Player.Critical,
+                life = Game.Player.Life,
+                attack = Game.Player.Attack,
+                defense = Game.Player.Defense,
+                speed = Game.Player.Speed,
+                critical = Game.Player.Critical,
                 gold = 0,
-                weaponId = Game.Controller.Player.Weapon
+                weaponId = Game.Player.Weapon
             };
         else
-            playerBattleData = Game.Controller.MapMgr.GetMonsterDataByUuid(you);
+            playerBattleData = Game.Map.GetMonsterDataByUuid(you);
 
         rounds = 1;
         hurted = 0;
@@ -198,12 +198,12 @@ public class BattleDlg : ObjectPool.AElement
         enemySprite = obj.gameObject;
 
         // 将双方数据显示到界面
-        playerNameText.text = StringInternational.GetValue(playerModal.name);
+        playerNameText.text = Game.Data.Config.StringInternational.GetValue(playerModal.name);
         playerLifeText.text = playerBattleData.life.ToString();
         playerAttackText.text = playerBattleData.attack.ToString();
         playerDefenseText.text = playerBattleData.defense.ToString();
         playerSpeedText.text = playerBattleData.speed.ToString();
-        enemyNameText.text = StringInternational.GetValue(enemyModal.name);
+        enemyNameText.text = Game.Data.Config.StringInternational.GetValue(enemyModal.name);
         enemyLifeText.text = enemyBattleData.life.ToString();
         enemyAttackText.text = enemyBattleData.attack.ToString();
         enemyDefenseText.text = enemyBattleData.defense.ToString();
@@ -222,8 +222,8 @@ public class BattleDlg : ObjectPool.AElement
 
     public void StopBattle()
     {
-        Game.Controller.MapMgr.RemoveThingOnMapWithModal(enemyUuid);
-        Game.Data.Config.Status = Constant.EGameStatus.InGame;
+        Game.Map.RemoveThingOnMapWithModal(enemyUuid);
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.InGame;
         isBattlePaused = false;
     }
 
@@ -241,12 +241,12 @@ public class BattleDlg : ObjectPool.AElement
     private void OnBattleOver()
     {
         isBattlePaused = true;
-        battleResultGoldText.text = StringInternational.GetValue(BATTLE_GOLD_GET_TEXT, enemyBattleData.gold.ToString());
-        battleResultExpText.text = StringInternational.GetValue(BATTLE_EXP_GET_TEXT, enemyBattleData.exp.ToString());
-        battleHurtedText.text = StringInternational.GetValue(BATTLE_HURTED_TEXT, hurted.ToString());
+        battleResultGoldText.text = Game.Data.Config.StringInternational.GetValue(BATTLE_GOLD_GET_TEXT, enemyBattleData.gold.ToString());
+        battleResultExpText.text = Game.Data.Config.StringInternational.GetValue(BATTLE_EXP_GET_TEXT, enemyBattleData.exp.ToString());
+        battleHurtedText.text = Game.Data.Config.StringInternational.GetValue(BATTLE_HURTED_TEXT, hurted.ToString());
         battleResultPanel.SetActive(true);
         overCallback(playerBattleData.id, playerBattleData.life, enemyBattleData.gold, enemyBattleData.exp, 0, 0);
-        Game.Data.Config.Status = Constant.EGameStatus.OnBattleResult;
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnBattleResult;
     }
 
     public override ObjectPool.ElementType GetPoolTypeId()

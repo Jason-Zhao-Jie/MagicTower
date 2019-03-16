@@ -19,7 +19,7 @@ public class MainScene : MonoBehaviour {
         Game.View.ScreenAdaptorInst.LoadOnMainScene(mapPanel.GetComponent<RectTransform>().rect);
 
         curtain = dialogCanvas.transform.Find("Curtain").GetComponent<Curtain>();
-        curtain.gameObject.SetActive(false);
+        //curtain.gameObject.SetActive(false);
         mapNameText = heroPanel.transform.Find("MapName").GetComponent<Text>();
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
@@ -59,18 +59,17 @@ public class MainScene : MonoBehaviour {
         Game.Controller.Audio.AddSoundSource(transform.Find("ItemPanel").GetComponent<AudioSource>());
         Game.Controller.Audio.AddSoundSource(transform.Find("MapPanel").GetComponent<AudioSource>());
 
-        Game.Controller.MapMgr.ShowMap();
+        Game.Map.ShowMap();
 
-        Game.Controller.Player.ShowPlayer(true);
-        Game.Controller.Player.SyncPlayerData();
+        Game.Player.ShowPlayer(true);
 
-        Game.Data.Config.Status = Constant.EGameStatus.InGame;
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.InGame;
 
     }
 
     void OnDestroy() {
-        Game.Controller.MapMgr.ClearMap();
-        Game.Data.Config.Status = Constant.EGameStatus.Start;
+        Game.Map.ClearMap();
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.Start;
         instance = null;
         Game.View.ObjPool.ClearAll();
     }
@@ -142,34 +141,34 @@ public class MainScene : MonoBehaviour {
             var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / Game.View.ScreenAdaptorInst.MapPartRect.height);
             if (_posx >= Constant.MAP_BLOCK_LENGTH || _posy >= Constant.MAP_BLOCK_LENGTH)
                 return;
-            Game.Controller.Player.StartAutoStep(_posx, _posy);
+            Game.Player.StartAutoStep(_posx, _posy);
         }
     }
 
     /********************** Chat Part **************************************/
 
     public void ShowChatOnTop(string content, int speakerId = -1) {
-        Game.Data.Config.Status = Constant.EGameStatus.OnTipChat;
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnTipChat;
         topChatPanel.gameObject.SetActive(true);
-        topChatPanel.SetChat(StringInternational.GetValue(content), speakerId);
+        topChatPanel.SetChat(Game.Data.Config.StringInternational.GetValue(content), speakerId);
         topChatPanel.gameObject.SetActive(true);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(false);
     }
 
     public void ShowChatOnBottom(string content, int speakerId = -1) {
-        Game.Data.Config.Status = Constant.EGameStatus.OnTipChat;
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnTipChat;
         bottomChatPanel.gameObject.SetActive(true);
-        bottomChatPanel.SetChat(StringInternational.GetValue(content), speakerId);
+        bottomChatPanel.SetChat(Game.Data.Config.StringInternational.GetValue(content), speakerId);
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(true);
         tipsPanel.gameObject.SetActive(false);
     }
 
     public void ShowTips(string content) {
-        Game.Data.Config.Status = Constant.EGameStatus.OnTipChat;
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnTipChat;
         tipsPanel.gameObject.SetActive(true);
-        tipsPanel.SetTipText(StringInternational.GetValue(content));
+        tipsPanel.SetTipText(Game.Data.Config.StringInternational.GetValue(content));
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(true);
@@ -181,7 +180,7 @@ public class MainScene : MonoBehaviour {
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(false);
-        Game.Data.Config.Status = (battlePanel != null && battlePanel.isActiveAndEnabled) ? Constant.EGameStatus.OnBattle : Constant.EGameStatus.InGame;
+        Game.Data.RuntimeData.Status = (battlePanel != null && battlePanel.isActiveAndEnabled) ? Constant.EGameStatus.OnBattle : Constant.EGameStatus.InGame;
     }
 
     public void ChatBegan(Constant.ChatData chat, Modal mod) {
@@ -205,7 +204,7 @@ public class MainScene : MonoBehaviour {
             else if (chatData.speakerId < 0)
                 ShowChatOnTop(chatData.content, chatMod.ModId);
             else if (chatData.speakerId == 0)
-                ShowChatOnBottom(chatData.content, Game.Controller.Player.PlayerId);
+                ShowChatOnBottom(chatData.content, Game.Player.PlayerId);
             else
                 ShowChatOnTop(chatData.content, chatData.speakerId);
             ++chatIndex;
@@ -229,10 +228,10 @@ public class MainScene : MonoBehaviour {
 
     private void OnBattleOver(int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long nextEventData) {
         // 记录应用战斗结果（金币，经验，血量）
-        if (yourId == Game.Controller.Player.PlayerId) {
-            Game.Controller.Player.Life = yourLife;
-            Game.Controller.Player.Gold += goldGain;
-            Game.Controller.Player.Experience += expGain;
+        if (yourId == Game.Player.PlayerId) {
+            Game.Player.Life = yourLife;
+            Game.Player.Gold += goldGain;
+            Game.Player.Experience += expGain;
         }
         // TODO 添加对后续event的处理
     }

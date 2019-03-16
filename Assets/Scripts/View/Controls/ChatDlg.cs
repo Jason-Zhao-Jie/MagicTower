@@ -43,7 +43,7 @@ public class ChatDlg : ObjectPool.AElement
     {
         // 查找对话者数据, 贴上人物头像
         if (speakerId < 0)
-            speakerId = Game.Controller.Player.PlayerId;
+            speakerId = Game.Player.PlayerId;
         var modal = Game.Data.Config.modals[speakerId];
         ObjectPool.AElement obj = null;
         if ((Modal.ModalType)modal.typeId == Modal.ModalType.Player)
@@ -66,7 +66,7 @@ public class ChatDlg : ObjectPool.AElement
             Destroy(speaker);
         speaker = obj.gameObject;
         // 对话者名字
-        speakerText.text = StringInternational.GetValue(modal.name);
+        speakerText.text = Game.Data.Config.StringInternational.GetValue(modal.name);
         // 对话内容
         text.text = content;
     }

@@ -44,12 +44,12 @@ public class ChoiceDlg : ObjectPool.AElement
         firstChoiceItem.enabled = true;
         choiceSpeaker?.SetActive(true);
         // 设定游戏状态
-        Game.Data.Config.Status = Constant.EGameStatus.OnChoice;
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnChoice;
         // 显示选择对话框
         gameObject.SetActive(true);
         // 显示对话者头像
         if (choice.speakerId < 0)
-            choice.speakerId = Game.Controller.Player.PlayerId;
+            choice.speakerId = Game.Player.PlayerId;
         var modal = Game.Data.Config.modals[choice.speakerId];
         ObjectPool.AElement obj = null;
         if ((Modal.ModalType)modal.typeId == Modal.ModalType.Player) {
@@ -70,13 +70,13 @@ public class ChoiceDlg : ObjectPool.AElement
                 Destroy(choiceSpeaker);
         }
         choiceSpeaker = obj.gameObject;
-        choiceSpeakerText.text = StringInternational.GetValue(modal.name);
+        choiceSpeakerText.text = Game.Data.Config.StringInternational.GetValue(modal.name);
         // 设定选择的标题介绍对话的内容
-        choiceTitleText.text = StringInternational.GetValue(choice.title);
+        choiceTitleText.text = Game.Data.Config.StringInternational.GetValue(choice.title);
         // 添加选项
         foreach (var i in choice.data)
         {
-            CreateChoiceItem(StringInternational.GetValue(i.content, i.contentData));
+            CreateChoiceItem(Game.Data.Config.StringInternational.GetValue(i.content, i.contentData));
         }
         firstChoiceItem.Select();   // 选中第一项
         if(choice.data != null && choice.data.Length > 0) {
@@ -112,7 +112,7 @@ public class ChoiceDlg : ObjectPool.AElement
         // 隐藏选择对话框
         choiceSpeaker?.SetActive(false);
         gameObject.SetActive(false);
-        Game.Data.Config.Status = nextStatus;
+        Game.Data.RuntimeData.Status = nextStatus;
     }
 
     private Button CreateChoiceItem(string content)

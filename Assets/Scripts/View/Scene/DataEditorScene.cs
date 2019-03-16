@@ -204,13 +204,13 @@ public class DataEditorScene : MonoBehaviour {
         }
 
         // 初始化
-        Game.Data.Config.Status = Constant.EGameStatus.InEditor;
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.InEditor;
         OnChangeToMaps();
     }
 
     private void OnDestroy() {
-        Game.Controller.MapMgr.ClearMap();
-        Game.Data.Config.Status = Constant.EGameStatus.Start;
+        Game.Map.ClearMap();
+        Game.Data.RuntimeData.Status = Constant.EGameStatus.Start;
         instance = null;
         Game.View.ObjPool.ClearAll();
     }
@@ -245,7 +245,7 @@ public class DataEditorScene : MonoBehaviour {
         stringChatsAndChoicesPanel.SetActive(false);
         var panel = mapMakerPanel.transform.Find("SetPanel");
         var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-        Game.Controller.MapMgr.ShowMap(mapId);
+        Game.Map.ShowMap(mapId);
     }
 
     // Modal&Audio按钮回调
@@ -329,7 +329,7 @@ public class DataEditorScene : MonoBehaviour {
         panel.transform.Find("MapName").GetComponent<InputField>().text = Game.Data.Config.GetGameMap(mapId - 1).mapName;
         panel.transform.Find("Music").GetComponent<Dropdown>().value = Game.Data.Config.GetGameMap(mapId - 1).music - 1;
         panel.transform.Find("BackModal").GetComponent<Dropdown>().value = Game.Data.Config.GetGameMap(mapId - 1).backThing - 1;
-        Game.Controller.MapMgr.ShowMap(mapId);
+        Game.Map.ShowMap(mapId);
         OnMapClicked(new Vector2(0, 0));
         Game.Controller.Audio.StopMusic();
     }
@@ -338,10 +338,10 @@ public class DataEditorScene : MonoBehaviour {
     public void OnMapModalSelected(bool isBack) {
         if (isBack) {
             var index = mapMakerPanel.transform.Find("SetPanel").transform.Find("BackModal").GetComponent<Dropdown>().value;
-            Game.Controller.MapMgr.ChangeBack(Game.Data.Config.modals[index + 1].prefabPath);
+            Game.Map.ChangeBack(Game.Data.Config.modals[index + 1].prefabPath);
         } else {
             var index = mapMakerPanel.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>().value;
-            Game.Controller.MapMgr.ChangeThingOnMap(index, posx, posy);
+            Game.Map.ChangeThingOnMap(index, posx, posy);
         }
     }
 

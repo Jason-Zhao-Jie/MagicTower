@@ -7,19 +7,19 @@ public class Curtain : MonoBehaviour {
     private Constant.EmptyBoolCallBack[] callbacks = null;
 
     public void StartShow(Constant.EmptyBoolCallBack hideCb, params Constant.EmptyBoolCallBack[] showCb) {
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
         firstcallback = hideCb;
         callbacks = showCb;
-        Animator.enabled = true;
+        //Animator.enabled = true;
 
         Animator.Play("Curtain_show");
     }
 
     public void StartHide(Constant.EmptyBoolCallBack showCb, params Constant.EmptyBoolCallBack[] hideCb) {
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
         firstcallback = showCb;
         callbacks = hideCb;
-        Animator.enabled = true;
+        //Animator.enabled = true;
 
         Animator.Play("Curtain_hide");
     }
@@ -31,7 +31,7 @@ public class Curtain : MonoBehaviour {
     private void Start()
     {
         Animator.enabled = false;
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -39,7 +39,7 @@ public class Curtain : MonoBehaviour {
     }
 
     private void OnShow() {
-        Animator.enabled = false;
+        //Animator.enabled = false;
         if (firstcallback != null) {
             if (firstcallback()) {
                 Constant.EmptyBoolCallBack cb = null;
@@ -59,7 +59,7 @@ public class Curtain : MonoBehaviour {
     }
 
     private void OnHide() {
-        Animator.enabled = false;
+        //Animator.enabled = false;
         if (firstcallback != null) {
             if (firstcallback()) {
                 Constant.EmptyBoolCallBack cb = null;

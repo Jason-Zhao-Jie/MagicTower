@@ -38,13 +38,13 @@ public class MapController : AController<MapData, MapView>
         // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识   ( TODO : 未实现渐变方式 )
         if (MainScene.instance != null)
         {
-            MainScene.instance.BackgroundImage = Game.Data.Config.modals[mapdata.backThing].prefabPath;
-            MainScene.instance.MapName = Game.Data.Config.StringInternational.GetValue(mapdata.mapName, Data.MapId.ToString());
+            MainScene.instance.BackgroundImage = Game.Config.modals[mapdata.backThing].prefabPath;
+            MainScene.instance.MapName = Game.Config.StringInternational.GetValue(mapdata.mapName, Data.MapId.ToString());
             Game.Controller.Audio.PlayMusicLoop(mapdata.music);
         }
         else
         {
-            DataEditorScene.instance.BackgroundImage = Game.Data.Config.modals[mapdata.backThing].prefabPath;
+            DataEditorScene.instance.BackgroundImage = Game.Config.modals[mapdata.backThing].prefabPath;
         }
 
         return true;
@@ -84,17 +84,17 @@ public class MapController : AController<MapData, MapView>
     // 显示黑色幕布, 以便执行一些操作, 例如换楼层
     public void ShowLoadingCurtain(Constant.EmptyBoolCallBack cb, params Constant.EmptyBoolCallBack[] hidecbs)
     {
-        var lastStatus = Game.Data.RuntimeData.Status;
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnMiddleLoading;
+        var lastStatus = Game.Status;
+        Game.Status = Constant.EGameStatus.OnMiddleLoading;
         Curtain.StartShow(cb, hidecbs);
     }
 
     public void HideLoadingCurtain(Constant.EGameStatus status)
     {
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnMiddleLoading;
+        Game.Status = Constant.EGameStatus.OnMiddleLoading;
         Curtain.StartHide(() =>
         {
-            Game.Data.RuntimeData.Status = status;
+            Game.Status = status;
             return false;
         });
     }
@@ -114,7 +114,7 @@ public class MapController : AController<MapData, MapView>
     public void ChangeThingOnMap(int thingId, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
     {
         if (oldPosx >= 0 && oldPosy >= 0)
-            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + Game.Data.Config.modals[Data.CurrentMap.blocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + Game.Config.modals[Data.CurrentMap.blocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
         if (!Data.ChangeThingOnMap(thingId, posx, posy, oldPosx, oldPosy))
             return;
         long uuid = Data.MapId * 10000 + posy + posx * 100;
@@ -131,8 +131,8 @@ public class MapController : AController<MapData, MapView>
         if (thingId > 0)
         {
             RemoveThingOnMapWithModal(posx, posy);
-            var modal = Game.Data.Config.modals[thingId];
-            Modal obj = Game.View.ObjPool.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
+            var modal = Game.Config.modals[thingId];
+            Modal obj = Game.ObjPool.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
             obj.InitWithMapPos(Data.MapId, (sbyte)posx, (sbyte)posy, modal);
             obj.name = "MapBlock_" + posx.ToString() + "_" + posy.ToString();
             if (MainScene.instance != null)
@@ -178,7 +178,7 @@ public class MapController : AController<MapData, MapView>
     public Constant.MonsterData GetMonsterDataByUuid(long uuid)
     {
         var modId = modals[uuid].ModId;
-        return Game.Data.Config.monsters[modId].Clone();
+        return Game.Config.monsters[modId].Clone();
     }
 
     public Modal GetModalByUuid(long uuid)
@@ -216,7 +216,7 @@ public class MapController : AController<MapData, MapView>
                 }
                 else
                 {
-                    var thingData = Game.Data.Config.modals[i_elem.thing];
+                    var thingData = Game.Config.modals[i_elem.thing];
                     switch ((Modal.ModalType)thingData.typeId)
                     {
                         case Modal.ModalType.Walkable:

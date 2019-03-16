@@ -42,16 +42,16 @@ public class PlayerController : AController<PlayerData, PlayerView>
             player = null;
         }
         Data.InitPlayerData(posx, posy, playerId);
-        var modalData = Game.Data.Config.modals[playerId];
+        var modalData = Game.Config.modals[playerId];
         if (player == null || isNew)
         {
-            player = Game.View.ObjPool.GetAnElement<Player>(modalData.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modalData.prefabPath);
+            player = Game.ObjPool.GetAnElement<Player>(modalData.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modalData.prefabPath);
             player.MainPlayer = true;
         }
 
         // Set Scene Texts
         MainScene.instance.AddObjectToMap(player.gameObject, posx, posy, -4);
-        MainScene.instance.RoleName = Game.Data.Config.StringInternational.GetValue(modalData.name);
+        MainScene.instance.RoleName = Game.Config.StringInternational.GetValue(modalData.name);
         MainScene.instance.Portrait = player.BaseSprite;
 
         if (isNew)

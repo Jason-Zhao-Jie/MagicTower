@@ -12,7 +12,7 @@ public class MapData : AData
     public Constant.MapData GetMapData(int id)
     {
         if (!mapdata.ContainsKey(id))
-            mapdata.Add(id, Game.Data.Config.GetCopiedMap(id - 1));
+            mapdata.Add(id, Game.Config.GetCopiedMap(id - 1));
         return mapdata[id];
     }
 
@@ -82,7 +82,7 @@ public class MapData : AData
 
     public int MapId { get; private set; }
     public Constant.MapData CurrentMap { get { return GetMapData(MapId); } }
-    public int MapsCount { get { return Game.Data.Config.MapsCount; } }
+    public int MapsCount { get { return Game.Config.MapsCount; } }
 
     private Dictionary<int, Constant.MapData> mapdata = new Dictionary<int, Constant.MapData>();
 }

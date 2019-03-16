@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : ObjectPool.AElement {
+public class Player : ObjectPool.AViewUnit {
     const int RUN_SPEED = 10;
 
     void Start() {
@@ -64,7 +64,7 @@ public class Player : ObjectPool.AElement {
     }
 
     public void RemoveSelf() {
-        Game.View.ObjPool.RecycleAnElement(this);
+        Game.ObjPool.RecycleAnElement(this);
     }
 
     public override ObjectPool.ElementType GetPoolTypeId() {
@@ -73,7 +73,7 @@ public class Player : ObjectPool.AElement {
 
     public string PrefabPath {
         get {
-            return Game.Data.Config.modals[playerId].prefabPath;
+            return Game.Config.modals[playerId].prefabPath;
         }
     }
 

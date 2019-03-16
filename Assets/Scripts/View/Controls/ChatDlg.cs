@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChatDlg : ObjectPool.AElement
+public class ChatDlg : ObjectPool.AViewUnit
 {
     public const string TOP_PREFAB_DIR = "TopChat";
     public const int TOP_PREFAB_ID = 4;
@@ -24,7 +24,7 @@ public class ChatDlg : ObjectPool.AElement
             dir = BOTTOM_PREFAB_DIR;
             id = BOTTOM_PREFAB_ID;
         }
-        var ret = Game.View.ObjPool.GetAnElement<ChatDlg>(id, ObjectPool.ElementType.Dialog, Constant.DIALOG_DIR + dir);
+        var ret = Game.ObjPool.GetAnElement<ChatDlg>(id, ObjectPool.ElementType.Dialog, Constant.DIALOG_DIR + dir);
         ret.isTop = isTop;
         return ret;
     }
@@ -34,9 +34,9 @@ public class ChatDlg : ObjectPool.AElement
     {
         speaker = transform.Find("Speaker").gameObject;
         speakerText = transform.Find("SpeakerName").GetComponent<UnityEngine.UI.Text>();
-        speakerText.fontSize = Convert.ToInt32(speakerText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        speakerText.fontSize = Convert.ToInt32(speakerText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         text = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
-        text.fontSize = Convert.ToInt32(text.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        text.fontSize = Convert.ToInt32(text.fontSize * Game.ScreenAdaptorInst.RealFontSize);
     }
 
     public void SetChat(string content, int speakerId = -1)
@@ -44,19 +44,19 @@ public class ChatDlg : ObjectPool.AElement
         // 查找对话者数据, 贴上人物头像
         if (speakerId < 0)
             speakerId = Game.Player.PlayerId;
-        var modal = Game.Data.Config.modals[speakerId];
-        ObjectPool.AElement obj = null;
+        var modal = Game.Config.modals[speakerId];
+        ObjectPool.AViewUnit obj = null;
         if ((Modal.ModalType)modal.typeId == Modal.ModalType.Player)
         {
-            obj = Game.View.ObjPool.GetAnElement<Player>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+            obj = Game.ObjPool.GetAnElement<Player>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         }
         else
         {
-            obj = Game.View.ObjPool.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+            obj = Game.ObjPool.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         }
         obj.transform.SetParent(speaker.transform.parent, false);
         obj.transform.position = speaker.transform.position;
-        obj.transform.localScale = Game.View.ScreenAdaptorInst.BlockSize;
+        obj.transform.localScale = Game.ScreenAdaptorInst.BlockSize;
         var mod = speaker.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);
@@ -66,7 +66,7 @@ public class ChatDlg : ObjectPool.AElement
             Destroy(speaker);
         speaker = obj.gameObject;
         // 对话者名字
-        speakerText.text = Game.Data.Config.StringInternational.GetValue(modal.name);
+        speakerText.text = Game.Config.StringInternational.GetValue(modal.name);
         // 对话内容
         text.text = content;
     }

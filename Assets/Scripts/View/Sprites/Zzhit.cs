@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Zzhit : ObjectPool.AElement {
+public class Zzhit : ObjectPool.AViewUnit {
     private const int BASE_RUN_TIME = 15;   // 修改此项以控制攻击动画的停留时长, 但是具体攻击动画的单段时长需要配合修改Anim文件, 否则若此值超过实际动画长度, 会循环播放. 单位: 帧
     private int runTime = BASE_RUN_TIME;
 
@@ -76,7 +76,7 @@ public class Zzhit : ObjectPool.AElement {
         --runTime;
         if (runTime < 0) {
             if (MainScene.instance) {
-                Game.View.ObjPool.RecycleAnElement(this);
+                Game.ObjPool.RecycleAnElement(this);
             }
         }
     }

@@ -68,7 +68,7 @@ public class InputController {
     public void OnKeyDown(KeyCode keyCode) {
         keyStatusMap[keyCode] = true;
 
-        switch (Game.Data.RuntimeData.Status) {
+        switch (Game.Status) {
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
@@ -124,7 +124,7 @@ public class InputController {
     public void OnKeyUp(KeyCode keyCode) {
         keyStatusMap[keyCode] = false;
 
-        switch (Game.Data.RuntimeData.Status) {
+        switch (Game.Status) {
             case Constant.EGameStatus.Start:
                 switch (keyCode) {
                     case KeyCode.Escape:
@@ -194,7 +194,7 @@ public class InputController {
         isMouseLeftDown = changeMouseStatue;
     }
     public void OnTouchDown(Vector2 touchedPos) {
-        switch (Game.Data.RuntimeData.Status) {
+        switch (Game.Status) {
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
@@ -256,7 +256,7 @@ public class InputController {
             case JoysticsAxes.SpecialHorizontal:
             case JoysticsAxes.SpecialVertical:
                 if ((oldValue > 0.1 && value < 0.1) || (oldValue < -0.1 && value > -0.1) || (Mathf.Abs(oldValue) < 0.1 && Mathf.Abs(value) > 0.1)) {
-                    switch (Game.Data.RuntimeData.Status) {
+                    switch (Game.Status) {
                         case Constant.EGameStatus.InGame:
                             OnChangeWalkState();
                             break;
@@ -275,7 +275,7 @@ public class InputController {
 
 
     public void OnChangeWalkState() {
-        if (Game.Data.RuntimeData.Status == Constant.EGameStatus.InGame) {;
+        if (Game.Status == Constant.EGameStatus.InGame) {;
             bool up = keyStatusMap[KeyCode.UpArrow] || axesStatusMap[JoysticsAxes.LeftVertical] < -0.1 || axesStatusMap[JoysticsAxes.RightVertical] < -0.1 || axesStatusMap[JoysticsAxes.SpecialVertical] > 0.1;
             bool down = keyStatusMap[KeyCode.DownArrow] || axesStatusMap[JoysticsAxes.LeftVertical] > 0.1 || axesStatusMap[JoysticsAxes.RightVertical] > 0.1 || axesStatusMap[JoysticsAxes.SpecialVertical] < -0.1;
             bool right = keyStatusMap[KeyCode.RightArrow] || axesStatusMap[JoysticsAxes.LeftHorizontal] > 0.1 || axesStatusMap[JoysticsAxes.RightHorizontal] > 0.1 || axesStatusMap[JoysticsAxes.SpecialHorizontal] > 0.1;
@@ -285,7 +285,7 @@ public class InputController {
                 Game.Player.StopWalk();
             else
                 Game.Player.StartWalk((PlayerController.Direction)(trueNum / 10));
-        } else if (Game.Data.RuntimeData.Status != Constant.EGameStatus.AutoStepping) {
+        } else if (Game.Status != Constant.EGameStatus.AutoStepping) {
             Game.Player.StopWalk();
         }
     }

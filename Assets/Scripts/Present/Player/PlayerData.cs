@@ -33,7 +33,7 @@ public class PlayerData : AData
     {
         int targetPosX = PlayerPosX;
         int targetPosY = PlayerPosY;
-        if (Game.Data.RuntimeData.Status == Constant.EGameStatus.AutoStepping)
+        if (Game.Status == Constant.EGameStatus.AutoStepping)
         {
             if (AutoSteppingRoad.Count <= 0)
             {
@@ -88,18 +88,18 @@ public class PlayerData : AData
         long uuid = Game.Map.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
         if (block.eventId != 0)
         {
-            if (Game.Data.RuntimeData.Status == Constant.EGameStatus.AutoStepping)
-                Game.Data.RuntimeData.Status = Constant.EGameStatus.InGame;
+            if (Game.Status == Constant.EGameStatus.AutoStepping)
+                Game.Status = Constant.EGameStatus.InGame;
             if (!Game.Controller.EventMgr.DispatchEvent(block.eventId, Game.Map.GetModalByUuid(uuid), block.eventData))
                 return false;
         }
         if (block.thing != 0)
         {
-            var thingData = Game.Data.Config.modals[block.thing];
+            var thingData = Game.Config.modals[block.thing];
             if (thingData.eventId != 0)
             {
-                if (Game.Data.RuntimeData.Status == Constant.EGameStatus.AutoStepping)
-                    Game.Data.RuntimeData.Status = Constant.EGameStatus.InGame;
+                if (Game.Status == Constant.EGameStatus.AutoStepping)
+                    Game.Status = Constant.EGameStatus.InGame;
                 if (!Game.Controller.EventMgr.DispatchEvent(thingData.eventId, Game.Map.GetModalByUuid(uuid), thingData.eventData))
                     return false;
             }
@@ -134,7 +134,7 @@ public class PlayerData : AData
             Game.Controller.Audio.PlaySound(AudioController.disableSound);
             return false;
         }
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.AutoStepping;
+        Game.Status = Constant.EGameStatus.AutoStepping;
         TargetAutoStep = new UnityEngine.Vector2Int(targetPosx, targetPosy);
         AutoSteppingRoad = new Stack<UnityEngine.Vector2Int>();
         for (int i = findedRoad.Length - 1; i > 0; --i)
@@ -148,7 +148,7 @@ public class PlayerData : AData
     public void StopAutoStepping()
     {
         IsRunning = false;
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.InGame;
+        Game.Status = Constant.EGameStatus.InGame;
     }
 
     public void StopWalk()
@@ -246,7 +246,7 @@ public class PlayerData : AData
 
     public bool SetPlayerInfo(int id)
     {
-        playerData = Game.Data.Config.players[id];
+        playerData = Game.Config.players[id];
         return true;
     }
 

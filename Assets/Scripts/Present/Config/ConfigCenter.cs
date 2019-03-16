@@ -142,6 +142,11 @@ public class ConfigCenter {
     }
 
     public int MapsCount { get { return mapdata.Count; } }
+
+    /// <summary>
+    /// Gets the international strings.
+    /// </summary>
+    /// <value>The string international manager.</value>
     public StringInternational StringInternational { get;private set;}
 
     [System.Serializable]

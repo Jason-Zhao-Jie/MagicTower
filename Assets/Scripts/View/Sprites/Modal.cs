@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Modal : ObjectPool.AElement {
+public class Modal : ObjectPool.AViewUnit {
     const double RUN_STATE_DELAY = 0.4;
     public enum ModalType {
         Unknown,
@@ -19,7 +19,7 @@ public class Modal : ObjectPool.AElement {
 
     public string PrefabPath {
         get {
-            return Game.Data.Config.modals[modId].prefabPath;
+            return Game.Config.modals[modId].prefabPath;
         }
     }
 
@@ -36,7 +36,7 @@ public class Modal : ObjectPool.AElement {
     }
 
     public static string GetResourcePath(int modId) {
-        return GetResourcePath(Game.Data.Config.modals[modId].prefabPath);
+        return GetResourcePath(Game.Config.modals[modId].prefabPath);
     }
 
     public static string GetResourcePath(string prefabPath) {
@@ -88,7 +88,7 @@ public class Modal : ObjectPool.AElement {
         if (callManager)
             Game.Map.RemoveThingOnMap(posx, posy, mapId);
         Game.Map.RemoveMod(uuid);
-        Game.View.ObjPool.RecycleAnElement(this);
+        Game.ObjPool.RecycleAnElement(this);
     }
 
     public void RemoveSelf(Constant.EmptyCallBack dCB) {

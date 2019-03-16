@@ -8,8 +8,8 @@ public class ObjectPool {
         Dialog,
         Other,
     }
-    public abstract class AElement : UnityEngine.MonoBehaviour {
-        public AElement() { }
+    public abstract class AViewUnit : UnityEngine.MonoBehaviour {
+        public AViewUnit() { }
 
 
         public int Id {
@@ -38,8 +38,8 @@ public class ObjectPool {
         public abstract bool OnUnuse(ElementType tid, int elemId);
         public abstract bool RecycleSelf();
 
-        public bool RecycleSelf<T>() where T : AElement {
-            return Game.View.ObjPool.RecycleAnElement((T)this);
+        public bool RecycleSelf<T>() where T : AViewUnit {
+            return Game.ObjPool.RecycleAnElement((T)this);
         }
 
         internal bool OnCreateId(ElementType tid, int elemId, string resourcePath) {
@@ -67,14 +67,14 @@ public class ObjectPool {
         unusePool.Clear();
     }
 
-    public T GetAnElement<T>(int id, ElementType typeid, string resourcePath, int spriteSortingOrder = Constant.SPRITE_DEFAULT_SORTING_ORDER) where T : AElement {
+    public T GetAnElement<T>(int id, ElementType typeid, string resourcePath, int spriteSortingOrder = Constant.SPRITE_DEFAULT_SORTING_ORDER) where T : AViewUnit {
         var uuid = id + (long)(typeid) * 0x0100000000;
         // 找到目标对象队列, 如不存在, 新建
-        Queue<AElement> tar = null;
+        Queue<AViewUnit> tar = null;
         if (unusePool.ContainsKey(uuid)) {
             tar = unusePool[uuid];
         } else {
-            tar = new Queue<AElement>();
+            tar = new Queue<AViewUnit>();
             unusePool.Add(uuid, tar);
         }
         // 从队列中取出可用的对象, 如无可用, 新创建
@@ -107,16 +107,16 @@ public class ObjectPool {
         return ret;
     }
 
-    public bool RecycleAnElement<T>(T tarElem) where T : AElement {
+    public bool RecycleAnElement<T>(T tarElem) where T : AViewUnit {
         if (!tarElem.usingTag)
             return false;
         var uuid = tarElem.GetPoolUuid();
         // 找到目标对象队列, 如不存在, 新建
-        Queue<AElement> tar = null;
+        Queue<AViewUnit> tar = null;
         if (unusePool.ContainsKey(uuid)) {
             tar = unusePool[uuid];
         } else {
-            tar = new Queue<AElement>();
+            tar = new Queue<AViewUnit>();
             unusePool.Add(uuid, tar);
         }
         if (!tarElem.OnUnuse(tarElem.GetPoolTypeId(), tarElem.Id))
@@ -130,5 +130,5 @@ public class ObjectPool {
         return true;
     }
 
-    private Dictionary<long, Queue<AElement>> unusePool = new Dictionary<long, Queue<AElement>>();
+    private Dictionary<long, Queue<AViewUnit>> unusePool = new Dictionary<long, Queue<AViewUnit>>();
 }

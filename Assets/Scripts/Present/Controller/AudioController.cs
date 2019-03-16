@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 /// <summary>
 /// 处理游戏中全部的音乐播放和音效播放的类。
@@ -59,7 +59,7 @@ public class AudioController
     {
         if (id == musicId)
             return true;
-        musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + Game.Data.Config.audios[id].path);
+        musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + Game.Config.audios[id].path);
         musicSource.Play();
         musicId = id;
         return true;
@@ -96,7 +96,7 @@ public class AudioController
             index = 0;
         if (soundSource.Count <= 0)
             return false;
-        soundSource[index].clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + Game.Data.Config.audios[id].path);
+        soundSource[index].clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Constant.AUDIO_DIR + Game.Config.audios[id].path);
         soundSource[index].Play();
         ++index;
         return true;

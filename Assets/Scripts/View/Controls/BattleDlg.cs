@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BattleDlg : ObjectPool.AElement
+public class BattleDlg : ObjectPool.AViewUnit
 {
     public const string PREFAB_DIR = "BattleDlg";
     public const int PREFAB_ID = 1;
@@ -17,7 +17,7 @@ public class BattleDlg : ObjectPool.AElement
     public static BattleDlg StartBattle(Transform parent, BattleOverCallback cb, long enemyUuid, long yourUuid = -1, BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
     {
         // 弹出战斗框
-        var ret = Game.View.ObjPool.GetAnElement<BattleDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
+        var ret = Game.ObjPool.GetAnElement<BattleDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
         // 设定暂停触发器
         ret.battlePauseChecker = pauseCheck;
         ret.battlePauseEvent = pauseEvent;
@@ -27,7 +27,7 @@ public class BattleDlg : ObjectPool.AElement
         ret.transform.SetParent(parent, false);
         ret.SetBattleInfo(enemyUuid, yourUuid);
         // 设定状态, 战斗开始
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnBattle;
+        Game.Status = Constant.EGameStatus.OnBattle;
         ret.isBattlePaused = false;
         ret.battleResultPanel.SetActive(false);
 
@@ -37,7 +37,7 @@ public class BattleDlg : ObjectPool.AElement
     public static void CloseBattle(BattleDlg dlg)
     {
         dlg.StopBattle();
-        Game.View.ObjPool.RecycleAnElement(dlg);
+        Game.ObjPool.RecycleAnElement(dlg);
     }
 
     // Use this for initialization
@@ -46,40 +46,40 @@ public class BattleDlg : ObjectPool.AElement
         // 关联战斗框的控件
         playerSprite = transform.Find("Player").gameObject;
         playerNameText = transform.Find("Name_Player").GetComponent<Text>();
-        playerNameText.fontSize = Convert.ToInt32(playerNameText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        playerNameText.fontSize = Convert.ToInt32(playerNameText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         playerLifeText = transform.Find("Life_Player").GetComponent<Text>();
-        playerLifeText.fontSize = Convert.ToInt32(playerLifeText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        playerLifeText.fontSize = Convert.ToInt32(playerLifeText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         playerAttackText = transform.Find("Attack_Player").GetComponent<Text>();
-        playerAttackText.fontSize = Convert.ToInt32(playerAttackText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        playerAttackText.fontSize = Convert.ToInt32(playerAttackText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         playerDefenseText = transform.Find("Defense_Player").GetComponent<Text>();
-        playerDefenseText.fontSize = Convert.ToInt32(playerDefenseText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        playerDefenseText.fontSize = Convert.ToInt32(playerDefenseText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         playerSpeedText = transform.Find("Speed_Player").GetComponent<Text>();
-        playerSpeedText.fontSize = Convert.ToInt32(playerSpeedText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        playerSpeedText.fontSize = Convert.ToInt32(playerSpeedText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         enemySprite = transform.Find("Enemy").gameObject;
         enemyNameText = transform.Find("Name_Enemy").GetComponent<Text>();
-        enemyNameText.fontSize = Convert.ToInt32(enemyNameText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        enemyNameText.fontSize = Convert.ToInt32(enemyNameText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         enemyLifeText = transform.Find("Life_Enemy").GetComponent<Text>();
-        enemyLifeText.fontSize = Convert.ToInt32(enemyLifeText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        enemyLifeText.fontSize = Convert.ToInt32(enemyLifeText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         enemyAttackText = transform.Find("Attack_Enemy").GetComponent<Text>();
-        enemyAttackText.fontSize = Convert.ToInt32(enemyAttackText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        enemyAttackText.fontSize = Convert.ToInt32(enemyAttackText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         enemyDefenseText = transform.Find("Defense_Enemy").GetComponent<Text>();
-        enemyDefenseText.fontSize = Convert.ToInt32(enemyDefenseText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        enemyDefenseText.fontSize = Convert.ToInt32(enemyDefenseText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         enemySpeedText = transform.Find("Speed_Enemy").GetComponent<Text>();
-        enemySpeedText.fontSize = Convert.ToInt32(enemySpeedText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        enemySpeedText.fontSize = Convert.ToInt32(enemySpeedText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         battleResultPanel = transform.Find("BattleResultPanel").gameObject;
         battleResultGoldText = battleResultPanel.transform.Find("GoldText").GetComponent<Text>();
-        battleResultGoldText.fontSize = Convert.ToInt32(battleResultGoldText.fontSize*Game.View.ScreenAdaptorInst.RealFontSize);
+        battleResultGoldText.fontSize = Convert.ToInt32(battleResultGoldText.fontSize*Game.ScreenAdaptorInst.RealFontSize);
         battleResultExpText = battleResultPanel.transform.Find("ExpText").GetComponent<Text>();
-        battleResultExpText.fontSize = Convert.ToInt32(battleResultExpText.fontSize*Game.View.ScreenAdaptorInst.RealFontSize);
+        battleResultExpText.fontSize = Convert.ToInt32(battleResultExpText.fontSize*Game.ScreenAdaptorInst.RealFontSize);
         battleHurtedText = battleResultPanel.transform.Find("HurtedText").GetComponent<Text>();
-        battleHurtedText.fontSize = Convert.ToInt32(battleHurtedText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        battleHurtedText.fontSize = Convert.ToInt32(battleHurtedText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
         battleResultPanel.SetActive(false);
         battleHitSleep = 0;
     }
 
     // Update is called once per frame
     void FixedUpdate() {
-        if (gameObject.activeSelf && !isBattlePaused && Game.Data.RuntimeData.Status == Constant.EGameStatus.OnBattle && (hitter == null || !hitter.isActiveAndEnabled)) {
+        if (gameObject.activeSelf && !isBattlePaused && Game.Status == Constant.EGameStatus.OnBattle && (hitter == null || !hitter.isActiveAndEnabled)) {
             ++battleHitSleep;
             if (battleHitSleep > BATTLE_SLEEP_TIME) {
                 battleHitSleep -= BATTLE_SLEEP_TIME;
@@ -164,13 +164,13 @@ public class BattleDlg : ObjectPool.AElement
         isOurRound = true;
 
         // 设定我方的头像
-        var playerModal = Game.Data.Config.modals[playerBattleData.id];
-        ObjectPool.AElement obj = Game.View.ObjPool.GetAnElement<Modal>(playerModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + playerModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+        var playerModal = Game.Config.modals[playerBattleData.id];
+        ObjectPool.AViewUnit obj = Game.ObjPool.GetAnElement<Modal>(playerModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + playerModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         if(obj == null)
-            obj = Game.View.ObjPool.GetAnElement<Player>(playerModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + playerModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+            obj = Game.ObjPool.GetAnElement<Player>(playerModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + playerModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         obj.transform.SetParent(playerSprite.transform.parent, false);
         obj.transform.position = playerSprite.transform.position;
-        obj.transform.localScale = Game.View.ScreenAdaptorInst.BlockSize;
+        obj.transform.localScale = Game.ScreenAdaptorInst.BlockSize;
         var mod = playerSprite.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);
@@ -181,13 +181,13 @@ public class BattleDlg : ObjectPool.AElement
         playerSprite = obj.gameObject;
 
         // 设定敌方的头像
-        var enemyModal = Game.Data.Config.modals[enemyBattleData.id];
-        obj = Game.View.ObjPool.GetAnElement<Modal>(enemyModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + enemyModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+        var enemyModal = Game.Config.modals[enemyBattleData.id];
+        obj = Game.ObjPool.GetAnElement<Modal>(enemyModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + enemyModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         if (obj == null)
-            obj = Game.View.ObjPool.GetAnElement<Player>(enemyModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + enemyModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
+            obj = Game.ObjPool.GetAnElement<Player>(enemyModal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + enemyModal.prefabPath, Constant.SPRITE_IN_DIALOG_SORTING_ORDER);
         obj.transform.SetParent(enemySprite.transform.parent, false);
         obj.transform.position = enemySprite.transform.position;
-        obj.transform.localScale = Game.View.ScreenAdaptorInst.BlockSize;
+        obj.transform.localScale = Game.ScreenAdaptorInst.BlockSize;
         mod = enemySprite.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);
@@ -198,12 +198,12 @@ public class BattleDlg : ObjectPool.AElement
         enemySprite = obj.gameObject;
 
         // 将双方数据显示到界面
-        playerNameText.text = Game.Data.Config.StringInternational.GetValue(playerModal.name);
+        playerNameText.text = Game.Config.StringInternational.GetValue(playerModal.name);
         playerLifeText.text = playerBattleData.life.ToString();
         playerAttackText.text = playerBattleData.attack.ToString();
         playerDefenseText.text = playerBattleData.defense.ToString();
         playerSpeedText.text = playerBattleData.speed.ToString();
-        enemyNameText.text = Game.Data.Config.StringInternational.GetValue(enemyModal.name);
+        enemyNameText.text = Game.Config.StringInternational.GetValue(enemyModal.name);
         enemyLifeText.text = enemyBattleData.life.ToString();
         enemyAttackText.text = enemyBattleData.attack.ToString();
         enemyDefenseText.text = enemyBattleData.defense.ToString();
@@ -223,30 +223,30 @@ public class BattleDlg : ObjectPool.AElement
     public void StopBattle()
     {
         Game.Map.RemoveThingOnMapWithModal(enemyUuid);
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.InGame;
+        Game.Status = Constant.EGameStatus.InGame;
         isBattlePaused = false;
     }
 
     private void CreateHitter(int weaponId, bool isOnEnemy, int damage, bool isCritical)
     {
-        var data = Game.Data.Config.weapons[weaponId];
-        hitter = Game.View.ObjPool.GetAnElement<Zzhit>(weaponId * 2 + (isCritical?0:1),ObjectPool.ElementType.Hitter, Constant.PREFAB_DIR + (isCritical ? data.critPrefabPath : data.prefabPath), Constant.HITTER_IN_DIALOG_SORTING_ORDER);
+        var data = Game.Config.weapons[weaponId];
+        hitter = Game.ObjPool.GetAnElement<Zzhit>(weaponId * 2 + (isCritical?0:1),ObjectPool.ElementType.Hitter, Constant.PREFAB_DIR + (isCritical ? data.critPrefabPath : data.prefabPath), Constant.HITTER_IN_DIALOG_SORTING_ORDER);
         hitter.SetParam(data, isCritical);
         hitter.PlaySound();
         hitter.transform.SetParent((isOnEnemy ? enemySprite : playerSprite).transform, false);
         hitter.transform.position = hitter.transform.parent.position;
-        hitter.transform.localScale = Game.View.ScreenAdaptorInst.BlockSize / 200;
+        hitter.transform.localScale = Game.ScreenAdaptorInst.BlockSize / 200;
     }
 
     private void OnBattleOver()
     {
         isBattlePaused = true;
-        battleResultGoldText.text = Game.Data.Config.StringInternational.GetValue(BATTLE_GOLD_GET_TEXT, enemyBattleData.gold.ToString());
-        battleResultExpText.text = Game.Data.Config.StringInternational.GetValue(BATTLE_EXP_GET_TEXT, enemyBattleData.exp.ToString());
-        battleHurtedText.text = Game.Data.Config.StringInternational.GetValue(BATTLE_HURTED_TEXT, hurted.ToString());
+        battleResultGoldText.text = Game.Config.StringInternational.GetValue(BATTLE_GOLD_GET_TEXT, enemyBattleData.gold.ToString());
+        battleResultExpText.text = Game.Config.StringInternational.GetValue(BATTLE_EXP_GET_TEXT, enemyBattleData.exp.ToString());
+        battleHurtedText.text = Game.Config.StringInternational.GetValue(BATTLE_HURTED_TEXT, hurted.ToString());
         battleResultPanel.SetActive(true);
         overCallback(playerBattleData.id, playerBattleData.life, enemyBattleData.gold, enemyBattleData.exp, 0, 0);
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnBattleResult;
+        Game.Status = Constant.EGameStatus.OnBattleResult;
     }
 
     public override ObjectPool.ElementType GetPoolTypeId()

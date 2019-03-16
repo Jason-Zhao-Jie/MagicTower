@@ -3,11 +3,11 @@ using System.Collections;
 
 public class StringInternational {
     public string GetValue(string key, params string[] values) {
-        if (!Game.Data.Config.strings.ContainsKey(key)) {
+        if (!Game.Config.strings.ContainsKey(key)) {
             Debug.LogWarning("Undefined string key \"" + key + "\" in any language");
             return key;
         }
-        var str = Game.Data.Config.strings[key];
+        var str = Game.Config.strings[key];
         var ret = str[Language];
         if (ret == null) {
             ret = str["en-us"];
@@ -37,7 +37,7 @@ public class StringInternational {
     public static bool SetLanguageById(int id) {
         if (id <= 0)
             return false;
-        var ret = Game.Data.Config.languages[id];
+        var ret = Game.Config.languages[id];
         if (ret == null)
             return false;
         Language = ret.key;

@@ -20,7 +20,7 @@ public class StartScene : MonoBehaviour {
 
     private void OnDestroy() {
         instance = null;
-        Game.View.ObjPool.ClearAll();
+        Game.ObjPool.ClearAll();
     }
 
     // Update is called once per frame

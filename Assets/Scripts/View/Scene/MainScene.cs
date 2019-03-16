@@ -16,7 +16,7 @@ public class MainScene : MonoBehaviour {
         var mapPanel = transform.Find("MapPanel");
         dialogCanvas = GameObject.Find("DialogCanvas");
         backgroundImg = GetComponent<Image>();
-        Game.View.ScreenAdaptorInst.LoadOnMainScene(mapPanel.GetComponent<RectTransform>().rect);
+        Game.ScreenAdaptorInst.LoadOnMainScene(mapPanel.GetComponent<RectTransform>().rect);
 
         curtain = dialogCanvas.transform.Find("Curtain").GetComponent<Curtain>();
         //curtain.gameObject.SetActive(false);
@@ -63,15 +63,15 @@ public class MainScene : MonoBehaviour {
 
         Game.Player.ShowPlayer(true);
 
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.InGame;
+        Game.Status = Constant.EGameStatus.InGame;
 
     }
 
     void OnDestroy() {
         Game.Map.ClearMap();
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.Start;
+        Game.Status = Constant.EGameStatus.Start;
         instance = null;
-        Game.View.ObjPool.ClearAll();
+        Game.ObjPool.ClearAll();
     }
 
     // Update is called once per frame
@@ -125,20 +125,20 @@ public class MainScene : MonoBehaviour {
     public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2) {
         obj.transform.SetParent(transform.Find("MapPanel"), false);
         obj.transform.position = transform.Find("MapPanel").transform.
-            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * Game.View.ScreenAdaptorInst.BlockSize.x / 100 + Game.View.ScreenAdaptorInst.MapPartRect.x,
-                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * Game.View.ScreenAdaptorInst.BlockSize.y / 100 + Game.View.ScreenAdaptorInst.MapPartRect.y,
+            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * Game.ScreenAdaptorInst.BlockSize.x / 100 + Game.ScreenAdaptorInst.MapPartRect.x,
+                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * Game.ScreenAdaptorInst.BlockSize.y / 100 + Game.ScreenAdaptorInst.MapPartRect.y,
                                        posz));
-        obj.transform.localScale = Game.View.ScreenAdaptorInst.BlockSize;
+        obj.transform.localScale = Game.ScreenAdaptorInst.BlockSize;
     }
 
     public void OnMapClicked(Vector2 pos) {
         var mapPanel = transform.Find("MapPanel").GetComponent<RectTransform>();
         var panelPos = transform.InverseTransformPoint(mapPanel.position);
-        pos.x -= panelPos.x + Game.View.ScreenAdaptorInst.MapPartRect.x + GetComponent<RectTransform>().rect.width / 2;
-        pos.y -= panelPos.y + Game.View.ScreenAdaptorInst.MapPartRect.y + GetComponent<RectTransform>().rect.height / 2;
+        pos.x -= panelPos.x + Game.ScreenAdaptorInst.MapPartRect.x + GetComponent<RectTransform>().rect.width / 2;
+        pos.y -= panelPos.y + Game.ScreenAdaptorInst.MapPartRect.y + GetComponent<RectTransform>().rect.height / 2;
         if (pos.x >= 0 && pos.y >= 0) {
-            var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / Game.View.ScreenAdaptorInst.MapPartRect.width);
-            var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / Game.View.ScreenAdaptorInst.MapPartRect.height);
+            var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / Game.ScreenAdaptorInst.MapPartRect.width);
+            var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / Game.ScreenAdaptorInst.MapPartRect.height);
             if (_posx >= Constant.MAP_BLOCK_LENGTH || _posy >= Constant.MAP_BLOCK_LENGTH)
                 return;
             Game.Player.StartAutoStep(_posx, _posy);
@@ -148,27 +148,27 @@ public class MainScene : MonoBehaviour {
     /********************** Chat Part **************************************/
 
     public void ShowChatOnTop(string content, int speakerId = -1) {
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnTipChat;
+        Game.Status = Constant.EGameStatus.OnTipChat;
         topChatPanel.gameObject.SetActive(true);
-        topChatPanel.SetChat(Game.Data.Config.StringInternational.GetValue(content), speakerId);
+        topChatPanel.SetChat(Game.Config.StringInternational.GetValue(content), speakerId);
         topChatPanel.gameObject.SetActive(true);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(false);
     }
 
     public void ShowChatOnBottom(string content, int speakerId = -1) {
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnTipChat;
+        Game.Status = Constant.EGameStatus.OnTipChat;
         bottomChatPanel.gameObject.SetActive(true);
-        bottomChatPanel.SetChat(Game.Data.Config.StringInternational.GetValue(content), speakerId);
+        bottomChatPanel.SetChat(Game.Config.StringInternational.GetValue(content), speakerId);
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(true);
         tipsPanel.gameObject.SetActive(false);
     }
 
     public void ShowTips(string content) {
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnTipChat;
+        Game.Status = Constant.EGameStatus.OnTipChat;
         tipsPanel.gameObject.SetActive(true);
-        tipsPanel.SetTipText(Game.Data.Config.StringInternational.GetValue(content));
+        tipsPanel.SetTipText(Game.Config.StringInternational.GetValue(content));
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(true);
@@ -180,7 +180,7 @@ public class MainScene : MonoBehaviour {
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(false);
-        Game.Data.RuntimeData.Status = (battlePanel != null && battlePanel.isActiveAndEnabled) ? Constant.EGameStatus.OnBattle : Constant.EGameStatus.InGame;
+        Game.Status = (battlePanel != null && battlePanel.isActiveAndEnabled) ? Constant.EGameStatus.OnBattle : Constant.EGameStatus.InGame;
     }
 
     public void ChatBegan(Constant.ChatData chat, Modal mod) {

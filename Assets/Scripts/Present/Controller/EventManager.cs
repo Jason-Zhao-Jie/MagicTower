@@ -59,7 +59,7 @@ public class EventManager {
         if (mapId > 0 && mapId != Game.Map.CurrentMap.mapId)
         {
             Game.Controller.Audio.PlaySound(AudioController.stairSound);
-            var status = Game.Data.RuntimeData.Status;
+            var status = Game.Status;
             Game.Map.ShowLoadingCurtain(() =>
             {
                 Game.Map.ShowMap(mapId);
@@ -67,7 +67,7 @@ public class EventManager {
                 return true;
             }, () =>
             {
-                Game.Data.RuntimeData.Status = status;
+                Game.Status = status;
                 return false;
             });
             return true;
@@ -77,13 +77,13 @@ public class EventManager {
     }
 
     private bool OnGetBaseResourceItem(Modal caller, long eventData) {
-        var lastStatus = Game.Data.RuntimeData.Status;
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnEvent;
+        var lastStatus = Game.Status;
+        Game.Status = Constant.EGameStatus.OnEvent;
         var type = (Constant.ResourceType)(eventData % 100);
         var count = (int)(eventData / 100);
         Game.Player.ChangePlayerData(type, count);
         Game.Controller.Audio.PlaySound(AudioController.itemGetSound);
-        caller.RemoveSelf(()=> { Game.Data.RuntimeData.Status = lastStatus; });
+        caller.RemoveSelf(()=> { Game.Status = lastStatus; });
         return false;
     }
 
@@ -98,14 +98,14 @@ public class EventManager {
     }
 
     private bool OnChat(Modal caller, long eventData) {
-        var data = Game.Data.Config.chats[(int)eventData];
+        var data = Game.Config.chats[(int)eventData];
         MainScene.instance.ChatBegan(data, caller);
         return data.canOn;
     }
 
     private bool OnChoice(Modal caller, long eventData) {
         int choiceId = (int)eventData;
-        var data = Game.Data.Config.choices[choiceId];
+        var data = Game.Config.choices[choiceId];
         MainScene.instance.StartChoice(data, caller);
         return false;
     }
@@ -118,10 +118,10 @@ public class EventManager {
     }
 
     private bool OpenFreeDoor(Modal caller, long blockData) {
-        var lastStatus = Game.Data.RuntimeData.Status;
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnEvent;
+        var lastStatus = Game.Status;
+        Game.Status = Constant.EGameStatus.OnEvent;
         Game.Controller.Audio.PlaySound(AudioController.openDoorSound);
-        caller.GoToRunState(() => { Game.Data.RuntimeData.Status = lastStatus; });
+        caller.GoToRunState(() => { Game.Status = lastStatus; });
         return false;
     }
 
@@ -155,10 +155,10 @@ public class EventManager {
                         // TODO
                 return false;
         }
-        var lastStatus = Game.Data.RuntimeData.Status;
-        Game.Data.RuntimeData.Status = Constant.EGameStatus.OnEvent;
+        var lastStatus = Game.Status;
+        Game.Status = Constant.EGameStatus.OnEvent;
         Game.Controller.Audio.PlaySound(AudioController.openDoorSound);
-        caller.GoToRunState(() => { Game.Data.RuntimeData.Status = lastStatus; });
+        caller.GoToRunState(() => { Game.Status = lastStatus; });
         return false;
     }
 

@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TipBar : ObjectPool.AElement
+public class TipBar : ObjectPool.AViewUnit
 {
     public const string PREFAB_DIR = "TipBar";
     public const int PREFAB_ID = 3;
 
     public static TipBar ShowTip()
     {
-        var ret = Game.View.ObjPool.GetAnElement<TipBar>(PREFAB_ID, ObjectPool.ElementType.Dialog, Constant.DIALOG_DIR + PREFAB_DIR);
+        var ret = Game.ObjPool.GetAnElement<TipBar>(PREFAB_ID, ObjectPool.ElementType.Dialog, Constant.DIALOG_DIR + PREFAB_DIR);
         return ret;
     }
 
     // Use this for initialization
     void Awake() {
         tipsText = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
-        tipsText.fontSize = System.Convert.ToInt32(tipsText.fontSize * Game.View.ScreenAdaptorInst.RealFontSize);
+        tipsText.fontSize = System.Convert.ToInt32(tipsText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
     }
 
     void FixedUpdate() {

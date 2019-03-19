@@ -34,9 +34,9 @@ public class ChatDlg : ObjectPool.AViewUnit
     {
         speaker = transform.Find("Speaker").gameObject;
         speakerText = transform.Find("SpeakerName").GetComponent<UnityEngine.UI.Text>();
-        speakerText.fontSize = Convert.ToInt32(speakerText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
+        speakerText.fontSize = Convert.ToInt32(speakerText.fontSize * Game.RealFontSize);
         text = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
-        text.fontSize = Convert.ToInt32(text.fontSize * Game.ScreenAdaptorInst.RealFontSize);
+        text.fontSize = Convert.ToInt32(text.fontSize * Game.RealFontSize);
     }
 
     public void SetChat(string content, int speakerId = -1)
@@ -56,7 +56,7 @@ public class ChatDlg : ObjectPool.AViewUnit
         }
         obj.transform.SetParent(speaker.transform.parent, false);
         obj.transform.position = speaker.transform.position;
-        obj.transform.localScale = Game.ScreenAdaptorInst.BlockSize;
+        obj.transform.localScale = Game.Map.ModalLocalScale;
         var mod = speaker.GetComponent<Modal>();
         if (mod != null)
             mod.RemoveSelf(false);

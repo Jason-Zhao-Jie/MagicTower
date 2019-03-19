@@ -1,11 +1,11 @@
 ﻿
-public class GameControllerInitializer
+public class ManagerSet
 {
-    public GameControllerInitializer()
+    public ManagerSet()
     {
         if (Audio == null)
         {
-            Audio = new AudioController();
+            Audio = new AudioManager();
         }
         if (EventMgr == null)
         {
@@ -13,15 +13,15 @@ public class GameControllerInitializer
         }
         if (Input == null)
         {
-            Input = new InputController();
+            Input = new InputManager();
         }
         if (IOD == null)
         {
-            IOD = new IODriver();
+            IOD = new IOManager();
         }
     }
 
-    public AudioController Audio
+    public AudioManager Audio
     {
         get; private set;
     }
@@ -31,12 +31,12 @@ public class GameControllerInitializer
         get; private set;
     }
 
-    public InputController Input
+    public InputManager Input
     {
         get; private set;
     }
 
-    public IODriver IOD
+    public IOManager IOD
     {
         get; private set;
     }

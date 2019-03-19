@@ -3,9 +3,7 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DataEditorScene : MonoBehaviour {
-    public static DataEditorScene instance;
-
+public class DataEditorScene : AScene {
     public static readonly ReadOnlyDictionary<string, string> UI_LANG_KEY = new ReadOnlyDictionary<string, string>(new Dictionary<string, string> {
         ["en-us"] = "ENUS",
         ["zh-cn"] = "ZHCN",
@@ -19,14 +17,15 @@ public class DataEditorScene : MonoBehaviour {
         ["hi-in"] = "HIIN",
     });
 
+    override public SceneType Type { get { return SceneType.DataEditorScene; } }
+
     // Use this for initialization
     void Start() {
         // 初始化游戏信息
-        instance = this;
-        Game.Initial(GetComponent<RectTransform>().rect.size);
-        Game.Controller.Audio.MusicSource = GetComponent<AudioSource>();
-        Game.Controller.Audio.ClearSoundSource();
-        Game.Controller.Audio.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
+        Game.Player = null;
+        Game.Managers.Audio.MusicSource = GetComponent<AudioSource>();
+        Game.Managers.Audio.ClearSoundSource();
+        Game.Managers.Audio.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
 
         // 设定canvas
         mapMakerPanel = GameObject.Find("MapMakerPanel");
@@ -34,15 +33,10 @@ public class DataEditorScene : MonoBehaviour {
         stringChatsAndChoicesPanel = GameObject.Find("StringChatsAndChoicesPanel");
         prefabList = modalMakerPanel.transform.Find("prefabs").GetComponent<ListView>();
         dataList = stringChatsAndChoicesPanel.transform.Find("DataList").GetComponent<ListView>();
-        // 设定背景和地图区域
-        backgroundImg = GetComponent<Image>();
-        Game.ScreenAdaptorInst.LoadOnMainScene(mapMakerPanel.transform.Find("MapPanel").GetComponent<RectTransform>().rect);
-        // 设定幕布和填充墙
-        curtain = mapMakerPanel.transform.Find("MapPanel").transform.Find("Curtain").GetComponent<Curtain>();
-        curtain.gameObject.SetActive(false);
-        //UnityEngine.Debug.Log("The current map whole rect is: " + mapMakerPanel.transform.Find("MapPanel").GetComponent<RectTransform>().rect.width + ", " + mapMakerPanel.transform.Find("MapPanel").GetComponent<RectTransform>().rect.height);
-        //UnityEngine.Debug.Log("The current map part rect is: " + Game.ScreenAdaptorInst.MapPartRect.x + ", " + Game.ScreenAdaptorInst.MapPartRect.y + ", " + Game.ScreenAdaptorInst.MapPartRect.width + ", " + Game.ScreenAdaptorInst.MapPartRect.height);
-        //UnityEngine.Debug.Log("The current map block size is: " + Game.ScreenAdaptorInst.BlockSize.x + ", " + Game.ScreenAdaptorInst.BlockSize.y);
+        // 初始化地图并设定背景
+        Game.Initial();
+        Game.Map = new MapController(GameObject.Find("MapMakerPanel").transform.Find("MapPanel").GetComponent<MapView>(), mapMakerPanel.transform.Find("MapPanel").transform.Find("Curtain").GetComponent<Curtain>(), GetComponent<Image>());
+
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
         // 载入所有资源
@@ -52,7 +46,7 @@ public class DataEditorScene : MonoBehaviour {
         var eventIdList = new List<string> {
                 (EventManager.EventName.None).ToString()
             };
-        foreach (var k in Game.Controller.EventMgr.eventList) {
+        foreach (var k in Game.Managers.EventMgr.eventList) {
             eventIdList.Add(k.Key.ToString());
         }
         var modalIdList = new List<string>();
@@ -208,11 +202,11 @@ public class DataEditorScene : MonoBehaviour {
         OnChangeToMaps();
     }
 
-    private void OnDestroy() {
-        Game.Map.ClearMap();
-        Game.Status = Constant.EGameStatus.Start;
-        instance = null;
+    private void OnDestroy()
+    {
         Game.ObjPool.ClearAll();
+        Game.Map.ClearMap();
+        Game.Map = null;
     }
 
     // Update is called once per frame
@@ -221,20 +215,20 @@ public class DataEditorScene : MonoBehaviour {
             var tc = Input.GetTouch(i);
             switch (tc.phase) {
                 case TouchPhase.Began:
-                    Game.Controller.Input.OnTouchDown(tc.position);
+                    Game.Managers.Input.OnTouchDown(tc.position);
                     break;
                 case TouchPhase.Canceled:
                 case TouchPhase.Ended:
-                    Game.Controller.Input.OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
+                    Game.Managers.Input.OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
                     break;
             }
         }
 
         if (Input.touchCount <= 0) {
-            if (Input.GetMouseButtonDown(0) && !Game.Controller.Input.isMouseLeftDown)
-                Game.Controller.Input.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
-            if (Input.GetMouseButtonUp(0) && Game.Controller.Input.isMouseLeftDown)
-                Game.Controller.Input.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
+            if (Input.GetMouseButtonDown(0) && !Game.Managers.Input.isMouseLeftDown)
+                Game.Managers.Input.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
+            if (Input.GetMouseButtonUp(0) && Game.Managers.Input.isMouseLeftDown)
+                Game.Managers.Input.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
         }
     }
 
@@ -253,7 +247,7 @@ public class DataEditorScene : MonoBehaviour {
         mapMakerPanel.SetActive(false);
         modalMakerPanel.SetActive(true);
         stringChatsAndChoicesPanel.SetActive(false);
-        BackgroundImage = "BrownWall";
+        Game.Map.ChangeBack("BrownWall");
     }
 
     // Event 按钮回调
@@ -261,15 +255,15 @@ public class DataEditorScene : MonoBehaviour {
         mapMakerPanel.SetActive(false);
         modalMakerPanel.SetActive(false);
         stringChatsAndChoicesPanel.SetActive(true);
-        BackgroundImage = "BrownWall";
+        Game.Map.ChangeBack("BrownWall");
     }
 
     // GetDataJson按钮回调
     public async void OnSave()
     {
         string result = Game.Config.SaveData();
-        await Game.Controller.IOD.SaveToFile("GameData.json", System.Text.Encoding.UTF8.GetBytes(result));
-        ShowTips("已保存成功！路径：" + IODriver.FileDirRoot + "GameData.json");
+        await Game.Managers.IOD.SaveToFile("GameData.json", System.Text.Encoding.UTF8.GetBytes(result));
+        ShowTips("已保存成功！路径：" + IOManager.FileDirRoot + "GameData.json");
     }
 
     // GetMapJson 按钮回调
@@ -292,8 +286,8 @@ public class DataEditorScene : MonoBehaviour {
             number = mapId.ToString();
         }
         var filepath = "MapData" + System.IO.Path.DirectorySeparatorChar + number + ".json";
-        await Game.Controller.IOD.SaveToFile(filepath, System.Text.Encoding.UTF8.GetBytes(result));
-        ShowTips("已保存成功！路径：" + IODriver.FileDirRoot + filepath);
+        await Game.Managers.IOD.SaveToFile(filepath, System.Text.Encoding.UTF8.GetBytes(result));
+        ShowTips("已保存成功！路径：" + IOManager.FileDirRoot + filepath);
     }
 
     // Apply Map 回调
@@ -330,8 +324,8 @@ public class DataEditorScene : MonoBehaviour {
         panel.transform.Find("Music").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).music - 1;
         panel.transform.Find("BackModal").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).backThing - 1;
         Game.Map.ShowMap(mapId);
-        OnMapClicked(new Vector2(0, 0));
-        Game.Controller.Audio.StopMusic();
+        OnMapClicked(0, 0);
+        Game.Managers.Audio.StopMusic();
     }
 
     // Map地图块物品选择框回调
@@ -346,42 +340,33 @@ public class DataEditorScene : MonoBehaviour {
     }
 
     // Map选定地图块位置的回调
-    public void OnMapClicked(Vector2 pos) {
+    override public void OnMapClicked(int posx, int posy)
+    {
         if (!mapMakerPanel.activeSelf)
             return;
-        var mapPanel = mapMakerPanel.transform.Find("MapPanel").GetComponent<RectTransform>();
-        var panelPos = mapMakerPanel.transform.InverseTransformPoint(mapPanel.position);
-        pos.x -= panelPos.x + Game.ScreenAdaptorInst.MapPartRect.x + mapMakerPanel.GetComponent<RectTransform>().rect.width / 2;
-        pos.y -= panelPos.y + Game.ScreenAdaptorInst.MapPartRect.y + mapMakerPanel.GetComponent<RectTransform>().rect.height / 2;
-        if (pos.x >= 0 && pos.y >= 0) {
-            var _posx = (int)(pos.x * Constant.MAP_BLOCK_LENGTH / Game.ScreenAdaptorInst.MapPartRect.width);
-            var _posy = (int)(pos.y * Constant.MAP_BLOCK_LENGTH / Game.ScreenAdaptorInst.MapPartRect.height);
-            if (_posx >= Constant.MAP_BLOCK_LENGTH || _posy >= Constant.MAP_BLOCK_LENGTH)
-                return;
-            posx = _posx;
-            posy = _posy;
-            var panel = mapMakerPanel.transform.Find("SetPanel");
-            var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-            panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
-            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).blocks[posx][posy].thing;
-            panel.transform.Find("EventId").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).blocks[posx][posy].eventId;
-            panel.transform.Find("EventData").GetComponent<InputField>().text = Game.Config.GetGameMap(mapId - 1).blocks[posx][posy].eventData.ToString();
-        }
+        this.posx = posx;
+        this.posy = posy;
+        var panel = mapMakerPanel.transform.Find("SetPanel");
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
+        panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).blocks[posx][posy].thing;
+        panel.transform.Find("EventId").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).blocks[posx][posy].eventId;
+        panel.transform.Find("EventData").GetComponent<InputField>().text = Game.Config.GetGameMap(mapId - 1).blocks[posx][posy].eventData.ToString();
     }
 
     // 音乐播放键回调
     public void OnPlay(int index) {
         switch (index) {
             case 0:
-                Game.Controller.Audio.PlayMusicLoop(GameObject.Find("Music").GetComponent<Dropdown>().value + 1);
+                Game.Managers.Audio.PlayMusicLoop(GameObject.Find("Music").GetComponent<Dropdown>().value + 1);
                 break;
             case 1:
-                Game.Controller.Audio.StopMusic();
-                Game.Controller.Audio.PlaySound(GameObject.Find("WeaponHit").GetComponent<Dropdown>().value + 1);
+                Game.Managers.Audio.StopMusic();
+                Game.Managers.Audio.PlaySound(GameObject.Find("WeaponHit").GetComponent<Dropdown>().value + 1);
                 break;
             case 2:
-                Game.Controller.Audio.StopMusic();
-                Game.Controller.Audio.PlaySound(GameObject.Find("WeaponCrit").GetComponent<Dropdown>().value + 1);
+                Game.Managers.Audio.StopMusic();
+                Game.Managers.Audio.PlaySound(GameObject.Find("WeaponCrit").GetComponent<Dropdown>().value + 1);
                 break;
         }
     }
@@ -419,7 +404,7 @@ public class DataEditorScene : MonoBehaviour {
 
     // 关闭(X)按钮回调
     public void OnExitEditor() {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");
+        BackToStartScene();
     }
 
     // modal部分modal选择框
@@ -784,24 +769,6 @@ public class DataEditorScene : MonoBehaviour {
         tipbar.StartAutoRemove(200);
     }
 
-    // 添加物体到 map panel
-    public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2) {
-        obj.transform.SetParent(mapMakerPanel.transform.Find("MapPanel"), false);
-        obj.transform.position = mapMakerPanel.transform.Find("MapPanel").transform.
-            TransformPoint(new Vector3((posx + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * Game.ScreenAdaptorInst.BlockSize.x / 100 + Game.ScreenAdaptorInst.MapPartRect.x,
-                                       (posy + (float)0.5) * Constant.MAP_BLOCK_BASE_SIZE * Game.ScreenAdaptorInst.BlockSize.y / 100 + Game.ScreenAdaptorInst.MapPartRect.y,
-                                       posz));
-        obj.transform.localScale = Game.ScreenAdaptorInst.BlockSize;
-    }
-
-
-    public string BackgroundImage {
-        get { return backgroundImg.sprite.name; }
-        set { backgroundImg.sprite = Resources.Load<GameObject>(Constant.PREFAB_DIR + value).GetComponent<SpriteRenderer>().sprite; }
-    }
-    public Curtain Curtain { get { return curtain; } }
-
-
     private void RefreshDataList() {
         var chatDataPanel = stringChatsAndChoicesPanel.transform.Find("ChatDataPanel");
         var choiceDataPanel = stringChatsAndChoicesPanel.transform.Find("ChoiceDataPanel");
@@ -826,8 +793,6 @@ public class DataEditorScene : MonoBehaviour {
 
     }
 
-    private Image backgroundImg;
-    private Curtain curtain;
     private GameObject[] allPrefabs;
     private GameObject mapMakerPanel;
     private GameObject modalMakerPanel;

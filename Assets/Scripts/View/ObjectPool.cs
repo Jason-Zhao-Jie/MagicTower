@@ -9,8 +9,6 @@ public class ObjectPool {
         Other,
     }
     public abstract class AViewUnit : UnityEngine.MonoBehaviour {
-        public AViewUnit() { }
-
 
         public int Id {
             get {

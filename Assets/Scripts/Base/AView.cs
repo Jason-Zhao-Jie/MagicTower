@@ -1,10 +1,10 @@
-﻿public abstract class AView
+﻿public abstract class AView : UnityEngine.MonoBehaviour
 {
     public AView(IController controller)
     {
         Controller = controller;
     }
 
-    protected IController Controller { get; set; }
+    public IController Controller { get; set; }
 }
 

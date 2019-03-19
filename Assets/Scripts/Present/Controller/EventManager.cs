@@ -58,7 +58,7 @@ public class EventManager {
         int mapId = (int)(eventData / 10000);
         if (mapId > 0 && mapId != Game.Map.CurrentMap.mapId)
         {
-            Game.Controller.Audio.PlaySound(AudioController.stairSound);
+            Game.Managers.Audio.PlaySound(AudioManager.stairSound);
             var status = Game.Status;
             Game.Map.ShowLoadingCurtain(() =>
             {
@@ -82,7 +82,7 @@ public class EventManager {
         var type = (Constant.ResourceType)(eventData % 100);
         var count = (int)(eventData / 100);
         Game.Player.ChangePlayerData(type, count);
-        Game.Controller.Audio.PlaySound(AudioController.itemGetSound);
+        Game.Managers.Audio.PlaySound(AudioManager.itemGetSound);
         caller.RemoveSelf(()=> { Game.Status = lastStatus; });
         return false;
     }
@@ -93,20 +93,20 @@ public class EventManager {
     }
 
     private bool OnBattle(Modal caller, long eventData) {
-        MainScene.instance.StartBattle(caller.Uuid);
+        (Game.CurrentScene as MainScene)?.StartBattle(caller.Uuid);
         return false;
     }
 
     private bool OnChat(Modal caller, long eventData) {
         var data = Game.Config.chats[(int)eventData];
-        MainScene.instance.ChatBegan(data, caller);
+        (Game.CurrentScene as MainScene)?.ChatBegan(data, caller);
         return data.canOn;
     }
 
     private bool OnChoice(Modal caller, long eventData) {
         int choiceId = (int)eventData;
         var data = Game.Config.choices[choiceId];
-        MainScene.instance.StartChoice(data, caller);
+        (Game.CurrentScene as MainScene)?.StartChoice(data, caller);
         return false;
     }
 
@@ -120,7 +120,7 @@ public class EventManager {
     private bool OpenFreeDoor(Modal caller, long blockData) {
         var lastStatus = Game.Status;
         Game.Status = Constant.EGameStatus.OnEvent;
-        Game.Controller.Audio.PlaySound(AudioController.openDoorSound);
+        Game.Managers.Audio.PlaySound(AudioManager.openDoorSound);
         caller.GoToRunState(() => { Game.Status = lastStatus; });
         return false;
     }
@@ -157,7 +157,7 @@ public class EventManager {
         }
         var lastStatus = Game.Status;
         Game.Status = Constant.EGameStatus.OnEvent;
-        Game.Controller.Audio.PlaySound(AudioController.openDoorSound);
+        Game.Managers.Audio.PlaySound(AudioManager.openDoorSound);
         caller.GoToRunState(() => { Game.Status = lastStatus; });
         return false;
     }

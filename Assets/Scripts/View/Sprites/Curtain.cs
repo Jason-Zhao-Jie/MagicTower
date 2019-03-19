@@ -10,7 +10,7 @@ public class Curtain : MonoBehaviour {
         //gameObject.SetActive(true);
         firstcallback = hideCb;
         callbacks = showCb;
-        //Animator.enabled = true;
+        Animator.enabled = true;
 
         Animator.Play("Curtain_show");
     }
@@ -19,7 +19,7 @@ public class Curtain : MonoBehaviour {
         //gameObject.SetActive(true);
         firstcallback = showCb;
         callbacks = hideCb;
-        //Animator.enabled = true;
+        Animator.enabled = true;
 
         Animator.Play("Curtain_hide");
     }
@@ -39,7 +39,7 @@ public class Curtain : MonoBehaviour {
     }
 
     private void OnShow() {
-        //Animator.enabled = false;
+        Animator.enabled = false;
         if (firstcallback != null) {
             if (firstcallback()) {
                 Constant.EmptyBoolCallBack cb = null;
@@ -59,7 +59,7 @@ public class Curtain : MonoBehaviour {
     }
 
     private void OnHide() {
-        //Animator.enabled = false;
+        Animator.enabled = false;
         if (firstcallback != null) {
             if (firstcallback()) {
                 Constant.EmptyBoolCallBack cb = null;

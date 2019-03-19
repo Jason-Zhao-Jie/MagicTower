@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class InputController {
+public class InputManager {
     public static class JoysticsCode {
         public const KeyCode A = KeyCode.Joystick1Button0;
         public const KeyCode B = KeyCode.Joystick1Button1;
@@ -49,7 +49,7 @@ public class InputController {
         JoysticsCode.RightRocker,
     };
 
-    public InputController() {
+    public InputManager() {
         keyStatusMap = new Dictionary<KeyCode, bool>();
         for (int i = 0; i < listenedKeys.Length; ++i) {
             Debug.Log("On key listener adding: " + listenedKeys[i].ToString());
@@ -91,7 +91,7 @@ public class InputController {
                     case KeyCode.KeypadEnter:
                     case KeyCode.Space:
                     case JoysticsCode.A:
-                        MainScene.instance.ChatStepOn();
+                        (Game.CurrentScene as MainScene)?.ChatStepOn();
                         break;
                 }
                 break;
@@ -111,7 +111,7 @@ public class InputController {
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
                     case KeyCode.RightArrow:
-                        Game.Player.StopAutoStepping();
+                        Game.Player.StopAutoStep();
                         OnChangeWalkState();
                         break;
                 }
@@ -145,7 +145,7 @@ public class InputController {
                     case KeyCode.Escape:
                     case KeyCode.Backspace:
                     case JoysticsCode.B:
-                        MainScene.instance.BackToStartScene();
+                        Game.CurrentScene.BackToStartScene();
                         break;
                 }
                 break;
@@ -167,7 +167,7 @@ public class InputController {
                     case KeyCode.KeypadEnter:
                     case KeyCode.Space:
                     case JoysticsCode.A:
-                        MainScene.instance.StopBattle();
+                        (Game.CurrentScene as MainScene)?.StopBattle();
                         break;
                 }
                 break;
@@ -179,7 +179,7 @@ public class InputController {
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
                     case KeyCode.RightArrow:
-                        Game.Player.StopAutoStepping();
+                        Game.Player.StopAutoStep();
                         OnChangeWalkState();
                         break;
                 }
@@ -198,16 +198,14 @@ public class InputController {
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
-                //MainScene.instance.ShowTips("Click Called !");
-                MainScene.instance.OnMapClicked(touchedPos);
-                break;
             case Constant.EGameStatus.InEditor:
-                DataEditorScene.instance.OnMapClicked(touchedPos);
+                //MainScene.instance.ShowTips("Click Called !");
+                Game.Map.ClickMap(touchedPos);
                 break;
             case Constant.EGameStatus.OnCG:
                 break;
             case Constant.EGameStatus.OnTipChat:
-                MainScene.instance.ChatStepOn();
+                (Game.CurrentScene as MainScene)?.ChatStepOn();
                 break;
             case Constant.EGameStatus.OnDialog:
                 break;
@@ -216,12 +214,12 @@ public class InputController {
             case Constant.EGameStatus.OnBattle:
                 break;
             case Constant.EGameStatus.OnBattleResult:
-                MainScene.instance.StopBattle();
+                (Game.CurrentScene as MainScene)?.StopBattle();
                 break;
             case Constant.EGameStatus.OnSmallGame:
                 break;
             case Constant.EGameStatus.AutoStepping:
-                Game.Player.StopAutoStepping();
+                Game.Player.StopAutoStep();
                 break;
             default:
                 break;
@@ -261,7 +259,7 @@ public class InputController {
                             OnChangeWalkState();
                             break;
                         case Constant.EGameStatus.AutoStepping:
-                            Game.Player.StopAutoStepping();
+                            Game.Player.StopAutoStep();
                             break;
                     }
                 }

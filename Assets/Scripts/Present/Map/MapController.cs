@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 public class MapController : AController<MapData, MapView>
 {
-    public MapController()
+    public MapController(MapView mapPanel, Curtain curtain, UnityEngine.UI.Image backgroundImage)
     {
-        InitDataAndView(new MapData(this), new MapView(this));
+        InitDataAndView(new MapData(this), mapPanel);
+        mapPanel.Initial(curtain, backgroundImage);
+        View.Controller = this;
     }
 
     public void SetStartData(int mapId = 1, Constant.MapData[] datas = null)
@@ -36,18 +38,19 @@ public class MapController : AController<MapData, MapView>
             }
 
         // 以渐变的方式改变背景图和背景音乐, 更改地图名字标识   ( TODO : 未实现渐变方式 )
-        if (MainScene.instance != null)
+        View.BackgroundImage = Game.Config.modals[mapdata.backThing].prefabPath;
+        if (Game.CurrentScene.Type == AScene.SceneType.MainScene)
         {
-            MainScene.instance.BackgroundImage = Game.Config.modals[mapdata.backThing].prefabPath;
-            MainScene.instance.MapName = Game.Config.StringInternational.GetValue(mapdata.mapName, Data.MapId.ToString());
-            Game.Controller.Audio.PlayMusicLoop(mapdata.music);
-        }
-        else
-        {
-            DataEditorScene.instance.BackgroundImage = Game.Config.modals[mapdata.backThing].prefabPath;
+            Game.Managers.Audio.PlayMusicLoop(mapdata.music);
+            Game.Player.SyncPlayerData();
         }
 
         return true;
+    }
+
+    public void ClickMap(UnityEngine.Vector2 touchedPos)
+    {
+        View.OnMapClicked(touchedPos);
     }
 
     // 清除地图上的一切物块, 不能单独调用, 必须紧跟其他重刷map的操作
@@ -75,10 +78,7 @@ public class MapController : AController<MapData, MapView>
     // 更改背景图片
     public void ChangeBack(string prefab)
     {
-        if (MainScene.instance != null)
-            MainScene.instance.BackgroundImage = prefab;
-        else
-            DataEditorScene.instance.BackgroundImage = prefab;
+        View.BackgroundImage = prefab;
     }
 
     // 显示黑色幕布, 以便执行一些操作, 例如换楼层
@@ -128,22 +128,20 @@ public class MapController : AController<MapData, MapView>
     // 在指定处添加物品,仅添加表现, 必须同时配合添加数据的操作, 而且本函数也不检测原先是否已有物品
     public void AddObjectToMap(int posx, int posy, int thingId)
     {
+        RemoveThingOnMapWithModal(posx, posy);
         if (thingId > 0)
         {
-            RemoveThingOnMapWithModal(posx, posy);
             var modal = Game.Config.modals[thingId];
             Modal obj = Game.ObjPool.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
             obj.InitWithMapPos(Data.MapId, (sbyte)posx, (sbyte)posy, modal);
             obj.name = "MapBlock_" + posx.ToString() + "_" + posy.ToString();
-            if (MainScene.instance != null)
-                MainScene.instance.AddObjectToMap(obj.gameObject, posx, posy, -2);
-            else if (DataEditorScene.instance != null)
-                DataEditorScene.instance.AddObjectToMap(obj.gameObject, posx, posy, -2);
+            AddObjectToMap(obj.gameObject, posx, posy, -2);
         }
-        else if (thingId == 0)
-        {
-            RemoveThingOnMapWithModal(posx, posy);
-        }
+    }
+
+    public void AddObjectToMap(UnityEngine.GameObject gameObject, int posx, int posy, int thingId)
+    {
+        View.AddObjectToMap(gameObject, posx, posy, -2);
     }
 
     // 从地图上永久删除mod的信息, 仅数据
@@ -255,17 +253,15 @@ public class MapController : AController<MapData, MapView>
     {
         get
         {
-            if (MainScene.instance != null)
-                return MainScene.instance.Curtain;
-            else if (DataEditorScene.instance != null)
-                return DataEditorScene.instance.Curtain;
-            return null;
+            return View.Curtain;
         }
     }
 
     public int MapId { get { return Data.MapId; } }
     public Constant.MapData CurrentMap { get { return Data.CurrentMap; } }
     public int MapsCount { get { return Data.MapsCount; } }
+
+    public UnityEngine.Vector2 ModalLocalScale { get { return View.BlockSize; } }
 
     private Dictionary<long, Modal> modals = new Dictionary<long, Modal>();
 }

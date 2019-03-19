@@ -29,147 +29,6 @@ public class PlayerData : AData
         }
     }
 
-    public bool GoToNextBlock()
-    {
-        int targetPosX = PlayerPosX;
-        int targetPosY = PlayerPosY;
-        if (Game.Status == Constant.EGameStatus.AutoStepping)
-        {
-            if (AutoSteppingRoad.Count <= 0)
-            {
-                StopAutoStepping();
-                return false;
-            }
-            var target = AutoSteppingRoad.Pop();
-            targetPosX = target.x;
-            targetPosY = target.y;
-            if (targetPosX == PlayerPosX)
-            {
-                if (targetPosY > PlayerPosY)
-                    Dir = PlayerController.Direction.Up;
-                else
-                    Dir = PlayerController.Direction.Down;
-            }
-            else
-            {
-                if (targetPosX > PlayerPosX)
-                    Dir = PlayerController.Direction.Right;
-                else
-                    Dir = PlayerController.Direction.Left;
-            }
-        }
-        else
-        {
-            switch (Dir)
-            {
-                case PlayerController.Direction.Up:
-                    ++targetPosY;
-                    break;
-                case PlayerController.Direction.Down:
-                    --targetPosY;
-                    break;
-                case PlayerController.Direction.Right:
-                    ++targetPosX;
-                    break;
-                case PlayerController.Direction.Left:
-                    --targetPosX;
-                    break;
-            }
-        }
-
-        // Check if the player is at the condition
-        if (targetPosY >= Constant.MAP_BLOCK_LENGTH || targetPosY < 0 || targetPosX >= Constant.MAP_BLOCK_LENGTH || targetPosX < 0)
-        {
-            return false;
-        }
-
-        // Check map event and thing event
-        var block = Game.Map.CurrentMap.blocks[targetPosX][targetPosY];
-        long uuid = Game.Map.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
-        if (block.eventId != 0)
-        {
-            if (Game.Status == Constant.EGameStatus.AutoStepping)
-                Game.Status = Constant.EGameStatus.InGame;
-            if (!Game.Controller.EventMgr.DispatchEvent(block.eventId, Game.Map.GetModalByUuid(uuid), block.eventData))
-                return false;
-        }
-        if (block.thing != 0)
-        {
-            var thingData = Game.Config.modals[block.thing];
-            if (thingData.eventId != 0)
-            {
-                if (Game.Status == Constant.EGameStatus.AutoStepping)
-                    Game.Status = Constant.EGameStatus.InGame;
-                if (!Game.Controller.EventMgr.DispatchEvent(thingData.eventId, Game.Map.GetModalByUuid(uuid), thingData.eventData))
-                    return false;
-            }
-            switch ((Modal.ModalType)thingData.typeId)
-            {
-                case Modal.ModalType.Walkable:
-                    break;
-                default:
-                    return false;
-            }
-        }
-        Game.Map.CurrentMap.blocks[targetPosX][targetPosY] = block;
-
-        PlayerPosX = targetPosX;
-        PlayerPosY = targetPosY;
-        Game.Controller.Audio.PlaySound(AudioController.stepSound);
-        return true;
-    }
-
-    public void StartWalk(PlayerController.Direction dir = PlayerController.Direction.Default)
-    {
-        if (dir != PlayerController.Direction.Default)
-            Dir = dir;
-        IsRunning = true;
-    }
-
-    public bool StartAutoStep(int targetPosx, int targetPosy)
-    {
-        var findedRoad = MathHelper.AutoFindBestRoad(Game.Map.ConvertCurrentMapToFinderArray(), PlayerPosX, PlayerPosY, targetPosx, targetPosy);
-        if (findedRoad == null || findedRoad.Length <= 0)
-        {
-            Game.Controller.Audio.PlaySound(AudioController.disableSound);
-            return false;
-        }
-        Game.Status = Constant.EGameStatus.AutoStepping;
-        TargetAutoStep = new UnityEngine.Vector2Int(targetPosx, targetPosy);
-        AutoSteppingRoad = new Stack<UnityEngine.Vector2Int>();
-        for (int i = findedRoad.Length - 1; i > 0; --i)
-        {
-            AutoSteppingRoad.Push(findedRoad[i]);
-        }
-        IsRunning = true;
-        return true;
-    }
-
-    public void StopAutoStepping()
-    {
-        IsRunning = false;
-        Game.Status = Constant.EGameStatus.InGame;
-    }
-
-    public void StopWalk()
-    {
-        IsRunning = false;
-    }
-
-    public void SyncPlayerData()
-    {
-        MainScene.instance.Level = playerData.level.ToString();
-        MainScene.instance.Experience = playerData.exp.ToString();
-        MainScene.instance.Life = playerData.life.ToString();
-        MainScene.instance.Attack = playerData.attack.ToString();
-        MainScene.instance.Defense = playerData.defense.ToString();
-        MainScene.instance.Speed = playerData.speed.ToString();
-        MainScene.instance.Gold = playerData.gold.ToString();
-        MainScene.instance.YellowKey = playerData.yellowKey.ToString();
-        MainScene.instance.BlueKey = playerData.blueKey.ToString();
-        MainScene.instance.RedKey = playerData.redKey.ToString();
-    }
-
     public void ChangePlayerData(Constant.ResourceType type, int count)
     {
         switch (type)
@@ -213,30 +72,7 @@ public class PlayerData : AData
             default:
                 return;
         }
-        SyncPlayerData();
-    }
-
-    public PlayerController.Direction Dir
-    {
-        get { return dir; }
-        set
-        {
-            dirChanged = dir != value;
-            dir = value;
-        }
-    }
-    public UnityEngine.Vector2Int TargetAutoStep { get; private set; }
-    public Stack<UnityEngine.Vector2Int> AutoSteppingRoad { get; private set; }
-
-    public bool IsRunning
-    {
-        get { return isRunning; }
-        set
-        {
-            if (isRunning != value)
-                dirChanged = true;
-            isRunning = value;
-        }
+        (Controller as PlayerController).SyncPlayerData();
     }
 
     public int PlayerId
@@ -321,10 +157,6 @@ public class PlayerData : AData
     public int PlayerPosX { get; set; }
     public int PlayerPosY { get; set; }
 
-    public bool dirChanged = false;
-
-    private bool isRunning;
-    private PlayerController.Direction dir;
     private Constant.PlayerData playerData;
     private Dictionary<int, bool> items = new Dictionary<int, bool>();
 }

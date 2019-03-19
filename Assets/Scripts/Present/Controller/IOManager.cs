@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-public class IODriver {
+public class IOManager {
     public static string FileDirRoot
     {
         get
@@ -10,7 +10,7 @@ public class IODriver {
         }
     }
 
-    public IODriver() {
+    public IOManager() {
 
     }
 

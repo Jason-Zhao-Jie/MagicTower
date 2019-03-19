@@ -14,9 +14,10 @@ public class PlayerController : AController<PlayerData, PlayerView>
         Left
     }
 
-    public PlayerController()
+    public PlayerController(PlayerView playerPanel)
     {
-        InitDataAndView(new PlayerData(this), new PlayerView(this));
+        InitDataAndView(new PlayerData(this), playerPanel);
+        View.Controller = this;
     }
 
     public void ShowPlayer(bool isNew)
@@ -28,66 +29,185 @@ public class PlayerController : AController<PlayerData, PlayerView>
     {
 
         if (playerId == 0)
+        {
             playerId = Data.PlayerId;
+        }
         if (playerId == 0)
         {
-            Data.SetPlayerInfo(DEFALUT_PLAYER_ID);
             playerId = DEFALUT_PLAYER_ID;
         }
-        else if (playerId != Data.PlayerId)
+        isNew = isNew || playerId != Data.PlayerId;
+        if (isNew)
         {
-            if (player != null)
-                player.RemoveSelf();
             Data.SetPlayerInfo(playerId);
-            player = null;
         }
         Data.InitPlayerData(posx, posy, playerId);
-        var modalData = Game.Config.modals[playerId];
-        if (player == null || isNew)
-        {
-            player = Game.ObjPool.GetAnElement<Player>(modalData.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modalData.prefabPath);
-            player.MainPlayer = true;
-        }
-
-        // Set Scene Texts
-        MainScene.instance.AddObjectToMap(player.gameObject, posx, posy, -4);
-        MainScene.instance.RoleName = Game.Config.StringInternational.GetValue(modalData.name);
-        MainScene.instance.Portrait = player.BaseSprite;
+        var player = View.ShowPlayer(playerId, isNew);
+        Game.Map.AddObjectToMap(player.gameObject, posx, posy, -4);
 
         if (isNew)
         {
-            Data.SyncPlayerData();
+            SyncPlayerData();
         }
+    }
+
+    public void SyncPlayerData()
+    {
+        if (!View.HasStarted || Data.PlayerId == 0)
+        {
+            return;
+        }
+        View.MapName = Game.Config.StringInternational.GetValue(Game.Map.CurrentMap.mapName, Game.Map.CurrentMap.mapId.ToString());
+        View.RoleName = Game.Config.StringInternational.GetValue(Game.Config.modals[Data.PlayerId].name);
+        View.Portrait = View.Player.BaseSprite;
+        View.Level = Data.Level.ToString();
+        View.Experience = Data.Experience.ToString();
+        View.Life = Data.Life.ToString();
+        View.Attack = Data.Attack.ToString();
+        View.Defense = Data.Defense.ToString();
+        View.Speed = Data.Speed.ToString();
+        View.Gold = Data.Gold.ToString();
+        View.YellowKey = Data.YellowKey.ToString();
+        View.BlueKey = Data.BlueKey.ToString();
+        View.RedKey = Data.RedKey.ToString();
     }
 
     public bool GoToNextBlock()
     {
-        return Data.GoToNextBlock();
+        int targetPosX = PlayerPosX;
+        int targetPosY = PlayerPosY;
+        if (Game.Status == Constant.EGameStatus.AutoStepping)
+        {
+            if (AutoSteppingRoad.Count <= 0)
+            {
+                StopAutoStep();
+                return false;
+            }
+            var target = AutoSteppingRoad.Pop();
+            targetPosX = target.x;
+            targetPosY = target.y;
+            if (targetPosX == PlayerPosX)
+            {
+                if (targetPosY > PlayerPosY)
+                    View.Player.Dir = Direction.Up;
+                else
+                    View.Player.Dir = Direction.Down;
+            }
+            else
+            {
+                if (targetPosX > PlayerPosX)
+                    View.Player.Dir = Direction.Right;
+                else
+                    View.Player.Dir = Direction.Left;
+            }
+        }
+        else
+        {
+            switch (View.Player.Dir)
+            {
+                case Direction.Up:
+                    ++targetPosY;
+                    break;
+                case Direction.Down:
+                    --targetPosY;
+                    break;
+                case Direction.Right:
+                    ++targetPosX;
+                    break;
+                case Direction.Left:
+                    --targetPosX;
+                    break;
+            }
+        }
+
+        // Check if the player is at the condition
+        if (targetPosY >= Constant.MAP_BLOCK_LENGTH || targetPosY < 0 || targetPosX >= Constant.MAP_BLOCK_LENGTH || targetPosX < 0)
+        {
+            return false;
+        }
+
+        // Check map event and thing event
+        var block = Game.Map.CurrentMap.blocks[targetPosX][targetPosY];
+        long uuid = Game.Map.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
+        if (block.eventId != 0)
+        {
+            if (Game.Status == Constant.EGameStatus.AutoStepping)
+                Game.Status = Constant.EGameStatus.InGame;
+            if (!Game.Managers.EventMgr.DispatchEvent(block.eventId, Game.Map.GetModalByUuid(uuid), block.eventData))
+                return false;
+        }
+        if (block.thing != 0)
+        {
+            var thingData = Game.Config.modals[block.thing];
+            if (thingData.eventId != 0)
+            {
+                if (Game.Status == Constant.EGameStatus.AutoStepping)
+                    Game.Status = Constant.EGameStatus.InGame;
+                if (!Game.Managers.EventMgr.DispatchEvent(thingData.eventId, Game.Map.GetModalByUuid(uuid), thingData.eventData))
+                    return false;
+            }
+            switch ((Modal.ModalType)thingData.typeId)
+            {
+                case Modal.ModalType.Walkable:
+                    break;
+                default:
+                    return false;
+            }
+        }
+        Game.Map.CurrentMap.blocks[targetPosX][targetPosY] = block;
+
+        PlayerPosX = targetPosX;
+        PlayerPosY = targetPosY;
+        Game.Managers.Audio.PlaySound(AudioManager.stepSound);
+        return true;
     }
 
-    public void StartWalk(PlayerController.Direction dir = PlayerController.Direction.Default)
+    public void StartWalk(Direction dir = Direction.Default)
     {
-        Data.StartWalk(dir);
+        if (dir != Direction.Default)
+            View.Player.Dir = dir;
+        View.Player.IsRunning = true;
     }
 
     public void StopWalk()
     {
-        Data.StopWalk();
+        View.Player.IsRunning = false;
     }
 
     public bool StartAutoStep(int targetPosx, int targetPosy)
     {
-        return Data.StartAutoStep(targetPosx, targetPosy);
+        var findedRoad = MathHelper.AutoFindBestRoad(Game.Map.ConvertCurrentMapToFinderArray(), PlayerPosX, PlayerPosY, targetPosx, targetPosy);
+        if (findedRoad == null || findedRoad.Length <= 0)
+        {
+            Game.Managers.Audio.PlaySound(AudioManager.disableSound);
+            return false;
+        }
+        Game.Status = Constant.EGameStatus.AutoStepping;
+        TargetAutoStep = new Vector2Int(targetPosx, targetPosy);
+        AutoSteppingRoad = new Stack<Vector2Int>();
+        for (int i = findedRoad.Length - 1; i > 0; --i)
+        {
+            AutoSteppingRoad.Push(findedRoad[i]);
+        }
+        View.Player.IsRunning = true;
+        return true;
     }
 
-    public void StopAutoStepping()
+    public void StopAutoStep()
     {
-        Data.StopAutoStepping();
+        View.Player.IsRunning = false;
+        Game.Status = Constant.EGameStatus.InGame;
     }
 
     public void ChangePlayerData(Constant.ResourceType type, int count)
     {
         Data.ChangePlayerData(type, count);
+    }
+
+    public string MapName
+    {
+        get { return View.MapName; }
+        set { View.MapName = value; }
     }
 
     public int PlayerId
@@ -101,7 +221,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.Level = value;
-            MainScene.instance.Level = value.ToString();
+            View.Level = value.ToString();
         }
     }
 
@@ -111,7 +231,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.Experience = value;
-            MainScene.instance.Experience = value.ToString();
+            View.Experience = value.ToString();
         }
     }
 
@@ -121,7 +241,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.Life = value;
-            MainScene.instance.Life = value.ToString();
+            View.Life = value.ToString();
         }
     }
 
@@ -131,7 +251,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.Attack = value;
-            MainScene.instance.Attack = value.ToString();
+            View.Attack = value.ToString();
         }
     }
 
@@ -141,7 +261,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.Defense = value;
-            MainScene.instance.Defense = value.ToString();
+            View.Defense = value.ToString();
         }
     }
 
@@ -151,7 +271,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.Speed = value;
-            MainScene.instance.Speed = value.ToString();
+            View.Speed = value.ToString();
         }
     }
 
@@ -167,7 +287,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.Gold = value;
-            MainScene.instance.Gold = value.ToString();
+            View.Gold = value.ToString();
         }
     }
 
@@ -183,7 +303,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.YellowKey = value;
-            MainScene.instance.YellowKey = value.ToString();
+            View.YellowKey = value.ToString();
         }
     }
     public int BlueKey
@@ -192,7 +312,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.BlueKey = value;
-            MainScene.instance.BlueKey = value.ToString();
+            View.BlueKey = value.ToString();
         }
     }
     public int RedKey
@@ -201,7 +321,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         set
         {
             Data.RedKey = value;
-            MainScene.instance.RedKey = value.ToString();
+            View.RedKey = value.ToString();
         }
     }
     public int GreenKey
@@ -214,9 +334,6 @@ public class PlayerController : AController<PlayerData, PlayerView>
     public int PlayerPosX { get { return Data.PlayerPosX; } set { Data.PlayerPosX = value; } }
     public int PlayerPosY { get { return Data.PlayerPosY; } set { Data.PlayerPosY = value; } }
 
-    public bool DirChanged { get { return Data.dirChanged; } set { Data.dirChanged = value; } }
-    public bool IsRunning { get { return Data.IsRunning; } set { Data.IsRunning = value; } }
-    public Direction Dir { get { return Data.Dir; } set { Data.Dir = value; } }
-
-    private Player player;
+    public Vector2Int TargetAutoStep { get; private set; }
+    public Stack<Vector2Int> AutoSteppingRoad { get; private set; }
 }

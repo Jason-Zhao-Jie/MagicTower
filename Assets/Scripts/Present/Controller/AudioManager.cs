@@ -4,7 +4,7 @@
 /// 处理游戏中全部的音乐播放和音效播放的类。
 /// 由于游戏框架相对简单，为了防止创建过多生命周期太短的音效组件，本游戏采用全局UI音效，界面固有UI绑上若干个AudioClip，然后用本类管理
 /// </summary>
-public class AudioController
+public class AudioManager
 {
     /// <summary>
     /// 获得物品时播放的音效id

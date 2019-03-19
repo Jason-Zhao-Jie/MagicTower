@@ -10,12 +10,13 @@ public class StartScene : MonoBehaviour {
         instance = this;
         Input.multiTouchEnabled = false;    // Note : 多点触摸会导致寻路出现bug, 先禁用
 
-        Game.Initial(GetComponent<RectTransform>().rect.size);
-        Game.Map.SetStartData();
+        Game.Initial();
+        Game.Map = null;
+        Game.Player = null;
         SetLoadingPercent(1);
-        Game.Controller.Audio.MusicSource = GetComponent<AudioSource>();
-        Game.Controller.Audio.ClearSoundSource();
-        Game.Controller.Audio.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
+        Game.Managers.Audio.MusicSource = GetComponent<AudioSource>();
+        Game.Managers.Audio.ClearSoundSource();
+        Game.Managers.Audio.AddSoundSource(GameObject.Find("Main Camera").GetComponent<AudioSource>());
     }
 
     private void OnDestroy() {

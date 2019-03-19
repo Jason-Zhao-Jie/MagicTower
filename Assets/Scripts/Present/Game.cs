@@ -1,39 +1,24 @@
 ﻿public static class Game {
-    public static void Initial(UnityEngine.Vector2 screenSize) {
+    public static void Initial() {
+        if (!InitOK)
+        {
 #if UNITY_EDITOR
-        // 编辑器退出时销毁
-        UnityEditor.EditorApplication.quitting += OnApplicationExit;
+            // 编辑器退出时销毁
+            UnityEditor.EditorApplication.quitting += OnApplicationExit;
 #endif
-        // 程序退出时按顺序回收, 或做其他必要操作
-        UnityEngine.Application.quitting += OnApplicationExit;
+            // 程序退出时按顺序回收, 或做其他必要操作
+            UnityEngine.Application.quitting += OnApplicationExit;
+            InitOK = true;
+        }
 
         if (Config == null)
         {
             Config = new ConfigCenter();
         }
 
-        if (Controller == null)
+        if (Managers == null)
         {
-            Controller = new GameControllerInitializer();
-        }
-
-        if (Map == null)
-        {
-            Map = new MapController();
-        }
-
-        if (Player == null)
-        {
-            Player = new PlayerController();
-        }
-
-        if (ScreenAdaptorInst == null)
-        {
-            ScreenAdaptorInst = new ScreenAdaptator(screenSize);
-        }
-        else
-        {
-            ScreenAdaptorInst.SetScreenSize(screenSize);
+            Managers = new ManagerSet();
         }
 
         if (ObjPool == null)
@@ -44,35 +29,37 @@
         status = Constant.EGameStatus.Start;
     }
 
+    public static AScene CurrentScene
+    {
+        get; set;
+    }
+
     public static ConfigCenter Config
     {
         get; private set;
     }
 
-    public static GameControllerInitializer Controller
+    public static ManagerSet Managers
     {
         get; private set;
     }
 
     public static MapController Map
     {
-        get; private set;
+        get; set;
     }
 
     public static PlayerController Player
     {
-        get; private set;
-    }
-
-    public static ScreenAdaptator ScreenAdaptorInst
-    {
-        get; private set;
+        get; set;
     }
 
     public static ObjectPool ObjPool
     {
         get; private set;
     }
+
+    public static bool InitOK { get; private set; }
 
     ////////////// Runtime Data ///////////////
 
@@ -94,12 +81,8 @@
 
     public static string GetJsonOfRuntimeInfoData()
     {
-        var maps = new Constant.MapData[Game.Map.MapsCount];
-        int index = 0;
-        foreach (var item in Game.Map.GetAllMapData())
-        {
-            maps[index++] = item.Value;
-        }
+        var maps = new Constant.MapData[Map.MapsCount];
+        Map.GetAllMapData().Values.CopyTo(maps, 0);
         return UnityEngine.JsonUtility.ToJson(new RuntimeGameData
         {
             player = Player.PlayerData,
@@ -117,7 +100,7 @@
     {
         var data = UnityEngine.JsonUtility.FromJson<RuntimeGameData>(json);
         Player.PlayerData = data.player;
-        Map.SetStartData(data.pos.mapId, data.maps);
+        Map.SetStartData(data.pos.mapId, data.maps);    // Warning : 因Map结构修改，此处map有可能为null，请在做存档读档功能时修改此处
         Player.PlayerPosX = data.pos.x;
         Player.PlayerPosY = data.pos.y;
         return true;
@@ -129,9 +112,11 @@
         set
         {
             status = value;
-            Controller.Input.OnChangeWalkState();
+            Managers.Input.OnChangeWalkState();
         }
     }
+
+    public static float RealFontSize { get { return CurrentScene.GetComponent<UnityEngine.RectTransform>().rect.height / 650; } }
 
     private static Constant.EGameStatus status;
 

@@ -10,34 +10,34 @@ public class Player : ObjectPool.AViewUnit {
     }
 
     void Update() {
-        if (Game.Player.DirChanged && mainPlayer) {
-            switch (Game.Player.Dir) {
+        if (dirChanged && MainPlayer) {
+            switch (Dir) {
                 case PlayerController.Direction.Up:
-                    Animator.Play(Game.Player.IsRunning ? "Up" : "Up_Stand");
+                    Animator.Play(IsRunning ? "Up" : "Up_Stand");
                     break;
                 case PlayerController.Direction.Down:
-                    Animator.Play(Game.Player.IsRunning ? "Down" : "Down_Stand");
+                    Animator.Play(IsRunning ? "Down" : "Down_Stand");
                     break;
                 case PlayerController.Direction.Left:
-                    Animator.Play(Game.Player.IsRunning ? "Left" : "Left_Stand");
+                    Animator.Play(IsRunning ? "Left" : "Left_Stand");
                     break;
                 case PlayerController.Direction.Right:
-                    Animator.Play(Game.Player.IsRunning ? "Right" : "Right_Stand");
+                    Animator.Play(IsRunning ? "Right" : "Right_Stand");
                     break;
             }
-            Game.Player.DirChanged = false;
+            dirChanged = false;
         }
     }
 
     void FixedUpdate() {
-        if (Game.Player.IsRunning && mainPlayer) {
+        if (IsRunning && MainPlayer) {
             if (runningTime < RUN_SPEED)
                 ++runningTime;
             else {
                 runningTime = 0;
                 if (Game.Player.GoToNextBlock()) {
                     var posController = transform;
-                    switch (Game.Player.Dir) {
+                    switch (Dir) {
                         case PlayerController.Direction.Up:
                             posController.position = new Vector3(posController.position.x, posController.position.y + movedLength.y, posController.position.z);
                             break;
@@ -58,10 +58,7 @@ public class Player : ObjectPool.AViewUnit {
         }
     }
 
-    public bool MainPlayer {
-        get { return mainPlayer; }
-        set { mainPlayer = value; }
-    }
+    public bool MainPlayer { get; set; }
 
     public void RemoveSelf() {
         Game.ObjPool.RecycleAnElement(this);
@@ -118,14 +115,39 @@ public class Player : ObjectPool.AViewUnit {
     }
 
     public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
-        mainPlayer = false;
+        MainPlayer = false;
         return true;
     }
 
     public Animator Animator { get { return GetComponent<Animator>(); } }
 
+
+    public PlayerController.Direction Dir
+    {
+        get { return dir; }
+        set
+        {
+            dirChanged = dir != value;
+            dir = value;
+        }
+    }
+
+    public bool IsRunning
+    {
+        get { return isRunning; }
+        set
+        {
+            if (isRunning != value)
+                dirChanged = true;
+            isRunning = value;
+        }
+    }
+
+    private bool isRunning;
+    private PlayerController.Direction dir;
+
+    private bool dirChanged;
     private int runningTime;
     private Vector2 movedLength;
     private int playerId;
-    private bool mainPlayer = false;
 }

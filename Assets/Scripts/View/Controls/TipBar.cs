@@ -16,7 +16,7 @@ public class TipBar : ObjectPool.AViewUnit
     // Use this for initialization
     void Awake() {
         tipsText = transform.Find("Text").GetComponent<UnityEngine.UI.Text>();
-        tipsText.fontSize = System.Convert.ToInt32(tipsText.fontSize * Game.ScreenAdaptorInst.RealFontSize);
+        tipsText.fontSize = System.Convert.ToInt32(tipsText.fontSize * Game.RealFontSize);
     }
 
     void FixedUpdate() {
@@ -31,7 +31,7 @@ public class TipBar : ObjectPool.AViewUnit
     public void SetTipText(string content)
     {
         tipsText.text = content;
-        Game.Controller.Audio.PlaySound(20);
+        Game.Managers.Audio.PlaySound(20);
     }
 
     public void StartAutoRemove(int time) {

@@ -29,14 +29,14 @@ public class ChoiceDlg : ObjectPool.AViewUnit
         choiceSpeakerFrame = choiceInfoPanel.transform.Find("SpeakerFrame").gameObject;
         choiceSpeaker = choiceInfoPanel.transform.Find("Speaker")?.gameObject;
         choiceSpeakerText = choiceInfoPanel.transform.Find("SpeakerName").GetComponent<Text>();
-        choiceSpeakerText.fontSize = Convert.ToInt32(choiceSpeakerText.fontSize*Game.ScreenAdaptorInst.RealFontSize);
+        choiceSpeakerText.fontSize = Convert.ToInt32(choiceSpeakerText.fontSize*Game.RealFontSize);
         choiceTitleText = choiceInfoPanel.transform.Find("TitleText").GetComponent<Text>();
-        choiceTitleText.fontSize = Convert.ToInt32(choiceTitleText.fontSize*Game.ScreenAdaptorInst.RealFontSize);
+        choiceTitleText.fontSize = Convert.ToInt32(choiceTitleText.fontSize*Game.RealFontSize);
         choiceItemPanel = transform.Find("ItemPanel").gameObject;
         //choiceItemPanel.GetComponent<VerticalLayoutGroup>().spacing *= Game.View.ScreenAdaptorInst.RealFontSize;
         firstChoiceItem = choiceItemPanel.transform.Find("FirstItem").GetComponent<Button>();
         firstChoiceItem.transform.Find("Text").GetComponent<Text>().text = "";
-        firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize = Convert.ToInt32(firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize*Game.ScreenAdaptorInst.RealFontSize);
+        firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize = Convert.ToInt32(firstChoiceItem.transform.Find("Text").GetComponent<Text>().fontSize*Game.RealFontSize);
         choiceItems = new List<Button>();
     }
 
@@ -59,7 +59,7 @@ public class ChoiceDlg : ObjectPool.AViewUnit
         }
         obj.transform.SetParent(choiceSpeakerFrame.transform, false);
         obj.transform.localPosition = new Vector3(0, 0, obj.transform.localPosition.z);
-        obj.transform.localScale = Game.ScreenAdaptorInst.BlockSize;
+        obj.transform.localScale = Game.Map.ModalLocalScale;
         if (choiceSpeaker != null) {
             var mod = choiceSpeaker.GetComponent<Modal>();
             if (mod != null)
@@ -160,7 +160,7 @@ public class ChoiceDlg : ObjectPool.AViewUnit
     {
         Game.ObjPool.RecycleAnElement(this);
         ClearChoice();
-        Game.Controller.EventMgr.DispatchEvent(choice.data[index].eventId, choiceMod, choice.data[index].eventData);
+        Game.Managers.EventMgr.DispatchEvent(choice.data[index].eventId, choiceMod, choice.data[index].eventData);
     }
 
     public override ObjectPool.ElementType GetPoolTypeId()

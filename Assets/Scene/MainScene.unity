@@ -2831,6 +2831,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb7b98c8191249aaa260ff44f6cc260, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curtain: {fileID: 1606268396}
+  backgroundImg: {fileID: 761880421}
 --- !u!1 &1606268394
 GameObject:
   m_ObjectHideFlags: 0
@@ -3279,6 +3281,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a3e28408fd464d968cd5c6693f11a98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapNameText: {fileID: 1902742758}
+  roleNameText: {fileID: 1747112764}
+  portrait: {fileID: 1264875402}
+  levelTitleText: {fileID: 828822697}
+  levelText: {fileID: 1510876020}
+  expTitleText: {fileID: 249965288}
+  expText: {fileID: 926076806}
+  lifeTitleText: {fileID: 1837247850}
+  lifeText: {fileID: 201274668}
+  attackTitleText: {fileID: 1376554199}
+  attackText: {fileID: 714117397}
+  defenseTitleText: {fileID: 985424959}
+  defenseText: {fileID: 75307031}
+  speedTitleText: {fileID: 916280501}
+  speedText: {fileID: 807155602}
+  goldText: {fileID: 216437943}
+  yellowKeyText: {fileID: 1645453257}
+  blueKeyText: {fileID: 1798260857}
+  redKeyText: {fileID: 1351494755}
 --- !u!114 &1702041646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3757,6 +3778,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  defaultElement: {fileID: 0}
 --- !u!1 &1902742756
 GameObject:
   m_ObjectHideFlags: 0

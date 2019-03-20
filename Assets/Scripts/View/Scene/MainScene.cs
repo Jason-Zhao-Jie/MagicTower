@@ -7,10 +7,9 @@ public class MainScene : AScene {
     override public SceneType Type { get { return SceneType.MainScene; } }
 
     // Use this for initialization
-    void Start()
+    override protected void Start()
     {
-        Game.CurrentScene = this;
-        Game.Initial();
+        base.Start();
 
         dialogCanvas = GameObject.Find("DialogCanvas");
 
@@ -36,7 +35,7 @@ public class MainScene : AScene {
         Game.Managers.Audio.AddSoundSource(transform.Find("MapPanel").GetComponent<AudioSource>());
 
         Game.Player = new PlayerController(transform.Find("PlayerPanel").GetComponent<PlayerView>());
-        Game.Map = new MapController(transform.Find("MapPanel").GetComponent<MapView>(), dialogCanvas.transform.Find("Curtain").GetComponent<Curtain>(), GetComponent<Image>());
+        Game.Map = new MapController(transform.Find("MapPanel").GetComponent<MapView>());
         Game.Map.ShowMap();
         Game.Player.ShowPlayer(true);
 
@@ -145,7 +144,7 @@ public class MainScene : AScene {
             ClearChats();
         } else if (chatIndex >= chat.data.Length) {
             chatIndex = 0;
-            Game.Managers.EventMgr.DispatchEvent(chat.lastEventId, chatMod, chat.lastEventData);
+            Game.Managers.EventMgr.DispatchEvent(chat.eventId, chatMod, chat.eventData);
             ClearChats();
         } else {
             var chatData = chat.data[chatIndex];

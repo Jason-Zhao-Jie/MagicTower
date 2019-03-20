@@ -67,7 +67,15 @@ public class Modal : ObjectPool.AViewUnit {
         typeId = data.typeId;
         modName = data.name;
         eventId = data.eventId;
-        eventData = data.eventData;
+        eventData = null;
+        if (data.eventData != null)
+        {
+            eventData = new long[data.eventData.Length];
+            for(var i = 0; i < eventData.Length; ++i)
+            {
+                eventData[i] = data.eventData[i];
+            }
+        }
         this.mapId = mapId;
         this.posx = posx;
         this.posy = posy;
@@ -137,11 +145,11 @@ public class Modal : ObjectPool.AViewUnit {
     public int PosX { get { return posx; } }
     public int PosY { get { return posy; } }
     public int EventId { get { return eventId; } }
-    public long EventData { get { return eventData; } }
+    public long[] EventData { get { return eventData; } }
 
 
     private int eventId = 0;
-    private long eventData = 0;
+    private long[] eventData = { 0 };
     private sbyte posx = -1;
     private sbyte posy = -1;
     private int mapId = 0;

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class InputManager {
-    public static class JoysticsCode {
+public class InputManager
+{
+    public static class JoysticsCode
+    {
         public const KeyCode A = KeyCode.Joystick1Button0;
         public const KeyCode B = KeyCode.Joystick1Button1;
         public const KeyCode X = KeyCode.Joystick1Button2;
@@ -15,7 +17,8 @@ public class InputManager {
         public const KeyCode RightRocker = KeyCode.Joystick1Button9;   // 右摇杆按下
     };
 
-    public enum JoysticsAxes {
+    public enum JoysticsAxes
+    {
         LeftHorizontal, // 左摇杆X轴
         LeftVertical,   // 左摇杆Y轴
         RightHorizontal,// 右摇杆X轴
@@ -49,13 +52,16 @@ public class InputManager {
         JoysticsCode.RightRocker,
     };
 
-    public InputManager() {
+    public InputManager()
+    {
         keyStatusMap = new Dictionary<KeyCode, bool>();
-        for (int i = 0; i < listenedKeys.Length; ++i) {
+        for (int i = 0; i < listenedKeys.Length; ++i)
+        {
             Debug.Log("On key listener adding: " + listenedKeys[i].ToString());
             keyStatusMap.Add(listenedKeys[i], false);
         }
-        axesStatusMap = new Dictionary<JoysticsAxes, float> {
+        axesStatusMap = new Dictionary<JoysticsAxes, float>
+        {
             [JoysticsAxes.LeftHorizontal] = 0,
             [JoysticsAxes.LeftVertical] = 0,
             [JoysticsAxes.RightHorizontal] = 0,
@@ -65,14 +71,17 @@ public class InputManager {
         };
     }
 
-    public void OnKeyDown(KeyCode keyCode) {
+    public void OnKeyDown(KeyCode keyCode)
+    {
         keyStatusMap[keyCode] = true;
 
-        switch (Game.Status) {
+        switch (Game.Status)
+        {
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
-                switch (keyCode) {
+                switch (keyCode)
+                {
                     case KeyCode.UpArrow:
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
@@ -86,7 +95,8 @@ public class InputManager {
             case Constant.EGameStatus.OnCG:
                 break;
             case Constant.EGameStatus.OnTipChat:
-                switch (keyCode) {
+                switch (keyCode)
+                {
                     case KeyCode.Return:
                     case KeyCode.KeypadEnter:
                     case KeyCode.Space:
@@ -106,7 +116,8 @@ public class InputManager {
             case Constant.EGameStatus.OnSmallGame:
                 break;
             case Constant.EGameStatus.AutoStepping:
-                switch (keyCode) {
+                switch (keyCode)
+                {
                     case KeyCode.UpArrow:
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
@@ -121,12 +132,15 @@ public class InputManager {
         }
     }
 
-    public void OnKeyUp(KeyCode keyCode) {
+    public void OnKeyUp(KeyCode keyCode)
+    {
         keyStatusMap[keyCode] = false;
 
-        switch (Game.Status) {
+        switch (Game.Status)
+        {
             case Constant.EGameStatus.Start:
-                switch (keyCode) {
+                switch (keyCode)
+                {
                     case KeyCode.Escape:
                     case KeyCode.Backspace:
                     case JoysticsCode.B:
@@ -135,7 +149,8 @@ public class InputManager {
                 }
                 break;
             case Constant.EGameStatus.InGame:
-                switch (keyCode) {
+                switch (keyCode)
+                {
                     case KeyCode.UpArrow:
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
@@ -162,7 +177,8 @@ public class InputManager {
             case Constant.EGameStatus.OnBattle:
                 break;
             case Constant.EGameStatus.OnBattleResult:
-                switch (keyCode) {
+                switch (keyCode)
+                {
                     case KeyCode.Return:
                     case KeyCode.KeypadEnter:
                     case KeyCode.Space:
@@ -174,7 +190,8 @@ public class InputManager {
             case Constant.EGameStatus.OnSmallGame:
                 break;
             case Constant.EGameStatus.AutoStepping:
-                switch (keyCode) {
+                switch (keyCode)
+                {
                     case KeyCode.UpArrow:
                     case KeyCode.DownArrow:
                     case KeyCode.LeftArrow:
@@ -189,12 +206,15 @@ public class InputManager {
         }
     }
 
-    public void OnTouchDown(Vector2 touchedPos, bool changeMouseStatue) {
+    public void OnTouchDown(Vector2 touchedPos, bool changeMouseStatue)
+    {
         OnTouchDown(touchedPos);
         isMouseLeftDown = changeMouseStatue;
     }
-    public void OnTouchDown(Vector2 touchedPos) {
-        switch (Game.Status) {
+    public void OnTouchDown(Vector2 touchedPos)
+    {
+        switch (Game.Status)
+        {
             case Constant.EGameStatus.Start:
                 break;
             case Constant.EGameStatus.InGame:
@@ -226,35 +246,43 @@ public class InputManager {
         }
     }
 
-    public void OnTouchUp(Vector2 end, bool changeMouseStatue) {
+    public void OnTouchUp(Vector2 end, bool changeMouseStatue)
+    {
         OnTouchUp(end, end, changeMouseStatue);
     }
 
-    public void OnTouchUp(Vector2 end) {
+    public void OnTouchUp(Vector2 end)
+    {
         OnTouchUp(end, end);
     }
 
-    public void OnTouchUp(Vector2 end, Vector2 begin, bool changeMouseStatue) {
+    public void OnTouchUp(Vector2 end, Vector2 begin, bool changeMouseStatue)
+    {
         OnTouchUp(end, begin);
         isMouseLeftDown = changeMouseStatue;
     }
 
-    public void OnTouchUp(Vector2 end, Vector2 begin) {
+    public void OnTouchUp(Vector2 end, Vector2 begin)
+    {
         // TODO
     }
 
-    public void OnJoysticsRockerAxes(JoysticsAxes keyCode, float value) {
+    public void OnJoysticsRockerAxes(JoysticsAxes keyCode, float value)
+    {
         var oldValue = axesStatusMap[keyCode];
         axesStatusMap[keyCode] = value;
-        switch (keyCode) {
+        switch (keyCode)
+        {
             case JoysticsAxes.LeftHorizontal:
             case JoysticsAxes.LeftVertical:
             case JoysticsAxes.RightHorizontal:
             case JoysticsAxes.RightVertical:
             case JoysticsAxes.SpecialHorizontal:
             case JoysticsAxes.SpecialVertical:
-                if ((oldValue > 0.1 && value < 0.1) || (oldValue < -0.1 && value > -0.1) || (Mathf.Abs(oldValue) < 0.1 && Mathf.Abs(value) > 0.1)) {
-                    switch (Game.Status) {
+                if ((oldValue > 0.1 && value < 0.1) || (oldValue < -0.1 && value > -0.1) || (Mathf.Abs(oldValue) < 0.1 && Mathf.Abs(value) > 0.1))
+                {
+                    switch (Game.Status)
+                    {
                         case Constant.EGameStatus.InGame:
                             OnChangeWalkState();
                             break;
@@ -269,11 +297,18 @@ public class InputManager {
 
     internal Dictionary<KeyCode, bool> keyStatusMap;
     internal Dictionary<JoysticsAxes, float> axesStatusMap;
-    internal bool isMouseLeftDown = false;
+    internal bool isMouseLeftDown;
 
 
-    public void OnChangeWalkState() {
-        if (Game.Status == Constant.EGameStatus.InGame) {;
+    public void OnChangeWalkState()
+    {
+        if (Game.Status == Constant.EGameStatus.InEditor)
+        {
+            return;
+        }
+        else if (Game.Status == Constant.EGameStatus.InGame)
+        {
+            ;
             bool up = keyStatusMap[KeyCode.UpArrow] || axesStatusMap[JoysticsAxes.LeftVertical] < -0.1 || axesStatusMap[JoysticsAxes.RightVertical] < -0.1 || axesStatusMap[JoysticsAxes.SpecialVertical] > 0.1;
             bool down = keyStatusMap[KeyCode.DownArrow] || axesStatusMap[JoysticsAxes.LeftVertical] > 0.1 || axesStatusMap[JoysticsAxes.RightVertical] > 0.1 || axesStatusMap[JoysticsAxes.SpecialVertical] < -0.1;
             bool right = keyStatusMap[KeyCode.RightArrow] || axesStatusMap[JoysticsAxes.LeftHorizontal] > 0.1 || axesStatusMap[JoysticsAxes.RightHorizontal] > 0.1 || axesStatusMap[JoysticsAxes.SpecialHorizontal] > 0.1;
@@ -283,7 +318,9 @@ public class InputManager {
                 Game.Player.StopWalk();
             else
                 Game.Player.StartWalk((PlayerController.Direction)(trueNum / 10));
-        } else if (Game.Status != Constant.EGameStatus.AutoStepping) {
+        }
+        else if (Game.Status != Constant.EGameStatus.AutoStepping)
+        {
             Game.Player.StopWalk();
         }
     }

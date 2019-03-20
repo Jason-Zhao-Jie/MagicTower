@@ -14,15 +14,10 @@ public abstract class AScene : MonoBehaviour
     public abstract SceneType Type { get; }
 
     // Use this for initialization
-    void Start()
+    virtual protected void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        Game.Initial();
+        Game.CurrentScene = this;
     }
 
     public void BackToStartScene()

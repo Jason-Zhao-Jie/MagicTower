@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
-public class EventManager {
+public class EventManager
+{
+    public delegate bool EventCallback(Modal caller, params long[] blockData);
 
     public EventManager() {
-        eventList = new Dictionary<EventName, Constant.EventCallback>{
+        eventList = new Dictionary<EventName, EventCallback>{
             {EventName.NormalBattle, OnBattle},
             {EventName.OpenFreeDoor, OpenFreeDoor},
             {EventName.NormalSend, OnSend},
@@ -16,7 +18,7 @@ public class EventManager {
         };
     }
 
-    public bool DispatchEvent(int eventId, Modal caller, long eventData) {
+    public bool DispatchEvent(int eventId, Modal caller, params long[] eventData) {
         if (eventId == 0 || !eventList.ContainsKey((EventName)eventId))
             return true;
         var cb = eventList[(EventName)eventId];
@@ -48,14 +50,14 @@ public class EventManager {
         KeyStoreDoubling = 2, // 每次价格乘以2，用于后期钥匙商店
     }
 
-    public readonly Dictionary<EventName, Constant.EventCallback> eventList = null;
+    public readonly Dictionary<EventName, EventCallback> eventList = null;
 
     // The special event callbacks are below
-    private bool OnSend(Modal caller, long eventData)
+    private bool OnSend(Modal caller, params long[] eventData)
     {
-        int posx = (int)(eventData / 100 % 100);
-        int posy = (int)(eventData % 100);
-        int mapId = (int)(eventData / 10000);
+        int posx = (int)(eventData[0] / 100 % 100);
+        int posy = (int)(eventData[0] % 100);
+        int mapId = (int)(eventData[0] / 10000);
         if (mapId > 0 && mapId != Game.Map.CurrentMap.mapId)
         {
             Game.Managers.Audio.PlaySound(AudioManager.stairSound);
@@ -76,48 +78,48 @@ public class EventManager {
         return false;
     }
 
-    private bool OnGetBaseResourceItem(Modal caller, long eventData) {
+    private bool OnGetBaseResourceItem(Modal caller, params long[] eventData) {
         var lastStatus = Game.Status;
         Game.Status = Constant.EGameStatus.OnEvent;
-        var type = (Constant.ResourceType)(eventData % 100);
-        var count = (int)(eventData / 100);
+        var type = (Constant.ResourceType)(eventData[0] % 100);
+        var count = (int)(eventData[0] / 100);
         Game.Player.ChangePlayerData(type, count);
         Game.Managers.Audio.PlaySound(AudioManager.itemGetSound);
         caller.RemoveSelf(()=> { Game.Status = lastStatus; });
         return false;
     }
 
-    private bool OnGetFunctionItem(Modal caller, long eventData) {
+    private bool OnGetFunctionItem(Modal caller, params long[] eventData) {
         // TODO
         return false;
     }
 
-    private bool OnBattle(Modal caller, long eventData) {
+    private bool OnBattle(Modal caller, params long[] eventData) {
         (Game.CurrentScene as MainScene)?.StartBattle(caller.Uuid);
         return false;
     }
 
-    private bool OnChat(Modal caller, long eventData) {
-        var data = Game.Config.chats[(int)eventData];
+    private bool OnChat(Modal caller, params long[] eventData) {
+        var data = Game.Config.chats[System.Convert.ToInt32(eventData[0])];
         (Game.CurrentScene as MainScene)?.ChatBegan(data, caller);
         return data.canOn;
     }
 
-    private bool OnChoice(Modal caller, long eventData) {
-        int choiceId = (int)eventData;
+    private bool OnChoice(Modal caller, params long[] eventData) {
+        int choiceId = System.Convert.ToInt32(eventData[0]);
         var data = Game.Config.choices[choiceId];
         (Game.CurrentScene as MainScene)?.StartChoice(data, caller);
         return false;
     }
 
-    private bool OnGame(Modal caller, long eventData) {
-        int gameId = (int)eventData;
+    private bool OnGame(Modal caller, params long[] eventData) {
+        var gameId = System.Convert.ToInt32(eventData[0]);
         // TODO
 
         return false;
     }
 
-    private bool OpenFreeDoor(Modal caller, long blockData) {
+    private bool OpenFreeDoor(Modal caller, params long[] blockData) {
         var lastStatus = Game.Status;
         Game.Status = Constant.EGameStatus.OnEvent;
         Game.Managers.Audio.PlaySound(AudioManager.openDoorSound);
@@ -125,8 +127,8 @@ public class EventManager {
         return false;
     }
 
-    private bool OpenNormalDoor(Modal caller, long data) {
-        switch (data) {
+    private bool OpenNormalDoor(Modal caller, params long[] data) {
+        switch (data[0]) {
             case 9:
                 if (Game.Player.YellowKey <= 0)
                     return false;
@@ -162,14 +164,14 @@ public class EventManager {
         return false;
     }
 
-    private bool RemoveEventAtBlock(Modal caller, long data) {
-        if (data == 0)
+    private bool RemoveEventAtBlock(Modal caller, params long[] data) {
+        if (data[0] == 0)
             if (caller == null)
                 Game.Map.RemoveEventOn(Game.Player.PlayerPosX, Game.Player.PlayerPosY);
             else
                 Game.Map.RemoveEventOn(caller.PosX, caller.PosY, caller.MapId);
         else
-            Game.Map.RemoveEventOn((int)(data / 100 % 100), (int)(data % 100), (int)(data / 10000));
+            Game.Map.RemoveEventOn((int)(data[0] / 100 % 100), (int)(data[0] % 100), (int)(data[0] / 10000));
         return false;
     }
 

@@ -7,27 +7,6 @@ public class PlayerView : AView
     {
     }
 
-    // Use this for initialization
-    void Awake()
-    {
-        var heroPanel = transform.Find("HeroPanel");
-        var itemPanel = transform.Find("ItemPanel");
-
-        mapNameText = heroPanel.transform.Find("MapName").GetComponent<Text>();
-        roleNameText = heroPanel.transform.Find("Name").GetComponent<Text>();
-        portrait = heroPanel.transform.Find("Portrait").GetComponent<Image>();
-        levelText = heroPanel.transform.Find("Level").GetComponent<Text>();
-        expText = heroPanel.transform.Find("Exp").GetComponent<Text>();
-        lifeText = heroPanel.transform.Find("Life").GetComponent<Text>();
-        attackText = heroPanel.transform.Find("Attack").GetComponent<Text>();
-        defenseText = heroPanel.transform.Find("Defense").GetComponent<Text>();
-        speedText = heroPanel.transform.Find("Speed").GetComponent<Text>();
-        goldText = itemPanel.transform.Find("Gold").GetComponent<Text>();
-        yellowKeyText = itemPanel.transform.Find("YellowKey").GetComponent<Text>();
-        blueKeyText = itemPanel.transform.Find("BlueKey").GetComponent<Text>();
-        redKeyText = itemPanel.transform.Find("RedKey").GetComponent<Text>();
-    }
-
     void Start()
     {
 
@@ -144,17 +123,61 @@ public class PlayerView : AView
 
     public Player Player { get; private set; }
 
-    private Text mapNameText;
-    private Text roleNameText;
-    private Image portrait;
-    private Text levelText;
-    private Text expText;
-    private Text lifeText;
-    private Text attackText;
-    private Text defenseText;
-    private Text speedText;
-    private Text goldText;
-    private Text yellowKeyText;
-    private Text blueKeyText;
-    private Text redKeyText;
+    [Tooltip("地图楼层名字对象")]
+    [Space(4)]
+    public Text mapNameText;
+    [Tooltip("玩家角色名字对象")]
+    [Space(4)]
+    public Text roleNameText;
+    [Tooltip("玩家角色头像")]
+    [Space(4)]
+    public Image portrait;
+    [Tooltip("等级标题对象")]
+    [Space(4)]
+    public Text levelTitleText;
+    [Tooltip("等级数字对象")]
+    [Space(4)]
+    public Text levelText;
+    [Tooltip("经验值标题对象")]
+    [Space(4)]
+    public Text expTitleText;
+    [Tooltip("经验值对象")]
+    [Space(4)]
+    public Text expText;
+    [Tooltip("生命值标题对象")]
+    [Space(4)]
+    public Text lifeTitleText;
+    [Tooltip("生命值对象")]
+    [Space(4)]
+    public Text lifeText;
+    [Tooltip("攻击值标题对象")]
+    [Space(4)]
+    public Text attackTitleText;
+    [Tooltip("攻击值对象")]
+    [Space(4)]
+    public Text attackText;
+    [Tooltip("防御值标题对象")]
+    [Space(4)]
+    public Text defenseTitleText;
+    [Tooltip("防御值对象")]
+    [Space(4)]
+    public Text defenseText;
+    [Tooltip("敏捷值标题对象")]
+    [Space(4)]
+    public Text speedTitleText;
+    [Tooltip("敏捷值对象")]
+    [Space(4)]
+    public Text speedText;
+    [Tooltip("金币数量对象")]
+    [Space(4)]
+    public Text goldText;
+    [Tooltip("黄钥匙数量对象")]
+    [Space(4)]
+    public Text yellowKeyText;
+    [Tooltip("蓝钥匙数量对象")]
+    [Space(4)]
+    public Text blueKeyText;
+    [Tooltip("红钥匙数量对象")]
+    [Space(4)]
+    public Text redKeyText;
 }

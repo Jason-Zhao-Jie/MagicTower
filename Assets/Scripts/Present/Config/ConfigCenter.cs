@@ -120,14 +120,21 @@ public class ConfigCenter {
             music = dt.music,
             blocks = new Constant.MapBlockRaw[dt.blocks.Length]
         };
-        for (var x = 0; x < ret.blocks.Length; ++x) {
+        for (var x = 0; x < ret.blocks.Length; ++x)
+        {
             ret.blocks[x] = new Constant.MapBlockRaw { blocks = new Constant.MapBlock[dt.blocks[x].Length] };
-            for (var y = 0; y < ret.blocks[x].Length; ++y) {
-                ret.blocks[x][y] = new Constant.MapBlock {
+            for (var y = 0; y < ret.blocks[x].Length; ++y)
+            {
+                ret.blocks[x][y] = new Constant.MapBlock
+                {
                     thing = dt.blocks[x][y].thing,
                     eventId = dt.blocks[x][y].eventId,
-                    eventData = dt.blocks[x][y].eventData
+                    eventData = new long[dt.blocks[x][y].eventData.Length],
                 };
+                for (var i = 0; i < ret.blocks[x][y].eventData.Length; ++i)
+                {
+                    ret.blocks[x][y].eventData[i] = dt.blocks[x][y].eventData[i];
+                }
             }
         }
         return ret;

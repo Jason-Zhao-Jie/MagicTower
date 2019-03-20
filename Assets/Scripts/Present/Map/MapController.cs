@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 public class MapController : AController<MapData, MapView>
 {
-    public MapController(MapView mapPanel, Curtain curtain, UnityEngine.UI.Image backgroundImage)
+    public MapController(MapView mapPanel)
     {
         InitDataAndView(new MapData(this), mapPanel);
-        mapPanel.Initial(curtain, backgroundImage);
         View.Controller = this;
     }
 
@@ -100,7 +99,7 @@ public class MapController : AController<MapData, MapView>
     }
 
     // 更改指定地点的event
-    public bool SetEventOn(int eventId, long eventData, int posx, int posy, int mapId = 0)
+    public bool SetEventOn(int eventId, long[] eventData, int posx, int posy, int mapId = 0)
     {
         return Data.SetEventOn(eventId, eventData, posx, posy, mapId);
     }
@@ -126,7 +125,7 @@ public class MapController : AController<MapData, MapView>
     }
 
     // 在指定处添加物品,仅添加表现, 必须同时配合添加数据的操作, 而且本函数也不检测原先是否已有物品
-    public void AddObjectToMap(int posx, int posy, int thingId)
+    public void AddObjectToMap(int posx, int posy, int thingId, int posz = -15)
     {
         RemoveThingOnMapWithModal(posx, posy);
         if (thingId > 0)
@@ -135,13 +134,13 @@ public class MapController : AController<MapData, MapView>
             Modal obj = Game.ObjPool.GetAnElement<Modal>(modal.id, ObjectPool.ElementType.Sprite, Constant.PREFAB_DIR + modal.prefabPath);
             obj.InitWithMapPos(Data.MapId, (sbyte)posx, (sbyte)posy, modal);
             obj.name = "MapBlock_" + posx.ToString() + "_" + posy.ToString();
-            AddObjectToMap(obj.gameObject, posx, posy, -2);
+            AddObjectToMap(obj.gameObject, posx, posy, posz);
         }
     }
 
-    public void AddObjectToMap(UnityEngine.GameObject gameObject, int posx, int posy, int thingId)
+    public void AddObjectToMap(UnityEngine.GameObject gameObject, int posx, int posy, int posz = -15)
     {
-        View.AddObjectToMap(gameObject, posx, posy, -2);
+        View.AddObjectToMap(gameObject, posx, posy, posz);
     }
 
     // 从地图上永久删除mod的信息, 仅数据
@@ -253,7 +252,7 @@ public class MapController : AController<MapData, MapView>
     {
         get
         {
-            return View.Curtain;
+            return View.curtain;
         }
     }
 

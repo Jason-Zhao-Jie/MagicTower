@@ -2,17 +2,15 @@
 
 [CustomEditor(typeof(ListView))]
 public class ListViewEditor : UnityEditor.UI.ScrollRectEditor {
-    ListView listview;
 
-	protected override void OnEnable () {
-        base.OnEnable();
-        listview = target as ListView;
-	}
-
-    public override void OnInspectorGUI() {
+    public override void OnInspectorGUI()
+    {
         base.OnInspectorGUI();
+        ListView listview = target as ListView;
         EditorGUILayout.BeginVertical();
         EditorGUILayout.Space();
-        listview.DefaultElement = EditorGUILayout.ObjectField("Default element", null, typeof(UnityEngine.RectTransform), true) as UnityEngine.RectTransform;
+        listview.defaultElement = EditorGUILayout.ObjectField("Default element", listview.defaultElement, typeof(UnityEngine.RectTransform), true) as UnityEngine.RectTransform;
+        Undo.RecordObject(listview, "listview change");
+        EditorGUILayout.EndVertical();
     }
 }

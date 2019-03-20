@@ -17,7 +17,6 @@ public static class Constant {
     public const int SPRITE_IN_DIALOG_SORTING_ORDER = 2;
     public const int HITTER_IN_DIALOG_SORTING_ORDER = 3;
 
-    public delegate bool EventCallback(Modal caller, long blockData);
     public delegate void EmptyCallBack();
     public delegate bool EmptyBoolCallBack();
 
@@ -66,7 +65,7 @@ public static class Constant {
     public struct MapBlock {
         public int thing;
         public int eventId;
-        public long eventData;   // optional
+        public long[] eventData;   // optional
     }
 
     [System.Serializable]
@@ -117,7 +116,7 @@ public static class Constant {
         public string name;
         public string prefabPath;
         public int eventId;
-        public long eventData;   // optional
+        public long[] eventData;   // optional
     }
 
     [System.Serializable]
@@ -193,8 +192,8 @@ public static class Constant {
     [System.Serializable]
     public class ChatData {
         public int id;
-        public int lastEventId;
-        public long lastEventData;
+        public int eventId;
+        public long[] eventData;
         public bool canOn;
         public OneChatData[] data;
     }
@@ -204,7 +203,7 @@ public static class Constant {
         public string content;
         public string[] contentData;
         public int eventId;
-        public long eventData;
+        public long[] eventData;
     }
 
     [System.Serializable]

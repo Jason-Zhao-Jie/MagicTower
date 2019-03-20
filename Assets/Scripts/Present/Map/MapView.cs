@@ -11,12 +11,6 @@ public class MapView : AView
     {
     }
 
-    public void Initial(Curtain curtain, UnityEngine.UI.Image backgroundImage)
-    {
-        Curtain = curtain;
-        backgroundImg = backgroundImage;
-    }
-
     void Awake()
     {
         Game.Initial();
@@ -34,7 +28,7 @@ public class MapView : AView
 
     }
 
-    public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -2)
+    public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = -15)
     {
         obj.transform.SetParent(transform, false);
         obj.transform.position = transform.
@@ -59,14 +53,18 @@ public class MapView : AView
         }
     }
 
-    public Curtain Curtain;
+    [Tooltip("幕布对象")]
+    [Space(4)]
+    public Curtain curtain;
 
     public string BackgroundImage
     {
         get { return backgroundImg.sprite.name; }
         set { backgroundImg.sprite = Resources.Load<GameObject>(Constant.PREFAB_DIR + value).GetComponent<SpriteRenderer>().sprite; }
     }
-    private UnityEngine.UI.Image backgroundImg;
+    [Tooltip("背景所在的对象")]
+    [Space(4)]
+    public UnityEngine.UI.Image backgroundImg;
 
 
     public Rect MapPartRect

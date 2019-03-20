@@ -43,7 +43,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         }
         Data.InitPlayerData(posx, posy, playerId);
         var player = View.ShowPlayer(playerId, isNew);
-        Game.Map.AddObjectToMap(player.gameObject, posx, posy, -4);
+        Game.Map.AddObjectToMap(player.gameObject, posx, posy, -17);
 
         if (isNew)
         {

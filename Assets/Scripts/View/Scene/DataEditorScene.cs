@@ -20,7 +20,8 @@ public class DataEditorScene : AScene {
     override public SceneType Type { get { return SceneType.DataEditorScene; } }
 
     // Use this for initialization
-    void Start() {
+    override protected void Start() {
+        base.Start();
         // 初始化游戏信息
         Game.Player = null;
         Game.Managers.Audio.MusicSource = GetComponent<AudioSource>();
@@ -34,8 +35,7 @@ public class DataEditorScene : AScene {
         prefabList = modalMakerPanel.transform.Find("prefabs").GetComponent<ListView>();
         dataList = stringChatsAndChoicesPanel.transform.Find("DataList").GetComponent<ListView>();
         // 初始化地图并设定背景
-        Game.Initial();
-        Game.Map = new MapController(GameObject.Find("MapMakerPanel").transform.Find("MapPanel").GetComponent<MapView>(), mapMakerPanel.transform.Find("MapPanel").transform.Find("Curtain").GetComponent<Curtain>(), GetComponent<Image>());
+        Game.Map = new MapController(GameObject.Find("MapMakerPanel").transform.Find("MapPanel").GetComponent<MapView>());
 
         //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
 
@@ -119,7 +119,6 @@ public class DataEditorScene : AScene {
 
             // 显示所有prefabs
             var currentPrefab = GameObject.Find("CurrentPrefab");
-            prefabList.DefaultElement = currentPrefab.GetComponent<RectTransform>();
             foreach(var v in allPrefabs) {
                 if(v.GetComponent<SpriteRenderer>() != null) {
                     var item = prefabList.PushbackDefaultItem();
@@ -299,19 +298,13 @@ public class DataEditorScene : AScene {
         var bgModal = panel.transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
         var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value;
         var eventId = panel.transform.Find("EventId").GetComponent<Dropdown>().value;
-        long eventData = 0;
-        try {
-            eventData = System.Convert.ToInt64(panel.transform.Find("EventData").GetComponent<InputField>().text);
-        } catch (System.FormatException) {
-            eventData = 0;
-        }
+        // Notice Tag : Event Data已经在更改时即时保存
         Game.Config.GetGameMap(mapId).mapName = mapName;
         Game.Config.GetGameMap(mapId).backThing = bgModal;
         Game.Config.GetGameMap(mapId).music = bgMusic;
         var block = Game.Config.GetGameMap(mapId).blocks[posx][posy];
         block.thing = currModal;
         block.eventId = eventId;
-        block.eventData = eventData;
         Game.Config.GetGameMap(mapId).blocks[posx][posy] = block;
         Game.Config.SaveMapTo(mapId);
     }
@@ -348,11 +341,152 @@ public class DataEditorScene : AScene {
         this.posy = posy;
         var panel = mapMakerPanel.transform.Find("SetPanel");
         var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        var map = Game.Config.GetGameMap(mapId - 1);
         panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
-        panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).blocks[posx][posy].thing;
-        panel.transform.Find("EventId").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).blocks[posx][posy].eventId;
-        panel.transform.Find("EventData").GetComponent<InputField>().text = Game.Config.GetGameMap(mapId - 1).blocks[posx][posy].eventData.ToString();
+        panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = map.blocks[posx][posy].thing;
+        panel.transform.Find("EventId").GetComponent<Dropdown>().value = map.blocks[posx][posy].eventId;
+        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        eventDataList.Clear();
+        if (map.blocks[posx][posy].eventData != null && map.blocks[posx][posy].eventData.Length > 0)
+        {
+            for (var i = 0; i < map.blocks[posx][posy].eventData.Length; ++i)
+            {
+                var item = eventDataList.PushbackDefaultItem().GetComponent<Button>();
+                item.transform.Find("Text").GetComponent<Text>().text = map.blocks[posx][posy].eventData[i].ToString();
+                item.onClick.AddListener(() => { OnMapEventDataClicked(item); });
+            }
+        }
+        panel.transform.Find("EventData").GetComponent<InputField>().text = "";
+        panel.transform.Find("EventData").GetComponent<InputField>().enabled = false;
+        panel.transform.Find("btnEventDataOK").GetComponent<Button>().enabled = false;
+        panel.transform.Find("btnEventDataDelete").GetComponent<Button>().enabled = false;
+        panel.transform.Find("btnEventDataUp").GetComponent<Button>().enabled = false;
+        panel.transform.Find("btnEventDataDown").GetComponent<Button>().enabled = false;
     }
+
+    // Map上地图块的EventData列表项点击回调
+    public void OnMapEventDataClicked(Button item)
+    {
+        var panel = mapMakerPanel.transform.Find("SetPanel");
+        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        foreach(var i in eventDataList)
+        {
+            i.GetComponent<Button>().enabled = true;
+        }
+        if (item == null)
+        {
+            panel.transform.Find("EventData").GetComponent<InputField>().text = "";
+            panel.transform.Find("EventData").GetComponent<InputField>().enabled = false;
+            panel.transform.Find("btnEventDataOK").GetComponent<Button>().enabled = false;
+            panel.transform.Find("btnEventDataDelete").GetComponent<Button>().enabled = false;
+            panel.transform.Find("btnEventDataUp").GetComponent<Button>().enabled = false;
+            panel.transform.Find("btnEventDataDown").GetComponent<Button>().enabled = false;
+            return;
+        }
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        var map = Game.Config.GetGameMap(mapId - 1);
+        var index = eventDataList.GetItemIndex(item.GetComponent<RectTransform>());
+        item.enabled = false;
+        panel.transform.Find("EventData").GetComponent<InputField>().text = map.blocks[posx][posy].eventData[index].ToString();
+        panel.transform.Find("EventData").GetComponent<InputField>().enabled = true;
+        panel.transform.Find("btnEventDataOK").GetComponent<Button>().enabled = true;
+        panel.transform.Find("btnEventDataDelete").GetComponent<Button>().enabled = true;
+        panel.transform.Find("btnEventDataUp").GetComponent<Button>().enabled = index > 0;
+        panel.transform.Find("btnEventDataDown").GetComponent<Button>().enabled = index < map.blocks[posx][posy].eventData.Length - 1;
+    }
+
+    // Map上地图块的btnEventDataOK键的回调
+    public void OnMapEventDataOKClicked()
+    {
+        var panel = mapMakerPanel.transform.Find("SetPanel");
+        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        var index = eventDataList.GetItemIndex((RectTransform i)=> { return !i.GetComponent<Button>().enabled; });
+        var item = eventDataList[index].GetComponent<Button>();
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        var map = Game.Config.GetGameMap(mapId - 1);
+        var block = map.blocks[posx][posy];
+        block.eventData = new long[eventDataList.ItemCount];
+        for(var i = 0; i < eventDataList.ItemCount; ++i)
+        {
+            block.eventData[i] = System.Convert.ToInt64(eventDataList[i].transform.Find("text").GetComponent<Text>().text);
+            item.transform.Find("Text").GetComponent<Text>().text = block.eventData[i].ToString();
+        }
+        map.blocks[posx][posy] = block;
+        ShowTips("Successful!");
+    }
+
+    // Map上地图块的EventData列表Add键回调
+    public void OnMapEventDataAddClicked()
+    {
+        var panel = mapMakerPanel.transform.Find("SetPanel");
+        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        var index = eventDataList.ItemCount;
+        var item = eventDataList.PushbackDefaultItem().GetComponent<Button>();
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        var map = Game.Config.GetGameMap(mapId - 1);
+        map.blocks[posx][posy].eventData[index] = 0;
+        item.transform.Find("Text").GetComponent<Text>().text = "0";
+        item.GetComponent<Button>().onClick.AddListener(() => { OnMapEventDataClicked(item); });
+        OnMapEventDataClicked(item);
+    }
+
+    public void OnMapEventDataRemoveClicked()
+    {
+        var panel = mapMakerPanel.transform.Find("SetPanel");
+        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        var index = eventDataList.GetItemIndex((RectTransform i) => { return !i.GetComponent<Button>().enabled; });
+        if(index >= 0)
+        {
+            var item = eventDataList[index];
+            if(item != null)
+            {
+                var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+                var map = Game.Config.GetGameMap(mapId - 1);
+                // 移除数据
+                var newEventData = new long[map.blocks[posx][posy].eventData.Length - 1];
+                for(var i = 0; i < index; ++i)
+                {
+                    newEventData[i] = map.blocks[posx][posy].eventData[i];
+                }
+                for (var i=index;i< map.blocks[posx][posy].eventData.Length - 1; ++i)
+                {
+                    newEventData[i] = map.blocks[posx][posy].eventData[i + 1];
+                }
+                var block = map.blocks[posx][posy];
+                block.eventData = newEventData;
+                map.blocks[posx][posy] = block;
+                // 移除界面列表中的项
+                eventDataList.DeleteItem(index);
+            }
+        }
+        OnMapEventDataClicked(null);
+    }
+
+    public void OnMapEventDataUpDown(bool isUp)
+    {
+        var panel = mapMakerPanel.transform.Find("SetPanel");
+        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        var index = eventDataList.GetItemIndex((RectTransform i) => { return !i.GetComponent<Button>().enabled; });
+        if (index < 0 || (isUp ? index == 0 : index == eventDataList.ItemCount - 1))
+        {
+            OnMapEventDataClicked(null);
+        }
+        var item = eventDataList[index];
+        if (item == null)
+        {
+            OnMapEventDataClicked(null);
+        }
+        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+        var map = Game.Config.GetGameMap(mapId - 1);
+        var temp = map.blocks[posx][posy].eventData[isUp ? (index - 1) : (index + 1)];
+        item.transform.Find("Text").GetComponent<Text>().text = temp.ToString();
+        map.blocks[posx][posy].eventData[isUp ? (index - 1) : (index + 1)] = map.blocks[posx][posy].eventData[index];
+        var changedItem = eventDataList[isUp ? (index - 1) : (index + 1)];
+        changedItem.transform.Find("Text").GetComponent<Text>().text = map.blocks[posx][posy].eventData[index].ToString();
+        map.blocks[posx][posy].eventData[index] = temp;
+        OnMapEventDataClicked(changedItem.GetComponent<Button>());
+    }
+    // TODO : 将这套EventData的编辑模式添加到modal，chat choice的eventdata编辑，然后填充editor
 
     // 音乐播放键回调
     public void OnPlay(int index) {
@@ -395,7 +529,7 @@ public class DataEditorScene : AScene {
                 name = allPrefabs[i].name,
                 prefabPath = allPrefabs[i].name,
                 eventId = 0,
-                eventData = 0,
+                eventData = null,
                 typeId = 2
             });
         }
@@ -415,7 +549,7 @@ public class DataEditorScene : AScene {
         modalMakerPanel.transform.Find("ModalName").GetComponent<InputField>().text = Game.Config.modals[index].name;
         modalMakerPanel.transform.Find("ModalType").GetComponent<Dropdown>().value = Game.Config.modals[index].typeId - 1;
         modalMakerPanel.transform.Find("EventId").GetComponent<Dropdown>().value = Game.Config.modals[index].eventId;
-        modalMakerPanel.transform.Find("EventData").GetComponent<InputField>().text = Game.Config.modals[index].eventData.ToString();
+        modalMakerPanel.transform.Find("EventData").GetComponent<InputField>().text = Game.Config.modals[index].eventData[0].ToString();
         modalMakerPanel.transform.Find("ModalPrefabText").GetComponent<InputField>().text = Game.Config.modals[index].prefabPath;
         modalMakerPanel.transform.Find("ModalPrefabImage").GetComponent<Image>().sprite = Resources.Load<GameObject>(Modal.GetResourcePath(index)).GetComponent<SpriteRenderer>().sprite;
         if (Game.Config.modals[index].typeId == (int)Modal.ModalType.Player) {
@@ -492,7 +626,7 @@ public class DataEditorScene : AScene {
         Game.Config.modals[index].name = modalMakerPanel.transform.Find("ModalName").GetComponent<InputField>().text;
         Game.Config.modals[index].typeId = modalMakerPanel.transform.Find("ModalType").GetComponent<Dropdown>().value + 1;
         Game.Config.modals[index].eventId = modalMakerPanel.transform.Find("EventId").GetComponent<Dropdown>().value;
-        Game.Config.modals[index].eventData = System.Convert.ToInt64(modalMakerPanel.transform.Find("EventData").GetComponent<InputField>().text);
+        Game.Config.modals[index].eventData[0] = System.Convert.ToInt64(modalMakerPanel.transform.Find("EventData").GetComponent<InputField>().text);
         Game.Config.modals[index].prefabPath = modalMakerPanel.transform.Find("ModalPrefabText").GetComponent<InputField>().text;
         if (Game.Config.modals[index].typeId == (int)Modal.ModalType.Player) {
             var playerId = Game.Config.modals[index].id;
@@ -669,9 +803,9 @@ public class DataEditorScene : AScene {
         }
         var id = index + 1;
         var chatLastEventIds = chatDataPanel.Find("LastEventId").GetComponent<Dropdown>();
-        chatLastEventIds.value = Game.Config.chats[id].lastEventId;
+        chatLastEventIds.value = Game.Config.chats[id].eventId;
         var chatLastEventData = chatDataPanel.Find("LastEventData").GetComponent<InputField>();
-        chatLastEventData.text = Game.Config.chats[id].lastEventData.ToString();
+        chatLastEventData.text = Game.Config.chats[id].eventData.ToString();
         var chatCanOn = chatDataPanel.Find("CanOn").GetComponent<Dropdown>();
         chatCanOn.value = Game.Config.chats[id].canOn ? 0 : 1;
     }
@@ -679,7 +813,7 @@ public class DataEditorScene : AScene {
     // Add chat 按钮回调
     public void OnAddChat() {
         var id = Game.Config.chats.Count + 1;
-        Game.Config.chats.Add(id, new Constant.ChatData { id = id, lastEventId = 0, lastEventData = 0, canOn = true, data = new Constant.OneChatData[0] });
+        Game.Config.chats.Add(id, new Constant.ChatData { id = id, eventId = 0, eventData = null, canOn = true, data = new Constant.OneChatData[0] });
 
         var chatDataPanel = stringChatsAndChoicesPanel.transform.Find("ChatDataPanel");
         var dropdown = chatDataPanel.transform.Find("ChatId").GetComponent<Dropdown>();
@@ -693,9 +827,9 @@ public class DataEditorScene : AScene {
         var dropdown = chatDataPanel.transform.Find("ChatId").GetComponent<Dropdown>();
         var key = System.Convert.ToInt32(dropdown.options[dropdown.value].text);
         var chatLastEventIds = chatDataPanel.Find("LastEventId").GetComponent<Dropdown>();
-        Game.Config.chats[key].lastEventId = chatLastEventIds.value;
+        Game.Config.chats[key].eventId = chatLastEventIds.value;
         var chatLastEventData = chatDataPanel.Find("LastEventData").GetComponent<InputField>();
-        Game.Config.chats[key].lastEventData = System.Convert.ToInt64(chatLastEventData.text);
+        Game.Config.chats[key].eventData[0] = System.Convert.ToInt64(chatLastEventData.text);
         var chatCanOn = chatDataPanel.Find("CanOn").GetComponent<Dropdown>();
         Game.Config.chats[key].canOn = chatCanOn.value == 0 ? true : false;
     }

@@ -1,11 +1,11 @@
-{
+﻿{
   "modals": [
     {
       "id": 1,
       "typeId": 3,
       "prefabPath": "Axe",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Axe"
     },
     {
@@ -13,7 +13,7 @@
       "typeId": 3,
       "prefabPath": "Banana",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Banana"
     },
     {
@@ -21,7 +21,7 @@
       "typeId": 5,
       "prefabPath": "BatBig",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BatBig"
     },
     {
@@ -29,7 +29,7 @@
       "typeId": 5,
       "prefabPath": "BatBoss",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BatBoss"
     },
     {
@@ -37,7 +37,7 @@
       "typeId": 5,
       "prefabPath": "BatRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BatRed"
     },
     {
@@ -45,7 +45,7 @@
       "typeId": 5,
       "prefabPath": "BatSmall",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BatSmall"
     },
     {
@@ -53,7 +53,7 @@
       "typeId": 3,
       "prefabPath": "BlueBadge",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BlueBadge"
     },
     {
@@ -61,7 +61,7 @@
       "typeId": 3,
       "prefabPath": "BlueBottle",
       "eventId": 7,
-      "eventData": 50001,
+      "eventData": [50001],
       "name": "BlueBottle"
     },
     {
@@ -69,7 +69,7 @@
       "typeId": 3,
       "prefabPath": "BlueDiamond",
       "eventId": 7,
-      "eventData": 303,
+      "eventData": [303],
       "name": "BlueDiamond"
     },
     {
@@ -77,7 +77,7 @@
       "typeId": 2,
       "prefabPath": "BlueDoor",
       "eventId": 9,
-      "eventData": 10,
+      "eventData": [10],
       "name": "BlueDoor"
     },
     {
@@ -85,7 +85,7 @@
       "typeId": 2,
       "prefabPath": "BlueFence",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BlueFence"
     },
     {
@@ -93,7 +93,7 @@
       "typeId": 3,
       "prefabPath": "BlueFlask",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BlueFlask"
     },
     {
@@ -101,7 +101,7 @@
       "typeId": 3,
       "prefabPath": "BlueKey",
       "eventId": 7,
-      "eventData": 110,
+      "eventData": [110],
       "name": "BlueKey"
     },
     {
@@ -109,7 +109,7 @@
       "typeId": 3,
       "prefabPath": "BlueUniversal",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BlueUniversal"
     },
     {
@@ -117,7 +117,7 @@
       "typeId": 3,
       "prefabPath": "BlueVase",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BlueVase"
     },
     {
@@ -125,7 +125,7 @@
       "typeId": 2,
       "prefabPath": "BlueWall",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BlueWall"
     },
     {
@@ -133,7 +133,7 @@
       "typeId": 3,
       "prefabPath": "Boom",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Boom"
     },
     {
@@ -141,7 +141,7 @@
       "typeId": 2,
       "prefabPath": "BrownWall",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BrownWall"
     },
     {
@@ -149,7 +149,7 @@
       "typeId": 2,
       "prefabPath": "BrozenDoor",
       "eventId": 9,
-      "eventData": 13,
+      "eventData": [13],
       "name": "BrozenDoor"
     },
     {
@@ -157,7 +157,7 @@
       "typeId": 3,
       "prefabPath": "BrozenKey",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BrozenKey"
     },
     {
@@ -165,7 +165,7 @@
       "typeId": 4,
       "prefabPath": "BusinessMan",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "BusinessMan"
     },
     {
@@ -173,7 +173,7 @@
       "typeId": 2,
       "prefabPath": "Candlestick",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Candlestick"
     },
     {
@@ -181,7 +181,7 @@
       "typeId": 3,
       "prefabPath": "Cleaner",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Cleaner"
     },
     {
@@ -189,7 +189,7 @@
       "typeId": 3,
       "prefabPath": "Coin",
       "eventId": 7,
-      "eventData": 10008,
+      "eventData": [10008],
       "name": "Coin"
     },
     {
@@ -197,7 +197,7 @@
       "typeId": 3,
       "prefabPath": "Cross",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Cross"
     },
     {
@@ -205,7 +205,7 @@
       "typeId": 5,
       "prefabPath": "Defenser",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Defenser"
     },
     {
@@ -213,7 +213,7 @@
       "typeId": 5,
       "prefabPath": "DefenserBlue",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "DefenserBlue"
     },
     {
@@ -221,7 +221,7 @@
       "typeId": 5,
       "prefabPath": "DefenserRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "DefenserRed"
     },
     {
@@ -229,7 +229,7 @@
       "typeId": 3,
       "prefabPath": "DiamondAxe",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "DiamondAxe"
     },
     {
@@ -237,7 +237,7 @@
       "typeId": 7,
       "prefabPath": "DownStair",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "DownStair"
     },
     {
@@ -245,7 +245,7 @@
       "typeId": 5,
       "prefabPath": "DragonRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "DragonRed"
     },
     {
@@ -253,7 +253,7 @@
       "typeId": 5,
       "prefabPath": "EnchanterBlack",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "EnchanterBlack"
     },
     {
@@ -261,7 +261,7 @@
       "typeId": 5,
       "prefabPath": "EnchanterBlue",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "EnchanterBlue"
     },
     {
@@ -269,7 +269,7 @@
       "typeId": 5,
       "prefabPath": "EnchanterGold",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "EnchanterGold"
     },
     {
@@ -277,7 +277,7 @@
       "typeId": 5,
       "prefabPath": "EnchanterGreen",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "EnchanterGreen"
     },
     {
@@ -285,7 +285,7 @@
       "typeId": 5,
       "prefabPath": "EnchanterRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "EnchanterRed"
     },
     {
@@ -293,7 +293,7 @@
       "typeId": 2,
       "prefabPath": "Fire",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Fire"
     },
     {
@@ -301,7 +301,7 @@
       "typeId": 3,
       "prefabPath": "Flyer",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Flyer"
     },
     {
@@ -309,7 +309,7 @@
       "typeId": 5,
       "prefabPath": "GhostGreen",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GhostGreen"
     },
     {
@@ -317,7 +317,7 @@
       "typeId": 5,
       "prefabPath": "GhostSilver",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GhostSilver"
     },
     {
@@ -325,7 +325,7 @@
       "typeId": 5,
       "prefabPath": "GhostSwordGreen",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GhostSwordGreen"
     },
     {
@@ -333,7 +333,7 @@
       "typeId": 5,
       "prefabPath": "GhostSwordSilver",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GhostSwordSilver"
     },
     {
@@ -341,7 +341,7 @@
       "typeId": 3,
       "prefabPath": "GoldBadge",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GoldBadge"
     },
     {
@@ -349,7 +349,7 @@
       "typeId": 2,
       "prefabPath": "GoldDoor",
       "eventId": 9,
-      "eventData": 15,
+      "eventData": [15],
       "name": "GoldDoor"
     },
     {
@@ -357,7 +357,7 @@
       "typeId": 3,
       "prefabPath": "GoldKey",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GoldKey"
     },
     {
@@ -365,7 +365,7 @@
       "typeId": 2,
       "prefabPath": "GoldWall",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GoldWall"
     },
     {
@@ -373,7 +373,7 @@
       "typeId": 2,
       "prefabPath": "GrayWall",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GrayWall"
     },
     {
@@ -381,7 +381,7 @@
       "typeId": 3,
       "prefabPath": "GreenBottle",
       "eventId": 7,
-      "eventData": 100001,
+      "eventData": [100001],
       "name": "GreenBottle"
     },
     {
@@ -389,7 +389,7 @@
       "typeId": 3,
       "prefabPath": "GreenDiamond",
       "eventId": 7,
-      "eventData": 106,
+      "eventData": [106],
       "name": "GreenDiamond"
     },
     {
@@ -397,7 +397,7 @@
       "typeId": 2,
       "prefabPath": "GreenFence",
       "eventId": 2,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GreenFence"
     },
     {
@@ -405,7 +405,7 @@
       "typeId": 3,
       "prefabPath": "GreenFlask",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GreenFlask"
     },
     {
@@ -413,7 +413,7 @@
       "typeId": 2,
       "prefabPath": "GreenGate",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GreenGate"
     },
     {
@@ -421,7 +421,7 @@
       "typeId": 3,
       "prefabPath": "GreenKey",
       "eventId": 7,
-      "eventData": 112,
+      "eventData": [112],
       "name": "GreenKey"
     },
     {
@@ -429,7 +429,7 @@
       "typeId": 3,
       "prefabPath": "GreenUniversal",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GreenUniversal"
     },
     {
@@ -437,7 +437,7 @@
       "typeId": 3,
       "prefabPath": "GreenVase",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GreenVase"
     },
     {
@@ -445,7 +445,7 @@
       "typeId": 3,
       "prefabPath": "GreenVase 1",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "GreenVase 1"
     },
     {
@@ -453,7 +453,7 @@
       "typeId": 3,
       "prefabPath": "Hammer",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Hammer"
     },
     {
@@ -461,7 +461,7 @@
       "typeId": 3,
       "prefabPath": "Heart",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Heart"
     },
     {
@@ -469,7 +469,7 @@
       "typeId": 3,
       "prefabPath": "Helper",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Helper"
     },
     {
@@ -477,7 +477,7 @@
       "typeId": 3,
       "prefabPath": "IceAxe",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "IceAxe"
     },
     {
@@ -485,7 +485,7 @@
       "typeId": 3,
       "prefabPath": "IndigoVase",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "IndigoVase"
     },
     {
@@ -493,7 +493,7 @@
       "typeId": 6,
       "prefabPath": "Jack",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "str_Jack"
     },
     {
@@ -501,7 +501,7 @@
       "typeId": 5,
       "prefabPath": "Knight",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Knight"
     },
     {
@@ -509,7 +509,7 @@
       "typeId": 5,
       "prefabPath": "KnightBlue",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "KnightBlue"
     },
     {
@@ -517,7 +517,7 @@
       "typeId": 5,
       "prefabPath": "KnightGold",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "KnightGold"
     },
     {
@@ -525,7 +525,7 @@
       "typeId": 5,
       "prefabPath": "KnightRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "KnightRed"
     },
     {
@@ -533,7 +533,7 @@
       "typeId": 3,
       "prefabPath": "Leaf",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Leaf"
     },
     {
@@ -541,7 +541,7 @@
       "typeId": 6,
       "prefabPath": "Lilith",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "str_Lilith"
     },
     {
@@ -549,7 +549,7 @@
       "typeId": 3,
       "prefabPath": "LuckyBag",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "LuckyBag"
     },
     {
@@ -557,7 +557,7 @@
       "typeId": 3,
       "prefabPath": "Notepad",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Notepad"
     },
     {
@@ -565,7 +565,7 @@
       "typeId": 5,
       "prefabPath": "OctopusRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "OctopusRed"
     },
     {
@@ -573,7 +573,7 @@
       "typeId": 4,
       "prefabPath": "OldMan",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "OldMan"
     },
     {
@@ -581,7 +581,7 @@
       "typeId": 3,
       "prefabPath": "PinkBadge",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "PinkBadge"
     },
     {
@@ -589,7 +589,7 @@
       "typeId": 3,
       "prefabPath": "PinkVase",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "PinkVase"
     },
     {
@@ -597,7 +597,7 @@
       "typeId": 2,
       "prefabPath": "PinkWall",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "PinkWall"
     },
     {
@@ -605,7 +605,7 @@
       "typeId": 3,
       "prefabPath": "RedBadge",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "RedBadge"
     },
     {
@@ -613,7 +613,7 @@
       "typeId": 3,
       "prefabPath": "RedBottle",
       "eventId": 7,
-      "eventData": 15001,
+      "eventData": [15001],
       "name": "RedBottle"
     },
     {
@@ -621,7 +621,7 @@
       "typeId": 3,
       "prefabPath": "RedDiamond",
       "eventId": 7,
-      "eventData": 302,
+      "eventData": [302],
       "name": "RedDiamond"
     },
     {
@@ -629,7 +629,7 @@
       "typeId": 2,
       "prefabPath": "RedDoor",
       "eventId": 9,
-      "eventData": 11,
+      "eventData": [11],
       "name": "RedDoor"
     },
     {
@@ -637,7 +637,7 @@
       "typeId": 3,
       "prefabPath": "RedFlask",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "RedFlask"
     },
     {
@@ -645,7 +645,7 @@
       "typeId": 3,
       "prefabPath": "RedKey",
       "eventId": 7,
-      "eventData": 111,
+      "eventData": [111],
       "name": "RedKey"
     },
     {
@@ -653,7 +653,7 @@
       "typeId": 3,
       "prefabPath": "RedUniversal",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "RedUniversal"
     },
     {
@@ -661,7 +661,7 @@
       "typeId": 3,
       "prefabPath": "Reel",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Reel"
     },
     {
@@ -669,7 +669,7 @@
       "typeId": 2,
       "prefabPath": "River",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "River"
     },
     {
@@ -677,7 +677,7 @@
       "typeId": 3,
       "prefabPath": "SaintSword",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SaintSword"
     },
     {
@@ -685,7 +685,7 @@
       "typeId": 7,
       "prefabPath": "Sender",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sender"
     },
     {
@@ -693,7 +693,7 @@
       "typeId": 3,
       "prefabPath": "Shield_1",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_1"
     },
     {
@@ -701,7 +701,7 @@
       "typeId": 3,
       "prefabPath": "Shield_10",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_10"
     },
     {
@@ -709,7 +709,7 @@
       "typeId": 3,
       "prefabPath": "Shield_11",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_11"
     },
     {
@@ -717,7 +717,7 @@
       "typeId": 3,
       "prefabPath": "Shield_12",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_12"
     },
     {
@@ -725,7 +725,7 @@
       "typeId": 3,
       "prefabPath": "Shield_2",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_2"
     },
     {
@@ -733,7 +733,7 @@
       "typeId": 3,
       "prefabPath": "Shield_3",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_3"
     },
     {
@@ -741,7 +741,7 @@
       "typeId": 3,
       "prefabPath": "Shield_4",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_4"
     },
     {
@@ -749,7 +749,7 @@
       "typeId": 3,
       "prefabPath": "Shield_5",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_5"
     },
     {
@@ -757,7 +757,7 @@
       "typeId": 3,
       "prefabPath": "Shield_6",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_6"
     },
     {
@@ -765,7 +765,7 @@
       "typeId": 3,
       "prefabPath": "Shield_7",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_7"
     },
     {
@@ -773,7 +773,7 @@
       "typeId": 3,
       "prefabPath": "Shield_8",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_8"
     },
     {
@@ -781,7 +781,7 @@
       "typeId": 3,
       "prefabPath": "Shield_9",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shield_9"
     },
     {
@@ -789,7 +789,7 @@
       "typeId": 3,
       "prefabPath": "Shoes",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Shoes"
     },
     {
@@ -797,7 +797,7 @@
       "typeId": 2,
       "prefabPath": "SilverDoor",
       "eventId": 9,
-      "eventData": 14,
+      "eventData": [14],
       "name": "SilverDoor"
     },
     {
@@ -805,7 +805,7 @@
       "typeId": 3,
       "prefabPath": "SilverKey",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SilverKey"
     },
     {
@@ -813,7 +813,7 @@
       "typeId": 5,
       "prefabPath": "Skeleton",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Skeleton"
     },
     {
@@ -821,7 +821,7 @@
       "typeId": 5,
       "prefabPath": "SkeletonBoss",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SkeletonBoss"
     },
     {
@@ -829,7 +829,7 @@
       "typeId": 5,
       "prefabPath": "SkeletonBrown",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SkeletonBrown"
     },
     {
@@ -837,7 +837,7 @@
       "typeId": 5,
       "prefabPath": "SkeletonUpgrade",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SkeletonUpgrade"
     },
     {
@@ -845,7 +845,7 @@
       "typeId": 5,
       "prefabPath": "SlimeBlack",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SlimeBlack"
     },
     {
@@ -853,7 +853,7 @@
       "typeId": 5,
       "prefabPath": "SlimeGreen",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SlimeGreen"
     },
     {
@@ -861,7 +861,7 @@
       "typeId": 5,
       "prefabPath": "SlimeKing",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SlimeKing"
     },
     {
@@ -869,7 +869,7 @@
       "typeId": 5,
       "prefabPath": "SlimeRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SlimeRed"
     },
     {
@@ -877,7 +877,7 @@
       "typeId": 4,
       "prefabPath": "Sprite",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sprite"
     },
     {
@@ -885,7 +885,7 @@
       "typeId": 2,
       "prefabPath": "Stars",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Stars"
     },
     {
@@ -893,7 +893,7 @@
       "typeId": 5,
       "prefabPath": "Stone",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Stone"
     },
     {
@@ -901,7 +901,7 @@
       "typeId": 5,
       "prefabPath": "StoneBlack",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "StoneBlack"
     },
     {
@@ -909,7 +909,7 @@
       "typeId": 5,
       "prefabPath": "StoneBlue",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "StoneBlue"
     },
     {
@@ -917,7 +917,7 @@
       "typeId": 5,
       "prefabPath": "StoneGray",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "StoneGray"
     },
     {
@@ -925,7 +925,7 @@
       "typeId": 3,
       "prefabPath": "Sword_1",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_1"
     },
     {
@@ -933,7 +933,7 @@
       "typeId": 3,
       "prefabPath": "Sword_10",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_10"
     },
     {
@@ -941,7 +941,7 @@
       "typeId": 3,
       "prefabPath": "Sword_11",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_11"
     },
     {
@@ -949,7 +949,7 @@
       "typeId": 3,
       "prefabPath": "Sword_12",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_12"
     },
     {
@@ -957,7 +957,7 @@
       "typeId": 3,
       "prefabPath": "Sword_2",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_2"
     },
     {
@@ -965,7 +965,7 @@
       "typeId": 3,
       "prefabPath": "Sword_3",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_3"
     },
     {
@@ -973,7 +973,7 @@
       "typeId": 3,
       "prefabPath": "Sword_4",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_4"
     },
     {
@@ -981,7 +981,7 @@
       "typeId": 3,
       "prefabPath": "Sword_5",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_5"
     },
     {
@@ -989,7 +989,7 @@
       "typeId": 3,
       "prefabPath": "Sword_6",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_6"
     },
     {
@@ -997,7 +997,7 @@
       "typeId": 3,
       "prefabPath": "Sword_7",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_7"
     },
     {
@@ -1005,7 +1005,7 @@
       "typeId": 3,
       "prefabPath": "Sword_8",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_8"
     },
     {
@@ -1013,7 +1013,7 @@
       "typeId": 3,
       "prefabPath": "Sword_9",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Sword_9"
     },
     {
@@ -1021,7 +1021,7 @@
       "typeId": 5,
       "prefabPath": "SwordMan",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SwordMan"
     },
     {
@@ -1029,7 +1029,7 @@
       "typeId": 5,
       "prefabPath": "SwordManBoss",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SwordManBoss"
     },
     {
@@ -1037,7 +1037,7 @@
       "typeId": 5,
       "prefabPath": "SwordManPurple",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SwordManPurple"
     },
     {
@@ -1045,7 +1045,7 @@
       "typeId": 5,
       "prefabPath": "SwordManRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "SwordManRed"
     },
     {
@@ -1053,7 +1053,7 @@
       "typeId": 3,
       "prefabPath": "TaskReel",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "TaskReel"
     },
     {
@@ -1061,7 +1061,7 @@
       "typeId": 3,
       "prefabPath": "UniversalKey",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "UniversalKey"
     },
     {
@@ -1069,7 +1069,7 @@
       "typeId": 3,
       "prefabPath": "Upgrader",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Upgrader"
     },
     {
@@ -1077,7 +1077,7 @@
       "typeId": 7,
       "prefabPath": "UpStair",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "UpStair"
     },
     {
@@ -1085,7 +1085,7 @@
       "typeId": 1,
       "prefabPath": "Volcano",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Volcano"
     },
     {
@@ -1093,7 +1093,7 @@
       "typeId": 3,
       "prefabPath": "Weapon",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Weapon"
     },
     {
@@ -1101,7 +1101,7 @@
       "typeId": 2,
       "prefabPath": "WhiteWall",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "WhiteWall"
     },
     {
@@ -1109,7 +1109,7 @@
       "typeId": 5,
       "prefabPath": "WizardBlack",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "WizardBlack"
     },
     {
@@ -1117,7 +1117,7 @@
       "typeId": 5,
       "prefabPath": "WizardBlue",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "WizardBlue"
     },
     {
@@ -1125,7 +1125,7 @@
       "typeId": 5,
       "prefabPath": "WizardGray",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "WizardGray"
     },
     {
@@ -1133,7 +1133,7 @@
       "typeId": 5,
       "prefabPath": "WizardGreat",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "WizardGreat"
     },
     {
@@ -1141,7 +1141,7 @@
       "typeId": 5,
       "prefabPath": "WizardGreatRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "WizardGreatRed"
     },
     {
@@ -1149,7 +1149,7 @@
       "typeId": 5,
       "prefabPath": "WizardRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "WizardRed"
     },
     {
@@ -1157,7 +1157,7 @@
       "typeId": 3,
       "prefabPath": "YellowBadge",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "YellowBadge"
     },
     {
@@ -1165,7 +1165,7 @@
       "typeId": 3,
       "prefabPath": "YellowBottle",
       "eventId": 7,
-      "eventData": 35001,
+      "eventData": [35001],
       "name": "YellowBottle"
     },
     {
@@ -1173,7 +1173,7 @@
       "typeId": 3,
       "prefabPath": "YellowDiamond",
       "eventId": 7,
-      "eventData": 107,
+      "eventData": [107],
       "name": "YellowDiamond"
     },
     {
@@ -1181,7 +1181,7 @@
       "typeId": 2,
       "prefabPath": "YellowDoor",
       "eventId": 9,
-      "eventData": 9,
+      "eventData": [9],
       "name": "YellowDoor"
     },
     {
@@ -1189,7 +1189,7 @@
       "typeId": 3,
       "prefabPath": "YellowFlask",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "YellowFlask"
     },
     {
@@ -1197,7 +1197,7 @@
       "typeId": 3,
       "prefabPath": "YellowKey",
       "eventId": 7,
-      "eventData": 109,
+      "eventData": [109],
       "name": "YellowKey"
     },
     {
@@ -1205,7 +1205,7 @@
       "typeId": 3,
       "prefabPath": "YellowUniversal",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "YellowUniversal"
     },
     {
@@ -1213,7 +1213,7 @@
       "typeId": 3,
       "prefabPath": "YellowVase",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "YellowVase"
     },
     {
@@ -1221,7 +1221,7 @@
       "typeId": 4,
       "prefabPath": "YoungMan",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "YoungMan"
     },
     {
@@ -1229,7 +1229,7 @@
       "typeId": 5,
       "prefabPath": "Zombie",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "Zombie"
     },
     {
@@ -1237,7 +1237,7 @@
       "typeId": 5,
       "prefabPath": "ZombieGreen",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "ZombieGreen"
     },
     {
@@ -1245,7 +1245,7 @@
       "typeId": 5,
       "prefabPath": "ZombieRed",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "ZombieRed"
     },
     {
@@ -1253,7 +1253,7 @@
       "typeId": 5,
       "prefabPath": "ZombieSword",
       "eventId": 1,
-      "eventData": 0,
+      "eventData": [0],
       "name": "ZombieSword"
     },
     {
@@ -1261,7 +1261,7 @@
       "typeId": 4,
       "prefabPath": "CoinShop",
       "eventId": 0,
-      "eventData": 0,
+      "eventData": [0],
       "name": "CoinShop"
     }
   ],
@@ -2260,8 +2260,8 @@
   "chats": [
     {
       "id": 1,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2280,8 +2280,8 @@
     },
     {
       "id": 2,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": false,
       "data": [
         {
@@ -2300,8 +2300,8 @@
     },
     {
       "id": 3,
-      "lastEventId": 0,
-      "lastEventData": 0,
+      "eventId": 0,
+      "eventData": [0],
       "canOn": false,
       "data": [
         {
@@ -2320,8 +2320,8 @@
     },
     {
       "id": 4,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2332,8 +2332,8 @@
     },
     {
       "id": 5,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2344,8 +2344,8 @@
     },
     {
       "id": 6,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2356,8 +2356,8 @@
     },
     {
       "id": 7,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2368,8 +2368,8 @@
     },
     {
       "id": 8,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2380,8 +2380,8 @@
     },
     {
       "id": 9,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2392,8 +2392,8 @@
     },
     {
       "id": 10,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2404,8 +2404,8 @@
     },
     {
       "id": 11,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2416,8 +2416,8 @@
     },
     {
       "id": 12,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2428,8 +2428,8 @@
     },
     {
       "id": 13,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2440,8 +2440,8 @@
     },
     {
       "id": 14,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2452,8 +2452,8 @@
     },
     {
       "id": 15,
-      "lastEventId": 10,
-      "lastEventData": 0,
+      "eventId": 10,
+      "eventData": [0],
       "canOn": true,
       "data": [
         {
@@ -2473,19 +2473,19 @@
       "data": [
         {
           "eventId": 37,
-          "eventData": 0,
+          "eventData": [0],
           "content": "str_ExpShopBuySpeed",
           "contentData": ["100", "1"]
         },
         {
           "eventId": 38,
-          "eventData": 0,
+          "eventData": [0],
           "content": "str_ExpShopBuyCrit",
           "contentData": [ "50", "0.2" ]
         },
         {
           "eventId": 40,
-          "eventData": 0,
+          "eventData": [0],
           "content": "str_ExpShopBuyLevel",
           "contentData": [ "200", "1" ]
         }
@@ -2500,19 +2500,19 @@
       "data": [
         {
           "eventId": 34,
-          "eventData": 0,
+          "eventData": [0],
           "content": "str_GoldShopBuyLife",
           "contentData": [ "25", "140" ]
         },
         {
           "eventId": 35,
-          "eventData": 0,
+          "eventData": [0],
           "content": "str_GoldShopBuyAttack",
           "contentData": [ "40", "2" ]
         },
         {
           "eventId": 36,
-          "eventData": 0,
+          "eventData": [0],
           "content": "str_GoldShopBuyDefense",
           "contentData": [ "20", "2" ]
         }

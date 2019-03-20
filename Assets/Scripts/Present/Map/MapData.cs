@@ -59,20 +59,28 @@ public class MapData : AData
     }
 
     // 更改指定地点的event
-    public bool SetEventOn(int eventId, long eventData, int posx, int posy, int mapId = 0)
+    public bool SetEventOn(int eventId, long[] eventData, int posx, int posy, int mapId = 0)
     {
         if (mapId <= 0)
             mapId = MapId;
         var block = GetMapData(mapId).blocks[posx][posy];
         block.eventId = eventId;
-        block.eventData = eventData;
+        block.eventData = null;
+        if (eventData != null)
+        {
+            block.eventData = new long[eventData.Length];
+            for (var i = 0; i < eventData.Length; ++i)
+            {
+                block.eventData[i] = eventData[i];
+            }
+        }
         GetMapData(mapId).blocks[posx][posy] = block;
         return true;
     }
 
     public bool RemoveEventOn(int posx, int posy, int mapId = 0)
     {
-        return SetEventOn(0, 0, posx, posy, mapId);
+        return SetEventOn(0, new long[1] { 0 }, posx, posy, mapId);
     }
 
     public Dictionary<int, Constant.MapData> GetAllMapData()

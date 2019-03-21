@@ -14,10 +14,26 @@ public class IOManager {
 
     }
 
-    public async System.Threading.Tasks.Task SaveToFile(string filename, byte[] content) {
-        System.IO.FileStream file = System.IO.File.Create(UnityEngine.Application.persistentDataPath + System.IO.Path.DirectorySeparatorChar + filename, content.Length, System.IO.FileOptions.Asynchronous);
+    public void MkdirIfNotExist(params string[] path)
+    {
+        string dir = UnityEngine.Application.persistentDataPath;
+        for (var i = 0; i < path.Length; ++i)
+        {
+            dir += System.IO.Path.DirectorySeparatorChar + path[i];
+        }
+        System.IO.Directory.CreateDirectory(dir);
+    }
+
+    public async System.Threading.Tasks.Task<string> SaveToFile(byte[] content, params string[] path) {
+        string filename = UnityEngine.Application.persistentDataPath;
+        for(var i = 0; i < path.Length; ++i)
+        {
+            filename += System.IO.Path.DirectorySeparatorChar + path[i];
+        }
+        System.IO.FileStream file = System.IO.File.Create(filename, content.Length, System.IO.FileOptions.Asynchronous);
         await file.WriteAsync(content, 0, content.Length);
         file.Close();
+        return filename;
     }
 
     public async System.Threading.Tasks.Task<byte[]> LoadFromFile(string filename) {

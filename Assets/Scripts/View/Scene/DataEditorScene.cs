@@ -258,15 +258,15 @@ public class DataEditorScene : AScene {
     }
 
     // GetDataJson按钮回调
-    public async void OnSave()
+    public async System.Threading.Tasks.Task OnSave()
     {
         string result = Game.Config.SaveData();
-        await Game.Managers.IOD.SaveToFile("GameData.json", System.Text.Encoding.UTF8.GetBytes(result));
-        ShowTips("已保存成功！路径：" + IOManager.FileDirRoot + "GameData.json");
+        var filepath = await Game.Managers.IOD.SaveToFile(System.Text.Encoding.UTF8.GetBytes(result), "GameData.json");
+        ShowTips("已保存成功！路径：" + filepath);
     }
 
     // GetMapJson 按钮回调
-    public async void OnMapSave()
+    public async System.Threading.Tasks.Task OnMapSave()
     {
         string result = JsonUtility.ToJson(Game.Config.GetGameMap(mapMakerPanel.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>().value), false);
         var panel = mapMakerPanel.transform.Find("SetPanel");
@@ -284,8 +284,8 @@ public class DataEditorScene : AScene {
         {
             number = mapId.ToString();
         }
-        var filepath = "MapData" + System.IO.Path.DirectorySeparatorChar + number + ".json";
-        await Game.Managers.IOD.SaveToFile(filepath, System.Text.Encoding.UTF8.GetBytes(result));
+        Game.Managers.IOD.MkdirIfNotExist("MapData");
+        var filepath = await Game.Managers.IOD.SaveToFile(System.Text.Encoding.UTF8.GetBytes(result), "MapData", number + ".json");
         ShowTips("已保存成功！路径：" + IOManager.FileDirRoot + filepath);
     }
 
@@ -345,151 +345,280 @@ public class DataEditorScene : AScene {
         panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
         panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = map.blocks[posx][posy].thing;
         panel.transform.Find("EventId").GetComponent<Dropdown>().value = map.blocks[posx][posy].eventId;
-        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
-        eventDataList.Clear();
-        if (map.blocks[posx][posy].eventData != null && map.blocks[posx][posy].eventData.Length > 0)
+        ResetEventData(EventDataSourceType.MapBlock);
+    }
+
+    public enum EventDataSourceType
+    {
+        MapBlock = 1,
+        Modal = 2,
+        Chat = 3,
+        Choice = 4,
+    }
+    private delegate long[] ResolveEventDataFunc(long[] eventData);
+    private long[] ResolveEventDataByType(EventDataSourceType type, ResolveEventDataFunc func) {
+        switch (type)
         {
-            for (var i = 0; i < map.blocks[posx][posy].eventData.Length; ++i)
+            case EventDataSourceType.MapBlock:
+                {
+                    var panel = mapMakerPanel.transform.Find("SetPanel");
+                    var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+                    var map = Game.Config.GetGameMap(mapId - 1);
+                    var block = map.blocks[posx][posy];
+                    block.eventData = func(block.eventData);
+                    map.blocks[posx][posy] = block;
+                    return block.eventData;
+                }
+            case EventDataSourceType.Modal:
+            case EventDataSourceType.Chat:
+            case EventDataSourceType.Choice:
+            default:
+                return null;
+        }
+    }
+
+    private ListView GetEventDataList(EventDataSourceType type)
+    {
+        switch (type)
+        {
+            case EventDataSourceType.MapBlock:
+                return mapMakerPanel.transform.Find("SetPanel").transform.Find("EventDataList").GetComponent<ListView>();
+            case EventDataSourceType.Modal:
+            case EventDataSourceType.Chat:
+            case EventDataSourceType.Choice:
+            default:
+                return null;
+        }
+    }
+
+    private InputField GetEventDataInput(EventDataSourceType type)
+    {
+        switch (type)
+        {
+            case EventDataSourceType.MapBlock:
+                return mapMakerPanel.transform.Find("SetPanel").transform.Find("EventData").GetComponent<InputField>();
+            case EventDataSourceType.Modal:
+            case EventDataSourceType.Chat:
+            case EventDataSourceType.Choice:
+            default:
+                return null;
+        }
+    }
+
+    private Button GetEventDataBtn(EventDataSourceType type, int btnNumber /* 0: OK, 1: Add, 2: Delete, 3: Up, 4: Down*/)
+    {
+        switch (type)
+        {
+            case EventDataSourceType.MapBlock:
+                switch (btnNumber)
+                {
+                    case 0:
+                        return mapMakerPanel.transform.Find("SetPanel").transform.Find("btnEventDataOK").GetComponent<Button>();
+                    case 1:
+                        return mapMakerPanel.transform.Find("SetPanel").transform.Find("btnEventDataAdd").GetComponent<Button>();
+                    case 2:
+                        return mapMakerPanel.transform.Find("SetPanel").transform.Find("btnEventDataDelete").GetComponent<Button>();
+                    case 3:
+                        return mapMakerPanel.transform.Find("SetPanel").transform.Find("btnEventDataUp").GetComponent<Button>();
+                    case 4:
+                        return mapMakerPanel.transform.Find("SetPanel").transform.Find("btnEventDataDown").GetComponent<Button>();
+                }
+                return null;
+            case EventDataSourceType.Modal:
+            case EventDataSourceType.Chat:
+            case EventDataSourceType.Choice:
+                return null;
+        }
+        return null;
+    }
+
+    private void ResetEventData(EventDataSourceType type)
+    {
+        ResolveEventDataByType(type, (long[] eventData) =>
+        {
+            ResetEventData(eventData, GetEventDataList(type), GetEventDataInput(type), GetEventDataBtn(type, 0), GetEventDataBtn(type, 2), GetEventDataBtn(type, 3), GetEventDataBtn(type, 4));
+            return eventData;
+        });
+    }
+
+    private void ResetEventData(long[] eventData, ListView eventDataList, InputField eventDataInput, Button btnOK, Button btnDelete, Button btnUp, Button btnDown)
+    {
+        eventDataList.Clear();
+        if (eventData != null && eventData.Length > 0)
+        {
+            for (var i = 0; i < eventData.Length; ++i)
             {
                 var item = eventDataList.PushbackDefaultItem().GetComponent<Button>();
-                item.transform.Find("Text").GetComponent<Text>().text = map.blocks[posx][posy].eventData[i].ToString();
-                item.onClick.AddListener(() => { OnMapEventDataClicked(item); });
+                item.transform.Find("Text").GetComponent<Text>().text = eventData[i].ToString();
+                item.onClick.AddListener(() => { OnEventDataClicked(item, eventDataList, eventDataInput, btnOK, btnDelete, btnUp, btnDown); });
             }
         }
-        panel.transform.Find("EventData").GetComponent<InputField>().text = "";
-        panel.transform.Find("EventData").GetComponent<InputField>().enabled = false;
-        panel.transform.Find("btnEventDataOK").GetComponent<Button>().enabled = false;
-        panel.transform.Find("btnEventDataDelete").GetComponent<Button>().enabled = false;
-        panel.transform.Find("btnEventDataUp").GetComponent<Button>().enabled = false;
-        panel.transform.Find("btnEventDataDown").GetComponent<Button>().enabled = false;
+        eventDataInput.text = "";
+        eventDataInput.enabled = false;
+        btnOK.enabled = false;
+        btnDelete.enabled = false;
+        btnUp.enabled = false;
+        btnDown.enabled = false;
     }
 
     // Map上地图块的EventData列表项点击回调
-    public void OnMapEventDataClicked(Button item)
+    public void OnEventDataClicked(Button item, int typeNum)
     {
-        var panel = mapMakerPanel.transform.Find("SetPanel");
-        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        EventDataSourceType type = (EventDataSourceType)typeNum;
+        OnEventDataClicked(item, GetEventDataList(type), GetEventDataInput(type), GetEventDataBtn(type, 0), GetEventDataBtn(type, 2), GetEventDataBtn(type, 3), GetEventDataBtn(type, 4));
+    }
+
+    private void OnEventDataClicked(Button item, ListView eventDataList, InputField eventDataInput, Button btnOK, Button btnDelete, Button btnUp, Button btnDown)
+    {
         foreach(var i in eventDataList)
         {
             i.GetComponent<Button>().interactable = true;
         }
         if (item == null)
         {
-            panel.transform.Find("EventData").GetComponent<InputField>().text = "";
-            panel.transform.Find("EventData").GetComponent<InputField>().enabled = false;
-            panel.transform.Find("btnEventDataOK").GetComponent<Button>().enabled = false;
-            panel.transform.Find("btnEventDataDelete").GetComponent<Button>().enabled = false;
-            panel.transform.Find("btnEventDataUp").GetComponent<Button>().enabled = false;
-            panel.transform.Find("btnEventDataDown").GetComponent<Button>().enabled = false;
+            eventDataInput.text = "";
+            eventDataInput.enabled = false;
+            btnOK.enabled = false;
+            btnDelete.enabled = false;
+            btnUp.enabled = false;
+            btnDown.enabled = false;
             return;
         }
-        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-        var map = Game.Config.GetGameMap(mapId - 1);
         var index = eventDataList.GetItemIndex(item.GetComponent<RectTransform>());
         item.interactable = false;
-        panel.transform.Find("EventData").GetComponent<InputField>().text = map.blocks[posx][posy].eventData[index].ToString();
-        panel.transform.Find("EventData").GetComponent<InputField>().enabled = true;
-        panel.transform.Find("btnEventDataOK").GetComponent<Button>().enabled = true;
-        panel.transform.Find("btnEventDataDelete").GetComponent<Button>().enabled = true;
-        panel.transform.Find("btnEventDataUp").GetComponent<Button>().enabled = index > 0;
-        panel.transform.Find("btnEventDataDown").GetComponent<Button>().enabled = index < map.blocks[posx][posy].eventData.Length - 1;
+        eventDataInput.text = item.transform.Find("Text").GetComponent<Text>().text;
+        eventDataInput.enabled = true;
+        btnOK.enabled = true;
+        btnDelete.enabled = true;
+        btnUp.enabled = index > 0;
+        btnDown.enabled = index < eventDataList.ItemCount - 1;
     }
 
     // Map上地图块的btnEventDataOK键的回调
-    public void OnMapEventDataOKClicked()
+    public void OnEventDataOKClicked(int typeNum)
     {
-        var panel = mapMakerPanel.transform.Find("SetPanel");
-        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        EventDataSourceType type = (EventDataSourceType)typeNum;
+        OnEventDataOKClicked(type, GetEventDataList(type), GetEventDataInput(type));
+    }
+
+    private void OnEventDataOKClicked(EventDataSourceType type, ListView eventDataList, InputField eventDataInput)
+    {
         var index = eventDataList.GetItemIndex((RectTransform i)=> { return !i.GetComponent<Button>().interactable; });
         var item = eventDataList[index].GetComponent<Button>();
-        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-        var map = Game.Config.GetGameMap(mapId - 1);
-        var data = map.blocks[posx][posy].eventData;
-        data[index] = System.Convert.ToInt64(panel.transform.Find("EventData").GetComponent<InputField>().text);
-        item.transform.Find("Text").GetComponent<Text>().text = data[index].ToString();
+        ResolveEventDataByType(type, (long[] eventData) =>
+        {
+            eventData[index] = System.Convert.ToInt64(eventDataInput.text);
+            item.transform.Find("Text").GetComponent<Text>().text = eventData[index].ToString();
+            return eventData;
+        });
         ShowTips("Successful!");
     }
 
-    // Map上地图块的EventData列表Add键回调
-    public void OnMapEventDataAddClicked()
+    // Map上地图块的EventData列表 + 键回调
+    public void OnEventDataAddClicked(int typeNum)
     {
-        var panel = mapMakerPanel.transform.Find("SetPanel");
-        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
-        var index = eventDataList.ItemCount;
-        var item = eventDataList.PushbackDefaultItem().GetComponent<Button>();
-        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-        var map = Game.Config.GetGameMap(mapId - 1);
-        var eventData = new long[index + 1];
-        for(var i = 0; i < index; ++i)
-        {
-            eventData[i] = map.blocks[posx][posy].eventData[i];
-        }
-        eventData[index] = 0;
-        var block = map.blocks[posx][posy];
-        block.eventData = eventData;
-        map.blocks[posx][posy] = block;
-        item.transform.Find("Text").GetComponent<Text>().text = "0";
-        item.GetComponent<Button>().onClick.AddListener(() => { OnMapEventDataClicked(item); });
-        OnMapEventDataClicked(item);
+        EventDataSourceType type = (EventDataSourceType)typeNum;
+        OnEventDataAddClicked(type, GetEventDataList(type), GetEventDataInput(type), GetEventDataBtn(type, 0), GetEventDataBtn(type, 2), GetEventDataBtn(type, 3), GetEventDataBtn(type, 4));
     }
 
-    public void OnMapEventDataRemoveClicked()
+    private void OnEventDataAddClicked(EventDataSourceType type, ListView eventDataList, InputField eventDataInput, Button btnOK, Button btnDelete, Button btnUp, Button btnDown)
     {
-        var panel = mapMakerPanel.transform.Find("SetPanel");
-        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        var index = eventDataList.ItemCount;
+        var item = eventDataList.PushbackDefaultItem().GetComponent<Button>();
+        ResolveEventDataByType(type, (long[] eventData) =>
+        {
+            var newEventData = new long[index + 1];
+            for (var i = 0; i < index; ++i)
+            {
+                newEventData[i] = eventData[i];
+            }
+            newEventData[index] = 0;
+            return newEventData;
+        });
+        eventDataInput.text = "0";
+        item.GetComponent<Button>().onClick.AddListener(() => { OnEventDataClicked(item, eventDataList, eventDataInput, btnOK, btnDelete, btnUp, btnDown); });
+        OnEventDataClicked(item, eventDataList, eventDataInput, btnOK, btnDelete, btnUp, btnDown);
+    }
+
+    // Map上地图块的EventData列表 - 键回调
+    public void OnEventDataRemoveClicked(int typeNum)
+    {
+        EventDataSourceType type = (EventDataSourceType)typeNum;
+        OnEventDataRemoveClicked(type, GetEventDataList(type), GetEventDataInput(type), GetEventDataBtn(type, 0), GetEventDataBtn(type, 2), GetEventDataBtn(type, 3), GetEventDataBtn(type, 4));
+    }
+
+    private void OnEventDataRemoveClicked(EventDataSourceType type, ListView eventDataList, InputField eventDataInput, Button btnOK, Button btnDelete, Button btnUp, Button btnDown)
+    {
         var index = eventDataList.GetItemIndex((RectTransform i) => { return !i.GetComponent<Button>().interactable; });
         if(index >= 0)
         {
             var item = eventDataList[index];
             if(item != null)
             {
-                var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-                var map = Game.Config.GetGameMap(mapId - 1);
                 // 移除数据
-                var newEventData = new long[map.blocks[posx][posy].eventData.Length - 1];
-                for(var i = 0; i < index; ++i)
+                ResolveEventDataByType(type, (long[] eventData) =>
                 {
-                    newEventData[i] = map.blocks[posx][posy].eventData[i];
-                }
-                for (var i=index;i< map.blocks[posx][posy].eventData.Length - 1; ++i)
-                {
-                    newEventData[i] = map.blocks[posx][posy].eventData[i + 1];
-                }
-                var block = map.blocks[posx][posy];
-                block.eventData = newEventData;
-                map.blocks[posx][posy] = block;
+                    var newEventData = new long[eventData.Length - 1];
+                    for (var i = 0; i < index; ++i)
+                    {
+                        newEventData[i] = eventData[i];
+                    }
+                    for (var i = index; i < eventData.Length - 1; ++i)
+                    {
+                        newEventData[i] = eventData[i + 1];
+                    }
+                    return newEventData;
+                });
                 // 移除界面列表中的项
                 eventDataList.DeleteItem(index);
             }
         }
-        OnMapEventDataClicked(null);
+        OnEventDataClicked(null, eventDataList, eventDataInput, btnOK, btnDelete, btnUp, btnDown);
     }
 
-    public void OnMapEventDataUpDown(bool isUp)
+    public void OnEventDataUp(int typeNum)
     {
-        var panel = mapMakerPanel.transform.Find("SetPanel");
-        var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
+        OnEventDataUpDown(true, typeNum);
+    }
+
+    public void OnEventDataDown(int typeNum)
+    {
+        OnEventDataUpDown(false, typeNum);
+    }
+
+    // Map上地图块的EventData列表 ↑ 以及 ↓ 键回调
+    public void OnEventDataUpDown(bool isUp, int typeNum)
+    {
+        EventDataSourceType type = (EventDataSourceType)typeNum;
+        OnEventDataUpDown(isUp, type, GetEventDataList(type), GetEventDataInput(type), GetEventDataBtn(type, 0), GetEventDataBtn(type, 2), GetEventDataBtn(type, 3), GetEventDataBtn(type, 4));
+    }
+
+    private void OnEventDataUpDown(bool isUp, EventDataSourceType type, ListView eventDataList, InputField eventDataInput, Button btnOK, Button btnDelete, Button btnUp, Button btnDown)
+    {
         var index = eventDataList.GetItemIndex((RectTransform i) => { return !i.GetComponent<Button>().interactable; });
         if (index < 0 || (isUp ? index == 0 : index == eventDataList.ItemCount - 1))
         {
-            OnMapEventDataClicked(null);
+            OnEventDataClicked(null, eventDataList, eventDataInput, btnOK, btnDelete, btnUp, btnDown);
+            return;
         }
         var item = eventDataList[index];
         if (item == null)
         {
-            OnMapEventDataClicked(null);
+            OnEventDataClicked(null, eventDataList, eventDataInput, btnOK, btnDelete, btnUp, btnDown);
+            return;
         }
-        var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-        var map = Game.Config.GetGameMap(mapId - 1);
-        var temp = map.blocks[posx][posy].eventData[isUp ? (index - 1) : (index + 1)];
-        item.transform.Find("Text").GetComponent<Text>().text = temp.ToString();
-        map.blocks[posx][posy].eventData[isUp ? (index - 1) : (index + 1)] = map.blocks[posx][posy].eventData[index];
         var changedItem = eventDataList[isUp ? (index - 1) : (index + 1)];
-        changedItem.transform.Find("Text").GetComponent<Text>().text = map.blocks[posx][posy].eventData[index].ToString();
-        map.blocks[posx][posy].eventData[index] = temp;
-        OnMapEventDataClicked(changedItem.GetComponent<Button>());
+        ResolveEventDataByType(type, (long[] eventData) =>
+        {
+            var temp = eventData[isUp ? (index - 1) : (index + 1)];
+            item.transform.Find("Text").GetComponent<Text>().text = temp.ToString();
+            eventData[isUp ? (index - 1) : (index + 1)] = eventData[index];
+            changedItem.transform.Find("Text").GetComponent<Text>().text = eventData[index].ToString();
+            eventData[index] = temp;
+            return eventData;
+        });
+        OnEventDataClicked(changedItem.GetComponent<Button>(), eventDataList, eventDataInput, btnOK, btnDelete, btnUp, btnDown);
     }
-    // TODO : 将这套EventData的编辑模式添加到modal，chat choice的eventdata编辑，然后填充editor
 
     // 音乐播放键回调
     public void OnPlay(int index) {
@@ -899,7 +1028,12 @@ public class DataEditorScene : AScene {
     }
 
     // 弹出Tips提示, 并在一定时间后消失
-    public void ShowTips(string text) {
+    public void ShowTips(params string[] texts) {
+        string text = "";
+        for(var i = 0; i < texts.Length; ++i)
+        {
+            text += texts[i];
+        }
         var tipbar = TipBar.ShowTip();
         tipbar.transform.SetParent(transform, false);
         tipbar.SetTipText(text);

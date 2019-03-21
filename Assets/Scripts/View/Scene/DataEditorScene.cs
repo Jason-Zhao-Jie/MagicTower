@@ -371,7 +371,7 @@ public class DataEditorScene : AScene {
         var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
         foreach(var i in eventDataList)
         {
-            i.GetComponent<Button>().enabled = true;
+            i.GetComponent<Button>().interactable = true;
         }
         if (item == null)
         {
@@ -386,7 +386,7 @@ public class DataEditorScene : AScene {
         var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
         var map = Game.Config.GetGameMap(mapId - 1);
         var index = eventDataList.GetItemIndex(item.GetComponent<RectTransform>());
-        item.enabled = false;
+        item.interactable = false;
         panel.transform.Find("EventData").GetComponent<InputField>().text = map.blocks[posx][posy].eventData[index].ToString();
         panel.transform.Find("EventData").GetComponent<InputField>().enabled = true;
         panel.transform.Find("btnEventDataOK").GetComponent<Button>().enabled = true;
@@ -400,18 +400,13 @@ public class DataEditorScene : AScene {
     {
         var panel = mapMakerPanel.transform.Find("SetPanel");
         var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
-        var index = eventDataList.GetItemIndex((RectTransform i)=> { return !i.GetComponent<Button>().enabled; });
+        var index = eventDataList.GetItemIndex((RectTransform i)=> { return !i.GetComponent<Button>().interactable; });
         var item = eventDataList[index].GetComponent<Button>();
         var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
         var map = Game.Config.GetGameMap(mapId - 1);
-        var block = map.blocks[posx][posy];
-        block.eventData = new long[eventDataList.ItemCount];
-        for(var i = 0; i < eventDataList.ItemCount; ++i)
-        {
-            block.eventData[i] = System.Convert.ToInt64(eventDataList[i].transform.Find("text").GetComponent<Text>().text);
-            item.transform.Find("Text").GetComponent<Text>().text = block.eventData[i].ToString();
-        }
-        map.blocks[posx][posy] = block;
+        var data = map.blocks[posx][posy].eventData;
+        data[index] = System.Convert.ToInt64(panel.transform.Find("EventData").GetComponent<InputField>().text);
+        item.transform.Find("Text").GetComponent<Text>().text = data[index].ToString();
         ShowTips("Successful!");
     }
 
@@ -424,7 +419,15 @@ public class DataEditorScene : AScene {
         var item = eventDataList.PushbackDefaultItem().GetComponent<Button>();
         var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
         var map = Game.Config.GetGameMap(mapId - 1);
-        map.blocks[posx][posy].eventData[index] = 0;
+        var eventData = new long[index + 1];
+        for(var i = 0; i < index; ++i)
+        {
+            eventData[i] = map.blocks[posx][posy].eventData[i];
+        }
+        eventData[index] = 0;
+        var block = map.blocks[posx][posy];
+        block.eventData = eventData;
+        map.blocks[posx][posy] = block;
         item.transform.Find("Text").GetComponent<Text>().text = "0";
         item.GetComponent<Button>().onClick.AddListener(() => { OnMapEventDataClicked(item); });
         OnMapEventDataClicked(item);
@@ -434,7 +437,7 @@ public class DataEditorScene : AScene {
     {
         var panel = mapMakerPanel.transform.Find("SetPanel");
         var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
-        var index = eventDataList.GetItemIndex((RectTransform i) => { return !i.GetComponent<Button>().enabled; });
+        var index = eventDataList.GetItemIndex((RectTransform i) => { return !i.GetComponent<Button>().interactable; });
         if(index >= 0)
         {
             var item = eventDataList[index];
@@ -466,7 +469,7 @@ public class DataEditorScene : AScene {
     {
         var panel = mapMakerPanel.transform.Find("SetPanel");
         var eventDataList = panel.transform.Find("EventDataList").GetComponent<ListView>();
-        var index = eventDataList.GetItemIndex((RectTransform i) => { return !i.GetComponent<Button>().enabled; });
+        var index = eventDataList.GetItemIndex((RectTransform i) => { return !i.GetComponent<Button>().interactable; });
         if (index < 0 || (isUp ? index == 0 : index == eventDataList.ItemCount - 1))
         {
             OnMapEventDataClicked(null);

@@ -79,12 +79,7 @@ public class ListView : UnityEngine.UI.ScrollRect, IEnumerable<RectTransform> {
     /// </summary>
     /// <returns> 成功添加的item </returns>
     public RectTransform PushbackDefaultItem() {
-        if(defaultElement == null) {
-            throw new DefaultItemNotSetException();
-        }
-        var ret = Instantiate(defaultElement.gameObject).GetComponent<RectTransform>();
-        this[ItemCount] = ret;
-        return ret;
+        return InsertDefaultItem(children.Count);
     }
 
     /// <summary>
@@ -99,6 +94,7 @@ public class ListView : UnityEngine.UI.ScrollRect, IEnumerable<RectTransform> {
         var ret = Instantiate(defaultElement.gameObject).GetComponent<RectTransform>();
         ret.SetParent(content);
         ret.SetSiblingIndex(index);
+        ret.localScale = new Vector3(1,1,1);
         children.Insert(index, ret);
         return ret;
     }
@@ -120,6 +116,7 @@ public class ListView : UnityEngine.UI.ScrollRect, IEnumerable<RectTransform> {
         foreach(var i in children)
         {
             i.SetParent(null);
+            Destroy(i.gameObject);
         }
         children.Clear();
     }

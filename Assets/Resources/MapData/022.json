@@ -1,6 +1,7 @@
   {
     "mapId": 22,
-    "mapName": "Floor 22",
+    "mapName": "str_name_normalFloor",
+    "mapNameParam": 22,
     "backThing": 138,
     "music": 9,
   "blocks": [

@@ -1,6 +1,7 @@
 {
   "mapId": 129,
-  "mapName": "Secret Floor 9",
+  "mapName": "str_name_secretFloor",
+  "mapNameParam": 9,
   "backThing": 138,
   "music": 9,
   "blocks": [

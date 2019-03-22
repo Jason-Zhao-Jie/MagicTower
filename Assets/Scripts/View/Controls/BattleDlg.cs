@@ -25,6 +25,7 @@ public class BattleDlg : ObjectPool.AViewUnit
 
         // 设定战斗双方的信息
         ret.transform.SetParent(parent, false);
+        ret.transform.SetSiblingIndex(1);
         ret.SetBattleInfo(enemyUuid, yourUuid);
         // 设定状态, 战斗开始
         Game.Status = Constant.EGameStatus.OnBattle;
@@ -44,35 +45,32 @@ public class BattleDlg : ObjectPool.AViewUnit
     void Awake ()
     {
         // 关联战斗框的控件
-        playerSprite = transform.Find("Player").gameObject;
-        playerNameText = transform.Find("Name_Player").GetComponent<Text>();
         playerNameText.fontSize = Convert.ToInt32(playerNameText.fontSize * Game.RealFontSize);
-        playerLifeText = transform.Find("Life_Player").GetComponent<Text>();
         playerLifeText.fontSize = Convert.ToInt32(playerLifeText.fontSize * Game.RealFontSize);
-        playerAttackText = transform.Find("Attack_Player").GetComponent<Text>();
         playerAttackText.fontSize = Convert.ToInt32(playerAttackText.fontSize * Game.RealFontSize);
-        playerDefenseText = transform.Find("Defense_Player").GetComponent<Text>();
         playerDefenseText.fontSize = Convert.ToInt32(playerDefenseText.fontSize * Game.RealFontSize);
-        playerSpeedText = transform.Find("Speed_Player").GetComponent<Text>();
         playerSpeedText.fontSize = Convert.ToInt32(playerSpeedText.fontSize * Game.RealFontSize);
-        enemySprite = transform.Find("Enemy").gameObject;
-        enemyNameText = transform.Find("Name_Enemy").GetComponent<Text>();
         enemyNameText.fontSize = Convert.ToInt32(enemyNameText.fontSize * Game.RealFontSize);
-        enemyLifeText = transform.Find("Life_Enemy").GetComponent<Text>();
         enemyLifeText.fontSize = Convert.ToInt32(enemyLifeText.fontSize * Game.RealFontSize);
-        enemyAttackText = transform.Find("Attack_Enemy").GetComponent<Text>();
         enemyAttackText.fontSize = Convert.ToInt32(enemyAttackText.fontSize * Game.RealFontSize);
-        enemyDefenseText = transform.Find("Defense_Enemy").GetComponent<Text>();
         enemyDefenseText.fontSize = Convert.ToInt32(enemyDefenseText.fontSize * Game.RealFontSize);
-        enemySpeedText = transform.Find("Speed_Enemy").GetComponent<Text>();
         enemySpeedText.fontSize = Convert.ToInt32(enemySpeedText.fontSize * Game.RealFontSize);
-        battleResultPanel = transform.Find("BattleResultPanel").gameObject;
-        battleResultGoldText = battleResultPanel.transform.Find("GoldText").GetComponent<Text>();
         battleResultGoldText.fontSize = Convert.ToInt32(battleResultGoldText.fontSize*Game.RealFontSize);
-        battleResultExpText = battleResultPanel.transform.Find("ExpText").GetComponent<Text>();
-        battleResultExpText.fontSize = Convert.ToInt32(battleResultExpText.fontSize*Game.RealFontSize);
-        battleHurtedText = battleResultPanel.transform.Find("HurtedText").GetComponent<Text>();
+        battleResultExpText.fontSize = Convert.ToInt32(battleResultExpText.fontSize * Game.RealFontSize);
         battleHurtedText.fontSize = Convert.ToInt32(battleHurtedText.fontSize * Game.RealFontSize);
+
+        playerLifeTitleText.text = Game.Config.StringInternational.GetValue(PlayerView.str_life_title);
+        playerAttackTitleText.text = Game.Config.StringInternational.GetValue(PlayerView.str_attack_title);
+        playerDefenseTitleText.text = Game.Config.StringInternational.GetValue(PlayerView.str_defense_title);
+        playerSpeedTitleText.text = Game.Config.StringInternational.GetValue(PlayerView.str_speed_title);
+        enemyLifeTitleText.text = Game.Config.StringInternational.GetValue(PlayerView.str_life_title);
+        enemyAttackTitleText.text = Game.Config.StringInternational.GetValue(PlayerView.str_attack_title);
+        enemyDefenseTitleText.text = Game.Config.StringInternational.GetValue(PlayerView.str_defense_title);
+        enemySpeedTitleText.text = Game.Config.StringInternational.GetValue(PlayerView.str_speed_title);
+    }
+
+    private void Start()
+    {
         battleResultPanel.SetActive(false);
         battleHitSleep = 0;
     }
@@ -91,18 +89,18 @@ public class BattleDlg : ObjectPool.AViewUnit
                         hurt = MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
                         if (hurt == -1) {
                             CreateHitter(Constant.MISS_HITTER, true, 0, false);
-                            Debug.Log("Enemy has missed a hurt");
+                            Game.DebugLog("Enemy has missed a hurt");
                         } else if (hurt == 0) {
                             CreateHitter(Constant.NOHURT_HITTER, true, 0, false);
-                            Debug.Log("Enemy was hurted failed");
+                            Game.DebugLog("Enemy was hurted failed");
                         } else if (hurt < 0) {
                             CreateHitter(playerBattleData.weaponId, true, -hurt, true);
                             enemyBattleData.life += hurt;
-                            Debug.Log("Enemy was hurted critical : " + -hurt);
+                            Game.DebugLog("Enemy was hurted critical : " + -hurt);
                         } else {
                             CreateHitter(playerBattleData.weaponId, true, hurt, false);
                             enemyBattleData.life -= hurt;
-                            Debug.Log("Enemy was hurted normally : " + hurt);
+                            Game.DebugLog("Enemy was hurted normally : " + hurt);
                         }
                         if (enemyBattleData.life < 0)
                             enemyBattleData.life = 0;
@@ -112,19 +110,19 @@ public class BattleDlg : ObjectPool.AViewUnit
                         hurt = MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
                         if (hurt == -1) {
                             CreateHitter(Constant.MISS_HITTER, false, 0, false);
-                            Debug.Log("Player has missed a hurt");
+                            Game.DebugLog("Player has missed a hurt");
                         } else if (hurt == 0) {
                             CreateHitter(Constant.NOHURT_HITTER, false, 0, false);
-                            Debug.Log("Player was hurted failed");
+                            Game.DebugLog("Player was hurted failed");
                         } else if (hurt < 0) {
                             CreateHitter(enemyBattleData.weaponId, false, -hurt, true);
                             playerBattleData.life += hurt;
-                            Debug.Log("Player was hurted critical : " + -hurt);
+                            Game.DebugLog("Player was hurted critical : " + -hurt);
                             hurted -= hurt;
                         } else {
                             CreateHitter(enemyBattleData.weaponId, false, hurt, false);
                             playerBattleData.life -= hurt;
-                            Debug.Log("Player was hurted normally : " + hurt);
+                            Game.DebugLog("Player was hurted normally : " + hurt);
                             hurted += hurt;
                         }
                         if (playerBattleData.life < 0)
@@ -276,22 +274,80 @@ public class BattleDlg : ObjectPool.AViewUnit
     public override string ResourcePath { get { return Constant.DIALOG_DIR + PREFAB_DIR; } }
     public static string GetResourcePath() { return Constant.DIALOG_DIR + PREFAB_DIR; }
 
-    private GameObject playerSprite;
-    private Text playerNameText;
-    private Text playerLifeText;
-    private Text playerAttackText;
-    private Text playerDefenseText;
-    private Text playerSpeedText;
-    private GameObject enemySprite;
-    private Text enemyNameText;
-    private Text enemyLifeText;
-    private Text enemyAttackText;
-    private Text enemyDefenseText;
-    private Text enemySpeedText;
-    private GameObject battleResultPanel;
-    private Text battleResultGoldText;
-    private Text battleResultExpText;
-    private Text battleHurtedText;
+    [Tooltip("我方角色头像")]
+    [Space(4)]
+    public GameObject playerSprite;
+    [Tooltip("我方角色名")]
+    [Space(4)]
+    public Text playerNameText;
+    [Tooltip("我方生命值标题")]
+    [Space(4)]
+    public Text playerLifeTitleText;
+    [Tooltip("我方生命值")]
+    [Space(4)]
+    public Text playerLifeText;
+    [Tooltip("我方攻击值标题")]
+    [Space(4)]
+    public Text playerAttackTitleText;
+    [Tooltip("我方攻击值")]
+    [Space(4)]
+    public Text playerAttackText;
+    [Tooltip("我方防御值标题")]
+    [Space(4)]
+    public Text playerDefenseTitleText;
+    [Tooltip("我方防御值")]
+    [Space(4)]
+    public Text playerDefenseText;
+    [Tooltip("我方敏捷值标题")]
+    [Space(4)]
+    public Text playerSpeedTitleText;
+    [Tooltip("我方敏捷值")]
+    [Space(4)]
+    public Text playerSpeedText;
+    [Tooltip("敌方角色头像")]
+    [Space(4)]
+    public GameObject enemySprite;
+    [Tooltip("敌方角色名")]
+    [Space(4)]
+    public Text enemyNameText;
+    [Tooltip("敌方生命值标题")]
+    [Space(4)]
+    public Text enemyLifeTitleText;
+    [Tooltip("敌方生命值")]
+    [Space(4)]
+    public Text enemyLifeText;
+    [Tooltip("敌方攻击值标题")]
+    [Space(4)]
+    public Text enemyAttackTitleText;
+    [Tooltip("敌方攻击值")]
+    [Space(4)]
+    public Text enemyAttackText;
+    [Tooltip("敌方防御值标题")]
+    [Space(4)]
+    public Text enemyDefenseTitleText;
+    [Tooltip("敌方防御值")]
+    [Space(4)]
+    public Text enemyDefenseText;
+    [Tooltip("敌方敏捷值标题")]
+    [Space(4)]
+    public Text enemySpeedTitleText;
+    [Tooltip("敌方敏捷值")]
+    [Space(4)]
+    public Text enemySpeedText;
+
+    [Tooltip("战斗结果结算条")]
+    [Space(4)]
+    public GameObject battleResultPanel;
+    [Tooltip("战斗获得金币值")]
+    [Space(4)]
+    public Text battleResultGoldText;
+    [Tooltip("战斗获得经验值")]
+    [Space(4)]
+    public Text battleResultExpText;
+    [Tooltip("战斗所消耗的生命值")]
+    [Space(4)]
+    public Text battleHurtedText;
+
     private long enemyUuid;
     private Constant.MonsterData playerBattleData;
     private Constant.MonsterData enemyBattleData;

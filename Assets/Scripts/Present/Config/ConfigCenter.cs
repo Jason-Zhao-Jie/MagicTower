@@ -16,7 +16,8 @@ public class ConfigCenter {
     public readonly Dictionary<int, Constant.LanguageData> languages = new Dictionary<int, Constant.LanguageData>();
     public readonly Dictionary<string, Constant.InternationalString> strings = new Dictionary<string, Constant.InternationalString>();
 
-    public ConfigCenter() {
+    public ConfigCenter()
+    {
         mapLength = UnityEngine.Resources.LoadAll<UnityEngine.TextAsset>(Constant.MAP_DATA_DIR).Length;
 
         // Reading json config files:
@@ -25,48 +26,71 @@ public class ConfigCenter {
 
         // Reset references
         modals.Clear();
-        for (var i = 0; i < gamedata.modals.Length; ++i) {
+        for (var i = 0; i < gamedata.modals.Length; ++i)
+        {
             modals.Add(gamedata.modals[i].id, gamedata.modals[i]);
         }
 
         audios.Clear();
-        for (var i = 0; i < gamedata.audios.Length; ++i) {
+        for (var i = 0; i < gamedata.audios.Length; ++i)
+        {
             audios.Add(gamedata.audios[i].id, gamedata.audios[i]);
         }
 
         monsters.Clear();
-        for (var i = 0; i < gamedata.monsters.Length; ++i) {
+        for (var i = 0; i < gamedata.monsters.Length; ++i)
+        {
             monsters.Add(gamedata.monsters[i].id, gamedata.monsters[i]);
         }
 
         players.Clear();
-        for (var i = 0; i < gamedata.players.Length; ++i) {
+        for (var i = 0; i < gamedata.players.Length; ++i)
+        {
             players.Add(gamedata.players[i].id, gamedata.players[i]);
         }
 
         weapons.Clear();
-        for (var i = 0; i < gamedata.weapons.Length; ++i) {
+        for (var i = 0; i < gamedata.weapons.Length; ++i)
+        {
             weapons.Add(gamedata.weapons[i].id, gamedata.weapons[i]);
         }
 
         chats.Clear();
-        for (var i = 0; i < gamedata.chats.Length; ++i) {
+        for (var i = 0; i < gamedata.chats.Length; ++i)
+        {
             chats.Add(gamedata.chats[i].id, gamedata.chats[i]);
         }
 
         choices.Clear();
-        for (var i = 0; i < gamedata.choices.Length; ++i) {
+        for (var i = 0; i < gamedata.choices.Length; ++i)
+        {
             choices.Add(gamedata.choices[i].id, gamedata.choices[i]);
         }
 
         languages.Clear();
-        for (var i = 0; i < gamedata.languages.Length; ++i) {
+        for (var i = 0; i < gamedata.languages.Length; ++i)
+        {
             languages.Add(gamedata.languages[i].id, gamedata.languages[i]);
         }
 
         // Reset string dictionary
         strings.Clear();
-        for (var i = 0; i < gamedata.strings.Length; ++i) {
+        for (var i = 0; i < gamedata.strings.Length; ++i)
+        {
+            if (Game.DEBUG)
+            {
+                if (strings.ContainsKey(gamedata.strings[i].key))
+                {
+                    UnityEngine.Debug.LogWarning("Repeated international string key: " + gamedata.strings[i].key);
+                }
+                foreach (var item in strings)
+                {
+                    if (item.Value.id == gamedata.strings[i].id)
+                    {
+                        UnityEngine.Debug.LogWarning("Repeated international string id: " + gamedata.strings[i].id);
+                    }
+                }
+            }
             strings.Add(gamedata.strings[i].key, gamedata.strings[i]);
         }
 
@@ -117,6 +141,7 @@ public class ConfigCenter {
             backThing = dt.backThing,
             mapId = dt.mapId,
             mapName = dt.mapName,
+            mapNameParam = dt.mapNameParam,
             music = dt.music,
             blocks = new Constant.MapBlockRaw[dt.blocks.Length]
         };
@@ -129,9 +154,9 @@ public class ConfigCenter {
                 {
                     thing = dt.blocks[x][y].thing,
                     eventId = dt.blocks[x][y].eventId,
-                    eventData = new long[dt.blocks[x][y].eventData.Length],
+                    eventData = dt.blocks[x][y].eventData==null ? null :new long[dt.blocks[x][y].eventData.Length],
                 };
-                for (var i = 0; i < ret.blocks[x][y].eventData.Length; ++i)
+                for (var i = 0; dt.blocks[x][y].eventData != null && i < ret.blocks[x][y].eventData.Length; ++i)
                 {
                     ret.blocks[x][y].eventData[i] = dt.blocks[x][y].eventData[i];
                 }

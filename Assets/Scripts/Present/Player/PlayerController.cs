@@ -20,11 +20,6 @@ public class PlayerController : AController<PlayerData, PlayerView>
         View.Controller = this;
     }
 
-    public void ShowPlayer(bool isNew)
-    {
-        ShowPlayer(9, 1, 0, isNew);
-    }
-
     public void ShowPlayer(int posx, int posy, int playerId = 0, bool isNew = false)
     {
 
@@ -66,7 +61,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         {
             return;
         }
-        View.MapName = Game.Config.StringInternational.GetValue(Game.Map.CurrentMap.mapName, Game.Map.CurrentMap.mapId.ToString());
+        View.MapName = Game.Config.StringInternational.GetValue(Game.Map.CurrentMap.mapName, Game.Map.CurrentMap.mapNameParam.ToString());
         View.RoleName = Game.Config.StringInternational.GetValue(Game.Config.modals[Data.PlayerId].name);
         View.Portrait = View.Player.BaseSprite;
         View.Level = Data.Level.ToString();

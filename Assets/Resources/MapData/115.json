@@ -1,6 +1,7 @@
 {
   "mapId": 115,
-  "mapName": "Ground Floor 15",
+  "mapName": "str_name_groundFloor",
+  "mapNameParam": 15,
   "backThing": 138,
   "music": 9,
   "blocks": [

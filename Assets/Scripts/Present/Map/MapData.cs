@@ -28,7 +28,7 @@ public class MapData : AData
         return true;
     }
 
-    public void ClearMapData(int mapId = 0, Constant.MapData[] newData = null)
+    public void ClearMapData(int mapId, Constant.MapData[] newData = null)
     {
         mapdata = new Dictionary<int, Constant.MapData>();
         if (newData != null)
@@ -48,7 +48,7 @@ public class MapData : AData
     }
 
     // 更改或移动指定处的数据
-    public bool ChangeThingOnMap(int thingId, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
+    public bool ChangeThingOnMap(int thingId, int posx, int posy)
     {
         if (CurrentMap.blocks[posx][posy].thing == thingId)
             return false;

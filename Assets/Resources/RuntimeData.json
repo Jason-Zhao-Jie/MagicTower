@@ -1,20 +1,4 @@
 ﻿{
-  "player": {
-    "id": 62,
-    "level": 1,
-    "exp": 0,
-    "life": 1000,
-    "attack": 100,
-    "defense": 10,
-    "speed": 0,
-    "critical": 5,
-    "gold": 100,
-    "yellowKey": 0,
-    "blueKey": 0,
-    "redKey": 0,
-    "greenKey": 0,
-    "weaponId": 2
-  },
   "pos": {
     "mapId": 1,
     "x": 9,

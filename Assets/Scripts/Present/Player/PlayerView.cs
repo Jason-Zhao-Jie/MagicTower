@@ -3,13 +3,25 @@ using UnityEngine.UI;
 
 public class PlayerView : AView
 {
+    private const string str_level_title = "str_ui_level";
+    private const string str_exp_title = "str_ui_exp";
+    public const string str_life_title = "str_ui_life";
+    public const string str_attack_title = "str_ui_attack";
+    public const string str_defense_title = "str_ui_defense";
+    public const string str_speed_title = "str_ui_speed";
+
     public PlayerView() : base(null)
     {
     }
 
     void Start()
     {
-
+        levelTitleText.text = Game.Config.StringInternational.GetValue(str_level_title);
+        expTitleText.text = Game.Config.StringInternational.GetValue(str_exp_title);
+        lifeTitleText.text = Game.Config.StringInternational.GetValue(str_life_title);
+        attackTitleText.text = Game.Config.StringInternational.GetValue(str_attack_title);
+        defenseTitleText.text = Game.Config.StringInternational.GetValue(str_defense_title);
+        speedTitleText.text = Game.Config.StringInternational.GetValue(str_speed_title);
     }
 
     // Update is called once per frame

@@ -17,6 +17,7 @@ public class ChoiceDlg : ObjectPool.AViewUnit
         ret.choiceMod = mod;
         ret.nextStatus = nextStatus;
         ret.transform.SetParent(parent, false);
+        ret.transform.SetSiblingIndex(1);
         ret.transform.localPosition = new Vector3(0, 0, ret.transform.localPosition.z);
         ret.ShowChoice();
         return ret;
@@ -109,15 +110,6 @@ public class ChoiceDlg : ObjectPool.AViewUnit
         }
     }
 
-    public void ClearChoice()
-    {
-        ClearChoiceItems();
-        // 隐藏选择对话框
-        choiceSpeaker?.SetActive(false);
-        gameObject.SetActive(false);
-        Game.Status = nextStatus;
-    }
-
     public void ClearChoiceItems()
     {
         // 清除选项
@@ -185,11 +177,18 @@ public class ChoiceDlg : ObjectPool.AViewUnit
 
     public void OnItemClicked(int index)
     {
+        if (choice.data[index].close)
+        {
+            Game.Status = nextStatus;
+        }
         Game.Managers.EventMgr.DispatchEvent(choice.data[index].eventId, choiceMod, choice.data[index].eventData);
         if (choice.data[index].close)
         {
+            ClearChoiceItems();
+            // 隐藏选择对话框
             Game.ObjPool.RecycleAnElement(this);
-            ClearChoice();
+            choiceSpeaker?.SetActive(false);
+            gameObject.SetActive(false);
         }
         else
         {

@@ -105,6 +105,7 @@ public static class Constant {
     public class MapData {
         public int mapId;
         public string mapName;
+        public int mapNameParam;
         public int backThing;
         public int music;
         public MapBlockRaw[] blocks;
@@ -188,6 +189,7 @@ public static class Constant {
     public struct OneChatData {
         public int speakerId;
         public string content;
+        public bool tipSilent;
     }
 
     [System.Serializable]
@@ -240,9 +242,13 @@ public static class Constant {
 
         public string this[string key] {
             get {
-                for (int i = 0; i < strings.Length; ++i) {
-                    if (key.Equals(strings[i].langKey))
-                        return strings[i].content;
+                if (strings != null)
+                {
+                    for (int i = 0; i < strings.Length; ++i)
+                    {
+                        if (key.Equals(strings[i].langKey))
+                            return strings[i].content;
+                    }
                 }
                 return null;
             }

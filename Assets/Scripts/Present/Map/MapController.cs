@@ -7,22 +7,10 @@ public class MapController : AController<MapData, MapView>
         View.Controller = this;
     }
 
-    public void SetStartData(int mapId = 1, Constant.MapData[] datas = null)
+    public void SetStartData(int mapId, Constant.MapData[] datas)
     {
         Data.ClearMapData(mapId, datas);
         ShowMap(mapId);
-    }
-
-    public bool ShowMap()
-    {
-        if (Data.MapId == 0)
-        {
-            return ShowMap(1);
-        }
-        else
-        {
-            return ShowMap(Data.MapId);
-        }
     }
 
     public bool ShowMap(int mapid)
@@ -110,12 +98,16 @@ public class MapController : AController<MapData, MapView>
         return Data.RemoveEventOn(posx, posy, mapId);
     }
 
-    // 更改或移动指定处的物品及数据
+    // 更改或移动指定处的物品及数据   Warning : 这个函数我现在看不太懂了，注意一下有没有问题 2019.3.22
     public void ChangeThingOnMap(int thingId, int posx, int posy, int oldPosx = -1, int oldPosy = -1)
     {
         if (oldPosx >= 0 && oldPosy >= 0)
-            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite = UnityEngine.Resources.Load<UnityEngine.GameObject>(Constant.PREFAB_DIR + Game.Config.modals[Data.CurrentMap.blocks[oldPosx][oldPosy].thing].prefabPath).GetComponent<UnityEngine.SpriteRenderer>().sprite;
-        if (!Data.ChangeThingOnMap(thingId, posx, posy, oldPosx, oldPosy))
+            UnityEngine.GameObject.Find("MapPanel").transform.Find("MapBlock_" + oldPosx + "_" + oldPosy).GetComponent<UnityEngine.SpriteRenderer>().sprite 
+            = UnityEngine.Resources.Load<UnityEngine.GameObject>(
+                    Constant.PREFAB_DIR + 
+                    Game.Config.modals[Data.CurrentMap.blocks[oldPosx][oldPosy].thing].prefabPath
+                ).GetComponent<UnityEngine.SpriteRenderer>().sprite;
+        if (!Data.ChangeThingOnMap(thingId, posx, posy))
             return;
         long uuid = Data.MapId * 10000 + posy + posx * 100;
         if (modals.ContainsKey(uuid))

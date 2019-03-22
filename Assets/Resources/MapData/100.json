@@ -1,6 +1,7 @@
   {
     "mapId": 100,
-    "mapName": "Tower Top",
+    "mapName": "str_name_topFloor",
+    "mapNameParam": 0,
     "backThing": 138,
     "music": 9,
   "blocks": [

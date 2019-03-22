@@ -57,7 +57,7 @@ public class InputManager
         keyStatusMap = new Dictionary<KeyCode, bool>();
         for (int i = 0; i < listenedKeys.Length; ++i)
         {
-            Debug.Log("On key listener adding: " + listenedKeys[i].ToString());
+            Game.DebugLog("On key listener adding: " + listenedKeys[i].ToString());
             keyStatusMap.Add(listenedKeys[i], false);
         }
         axesStatusMap = new Dictionary<JoysticsAxes, float>
@@ -144,7 +144,7 @@ public class InputManager
                     case KeyCode.Escape:
                     case KeyCode.Backspace:
                     case JoysticsCode.B:
-                        StartScene.instance.OnExitGame();
+                        Game.ExitGame();
                         break;
                 }
                 break;

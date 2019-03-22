@@ -28,10 +28,13 @@ public class TipBar : ObjectPool.AViewUnit
         }
     }
 
-    public void SetTipText(string content)
+    public void SetTipText(string content, bool silent = false)
     {
         tipsText.text = content;
-        Game.Managers.Audio.PlaySound(20);
+        if (!silent)
+        {
+            Game.Managers.Audio.PlaySound(20);
+        }
     }
 
     public void StartAutoRemove(int time) {

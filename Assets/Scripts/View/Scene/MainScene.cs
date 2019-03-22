@@ -124,13 +124,25 @@ public class MainScene : AScene {
         tipsPanel.SetTipText(Game.Config.StringInternational.GetValue(content));
     }
 
-    public void ClearChats() {
+    public void ClearChats()
+    {
         chat = null;
         chatIndex = 0;
         topChatPanel.gameObject.SetActive(false);
         bottomChatPanel.gameObject.SetActive(false);
         tipsPanel.gameObject.SetActive(false);
-        Game.Status = (battlePanel != null && battlePanel.isActiveAndEnabled) ? Constant.EGameStatus.OnBattle : Constant.EGameStatus.InGame;
+        if (battlePanel != null && battlePanel.isActiveAndEnabled)
+        {
+            Game.Status = Constant.EGameStatus.OnBattle;
+        }
+        else if (choicePanel != null && choicePanel.isActiveAndEnabled)
+        {
+            Game.Status = Constant.EGameStatus.OnChoice;
+        }
+        else
+        {
+            Game.Status = Constant.EGameStatus.InGame;
+        }
     }
 
     public void ChatBegan(Constant.ChatData chat, Modal mod) {
@@ -145,7 +157,7 @@ public class MainScene : AScene {
             ClearChats();
         } else if (chatIndex >= chat.data.Length) {
             chatIndex = 0;
-            Game.Managers.EventMgr.DispatchEvent(chat.eventId, chatMod, chat.eventData);
+            Game.Managers.EventMgr.DispatchEvent(chat.eventId, chatMod, chat.eventData);    // TODO : 这里的事件返回值没有生效
             ClearChats();
         } else {
             var chatData = chat.data[chatIndex];

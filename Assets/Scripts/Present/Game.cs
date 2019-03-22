@@ -1,4 +1,14 @@
 ﻿public static class Game {
+    public const bool DEBUG = true;
+
+    public static void DebugLog(params string[] content)
+    {
+        if (DEBUG)
+        {
+            UnityEngine.Debug.Log(content);
+        }
+    }
+
     public static void Initial() {
         if (!InitOK)
         {
@@ -32,6 +42,14 @@
         }
 
         status = Constant.EGameStatus.Start;
+    }
+
+    public static void ExitGame()
+    {
+        UnityEngine.Application.Quit();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
     }
 
     public static AScene CurrentScene
@@ -138,7 +156,7 @@
 
     public static async System.Threading.Tasks.Task<bool> Load(string saveName = null)
     {
-        string json = "";
+        RuntimeGameData data = null;
         Constant.MapData[] maps = null;
         if(saveName == null)
         {
@@ -148,12 +166,15 @@
         {
             if (saveName == "")
             {
-                json = UnityEngine.Resources.Load<UnityEngine.TextAsset>("RuntimeData").text;
+                var json = UnityEngine.Resources.Load<UnityEngine.TextAsset>("RuntimeData").text;
+                data = UnityEngine.JsonUtility.FromJson<RuntimeGameData>(json);
+                data.player = Config.players[62];   // TODO : 这里是新游戏载入的player，由于需要进入MainScene之前作选择，因此这里的逻辑需要进一步拓展，目前先写死
             }
             else
             {
                 var bin = await Managers.IOD.LoadFromFile("save", saveName, "RuntimeData.json");
-                json = System.Text.Encoding.UTF8.GetString(bin);
+                var json = System.Text.Encoding.UTF8.GetString(bin);
+                data = UnityEngine.JsonUtility.FromJson<RuntimeGameData>(json);
                 var mapFiles = Managers.IOD.ListAllFiles("*.json", saveName, "MapData");
                 maps = new Constant.MapData[mapFiles.Length];
                 int index = 0;
@@ -170,7 +191,6 @@
         {
             return false;
         }
-        var data = UnityEngine.JsonUtility.FromJson<RuntimeGameData>(json);
         numberData = new System.Collections.Generic.Dictionary<int, long>();
         foreach(var i in data.numbers)
         {

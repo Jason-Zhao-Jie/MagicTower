@@ -6,7 +6,7 @@
       "prefabPath": "Axe",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Axe"
+      "name": "str_name_Axe"
     },
     {
       "id": 2,
@@ -14,7 +14,7 @@
       "prefabPath": "Banana",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Banana"
+      "name": "str_name_Banana"
     },
     {
       "id": 3,
@@ -22,7 +22,7 @@
       "prefabPath": "BatBig",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "BatBig"
+      "name": "str_name_BatBig"
     },
     {
       "id": 4,
@@ -30,7 +30,7 @@
       "prefabPath": "BatBoss",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "BatBoss"
+      "name": "str_name_BatBoss"
     },
     {
       "id": 5,
@@ -38,7 +38,7 @@
       "prefabPath": "BatRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "BatRed"
+      "name": "str_name_BatRed"
     },
     {
       "id": 6,
@@ -46,7 +46,7 @@
       "prefabPath": "BatSmall",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "BatSmall"
+      "name": "str_name_BatSmall"
     },
     {
       "id": 7,
@@ -54,7 +54,7 @@
       "prefabPath": "BlueBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "BlueBadge"
+      "name": "str_name_BlueBadge"
     },
     {
       "id": 8,
@@ -62,7 +62,7 @@
       "prefabPath": "BlueBottle",
       "eventId": 7,
       "eventData": [ 1, 500, 8, 2, 20, 11 ],
-      "name": "BlueBottle"
+      "name": "str_name_BlueBottle"
     },
     {
       "id": 9,
@@ -70,7 +70,7 @@
       "prefabPath": "BlueDiamond",
       "eventId": 7,
       "eventData": [ 3, 3, 8, 2, 20, 11 ],
-      "name": "BlueDiamond"
+      "name": "str_name_BlueDiamond"
     },
     {
       "id": 10,
@@ -78,7 +78,7 @@
       "prefabPath": "BlueDoor",
       "eventId": 9,
       "eventData": [ 10 ],
-      "name": "BlueDoor"
+      "name": "str_name_BlueDoor"
     },
     {
       "id": 11,
@@ -86,7 +86,7 @@
       "prefabPath": "BlueFence",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "BlueFence"
+      "name": "str_name_BlueFence"
     },
     {
       "id": 12,
@@ -94,7 +94,7 @@
       "prefabPath": "BlueFlask",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "BlueFlask"
+      "name": "str_name_BlueFlask"
     },
     {
       "id": 13,
@@ -102,7 +102,7 @@
       "prefabPath": "BlueKey",
       "eventId": 7,
       "eventData": [ 10, 1, 8, 2, 20, 11 ],
-      "name": "BlueKey"
+      "name": "str_name_BlueKey"
     },
     {
       "id": 14,
@@ -110,7 +110,7 @@
       "prefabPath": "BlueUniversal",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "BlueUniversal"
+      "name": "str_name_BlueUniversal"
     },
     {
       "id": 15,
@@ -118,7 +118,7 @@
       "prefabPath": "BlueVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "BlueVase"
+      "name": "str_name_BlueVase"
     },
     {
       "id": 16,
@@ -126,7 +126,7 @@
       "prefabPath": "BlueWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "BlueWall"
+      "name": "str_name_BlueWall"
     },
     {
       "id": 17,
@@ -134,7 +134,7 @@
       "prefabPath": "Boom",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Boom"
+      "name": "str_name_Boom"
     },
     {
       "id": 18,
@@ -142,7 +142,7 @@
       "prefabPath": "BrownWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "BrownWall"
+      "name": "str_name_BrownWall"
     },
     {
       "id": 19,
@@ -150,7 +150,7 @@
       "prefabPath": "BrozenDoor",
       "eventId": 9,
       "eventData": [ 13 ],
-      "name": "BrozenDoor"
+      "name": "str_name_BrozenDoor"
     },
     {
       "id": 20,
@@ -158,7 +158,7 @@
       "prefabPath": "BrozenKey",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "BrozenKey"
+      "name": "str_name_BrozenKey"
     },
     {
       "id": 21,
@@ -166,7 +166,7 @@
       "prefabPath": "BusinessMan",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "BusinessMan"
+      "name": "str_name_BusinessMan"
     },
     {
       "id": 22,
@@ -174,7 +174,7 @@
       "prefabPath": "Candlestick",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Candlestick"
+      "name": "str_name_Candlestick"
     },
     {
       "id": 23,
@@ -182,7 +182,7 @@
       "prefabPath": "Cleaner",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Cleaner"
+      "name": "str_name_Cleaner"
     },
     {
       "id": 24,
@@ -190,7 +190,7 @@
       "prefabPath": "Coin",
       "eventId": 7,
       "eventData": [ 8, 100, 8, 2, 20, 11 ],
-      "name": "Coin"
+      "name": "str_name_Coin"
     },
     {
       "id": 25,
@@ -198,7 +198,7 @@
       "prefabPath": "Cross",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Cross"
+      "name": "str_name_Cross"
     },
     {
       "id": 26,
@@ -206,7 +206,7 @@
       "prefabPath": "Defenser",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "Defenser"
+      "name": "str_name_Defenser"
     },
     {
       "id": 27,
@@ -214,7 +214,7 @@
       "prefabPath": "DefenserBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "DefenserBlue"
+      "name": "str_name_DefenserBlue"
     },
     {
       "id": 28,
@@ -222,7 +222,7 @@
       "prefabPath": "DefenserRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "DefenserRed"
+      "name": "str_name_DefenserRed"
     },
     {
       "id": 29,
@@ -230,7 +230,7 @@
       "prefabPath": "DiamondAxe",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "DiamondAxe"
+      "name": "str_name_DiamondAxe"
     },
     {
       "id": 30,
@@ -238,7 +238,7 @@
       "prefabPath": "DownStair",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "DownStair"
+      "name": "str_name_DownStair"
     },
     {
       "id": 31,
@@ -246,7 +246,7 @@
       "prefabPath": "DragonRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "DragonRed"
+      "name": "str_name_DragonRed"
     },
     {
       "id": 32,
@@ -254,7 +254,7 @@
       "prefabPath": "EnchanterBlack",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "EnchanterBlack"
+      "name": "str_name_EnchanterBlack"
     },
     {
       "id": 33,
@@ -262,7 +262,7 @@
       "prefabPath": "EnchanterBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "EnchanterBlue"
+      "name": "str_name_EnchanterBlue"
     },
     {
       "id": 34,
@@ -270,7 +270,7 @@
       "prefabPath": "EnchanterGold",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "EnchanterGold"
+      "name": "str_name_EnchanterGold"
     },
     {
       "id": 35,
@@ -278,7 +278,7 @@
       "prefabPath": "EnchanterGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "EnchanterGreen"
+      "name": "str_name_EnchanterGreen"
     },
     {
       "id": 36,
@@ -286,7 +286,7 @@
       "prefabPath": "EnchanterRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "EnchanterRed"
+      "name": "str_name_EnchanterRed"
     },
     {
       "id": 37,
@@ -294,7 +294,7 @@
       "prefabPath": "Fire",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Fire"
+      "name": "str_name_Fire"
     },
     {
       "id": 38,
@@ -302,7 +302,7 @@
       "prefabPath": "Flyer",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Flyer"
+      "name": "str_name_Flyer"
     },
     {
       "id": 39,
@@ -310,7 +310,7 @@
       "prefabPath": "GhostGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "GhostGreen"
+      "name": "str_name_GhostGreen"
     },
     {
       "id": 40,
@@ -318,7 +318,7 @@
       "prefabPath": "GhostSilver",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "GhostSilver"
+      "name": "str_name_GhostSilver"
     },
     {
       "id": 41,
@@ -326,7 +326,7 @@
       "prefabPath": "GhostSwordGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "GhostSwordGreen"
+      "name": "str_name_GhostSwordGreen"
     },
     {
       "id": 42,
@@ -334,7 +334,7 @@
       "prefabPath": "GhostSwordSilver",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "GhostSwordSilver"
+      "name": "str_name_GhostSwordSilver"
     },
     {
       "id": 43,
@@ -342,7 +342,7 @@
       "prefabPath": "GoldBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "GoldBadge"
+      "name": "str_name_GoldBadge"
     },
     {
       "id": 44,
@@ -350,7 +350,7 @@
       "prefabPath": "GoldDoor",
       "eventId": 9,
       "eventData": [ 15 ],
-      "name": "GoldDoor"
+      "name": "str_name_GoldDoor"
     },
     {
       "id": 45,
@@ -358,7 +358,7 @@
       "prefabPath": "GoldKey",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "GoldKey"
+      "name": "str_name_GoldKey"
     },
     {
       "id": 46,
@@ -366,7 +366,7 @@
       "prefabPath": "GoldWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "GoldWall"
+      "name": "str_name_GoldWall"
     },
     {
       "id": 47,
@@ -374,7 +374,7 @@
       "prefabPath": "GrayWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "GrayWall"
+      "name": "str_name_GrayWall"
     },
     {
       "id": 48,
@@ -382,7 +382,7 @@
       "prefabPath": "GreenBottle",
       "eventId": 7,
       "eventData": [ 1, 1000, 8, 2, 20, 11 ],
-      "name": "GreenBottle"
+      "name": "str_name_GreenBottle"
     },
     {
       "id": 49,
@@ -390,7 +390,7 @@
       "prefabPath": "GreenDiamond",
       "eventId": 7,
       "eventData": [ 6, 1, 8, 2, 20, 11 ],
-      "name": "GreenDiamond"
+      "name": "str_name_GreenDiamond"
     },
     {
       "id": 50,
@@ -398,7 +398,7 @@
       "prefabPath": "GreenFence",
       "eventId": 2,
       "eventData": [ 0 ],
-      "name": "GreenFence"
+      "name": "str_name_GreenFence"
     },
     {
       "id": 51,
@@ -406,7 +406,7 @@
       "prefabPath": "GreenFlask",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "GreenFlask"
+      "name": "str_name_GreenFlask"
     },
     {
       "id": 52,
@@ -414,7 +414,7 @@
       "prefabPath": "GreenGate",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "GreenGate"
+      "name": "str_name_GreenGate"
     },
     {
       "id": 53,
@@ -422,7 +422,7 @@
       "prefabPath": "GreenKey",
       "eventId": 7,
       "eventData": [ 12, 1, 8, 2, 20, 11 ],
-      "name": "GreenKey"
+      "name": "str_name_GreenKey"
     },
     {
       "id": 54,
@@ -430,7 +430,7 @@
       "prefabPath": "GreenUniversal",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "GreenUniversal"
+      "name": "str_name_GreenUniversal"
     },
     {
       "id": 55,
@@ -438,7 +438,7 @@
       "prefabPath": "GreenVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "GreenVase"
+      "name": "str_name_GreenVase"
     },
     {
       "id": 56,
@@ -446,7 +446,7 @@
       "prefabPath": "GreenVase 1",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "GreenVase 1"
+      "name": "str_name_GreenVase1"
     },
     {
       "id": 57,
@@ -454,7 +454,7 @@
       "prefabPath": "Hammer",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Hammer"
+      "name": "str_name_Hammer"
     },
     {
       "id": 58,
@@ -462,7 +462,7 @@
       "prefabPath": "Heart",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Heart"
+      "name": "str_name_Heart"
     },
     {
       "id": 59,
@@ -470,7 +470,7 @@
       "prefabPath": "Helper",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Helper"
+      "name": "str_name_Helper"
     },
     {
       "id": 60,
@@ -478,7 +478,7 @@
       "prefabPath": "IceAxe",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "IceAxe"
+      "name": "str_name_IceAxe"
     },
     {
       "id": 61,
@@ -486,7 +486,7 @@
       "prefabPath": "IndigoVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "IndigoVase"
+      "name": "str_name_IndigoVase"
     },
     {
       "id": 62,
@@ -494,7 +494,7 @@
       "prefabPath": "Jack",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_Jack"
+      "name": "str_name_Jack"
     },
     {
       "id": 63,
@@ -502,7 +502,7 @@
       "prefabPath": "Knight",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "Knight"
+      "name": "str_name_Knight"
     },
     {
       "id": 64,
@@ -510,7 +510,7 @@
       "prefabPath": "KnightBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "KnightBlue"
+      "name": "str_name_KnightBlue"
     },
     {
       "id": 65,
@@ -518,7 +518,7 @@
       "prefabPath": "KnightGold",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "KnightGold"
+      "name": "str_name_KnightGold"
     },
     {
       "id": 66,
@@ -526,7 +526,7 @@
       "prefabPath": "KnightRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "KnightRed"
+      "name": "str_name_KnightRed"
     },
     {
       "id": 67,
@@ -534,7 +534,7 @@
       "prefabPath": "Leaf",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Leaf"
+      "name": "str_name_Leaf"
     },
     {
       "id": 68,
@@ -542,7 +542,7 @@
       "prefabPath": "Lilith",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_Lilith"
+      "name": "str_name_Lilith"
     },
     {
       "id": 69,
@@ -550,7 +550,7 @@
       "prefabPath": "LuckyBag",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "LuckyBag"
+      "name": "str_name_LuckyBag"
     },
     {
       "id": 70,
@@ -558,7 +558,7 @@
       "prefabPath": "Notepad",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Notepad"
+      "name": "str_name_Notepad"
     },
     {
       "id": 71,
@@ -566,7 +566,7 @@
       "prefabPath": "OctopusRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "OctopusRed"
+      "name": "str_name_OctopusRed"
     },
     {
       "id": 72,
@@ -574,7 +574,7 @@
       "prefabPath": "OldMan",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "OldMan"
+      "name": "str_name_OldMan"
     },
     {
       "id": 73,
@@ -582,7 +582,7 @@
       "prefabPath": "PinkBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "PinkBadge"
+      "name": "str_name_PinkBadge"
     },
     {
       "id": 74,
@@ -590,7 +590,7 @@
       "prefabPath": "PinkVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "PinkVase"
+      "name": "str_name_PinkVase"
     },
     {
       "id": 75,
@@ -598,7 +598,7 @@
       "prefabPath": "PinkWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "PinkWall"
+      "name": "str_name_PinkWall"
     },
     {
       "id": 76,
@@ -606,7 +606,7 @@
       "prefabPath": "RedBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "RedBadge"
+      "name": "str_name_RedBadge"
     },
     {
       "id": 77,
@@ -614,7 +614,7 @@
       "prefabPath": "RedBottle",
       "eventId": 7,
       "eventData": [ 1, 150, 8, 2, 20, 11 ],
-      "name": "RedBottle"
+      "name": "str_name_RedBottle"
     },
     {
       "id": 78,
@@ -622,7 +622,7 @@
       "prefabPath": "RedDiamond",
       "eventId": 7,
       "eventData": [ 2, 3, 8, 2, 20, 11 ],
-      "name": "RedDiamond"
+      "name": "str_name_RedDiamond"
     },
     {
       "id": 79,
@@ -630,7 +630,7 @@
       "prefabPath": "RedDoor",
       "eventId": 9,
       "eventData": [ 11 ],
-      "name": "RedDoor"
+      "name": "str_name_RedDoor"
     },
     {
       "id": 80,
@@ -638,7 +638,7 @@
       "prefabPath": "RedFlask",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "RedFlask"
+      "name": "str_name_RedFlask"
     },
     {
       "id": 81,
@@ -646,7 +646,7 @@
       "prefabPath": "RedKey",
       "eventId": 7,
       "eventData": [ 11, 1, 8, 2, 20, 11 ],
-      "name": "RedKey"
+      "name": "str_name_RedKey"
     },
     {
       "id": 82,
@@ -654,7 +654,7 @@
       "prefabPath": "RedUniversal",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "RedUniversal"
+      "name": "str_name_RedUniversal"
     },
     {
       "id": 83,
@@ -662,7 +662,7 @@
       "prefabPath": "Reel",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Reel"
+      "name": "str_name_Reel"
     },
     {
       "id": 84,
@@ -670,7 +670,7 @@
       "prefabPath": "River",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "River"
+      "name": "str_name_River"
     },
     {
       "id": 85,
@@ -678,7 +678,7 @@
       "prefabPath": "SaintSword",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "SaintSword"
+      "name": "str_name_SaintSword"
     },
     {
       "id": 86,
@@ -686,7 +686,7 @@
       "prefabPath": "Sender",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sender"
+      "name": "str_name_Sender"
     },
     {
       "id": 87,
@@ -694,7 +694,7 @@
       "prefabPath": "Shield_1",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_1"
+      "name": "str_name_Shield_1"
     },
     {
       "id": 88,
@@ -702,7 +702,7 @@
       "prefabPath": "Shield_10",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_10"
+      "name": "str_name_Shield_10"
     },
     {
       "id": 89,
@@ -710,7 +710,7 @@
       "prefabPath": "Shield_11",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_11"
+      "name": "str_name_Shield_11"
     },
     {
       "id": 90,
@@ -718,7 +718,7 @@
       "prefabPath": "Shield_12",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_12"
+      "name": "str_name_Shield_12"
     },
     {
       "id": 91,
@@ -726,7 +726,7 @@
       "prefabPath": "Shield_2",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_2"
+      "name": "str_name_Shield_2"
     },
     {
       "id": 92,
@@ -734,7 +734,7 @@
       "prefabPath": "Shield_3",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_3"
+      "name": "str_name_Shield_3"
     },
     {
       "id": 93,
@@ -742,7 +742,7 @@
       "prefabPath": "Shield_4",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_4"
+      "name": "str_name_Shield_4"
     },
     {
       "id": 94,
@@ -750,7 +750,7 @@
       "prefabPath": "Shield_5",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_5"
+      "name": "str_name_Shield_5"
     },
     {
       "id": 95,
@@ -758,7 +758,7 @@
       "prefabPath": "Shield_6",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_6"
+      "name": "str_name_Shield_6"
     },
     {
       "id": 96,
@@ -766,7 +766,7 @@
       "prefabPath": "Shield_7",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_7"
+      "name": "str_name_Shield_7"
     },
     {
       "id": 97,
@@ -774,7 +774,7 @@
       "prefabPath": "Shield_8",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_8"
+      "name": "str_name_Shield_8"
     },
     {
       "id": 98,
@@ -782,7 +782,7 @@
       "prefabPath": "Shield_9",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shield_9"
+      "name": "str_name_Shield_9"
     },
     {
       "id": 99,
@@ -790,7 +790,7 @@
       "prefabPath": "Shoes",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Shoes"
+      "name": "str_name_Shoes"
     },
     {
       "id": 100,
@@ -798,7 +798,7 @@
       "prefabPath": "SilverDoor",
       "eventId": 9,
       "eventData": [ 14 ],
-      "name": "SilverDoor"
+      "name": "str_name_SilverDoor"
     },
     {
       "id": 101,
@@ -806,7 +806,7 @@
       "prefabPath": "SilverKey",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "SilverKey"
+      "name": "str_name_SilverKey"
     },
     {
       "id": 102,
@@ -814,7 +814,7 @@
       "prefabPath": "Skeleton",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "Skeleton"
+      "name": "str_name_Skeleton"
     },
     {
       "id": 103,
@@ -822,7 +822,7 @@
       "prefabPath": "SkeletonBoss",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SkeletonBoss"
+      "name": "str_name_SkeletonBoss"
     },
     {
       "id": 104,
@@ -830,7 +830,7 @@
       "prefabPath": "SkeletonBrown",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SkeletonBrown"
+      "name": "str_name_SkeletonBrown"
     },
     {
       "id": 105,
@@ -838,7 +838,7 @@
       "prefabPath": "SkeletonUpgrade",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SkeletonUpgrade"
+      "name": "str_name_SkeletonUpgrade"
     },
     {
       "id": 106,
@@ -846,7 +846,7 @@
       "prefabPath": "SlimeBlack",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SlimeBlack"
+      "name": "str_name_SlimeBlack"
     },
     {
       "id": 107,
@@ -854,7 +854,7 @@
       "prefabPath": "SlimeGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SlimeGreen"
+      "name": "str_name_SlimeGreen"
     },
     {
       "id": 108,
@@ -862,7 +862,7 @@
       "prefabPath": "SlimeKing",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SlimeKing"
+      "name": "str_name_SlimeKing"
     },
     {
       "id": 109,
@@ -870,7 +870,7 @@
       "prefabPath": "SlimeRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SlimeRed"
+      "name": "str_name_SlimeRed"
     },
     {
       "id": 110,
@@ -878,7 +878,7 @@
       "prefabPath": "Sprite",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sprite"
+      "name": "str_name_Sprite"
     },
     {
       "id": 111,
@@ -886,7 +886,7 @@
       "prefabPath": "Stars",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Stars"
+      "name": "str_name_Stars"
     },
     {
       "id": 112,
@@ -894,7 +894,7 @@
       "prefabPath": "Stone",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "Stone"
+      "name": "str_name_Stone"
     },
     {
       "id": 113,
@@ -902,7 +902,7 @@
       "prefabPath": "StoneBlack",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "StoneBlack"
+      "name": "str_name_StoneBlack"
     },
     {
       "id": 114,
@@ -910,7 +910,7 @@
       "prefabPath": "StoneBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "StoneBlue"
+      "name": "str_name_StoneBlue"
     },
     {
       "id": 115,
@@ -918,7 +918,7 @@
       "prefabPath": "StoneGray",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "StoneGray"
+      "name": "str_name_StoneGray"
     },
     {
       "id": 116,
@@ -926,7 +926,7 @@
       "prefabPath": "Sword_1",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_1"
+      "name": "str_name_Sword_1"
     },
     {
       "id": 117,
@@ -934,7 +934,7 @@
       "prefabPath": "Sword_10",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_10"
+      "name": "str_name_Sword_10"
     },
     {
       "id": 118,
@@ -942,7 +942,7 @@
       "prefabPath": "Sword_11",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_11"
+      "name": "str_name_Sword_11"
     },
     {
       "id": 119,
@@ -950,7 +950,7 @@
       "prefabPath": "Sword_12",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_12"
+      "name": "str_name_Sword_12"
     },
     {
       "id": 120,
@@ -958,7 +958,7 @@
       "prefabPath": "Sword_2",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_2"
+      "name": "str_name_Sword_2"
     },
     {
       "id": 121,
@@ -966,7 +966,7 @@
       "prefabPath": "Sword_3",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_3"
+      "name": "str_name_Sword_3"
     },
     {
       "id": 122,
@@ -974,7 +974,7 @@
       "prefabPath": "Sword_4",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_4"
+      "name": "str_name_Sword_4"
     },
     {
       "id": 123,
@@ -982,7 +982,7 @@
       "prefabPath": "Sword_5",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_5"
+      "name": "str_name_Sword_5"
     },
     {
       "id": 124,
@@ -990,7 +990,7 @@
       "prefabPath": "Sword_6",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_6"
+      "name": "str_name_Sword_6"
     },
     {
       "id": 125,
@@ -998,7 +998,7 @@
       "prefabPath": "Sword_7",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_7"
+      "name": "str_name_Sword_7"
     },
     {
       "id": 126,
@@ -1006,7 +1006,7 @@
       "prefabPath": "Sword_8",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_8"
+      "name": "str_name_Sword_8"
     },
     {
       "id": 127,
@@ -1014,7 +1014,7 @@
       "prefabPath": "Sword_9",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Sword_9"
+      "name": "str_name_Sword_9"
     },
     {
       "id": 128,
@@ -1022,7 +1022,7 @@
       "prefabPath": "SwordMan",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SwordMan"
+      "name": "str_name_SwordMan"
     },
     {
       "id": 129,
@@ -1030,7 +1030,7 @@
       "prefabPath": "SwordManBoss",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SwordManBoss"
+      "name": "str_name_SwordManBoss"
     },
     {
       "id": 130,
@@ -1038,7 +1038,7 @@
       "prefabPath": "SwordManPurple",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SwordManPurple"
+      "name": "str_name_SwordManPurple"
     },
     {
       "id": 131,
@@ -1046,7 +1046,7 @@
       "prefabPath": "SwordManRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "SwordManRed"
+      "name": "str_name_SwordManRed"
     },
     {
       "id": 132,
@@ -1054,7 +1054,7 @@
       "prefabPath": "TaskReel",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "TaskReel"
+      "name": "str_name_TaskReel"
     },
     {
       "id": 133,
@@ -1062,7 +1062,7 @@
       "prefabPath": "UniversalKey",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "UniversalKey"
+      "name": "str_name_UniversalKey"
     },
     {
       "id": 134,
@@ -1070,7 +1070,7 @@
       "prefabPath": "Upgrader",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Upgrader"
+      "name": "str_name_Upgrader"
     },
     {
       "id": 135,
@@ -1078,7 +1078,7 @@
       "prefabPath": "UpStair",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "UpStair"
+      "name": "str_name_UpStair"
     },
     {
       "id": 136,
@@ -1086,7 +1086,7 @@
       "prefabPath": "Volcano",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Volcano"
+      "name": "str_name_Volcano"
     },
     {
       "id": 137,
@@ -1094,7 +1094,7 @@
       "prefabPath": "Weapon",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "Weapon"
+      "name": "str_name_Weapon"
     },
     {
       "id": 138,
@@ -1102,7 +1102,7 @@
       "prefabPath": "WhiteWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "WhiteWall"
+      "name": "str_name_WhiteWall"
     },
     {
       "id": 139,
@@ -1110,7 +1110,7 @@
       "prefabPath": "WizardBlack",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "WizardBlack"
+      "name": "str_name_WizardBlack"
     },
     {
       "id": 140,
@@ -1118,7 +1118,7 @@
       "prefabPath": "WizardBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "WizardBlue"
+      "name": "str_name_WizardBlue"
     },
     {
       "id": 141,
@@ -1126,7 +1126,7 @@
       "prefabPath": "WizardGray",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "WizardGray"
+      "name": "str_name_WizardGray"
     },
     {
       "id": 142,
@@ -1134,7 +1134,7 @@
       "prefabPath": "WizardGreat",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "WizardGreat"
+      "name": "str_name_WizardGreat"
     },
     {
       "id": 143,
@@ -1142,7 +1142,7 @@
       "prefabPath": "WizardGreatRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "WizardGreatRed"
+      "name": "str_name_WizardGreatRed"
     },
     {
       "id": 144,
@@ -1150,7 +1150,7 @@
       "prefabPath": "WizardRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "WizardRed"
+      "name": "str_name_WizardRed"
     },
     {
       "id": 145,
@@ -1158,7 +1158,7 @@
       "prefabPath": "YellowBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "YellowBadge"
+      "name": "str_name_YellowBadge"
     },
     {
       "id": 146,
@@ -1166,7 +1166,7 @@
       "prefabPath": "YellowBottle",
       "eventId": 7,
       "eventData": [ 1, 350, 8, 2, 20, 11 ],
-      "name": "YellowBottle"
+      "name": "str_name_YellowBottle"
     },
     {
       "id": 147,
@@ -1174,7 +1174,7 @@
       "prefabPath": "YellowDiamond",
       "eventId": 7,
       "eventData": [ 7, 1, 8, 2, 20, 11 ],
-      "name": "YellowDiamond"
+      "name": "str_name_YellowDiamond"
     },
     {
       "id": 148,
@@ -1182,7 +1182,7 @@
       "prefabPath": "YellowDoor",
       "eventId": 9,
       "eventData": [ 9 ],
-      "name": "YellowDoor"
+      "name": "str_name_YellowDoor"
     },
     {
       "id": 149,
@@ -1190,7 +1190,7 @@
       "prefabPath": "YellowFlask",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "YellowFlask"
+      "name": "str_name_YellowFlask"
     },
     {
       "id": 150,
@@ -1198,7 +1198,7 @@
       "prefabPath": "YellowKey",
       "eventId": 7,
       "eventData": [ 9, 1, 8, 2, 20, 11 ],
-      "name": "YellowKey"
+      "name": "str_name_YellowKey"
     },
     {
       "id": 151,
@@ -1206,7 +1206,7 @@
       "prefabPath": "YellowUniversal",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "YellowUniversal"
+      "name": "str_name_YellowUniversal"
     },
     {
       "id": 152,
@@ -1214,7 +1214,7 @@
       "prefabPath": "YellowVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "YellowVase"
+      "name": "str_name_YellowVase"
     },
     {
       "id": 153,
@@ -1222,7 +1222,7 @@
       "prefabPath": "YoungMan",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "YoungMan"
+      "name": "str_name_YoungMan"
     },
     {
       "id": 154,
@@ -1230,7 +1230,7 @@
       "prefabPath": "Zombie",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "Zombie"
+      "name": "str_name_Zombie"
     },
     {
       "id": 155,
@@ -1238,7 +1238,7 @@
       "prefabPath": "ZombieGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "ZombieGreen"
+      "name": "str_name_ZombieGreen"
     },
     {
       "id": 156,
@@ -1246,7 +1246,7 @@
       "prefabPath": "ZombieRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "ZombieRed"
+      "name": "str_name_ZombieRed"
     },
     {
       "id": 157,
@@ -1254,7 +1254,7 @@
       "prefabPath": "ZombieSword",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "ZombieSword"
+      "name": "str_name_ZombieSword"
     },
     {
       "id": 158,
@@ -1262,7 +1262,7 @@
       "prefabPath": "CoinShop",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "CoinShop"
+      "name": "str_name_CoinShop"
     }
   ],
   "audios": [
@@ -2178,7 +2178,7 @@
   "weapons": [
     {
       "id": 1,
-      "name": "riot",
+      "name": "str_name_riot",
       "prefabPath": "zzhit_riot",
       "critPrefabPath": "zzhit_riot",
       "audioId": 28,
@@ -2186,7 +2186,7 @@
     },
     {
       "id": 2,
-      "name": "sword",
+      "name": "str_name_sword",
       "prefabPath": "zzhit_sword",
       "critPrefabPath": "zzhit_sword_crit",
       "audioId": 30,
@@ -2194,7 +2194,7 @@
     },
     {
       "id": 3,
-      "name": "bark",
+      "name": "str_name_bark",
       "prefabPath": "zzhit_bark",
       "critPrefabPath": "zzhit_bark",
       "audioId": 22,
@@ -2202,7 +2202,7 @@
     },
     {
       "id": 4,
-      "name": "magic_big",
+      "name": "str_name_magic_big",
       "prefabPath": "zzmagic_big",
       "critPrefabPath": "zzmagic_big_crit",
       "audioId": 33,
@@ -2210,7 +2210,7 @@
     },
     {
       "id": 5,
-      "name": "magic_diamond",
+      "name": "str_name_magic_diamond",
       "prefabPath": "zzmagic_diamond",
       "critPrefabPath": "zzmagic_diamond_crit",
       "audioId": 43,
@@ -2218,7 +2218,7 @@
     },
     {
       "id": 6,
-      "name": "magic_hurricane",
+      "name": "str_name_magic_hurricane",
       "prefabPath": "zzmagic_hurricane",
       "critPrefabPath": "zzmagic_hurricane_crit",
       "audioId": 45,
@@ -2226,7 +2226,7 @@
     },
     {
       "id": 7,
-      "name": "magic_mid",
+      "name": "str_name_magic_mid",
       "prefabPath": "zzmagic_mid",
       "critPrefabPath": "zzmagic_mid_crit",
       "audioId": 47,
@@ -2234,7 +2234,7 @@
     },
     {
       "id": 8,
-      "name": "magic_small",
+      "name": "str_name_magic_small",
       "prefabPath": "zzmagic_small",
       "critPrefabPath": "zzmagic_small_crit",
       "audioId": 49,
@@ -2242,7 +2242,7 @@
     },
     {
       "id": 9,
-      "name": "nohurt",
+      "name": "str_name_nohurt",
       "prefabPath": "zzhit_nohurt",
       "critPrefabPath": "zzhit_nohurt_onshield",
       "audioId": 26,
@@ -2250,7 +2250,7 @@
     },
     {
       "id": 10,
-      "name": "miss",
+      "name": "str_name_miss",
       "prefabPath": "zzhit_nohurt",
       "critPrefabPath": "zzhit_nohurt_onshield",
       "audioId": 25,
@@ -2266,7 +2266,7 @@
       "data": [
         {
           "speakerId": 0,
-          "content": "str_JackStartSay1"
+          "content": "str_name_JackStartSay1"
         },
         {
           "speakerId": 0,
@@ -2274,7 +2274,7 @@
         },
         {
           "speakerId": 0,
-          "content": "str_JackStartSay2"
+          "content": "str_name_JackStartSay2"
         }
       ]
     },
@@ -2286,7 +2286,7 @@
       "data": [
         {
           "speakerId": 0,
-          "content": "str_JackBeforeFirstBattle1"
+          "content": "str_name_JackBeforeFirstBattle1"
         },
         {
           "speakerId": 0,
@@ -2294,7 +2294,7 @@
         },
         {
           "speakerId": 0,
-          "content": "str_JackBeforeFirstBattle2"
+          "content": "str_name_JackBeforeFirstBattle2"
         }
       ]
     },
@@ -2306,7 +2306,7 @@
       "data": [
         {
           "speakerId": -1,
-          "content": "str_JackSecretMan1"
+          "content": "str_name_JackSecretMan1"
         },
         {
           "speakerId": 0,
@@ -2314,7 +2314,7 @@
         },
         {
           "speakerId": 0,
-          "content": "str_JackSecretMan2"
+          "content": "str_name_JackSecretMan2"
         }
       ]
     },
@@ -2461,6 +2461,58 @@
           "content": "str_FirstGetYellowBottle"
         }
       ]
+    },
+    {
+      "id": 16,
+      "eventId": 0,
+      "eventData": [ 0 ],
+      "canOn": true,
+      "data": [
+        {
+          "speakerId": -255,
+          "content": "str_BuySuccessful",
+          "tipSilent": true
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "eventId": 0,
+      "eventData": [ 0 ],
+      "canOn": true,
+      "data": [
+        {
+          "speakerId": -255,
+          "content": "str_BuyFailedNoEnoughCoin",
+          "tipSilent": true
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "eventId": 0,
+      "eventData": [ 0 ],
+      "canOn": true,
+      "data": [
+        {
+          "speakerId": -1,
+          "content": "str_ExitCoinShop",
+          "tipSilent": true
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "eventId": 0,
+      "eventData": [ 0 ],
+      "canOn": true,
+      "data": [
+        {
+          "speakerId": -1,
+          "content": "str_ExitExpShop",
+          "tipSilent": true
+        }
+      ]
     }
   ],
   "choices": [
@@ -2473,7 +2525,7 @@
       "data": [
         {
           "eventId": 7,
-          "eventData": [ 6, 1, 8, 1, 16, 5, 100, 0, 0, 8, 1, 17 ],
+          "eventData": [ 6, 1, 8, 3, 16, 4, 16, 5, 100, 0, 0, 8, 3, 17, 4, 17 ],
           "contentType": 0,
           "content": "str_ExpShopBuySpeed",
           "contentData": [ "100", "1" ],
@@ -2481,7 +2533,7 @@
         },
         {
           "eventId": 7,
-          "eventData": [ 7, 1, 8, 1, 16, 5, 150, 0, 0, 8, 1, 17 ],
+          "eventData": [ 7, 1, 8, 3, 16, 4, 16, 5, 150, 0, 0, 8, 3, 17, 4, 17 ],
           "contentType": 0,
           "content": "str_ExpShopBuyCrit",
           "contentData": [ "150", "1" ],
@@ -2489,15 +2541,15 @@
         },
         {
           "eventId": 7,
-          "eventData": [ 4, 1, 8, 1, 16, 5, 200, 0, 0, 8, 1, 17 ],
+          "eventData": [ 4, 1, 8, 3, 16, 4, 16, 5, 200, 0, 0, 8, 3, 17, 4, 17 ],
           "contentType": 0,
           "content": "str_ExpShopBuyLevel",
           "contentData": [ "200", "1" ],
           "close": false
         },
         {
-          "eventId": 0,
-          "eventData": [],
+          "eventId": 4,
+          "eventData": [19],
           "contentType": 0,
           "content": "str_Close",
           "contentData": [],
@@ -2514,7 +2566,7 @@
       "data": [
         {
           "eventId": 7,
-          "eventData": [ 1, 140, 8, 1, 16, 8, 1, 1, 0, 8, 1, 17 ],
+          "eventData": [ 1, 140, 8, 3, 16, 4, 16, 8, 1, 1, 0, 8, 3, 17, 4, 17 ],
           "contentType": 1,
           "content": "str_GoldShopBuyLife",
           "contentData": [ "1", "140" ],
@@ -2522,7 +2574,7 @@
         },
         {
           "eventId": 7,
-          "eventData": [ 2, 2, 8, 1, 16, 8, 1, 1, 0, 8, 1, 17 ],
+          "eventData": [ 2, 2, 8, 3, 16, 4, 16, 8, 1, 1, 0, 8, 3, 17, 4, 17 ],
           "contentType": 1,
           "content": "str_GoldShopBuyAttack",
           "contentData": [ "1", "2" ],
@@ -2530,15 +2582,15 @@
         },
         {
           "eventId": 7,
-          "eventData": [ 3, 2, 8, 1, 16, 8, 1, 1, 0, 8, 1, 17 ],
+          "eventData": [ 3, 2, 8, 3, 16, 4, 16, 8, 1, 1, 0, 8, 3, 17, 4, 17 ],
           "contentType": 1,
           "content": "str_GoldShopBuyDefense",
           "contentData": [ "1", "2" ],
           "close": false
         },
         {
-          "eventId": 0,
-          "eventData": [],
+          "eventId": 4,
+          "eventData": [18],
           "contentType": 0,
           "content": "str_Close",
           "contentData": [],
@@ -2658,7 +2710,7 @@
     },
     {
       "id": 5,
-      "key": "str_Jack",
+      "key": "str_name_Jack",
       "strings": [
         {
           "langKey": "en-us",
@@ -2672,7 +2724,7 @@
     },
     {
       "id": 6,
-      "key": "str_Lilith",
+      "key": "str_name_Lilith",
       "strings": [
         {
           "langKey": "en-us",
@@ -2706,7 +2758,7 @@
     },
     {
       "id": 9,
-      "key": "str_JackStartSay1",
+      "key": "str_name_JackStartSay1",
       "strings": [
         {
           "langKey": "en-us",
@@ -2720,7 +2772,7 @@
     },
     {
       "id": 10,
-      "key": "str_JackStartSay2",
+      "key": "str_name_JackStartSay2",
       "strings": [
         {
           "langKey": "en-us",
@@ -2734,7 +2786,7 @@
     },
     {
       "id": 11,
-      "key": "str_JackBeforeFirstBattle1",
+      "key": "str_name_JackBeforeFirstBattle1",
       "strings": [
         {
           "langKey": "en-us",
@@ -2748,7 +2800,7 @@
     },
     {
       "id": 12,
-      "key": "str_JackBeforeFirstBattle2",
+      "key": "str_name_JackBeforeFirstBattle2",
       "strings": [
         {
           "langKey": "en-us",
@@ -2762,7 +2814,7 @@
     },
     {
       "id": 13,
-      "key": "str_JackSecretMan1",
+      "key": "str_name_JackSecretMan1",
       "strings": [
         {
           "langKey": "en-us",
@@ -2776,7 +2828,7 @@
     },
     {
       "id": 14,
-      "key": "str_JackSecretMan2",
+      "key": "str_name_JackSecretMan2",
       "strings": [
         {
           "langKey": "en-us",
@@ -3079,6 +3131,1732 @@
         {
           "langKey": "zh-cn",
           "content": "暂不需要"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "key": "str_name_riot",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Riot"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "拳"
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "key": "str_name_sword",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Sword"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "剑"
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "key": "str_name_bark",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Bark"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "啄"
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "key": "str_name_magic_big",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Big Staff"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "大法杖"
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "key": "str_name_magic_diamond",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Diamond Staff"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "水晶法杖"
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "key": "str_name_magic_hurricane",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Hurricane Staff"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "飓风法杖"
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "key": "str_name_magic_mid",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Staff"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "法杖"
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "key": "str_name_magic_small",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Small Staff"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "学徒法杖"
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "key": "str_name_nohurt",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "None"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "无"
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "key": "str_name_miss",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Miss"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "无"
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "key": "str_name_GoldWall",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Gold Wall"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "金色墙壁"
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "key": "str_name_GrayWall"
+    },
+    {
+      "id": 48,
+      "key": "str_name_GreenBottle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Green Bottle"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "绿色药水"
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "key": "str_name_GreenDiamond",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Green Diamond"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "绿宝石"
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "key": "str_name_GreenFence"
+    },
+    {
+      "id": 51,
+      "key": "str_name_GreenFlask"
+    },
+    {
+      "id": 52,
+      "key": "str_name_GreenGate"
+    },
+    {
+      "id": 53,
+      "key": "str_name_GreenKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Green Key"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "绿钥匙"
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "key": "str_name_GreenUniversal"
+    },
+    {
+      "id": 55,
+      "key": "str_name_GreenVase"
+    },
+    {
+      "id": 56,
+      "key": "str_name_GreenVase1"
+    },
+    {
+      "id": 57,
+      "key": "str_name_Hammer"
+    },
+    {
+      "id": 58,
+      "key": "str_name_Heart"
+    },
+    {
+      "id": 59,
+      "key": "str_name_Helper"
+    },
+    {
+      "id": 60,
+      "key": "str_name_IceAxe"
+    },
+    {
+      "id": 61,
+      "key": "str_name_IndigoVase"
+    },
+    {
+      "id": 62,
+      "key": "str_name_GoldDoor"
+    },
+    {
+      "id": 63,
+      "key": "str_name_Knight",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Junior Knight"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "初阶骑士"
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "key": "str_name_KnightBlue",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Intermidiate Knight"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "中阶骑士"
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "key": "str_name_KnightGold",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Senior Knight"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "高阶骑士"
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "key": "str_name_KnightRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Elite Knight"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "精英骑士"
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "key": "str_name_Leaf"
+    },
+    {
+      "id": 68,
+      "key": "str_name_GoldKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Gold Key"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "金钥匙"
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "key": "str_name_LuckyBag"
+    },
+    {
+      "id": 70,
+      "key": "str_name_Notepad"
+    },
+    {
+      "id": 71,
+      "key": "str_name_OctopusRed"
+    },
+    {
+      "id": 72,
+      "key": "str_name_OldMan",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Old Man"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "神秘老者"
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "key": "str_name_PinkBadge"
+    },
+    {
+      "id": 74,
+      "key": "str_name_PinkVase"
+    },
+    {
+      "id": 75,
+      "key": "str_name_PinkWall"
+    },
+    {
+      "id": 76,
+      "key": "str_name_RedBadge"
+    },
+    {
+      "id": 77,
+      "key": "str_name_RedBottle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Red Bottle"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "红色药水"
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "key": "str_name_RedDiamond",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Red Diamond"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "红宝石"
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "key": "str_name_RedDoor"
+    },
+    {
+      "id": 80,
+      "key": "str_name_RedFlask"
+    },
+    {
+      "id": 81,
+      "key": "str_name_RedKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Red Key"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "红钥匙"
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "key": "str_name_RedUniversal"
+    },
+    {
+      "id": 83,
+      "key": "str_name_Reel"
+    },
+    {
+      "id": 84,
+      "key": "str_name_River"
+    },
+    {
+      "id": 85,
+      "key": "str_name_SaintSword"
+    },
+    {
+      "id": 86,
+      "key": "str_name_Sender"
+    },
+    {
+      "id": 87,
+      "key": "str_name_Shield_1"
+    },
+    {
+      "id": 88,
+      "key": "str_name_Shield_10"
+    },
+    {
+      "id": 89,
+      "key": "str_name_Shield_11"
+    },
+    {
+      "id": 90,
+      "key": "str_name_Shield_12"
+    },
+    {
+      "id": 91,
+      "key": "str_name_Shield_2"
+    },
+    {
+      "id": 92,
+      "key": "str_name_Shield_3"
+    },
+    {
+      "id": 93,
+      "key": "str_name_Shield_4"
+    },
+    {
+      "id": 94,
+      "key": "str_name_Shield_5"
+    },
+    {
+      "id": 95,
+      "key": "str_name_Shield_6"
+    },
+    {
+      "id": 96,
+      "key": "str_name_Shield_7"
+    },
+    {
+      "id": 97,
+      "key": "str_name_Shield_8"
+    },
+    {
+      "id": 98,
+      "key": "str_name_Shield_9"
+    },
+    {
+      "id": 99,
+      "key": "str_name_Shoes"
+    },
+    {
+      "id": 100,
+      "key": "str_name_SilverDoor"
+    },
+    {
+      "id": 101,
+      "key": "str_name_SilverKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Silver Key"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "银钥匙"
+        }
+      ]
+    },
+    {
+      "id": 102,
+      "key": "str_name_Skeleton",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Skeleton"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "骷髅"
+        }
+      ]
+    },
+    {
+      "id": 103,
+      "key": "str_name_SkeletonBoss",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Skeleton King"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "骷髅王"
+        }
+      ]
+    },
+    {
+      "id": 104,
+      "key": "str_name_SkeletonBrown",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Elite Skeleton Swordsman"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "精英骷髅剑士"
+        }
+      ]
+    },
+    {
+      "id": 105,
+      "key": "str_name_SkeletonUpgrade",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Skeleton Swordsman"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "骷髅剑士"
+        }
+      ]
+    },
+    {
+      "id": 106,
+      "key": "str_name_SlimeBlack",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Black Slime"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "黑色史莱姆"
+        }
+      ]
+    },
+    {
+      "id": 107,
+      "key": "str_name_SlimeGreen",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Green Slime"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "绿色史莱姆"
+        }
+      ]
+    },
+    {
+      "id": 108,
+      "key": "str_name_SlimeKing",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Slime King"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "史莱姆王"
+        }
+      ]
+    },
+    {
+      "id": 109,
+      "key": "str_name_SlimeRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Red Slime"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "红色史莱姆"
+        }
+      ]
+    },
+    {
+      "id": 110,
+      "key": "str_name_Sprite",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Fairy Sprite"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "精灵仙子"
+        }
+      ]
+    },
+    {
+      "id": 111,
+      "key": "str_name_Stars"
+    },
+    {
+      "id": 112,
+      "key": "str_name_Stone",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Stone Monster"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "石块人"
+        }
+      ]
+    },
+    {
+      "id": 113,
+      "key": "str_name_StoneBlack",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Coal Monster"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "煤块人"
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "key": "str_name_StoneBlue",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Jade Monster"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "玉块人"
+        }
+      ]
+    },
+    {
+      "id": 115,
+      "key": "str_name_StoneGray",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Iron Monster"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "铁块人"
+        }
+      ]
+    },
+    {
+      "id": 116,
+      "key": "str_name_Sword_1"
+    },
+    {
+      "id": 117,
+      "key": "str_name_Sword_10"
+    },
+    {
+      "id": 118,
+      "key": "str_name_Sword_11"
+    },
+    {
+      "id": 119,
+      "key": "str_name_Sword_12"
+    },
+    {
+      "id": 120,
+      "key": "str_name_Sword_2"
+    },
+    {
+      "id": 121,
+      "key": "str_name_Sword_3"
+    },
+    {
+      "id": 122,
+      "key": "str_name_Sword_4"
+    },
+    {
+      "id": 123,
+      "key": "str_name_Sword_5"
+    },
+    {
+      "id": 124,
+      "key": "str_name_Sword_6"
+    },
+    {
+      "id": 125,
+      "key": "str_name_Sword_7"
+    },
+    {
+      "id": 126,
+      "key": "str_name_Sword_8"
+    },
+    {
+      "id": 127,
+      "key": "str_name_Sword_9"
+    },
+    {
+      "id": 128,
+      "key": "str_name_SwordMan",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Blade Man"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "剑士"
+        }
+      ]
+    },
+    {
+      "id": 129,
+      "key": "str_name_SwordManBoss",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Blade King"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "剑王"
+        }
+      ]
+    },
+    {
+      "id": 130,
+      "key": "str_name_SwordManPurple",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Blade Master"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "剑圣"
+        }
+      ]
+    },
+    {
+      "id": 131,
+      "key": "str_name_SwordManRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Blade God"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "剑神"
+        }
+      ]
+    },
+    {
+      "id": 132,
+      "key": "str_name_TaskReel"
+    },
+    {
+      "id": 133,
+      "key": "str_name_UniversalKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Universal Key"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "万能钥匙"
+        }
+      ]
+    },
+    {
+      "id": 134,
+      "key": "str_name_Upgrader"
+    },
+    {
+      "id": 135,
+      "key": "str_name_UpStair"
+    },
+    {
+      "id": 136,
+      "key": "str_name_Volcano"
+    },
+    {
+      "id": 137,
+      "key": "str_name_Weapon"
+    },
+    {
+      "id": 138,
+      "key": "str_name_WhiteWall"
+    },
+    {
+      "id": 139,
+      "key": "str_name_WizardBlack",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Elite Wizard"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "精英法师"
+        }
+      ]
+    },
+    {
+      "id": 140,
+      "key": "str_name_WizardBlue",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Junior Wizard"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "初级法师"
+        }
+      ]
+    },
+    {
+      "id": 141,
+      "key": "str_name_WizardGray",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Intermediate Wizard"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "中级法师"
+        }
+      ]
+    },
+    {
+      "id": 142,
+      "key": "str_name_WizardGreat",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Gold Wall"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "魔法宗师"
+        }
+      ]
+    },
+    {
+      "id": 143,
+      "key": "str_name_WizardGreatRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Wizard Master"
+        },
+        {
+          "langKey": "Wizard Legend",
+          "content": "传说法师"
+        }
+      ]
+    },
+    {
+      "id": 144,
+      "key": "str_name_WizardRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Senior Wizard"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "高级法师"
+        }
+      ]
+    },
+    {
+      "id": 145,
+      "key": "str_name_YellowBadge"
+    },
+    {
+      "id": 146,
+      "key": "str_name_YellowBottle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Yellow Bottle"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "黄色药水"
+        }
+      ]
+    },
+    {
+      "id": 147,
+      "key": "str_name_YellowDiamond",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "yellow Diamond"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "黄宝石"
+        }
+      ]
+    },
+    {
+      "id": 148,
+      "key": "str_name_YellowDoor"
+    },
+    {
+      "id": 149,
+      "key": "str_name_YellowFlask"
+    },
+    {
+      "id": 150,
+      "key": "str_name_YellowKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Yellow Key"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "黄钥匙"
+        }
+      ]
+    },
+    {
+      "id": 151,
+      "key": "str_name_YellowUniversal"
+    },
+    {
+      "id": 152,
+      "key": "str_name_YellowVase"
+    },
+    {
+      "id": 153,
+      "key": "str_name_YoungMan",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Adams"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "亚当斯"
+        }
+      ]
+    },
+    {
+      "id": 154,
+      "key": "str_name_Zombie",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Zombie"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "丧尸"
+        }
+      ]
+    },
+    {
+      "id": 155,
+      "key": "str_name_ZombieGreen",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Toxin Zombie"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "猛毒丧尸"
+        }
+      ]
+    },
+    {
+      "id": 156,
+      "key": "str_name_ZombieRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Crazy Zombie"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "疯狂丧尸"
+        }
+      ]
+    },
+    {
+      "id": 157,
+      "key": "str_name_ZombieSword",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Sword Zombie"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "持剑丧尸"
+        }
+      ]
+    },
+    {
+      "id": 158,
+      "key": "str_name_CoinShop",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Coin Shop"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "金币商店"
+        }
+      ]
+    },
+    {
+      "id": 159,
+      "key": "str_name_GhostSwordSilver",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Senior Ghost Swordsman"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "恐怖幽魂武士"
+        }
+      ]
+    },
+    {
+      "id": 160,
+      "key": "str_name_GoldBadge"
+    },
+    {
+      "id": 161,
+      "key": "str_name_Axe"
+    },
+    {
+      "id": 162,
+      "key": "str_name_Banana"
+    },
+    {
+      "id": 163,
+      "key": "str_name_BatBig",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Big Bat"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "大蝙蝠"
+        }
+      ]
+    },
+    {
+      "id": 164,
+      "key": "str_name_BatBoss",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Belial Vamdemon"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "蝙蝠吸血魔兽"
+        }
+      ]
+    },
+    {
+      "id": 165,
+      "key": "str_name_BatRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Crazy Bat"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "血蝙蝠"
+        }
+      ]
+    },
+    {
+      "id": 166,
+      "key": "str_name_BatSmall",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Small Bat"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "小蝙蝠"
+        }
+      ]
+    },
+    {
+      "id": 167,
+      "key": "str_name_BlueBadge"
+    },
+    {
+      "id": 168,
+      "key": "str_name_BlueBottle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Blue Bottle"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "蓝色药水"
+        }
+      ]
+    },
+    {
+      "id": 169,
+      "key": "str_name_BlueDiamond",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Blue Diamond"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "蓝宝石"
+        }
+      ]
+    },
+    {
+      "id": 170,
+      "key": "str_name_BlueDoor"
+    },
+    {
+      "id": 171,
+      "key": "str_name_BlueFence"
+    },
+    {
+      "id": 172,
+      "key": "str_name_BlueFlask"
+    },
+    {
+      "id": 173,
+      "key": "str_name_BlueKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Blue Key"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "蓝钥匙"
+        }
+      ]
+    },
+    {
+      "id": 174,
+      "key": "str_name_BlueUniversal"
+    },
+    {
+      "id": 175,
+      "key": "str_name_BlueVase"
+    },
+    {
+      "id": 176,
+      "key": "str_name_BlueWall"
+    },
+    {
+      "id": 177,
+      "key": "str_name_Boom"
+    },
+    {
+      "id": 178,
+      "key": "str_name_BrownWall"
+    },
+    {
+      "id": 179,
+      "key": "str_name_BrozenDoor"
+    },
+    {
+      "id": 180,
+      "key": "str_name_BrozenKey",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Brozen Key"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "铜钥匙"
+        }
+      ]
+    },
+    {
+      "id": 181,
+      "key": "str_name_BusinessMan",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Businessman"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "商人"
+        }
+      ]
+    },
+    {
+      "id": 182,
+      "key": "str_name_Candlestick"
+    },
+    {
+      "id": 183,
+      "key": "str_name_Cleaner"
+    },
+    {
+      "id": 184,
+      "key": "str_name_Coin",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Big Coin"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "大金币"
+        }
+      ]
+    },
+    {
+      "id": 185,
+      "key": "str_name_Cross",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Cross"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "十字架"
+        }
+      ]
+    },
+    {
+      "id": 186,
+      "key": "str_name_Defenser",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Junior Guard"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "初级卫兵"
+        }
+      ]
+    },
+    {
+      "id": 187,
+      "key": "str_name_DefenserBlue",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Intermediate Guard"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "中级卫兵"
+        }
+      ]
+    },
+    {
+      "id": 188,
+      "key": "str_name_DefenserRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Senior Guard"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "高级卫兵"
+        }
+      ]
+    },
+    {
+      "id": 189,
+      "key": "str_name_DiamondAxe"
+    },
+    {
+      "id": 190,
+      "key": "str_name_DownStair"
+    },
+    {
+      "id": 191,
+      "key": "str_name_DragonRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Red Dragon"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "红色巨龙"
+        }
+      ]
+    },
+    {
+      "id": 192,
+      "key": "str_name_EnchanterBlack",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Black Demon King"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "黑魔王"
+        }
+      ]
+    },
+    {
+      "id": 193,
+      "key": "str_name_EnchanterBlue",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Blue Demon King"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "蓝魔王"
+        }
+      ]
+    },
+    {
+      "id": 194,
+      "key": "str_name_EnchanterGold",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Gold Demon King"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "金魔王"
+        }
+      ]
+    },
+    {
+      "id": 195,
+      "key": "str_name_EnchanterGreen",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Green Demon King"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "青魔王"
+        }
+      ]
+    },
+    {
+      "id": 196,
+      "key": "str_name_EnchanterRed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Red Demon King"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "赤魔王"
+        }
+      ]
+    },
+    {
+      "id": 197,
+      "key": "str_name_Fire"
+    },
+    {
+      "id": 198,
+      "key": "str_name_Flyer"
+    },
+    {
+      "id": 199,
+      "key": "str_name_GhostGreen",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ghost"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "幽魂"
+        }
+      ]
+    },
+    {
+      "id": 200,
+      "key": "str_name_GhostSilver",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Senior Ghost"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "恐怖幽魂"
+        }
+      ]
+    },
+    {
+      "id": 201,
+      "key": "str_name_GhostSwordGreen",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ghost Swordsman"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "幽魂武士"
+        }
+      ]
+    },
+    {
+      "id": 202,
+      "key": "str_ui_life",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Life"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "生命值"
+        }
+      ]
+    },
+    {
+      "id": 203,
+      "key": "str_ui_attack",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Attack"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "攻击"
+        }
+      ]
+    },
+    {
+      "id": 204,
+      "key": "str_ui_defense",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Defense"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "防御"
+        }
+      ]
+    },
+    {
+      "id": 205,
+      "key": "str_ui_speed",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Speed"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "敏捷"
+        }
+      ]
+    },
+    {
+      "id": 206,
+      "key": "str_ui_level",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Level"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "等级"
+        }
+      ]
+    },
+    {
+      "id": 207,
+      "key": "str_ui_exp",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "EXP"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "经验值"
+        }
+      ]
+    },
+    {
+      "id": 208,
+      "key": "str_BuySuccessful",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Bought Successful"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "购买成功"
+        }
+      ]
+    },
+    {
+      "id": 209,
+      "key": "str_BuyFailedNoEnoughCoin",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Failed ! No enough resources"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "购买失败，货币不足"
+        }
+      ]
+    },
+    {
+      "id": 210,
+      "key": "str_ExitCoinShop",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Looking forward to your next visit !"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "欢迎下次光临！"
+        }
+      ]
+    },
+    {
+      "id": 211,
+      "key": "str_ExitExpShop",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Luck will accompany you !"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "幸运之神将伴你同行！"
+        }
+      ]
+    },
+    {
+      "id": 212,
+      "key": "str_name_normalFloor",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Floor ##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "魔塔##层"
+        }
+      ]
+    },
+    {
+      "id": 213,
+      "key": "str_name_topFloor",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Tower Top"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "魔塔之顶"
+        }
+      ]
+    },
+    {
+      "id": 214,
+      "key": "str_name_groundFloor",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ground Floor ##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "地下##层"
+        }
+      ]
+    },
+    {
+      "id": 215,
+      "key": "str_name_secretFloor",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Secret Floor ##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "神秘空间##层"
+        }
+      ]
+    },
+    {
+      "id": 216,
+      "key": "str_ui_startNewGame",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Start New Game"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "开始新游戏"
+        }
+      ]
+    },
+    {
+      "id": 217,
+      "key": "str_ui_loadSavedGame",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Load Game"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "读取存档"
+        }
+      ]
+    },
+    {
+      "id": 218,
+      "key": "str_ui_readMe",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Secret Floor ##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "作者信息"
+        }
+      ]
+    },
+    {
+      "id": 219,
+      "key": "str_ui_dataEditor",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Secret Floor ##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "数据编辑器"
         }
       ]
     }

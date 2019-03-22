@@ -41,7 +41,7 @@ public class PlayerController : AController<PlayerData, PlayerView>
         {
             Data.SetPlayerInfo(playerId);
         }
-        Data.InitPlayerData(posx, posy, playerId);
+        Data.InitPlayerData(posx, posy);
         var player = View.ShowPlayer(playerId, isNew);
         Game.Map.AddObjectToMap(player.gameObject, posx, posy, -17);
 
@@ -49,6 +49,15 @@ public class PlayerController : AController<PlayerData, PlayerView>
         {
             SyncPlayerData();
         }
+    }
+
+    public void ShowPlayer(int posx, int posy, Constant.PlayerData playerData, bool isNew = false)
+    {
+        Data.Data = playerData;
+        Data.InitPlayerData(posx, posy);
+        var player = View.ShowPlayer(playerData.id, isNew);
+        Game.Map.AddObjectToMap(player.gameObject, posx, posy, -17);
+        SyncPlayerData();
     }
 
     public void SyncPlayerData()
@@ -197,6 +206,16 @@ public class PlayerController : AController<PlayerData, PlayerView>
     {
         View.Player.IsRunning = false;
         Game.Status = Constant.EGameStatus.InGame;
+    }
+
+    public bool CheckPlayerData(Constant.ResourceType type, int minValue)
+    {
+        return Data.CheckPlayerData(type, minValue);
+    }
+
+    public bool CheckPlayerData(Constant.ResourceType type, Constant.IntegerBoolCallBack checkFunc)
+    {
+        return Data.CheckPlayerData(type, checkFunc);
     }
 
     public void ChangePlayerData(Constant.ResourceType type, int count)

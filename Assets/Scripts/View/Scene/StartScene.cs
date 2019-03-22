@@ -8,7 +8,7 @@ public class StartScene : MonoBehaviour {
     // Use this for initialization
     void Start() {
         instance = this;
-        Input.multiTouchEnabled = false;    // Note : 多点触摸会导致寻路出现bug, 先禁用
+        Input.multiTouchEnabled = false;    // NOTE : 多点触摸会导致寻路出现bug, 先禁用
 
         Game.Initial();
         Game.Map = null;
@@ -39,6 +39,7 @@ public class StartScene : MonoBehaviour {
 
     public void OnStartGame() {
         if (loadedOK) {
+            Game.CurrentSaveName = "";
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
         }
     }

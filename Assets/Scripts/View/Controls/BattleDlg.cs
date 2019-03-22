@@ -7,7 +7,7 @@ public class BattleDlg : ObjectPool.AViewUnit
     public const string PREFAB_DIR = "BattleDlg";
     public const int PREFAB_ID = 1;
     public delegate bool BattlePauseEventCheck();
-    public delegate void BattleOverCallback(int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long nextEventData);
+    public delegate void BattleOverCallback(int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long[] nextEventData);
 
     private const int BATTLE_SLEEP_TIME = 2; // 修改此值以控制两次攻击之间的间隔, 使得攻击表现更为流畅, 已扣除攻击动画时间. 单位:帧
     private const string BATTLE_GOLD_GET_TEXT = "str_battleGoldGet";
@@ -245,7 +245,7 @@ public class BattleDlg : ObjectPool.AViewUnit
         battleResultExpText.text = Game.Config.StringInternational.GetValue(BATTLE_EXP_GET_TEXT, enemyBattleData.exp.ToString());
         battleHurtedText.text = Game.Config.StringInternational.GetValue(BATTLE_HURTED_TEXT, hurted.ToString());
         battleResultPanel.SetActive(true);
-        overCallback(playerBattleData.id, playerBattleData.life, enemyBattleData.gold, enemyBattleData.exp, 0, 0);
+        overCallback(playerBattleData.id, playerBattleData.life, enemyBattleData.gold, enemyBattleData.exp, 0, null);
         Game.Status = Constant.EGameStatus.OnBattleResult;
     }
 

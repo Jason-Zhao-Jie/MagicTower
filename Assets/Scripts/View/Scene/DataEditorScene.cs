@@ -20,8 +20,8 @@ public class DataEditorScene : AScene {
     override public SceneType Type { get { return SceneType.DataEditorScene; } }
 
     // Use this for initialization
-    override protected void Start() {
-        base.Start();
+    override protected System.Threading.Tasks.Task Start() {
+        var ret = base.Start();
         // 初始化游戏信息
         Game.Player = null;
         Game.Managers.Audio.MusicSource = GetComponent<AudioSource>();
@@ -37,8 +37,6 @@ public class DataEditorScene : AScene {
         // 初始化地图并设定背景
         Game.Map = new MapController(GameObject.Find("MapMakerPanel").transform.Find("MapPanel").GetComponent<MapView>());
 
-        //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
-
         // 载入所有资源
         allPrefabs = Resources.LoadAll<GameObject>(Constant.PREFAB_DIR);
 
@@ -46,8 +44,8 @@ public class DataEditorScene : AScene {
         var eventIdList = new List<string> {
                 (EventManager.EventName.None).ToString()
             };
-        foreach (var k in Game.Managers.EventMgr.eventList) {
-            eventIdList.Add(k.Key.ToString());
+        foreach (var k in Game.Managers.EventMgr.EventKeyStrings) {
+            eventIdList.Add(k.ToString());
         }
         var modalIdList = new List<string>();
         for (int i = 0; i < Game.Config.modals.Count; ++i) {
@@ -199,6 +197,7 @@ public class DataEditorScene : AScene {
         // 初始化
         Game.Status = Constant.EGameStatus.InEditor;
         OnChangeToMaps();
+        return ret;
     }
 
     private void OnDestroy()
@@ -298,7 +297,7 @@ public class DataEditorScene : AScene {
         var bgModal = panel.transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
         var currModal = panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value;
         var eventId = panel.transform.Find("EventId").GetComponent<Dropdown>().value;
-        // Notice Tag : Event Data已经在更改时即时保存
+        // NOTE : Event Data已经在更改时即时保存
         Game.Config.GetGameMap(mapId).mapName = mapName;
         Game.Config.GetGameMap(mapId).backThing = bgModal;
         Game.Config.GetGameMap(mapId).music = bgMusic;

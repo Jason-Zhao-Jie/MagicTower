@@ -19,8 +19,9 @@ public static class Constant {
 
     public delegate void EmptyCallBack();
     public delegate bool EmptyBoolCallBack();
+    public delegate bool IntegerBoolCallBack(int param);
 
-    public enum ResourceType {
+    public enum ResourceType : byte{
         Unknown = 0,
         Life = 1,
         Attack = 2,
@@ -200,10 +201,12 @@ public static class Constant {
 
     [System.Serializable]
     public class OneChoiceData {
+        public int contentType;
         public string content;
         public string[] contentData;
         public int eventId;
         public long[] eventData;
+        public bool close;
     }
 
     [System.Serializable]

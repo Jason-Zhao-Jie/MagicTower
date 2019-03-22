@@ -7,7 +7,7 @@ public class PlayerData : AData
     {
     }
 
-    public void InitPlayerData(int posx = -1, int posy = -1, int playerId = 0)
+    public void InitPlayerData(int posx = -1, int posy = -1)
     {
         if (posx < 0 || posx >= Constant.MAP_BLOCK_LENGTH)
             posx = PlayerPosX;
@@ -26,6 +26,44 @@ public class PlayerData : AData
         {
             posy = 0;
             PlayerPosY = 0;
+        }
+    }
+
+    public bool CheckPlayerData(Constant.ResourceType type, int minValue)
+    {
+        return CheckPlayerData(type, (int data) => { return data >= minValue; });
+    }
+
+    public bool CheckPlayerData(Constant.ResourceType type, Constant.IntegerBoolCallBack checkFunc)
+    {
+        switch (type)
+        {
+            case Constant.ResourceType.Life:
+                return checkFunc(playerData.life);
+            case Constant.ResourceType.Attack:
+                return checkFunc(playerData.attack);
+            case Constant.ResourceType.Defense:
+                return checkFunc(playerData.defense);
+            case Constant.ResourceType.Level:
+                return checkFunc(playerData.level);
+            case Constant.ResourceType.Experience:
+                return checkFunc(playerData.exp);
+            case Constant.ResourceType.Speed:
+                return checkFunc(playerData.speed);
+            case Constant.ResourceType.Critical:
+                return checkFunc(System.Convert.ToInt32(System.Math.Floor(playerData.critical)));
+            case Constant.ResourceType.Gold:
+                return checkFunc(playerData.gold);
+            case Constant.ResourceType.YellowKey:
+                return checkFunc(playerData.yellowKey);
+            case Constant.ResourceType.BlueKey:
+                return checkFunc(playerData.blueKey);
+            case Constant.ResourceType.RedKey:
+                return checkFunc(playerData.redKey);
+            case Constant.ResourceType.GreenKey:
+                return checkFunc(playerData.greenKey);
+            default:
+                return true;
         }
     }
 

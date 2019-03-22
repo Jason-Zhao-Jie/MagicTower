@@ -1229,7 +1229,7 @@
         {
           "thing": 30,
           "eventId": 3,
-          "eventData": 31601
+          "eventData": [3, 16, 1]
         },
         {
           "eventId": 0,

@@ -41,7 +41,6 @@ public class ChoiceDlg : ObjectPool.AViewUnit
     }
 
     private void ShowChoice() {
-        firstChoiceItem.enabled = true;
         choiceSpeaker?.SetActive(true);
         // 设定游戏状态
         Game.Status = Constant.EGameStatus.OnChoice;
@@ -74,19 +73,52 @@ public class ChoiceDlg : ObjectPool.AViewUnit
         // 设定选择的标题介绍对话的内容
         choiceTitleText.text = Game.Config.StringInternational.GetValue(choice.title);
         // 添加选项
+        RefreshChoiceItems();
+    }
+
+    public void RefreshChoiceItems()
+    {
+        ClearChoiceItems();
+        firstChoiceItem.enabled = true;
         foreach (var i in choice.data)
         {
-            CreateChoiceItem(Game.Config.StringInternational.GetValue(i.content, i.contentData));
+            if (i.contentData == null)
+            {
+                CreateChoiceItem(Game.Config.StringInternational.GetValue(i.content));
+            }
+            else
+            {
+                var data = new string[i.contentData.Length];
+                for (var n = 0; n < data.Length; ++n)
+                {
+                    data[n] = i.contentData[n];
+                }
+                if (data.Length > 0 && i.contentType != (int)Game.VariablePriceType.NoChange)
+                {
+                    data[0] = Game.GetNumberData(Convert.ToInt32(i.contentData[0])).ToString();
+                }
+                CreateChoiceItem(Game.Config.StringInternational.GetValue(i.content, data));
+            }
         }
         firstChoiceItem.Select();   // 选中第一项
-        if(choice.data != null && choice.data.Length > 0) {
-            // 若上此点选过第一项, 则由于第一项未被销毁, 本次调用select不会使按钮高亮, 这样的话需要做如下处理
+        if (choice.data != null && choice.data.Length > 0)
+        {
+            // 若上次点选过第一项, 则由于第一项未被销毁, 本次调用select不会使按钮高亮, 这样的话需要做如下处理
             choiceItems[0].Select();
             firstChoiceItem.Select();
         }
     }
 
     public void ClearChoice()
+    {
+        ClearChoiceItems();
+        // 隐藏选择对话框
+        choiceSpeaker?.SetActive(false);
+        gameObject.SetActive(false);
+        Game.Status = nextStatus;
+    }
+
+    public void ClearChoiceItems()
     {
         // 清除选项
         foreach (var i in choiceItems)
@@ -108,11 +140,6 @@ public class ChoiceDlg : ObjectPool.AViewUnit
         firstnav.selectOnRight = null;
         firstChoiceItem.navigation = firstnav;
         firstChoiceItem.enabled = false;
-
-        // 隐藏选择对话框
-        choiceSpeaker?.SetActive(false);
-        gameObject.SetActive(false);
-        Game.Status = nextStatus;
     }
 
     private Button CreateChoiceItem(string content)
@@ -158,9 +185,16 @@ public class ChoiceDlg : ObjectPool.AViewUnit
 
     public void OnItemClicked(int index)
     {
-        Game.ObjPool.RecycleAnElement(this);
-        ClearChoice();
         Game.Managers.EventMgr.DispatchEvent(choice.data[index].eventId, choiceMod, choice.data[index].eventData);
+        if (choice.data[index].close)
+        {
+            Game.ObjPool.RecycleAnElement(this);
+            ClearChoice();
+        }
+        else
+        {
+            RefreshChoiceItems();
+        }
     }
 
     public override ObjectPool.ElementType GetPoolTypeId()

@@ -7,9 +7,13 @@ public class MainScene : AScene {
     override public SceneType Type { get { return SceneType.MainScene; } }
 
     // Use this for initialization
-    override protected void Start()
+    override protected async System.Threading.Tasks.Task Start()
     {
-        base.Start();
+        var ret = base.Start();
+        if(ret != null)
+        {
+            await ret;
+        }
 
         dialogCanvas = GameObject.Find("DialogCanvas");
 
@@ -36,10 +40,7 @@ public class MainScene : AScene {
 
         Game.Player = new PlayerController(transform.Find("PlayerPanel").GetComponent<PlayerView>());
         Game.Map = new MapController(transform.Find("MapPanel").GetComponent<MapView>());
-        Game.Map.ShowMap();
-        Game.Player.ShowPlayer(true);
-
-        Game.Status = Constant.EGameStatus.InGame;
+        await Game.Load(Game.CurrentSaveName);
     }
 
     void OnDestroy()
@@ -162,10 +163,11 @@ public class MainScene : AScene {
 
     /********************** Battle Part **************************************/
 
-    public void StartBattle(long enemyUuid, long yourUuid = -1, BattleDlg.BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0) {
-        battlePanel = BattleDlg.StartBattle(dialogCanvas.transform, OnBattleOver, enemyUuid, yourUuid, pauseCheck, pauseEvent);
+    public void StartBattle(Modal enemyModal, long yourUuid = -1, BattleDlg.BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0) {
+        battlePanel = BattleDlg.StartBattle(dialogCanvas.transform, OnBattleOver, enemyModal.Uuid, yourUuid, pauseCheck, pauseEvent);
         battlePanel.transform.localPosition = new Vector3(0, 0, 12);
         battlePanel.transform.localScale = new Vector3(1, 1, 1);
+        battleMod = enemyModal;
     }
 
     public void StopBattle() {
@@ -175,14 +177,15 @@ public class MainScene : AScene {
         }
     }
 
-    private void OnBattleOver(int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long nextEventData) {
+    private void OnBattleOver(int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long[] nextEventData) {
         // 记录应用战斗结果（金币，经验，血量）
         if (yourId == Game.Player.PlayerId) {
             Game.Player.Life = yourLife;
             Game.Player.Gold += goldGain;
             Game.Player.Experience += expGain;
         }
-        // TODO 添加对后续event的处理
+
+        Game.Managers.EventMgr.DispatchEvent(nextEvent, battleMod, nextEventData);
     }
 
     /********************** Choice Part **************************************/
@@ -205,6 +208,7 @@ public class MainScene : AScene {
     private Constant.ChatData chat;
     private Modal chatMod;
     private int chatIndex = 0;
+    private Modal battleMod;
 
     private GameObject dialogCanvas = null;
     private ChatDlg topChatPanel = null;

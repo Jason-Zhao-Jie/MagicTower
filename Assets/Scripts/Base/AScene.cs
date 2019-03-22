@@ -14,10 +14,11 @@ public abstract class AScene : MonoBehaviour
     public abstract SceneType Type { get; }
 
     // Use this for initialization
-    virtual protected void Start()
+    virtual protected System.Threading.Tasks.Task Start()
     {
         Game.Initial();
         Game.CurrentScene = this;
+        return null;
     }
 
     public void BackToStartScene()

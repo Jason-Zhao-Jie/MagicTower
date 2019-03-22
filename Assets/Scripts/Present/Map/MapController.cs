@@ -10,6 +10,7 @@ public class MapController : AController<MapData, MapView>
     public void SetStartData(int mapId = 1, Constant.MapData[] datas = null)
     {
         Data.ClearMapData(mapId, datas);
+        ShowMap(mapId);
     }
 
     public bool ShowMap()

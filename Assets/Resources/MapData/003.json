@@ -890,7 +890,7 @@
         {
           "thing": 30,
           "eventId": 3,
-          "eventData": [20907]
+          "eventData": [2, 9, 7]
         },
         {
           "thing": 0,
@@ -1518,7 +1518,7 @@
         {
           "thing": 135,
           "eventId": 3,
-          "eventData": [41601]
+          "eventData": [4, 16, 1]
         },
         {
           "thing": 0,

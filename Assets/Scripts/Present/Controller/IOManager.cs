@@ -14,14 +14,42 @@ public class IOManager {
 
     }
 
-    public void MkdirIfNotExist(params string[] path)
+    public bool MkdirIfNotExist(params string[] path)
     {
         string dir = UnityEngine.Application.persistentDataPath;
         for (var i = 0; i < path.Length; ++i)
         {
             dir += System.IO.Path.DirectorySeparatorChar + path[i];
         }
-        System.IO.Directory.CreateDirectory(dir);
+        try
+        {
+            System.IO.Directory.CreateDirectory(dir);
+        }
+        catch (System.IO.IOException)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public string[] ListAllFiles(params string[] path)
+    {
+        string dir = UnityEngine.Application.persistentDataPath;
+        for (var i = 0; i < path.Length; ++i)
+        {
+            dir += System.IO.Path.DirectorySeparatorChar + path[i];
+        }
+        return System.IO.Directory.GetFiles(dir);
+    }
+
+    public string[] ListAllFiles(string partten, params string[] path)
+    {
+        string dir = UnityEngine.Application.persistentDataPath;
+        for (var i = 0; i < path.Length; ++i)
+        {
+            dir += System.IO.Path.DirectorySeparatorChar + path[i];
+        }
+        return System.IO.Directory.GetFiles(dir, partten);
     }
 
     public async System.Threading.Tasks.Task<string> SaveToFile(byte[] content, params string[] path) {
@@ -30,23 +58,42 @@ public class IOManager {
         {
             filename += System.IO.Path.DirectorySeparatorChar + path[i];
         }
-        System.IO.FileStream file = System.IO.File.Create(filename, content.Length, System.IO.FileOptions.Asynchronous);
-        await file.WriteAsync(content, 0, content.Length);
-        file.Close();
-        return filename;
+        return await SaveToFileWholePath(content, filename);
     }
 
-    public async System.Threading.Tasks.Task<byte[]> LoadFromFile(string filename) {
+    public async System.Threading.Tasks.Task<string> SaveToFileWholePath(byte[] content, string path)
+    {
+        System.IO.FileStream file = System.IO.File.Create(path, content.Length, System.IO.FileOptions.Asynchronous);
+        await file.WriteAsync(content, 0, content.Length);
+        file.Close();
+        return path;
+    }
+
+    public async System.Threading.Tasks.Task<byte[]> LoadFromFile(params string[] path)
+    {
+        string filename = UnityEngine.Application.persistentDataPath;
+        for (var i = 0; i < path.Length; ++i)
+        {
+            filename += System.IO.Path.DirectorySeparatorChar + path[i];
+        }
+        return await LoadFromFileWholePath(filename);
+    }
+
+    public async System.Threading.Tasks.Task<byte[]> LoadFromFileWholePath(string path)
+    {
         System.IO.FileStream file;
-        try {
-            file = System.IO.File.OpenRead(UnityEngine.Application.persistentDataPath + System.IO.Path.DirectorySeparatorChar + filename);
-        } catch (System.SystemException) {
+        try
+        {
+            file = System.IO.File.OpenRead(path);
+        }
+        catch (System.SystemException)
+        {
             return null;
         }
         int len = System.Convert.ToInt32(file.Length);
         var ret = new byte[len];
         var num = await file?.ReadAsync(ret, 0, len);
-        return ret;
+        return ret?.Length > 0 ? ret : null;
     }
 
     public UnityEngine.Networking.UnityWebRequest HttpGet(string url) {

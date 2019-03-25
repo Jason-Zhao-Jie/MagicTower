@@ -118,7 +118,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 0.1
+  bundleVersion: 0.0.0
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -156,15 +156,15 @@ PlayerSettings:
     Android: com.armyant.MagicTower
     Standalone: unity.DefaultCompany.MagicTower
     Tizen: com.Company.ProductName
-    iOS: com.Company.ProductName
+    iOS: com.armyant.magictower
     tvOS: com.Company.ProductName
   buildNumber:
-    iOS: 0
+    iOS: 1
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 0
   AndroidPreferredInstallLocation: 0
-  aotOptions: 
+  aotOptions: nrgctx-trampolines=8096,nimt-trampolines=8096,ntrampolines=4048
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
@@ -458,6 +458,9 @@ PlayerSettings:
   - m_BuildTarget: WindowsStandaloneSupport
     m_APIs: 02000000
     m_Automatic: 1
+  - m_BuildTarget: iOSSupport
+    m_APIs: 10000000080000000b000000
+    m_Automatic: 0
   m_BuildTargetVRSettings:
   - m_BuildTarget: Android
     m_Enabled: 0
@@ -534,7 +537,7 @@ PlayerSettings:
   actionOnDotNetUnhandledException: 1
   enableInternalProfiler: 0
   logObjCUncaughtExceptions: 1
-  enableCrashReportAPI: 0
+  enableCrashReportAPI: 1
   cameraUsageDescription: 
   locationUsageDescription: 
   microphoneUsageDescription: 
@@ -760,7 +763,8 @@ PlayerSettings:
     14: MOBILE_INPUT
     17: MOBILE_INPUT
     20: MOBILE_INPUT
-  platformArchitecture: {}
+  platformArchitecture:
+    iOS: 2
   scriptingBackend:
     Android: 1
     Standalone: 0
@@ -888,9 +892,9 @@ PlayerSettings:
   facebookXfbml: 0
   facebookFrictionlessRequests: 1
   apiCompatibilityLevel: 3
-  cloudProjectId: 448a04f3-fc78-471e-9491-6761e972431d
+  cloudProjectId: 72e5adae-906a-4c80-92f6-0576e109d565
   framebufferDepthMemorylessMode: 0
-  projectName: MagicTower (3)
+  projectName: MagicTower
   organizationId: armyant
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

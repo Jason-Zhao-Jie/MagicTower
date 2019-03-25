@@ -2,6 +2,11 @@
 using System.Collections;
 
 public class StringInternational {
+    public StringInternational()
+    {
+        Language = "zh-cn";
+    }
+
     public string GetValue(string key, params string[] values) {
         if (!Game.Config.strings.ContainsKey(key)) {
             Debug.LogWarning("Undefined string key \"" + key + "\" in any language");
@@ -34,7 +39,7 @@ public class StringInternational {
         return ret;
     }
 
-    public static bool SetLanguageById(int id) {
+    public bool SetLanguageById(int id) {
         if (id <= 0)
             return false;
         var ret = Game.Config.languages[id];
@@ -44,11 +49,7 @@ public class StringInternational {
         return true;
     }
 
-    public static string Language {
+    public string Language {
         get; set;
-    }
-
-    static StringInternational() {
-        Language = "zh-cn";
     }
 }

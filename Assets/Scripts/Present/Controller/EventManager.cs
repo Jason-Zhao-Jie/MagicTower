@@ -207,7 +207,13 @@ public class EventManager
     }
 
     private bool OnBattle(Modal caller, long[] eventData) {
-        (Game.CurrentScene as MainScene)?.StartBattle(caller);
+        bool canFail = eventData != null && eventData.Length > 0 && eventData[0] != 0;
+        long selfUUid = -1;
+        if(eventData != null && eventData.Length > 1)
+        {
+            selfUUid = eventData[1];
+        }
+        (Game.CurrentScene as MainScene)?.StartBattle(caller, canFail, selfUUid);
         return false;
     }
 

@@ -1533,9 +1533,9 @@
       "id": 4,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 1500,
+      "attack": 760,
+      "defense": 500,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1559,9 +1559,9 @@
       "id": 5,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 250,
+      "attack": 85,
+      "defense": 45,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1573,8 +1573,8 @@
       "level": 1,
       "exp": 1,
       "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "attack": 25,
+      "defense": 45,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1585,9 +1585,9 @@
       "id": 27,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 400,
+      "attack": 80,
+      "defense": 150,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1598,9 +1598,9 @@
       "id": 28,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 950,
+      "attack": 140,
+      "defense": 300,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1611,9 +1611,9 @@
       "id": 31,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 1500,
+      "attack": 450,
+      "defense": 460,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1624,9 +1624,9 @@
       "id": 32,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 7000,
+      "attack": 2500,
+      "defense": 2200,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1637,9 +1637,9 @@
       "id": 33,
       "level": 1,
       "exp": 11,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 5500,
+      "attack": 1900,
+      "defense": 1850,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1650,9 +1650,9 @@
       "id": 34,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 6500,
+      "attack": 2250,
+      "defense": 2000,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1663,9 +1663,9 @@
       "id": 35,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 4000,
+      "attack": 1650,
+      "defense": 1560,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1676,9 +1676,9 @@
       "id": 36,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 2850,
+      "attack": 1200,
+      "defense": 1200,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1689,10 +1689,10 @@
       "id": 39,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
+      "life": 350,
+      "attack": 45,
+      "defense": 25,
+      "speed": 30,
       "critical": 1,
       "gold": 1,
       "weaponId": 1,
@@ -1702,11 +1702,11 @@
       "id": 40,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
-      "critical": 1,
+      "life": 1185,
+      "attack": 250,
+      "defense": 125,
+      "speed": 70,
+      "critical": 10,
       "gold": 1,
       "weaponId": 1,
       "special": []
@@ -1715,10 +1715,10 @@
       "id": 41,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
+      "life": 350,
+      "attack": 75,
+      "defense": 55,
+      "speed": 10,
       "critical": 1,
       "gold": 1,
       "weaponId": 1,
@@ -1728,11 +1728,11 @@
       "id": 42,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
-      "critical": 1,
+      "life": 1185,
+      "attack": 400,
+      "defense": 300,
+      "speed": 20,
+      "critical": 10,
       "gold": 1,
       "weaponId": 1,
       "special": []
@@ -1754,11 +1754,11 @@
       "id": 64,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
-      "critical": 1,
+      "life": 1250,
+      "attack": 250,
+      "defense": 175,
+      "speed": 5,
+      "critical": 50,
       "gold": 1,
       "weaponId": 1,
       "special": []
@@ -1767,11 +1767,11 @@
       "id": 65,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
-      "critical": 1,
+      "life": 2500,
+      "attack": 600,
+      "defense": 425,
+      "speed": 8,
+      "critical": 60,
       "gold": 1,
       "weaponId": 1,
       "special": []
@@ -1780,11 +1780,11 @@
       "id": 66,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
-      "critical": 1,
+      "life": 5500,
+      "attack": 2200,
+      "defense": 1250,
+      "speed": 10,
+      "critical": 70,
       "gold": 1,
       "weaponId": 1,
       "special": []
@@ -1793,11 +1793,11 @@
       "id": 71,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
-      "critical": 1,
+      "life": 2000,
+      "attack": 720,
+      "defense": 650,
+      "speed": 0,
+      "critical": 3,
       "gold": 1,
       "weaponId": 1,
       "special": []
@@ -1819,11 +1819,11 @@
       "id": 103,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
-      "critical": 1,
+      "life": 4450,
+      "attack": 3270,
+      "defense": 1650,
+      "speed": 0,
+      "critical": 5,
       "gold": 1,
       "weaponId": 1,
       "special": []
@@ -1832,11 +1832,11 @@
       "id": 104,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
-      "critical": 1,
+      "life": 465,
+      "attack": 225,
+      "defense": 95,
+      "speed": 0,
+      "critical": 5,
       "gold": 1,
       "weaponId": 1,
       "special": []
@@ -1845,11 +1845,11 @@
       "id": 105,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 885,
+      "attack": 405,
+      "defense": 215,
       "speed": 1,
-      "critical": 1,
+      "critical": 6,
       "gold": 1,
       "weaponId": 1,
       "special": []
@@ -1910,10 +1910,10 @@
       "id": 112,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
-      "speed": 1,
+      "life": 30,
+      "attack": 50,
+      "defense": 100,
+      "speed": 0,
       "critical": 1,
       "gold": 1,
       "weaponId": 1,
@@ -1923,9 +1923,9 @@
       "id": 113,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 50,
+      "attack": 215,
+      "defense": 430,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1937,8 +1937,8 @@
       "level": 1,
       "exp": 1,
       "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "attack": 450,
+      "defense": 900,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1949,9 +1949,9 @@
       "id": 115,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 200,
+      "attack": 1050,
+      "defense": 2100,
       "speed": 1,
       "critical": 1,
       "gold": 0,
@@ -1962,9 +1962,9 @@
       "id": 128,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 1000,
+      "attack": 800,
+      "defense": 350,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1975,9 +1975,9 @@
       "id": 129,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 3000,
+      "attack": 2500,
+      "defense": 1000,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -1988,9 +1988,9 @@
       "id": 130,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 5000,
+      "attack": 4000,
+      "defense": 1700,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -2001,9 +2001,9 @@
       "id": 131,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 8000,
+      "attack": 6110,
+      "defense": 2255,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -2092,9 +2092,9 @@
       "id": 154,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 215,
+      "attack": 65,
+      "defense": 55,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -2105,9 +2105,9 @@
       "id": 155,
       "level": 1,
       "exp": 1,
-      "life": 100,
-      "attack": 12,
-      "defense": 5,
+      "life": 625,
+      "attack": 195,
+      "defense": 175,
       "speed": 1,
       "critical": 1,
       "gold": 1,
@@ -2147,7 +2147,7 @@
       "level": 1,
       "exp": 0,
       "life": 1000,
-      "attack": 100,
+      "attack": 10,
       "defense": 10,
       "speed": 0,
       "critical": 5,
@@ -4815,6 +4815,38 @@
         {
           "langKey": "zh-cn",
           "content": "开始新游戏"
+        },
+        {
+          "langKey": "zh-tw",
+          "content": "開始新遊戲"
+        },
+        {
+          "langKey": "sp-sp",
+          "content": "Nuevo juego"
+        },
+        {
+          "langKey": "ge-ge",
+          "content": "Neues Spiel"
+        },
+        {
+          "langKey": "fr-fr",
+          "content": "Nouveau jeu"
+        },
+        {
+          "langKey": "ru-ru",
+          "content": "Новая игра"
+        },
+        {
+          "langKey": "jp-jp",
+          "content": "新しいゲーム"
+        },
+        {
+          "langKey": "kr-kr",
+          "content": "새로운 게임"
+        },
+        {
+          "langKey": "hi-in",
+          "content": "एक नया खेल शुरू करें"
         }
       ]
     },
@@ -4829,6 +4861,38 @@
         {
           "langKey": "zh-cn",
           "content": "读取存档"
+        },
+        {
+          "langKey": "zh-tw",
+          "content": "加載存檔"
+        },
+        {
+          "langKey": "sp-sp",
+          "content": "Juego de carga"
+        },
+        {
+          "langKey": "ge-ge",
+          "content": "Spiel laden"
+        },
+        {
+          "langKey": "fr-fr",
+          "content": "Chargement du jeu"
+        },
+        {
+          "langKey": "ru-ru",
+          "content": "Загрузить игру"
+        },
+        {
+          "langKey": "jp-jp",
+          "content": "ゲームをロード"
+        },
+        {
+          "langKey": "kr-kr",
+          "content": "게임로드"
+        },
+        {
+          "langKey": "hi-in",
+          "content": "खेल लोड करें"
         }
       ]
     },
@@ -4838,10 +4902,14 @@
       "strings": [
         {
           "langKey": "en-us",
-          "content": "Secret Floor ##"
+          "content": "Read Me"
         },
         {
           "langKey": "zh-cn",
+          "content": "作者信息"
+        },
+        {
+          "langKey": "zh-tw",
           "content": "作者信息"
         }
       ]
@@ -4852,11 +4920,113 @@
       "strings": [
         {
           "langKey": "en-us",
-          "content": "Secret Floor ##"
+          "content": "Data Editor"
         },
         {
           "langKey": "zh-cn",
           "content": "数据编辑器"
+        }
+      ]
+    },
+    {
+      "id": 220,
+      "key": "str_ui_starterIntroduce_start",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "    Long history is in every world. Several legends were in history. Heros were there in each legend. And a fate around each of them that could not be rid of."
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "    每一个世界都有几段历史，每一段历史都有许多传奇，每一个传奇都有一位英雄，每一位英雄都有一个无法摆脱的宿命。"
+        }
+      ]
+    },
+    {
+      "id": 221,
+      "key": "str_ui_starterIntroduce_Jack",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "    Jack is a mysterious swordsman. He likes to travel around and enjoys adventure. No one knows where he came from, but there is a place where he has adventures."
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "    Jack是个谜一样的剑士，他喜欢云游四方，喜欢冒险。没有人知道他从哪里来，但是，有冒险的地方就有他的身影。"
+        }
+      ]
+    },
+    {
+      "id": 222,
+      "key": "str_ui_starterIntroduce_Story",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "    The princess of the Western Kingdom has disappeared, and everyone has searched for no results, but all the evidence points to a chilling place: the horrible magic tower in the isolated islands of the Eastern Sea. It is rumored that there is a demon's lair, and none of the explorers and desperados there can come back."
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "    西方王国的公主失踪了，大家搜寻无果，但是所有证据都指向了一个令人不寒而栗的地方：东部海上孤岛中那个恐怖的魔塔。传言那里是妖魔的巢穴，去那里的探险家和亡命徒们没有一个能回来。"
+        }
+      ]
+    },
+    {
+      "id": 223,
+      "key": "str_ui_starterIntroduce_FinalJack",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "    In order to save the kind, beautiful and virtuous kingdom princess, the brave people still use their own methods to go to this magical cave to find the whereabouts of the princess. Jack is no exception. He went to the magic tower alone, hoping to completely destroy this magic cave with his own martial arts."
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "    为了救出善良、美丽而贤惠的王国公主，勇敢的人们还是用各自的方法前往这座魔窟，去寻找公主的下落。Jack也不例外，他只身前往魔塔，希望能凭借自己的武艺，彻底捣毁这个魔窟。"
+        }
+      ]
+    },
+    {
+      "id": 224,
+      "key": "str_ui_languageSwitch",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Switch"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "切换"
+        },
+        {
+          "langKey": "zh-tw",
+          "content": "切換"
+        },
+        {
+          "langKey": "sp-sp",
+          "content": "Cambiar"
+        },
+        {
+          "langKey": "ge-ge",
+          "content": "Wechseln"
+        },
+        {
+          "langKey": "fr-fr",
+          "content": "Commutateur"
+        },
+        {
+          "langKey": "ru-ru",
+          "content": "переключатель"
+        },
+        {
+          "langKey": "jp-jp",
+          "content": "スイッチ"
+        },
+        {
+          "langKey": "kr-kr",
+          "content": "스위치"
+        },
+        {
+          "langKey": "hi-in",
+          "content": "स्विच"
         }
       ]
     }

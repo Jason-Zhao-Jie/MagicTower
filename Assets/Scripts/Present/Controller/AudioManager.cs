@@ -27,6 +27,10 @@ public class AudioManager
     /// </summary>
     public const int disableSound = 17;
     /// <summary>
+    /// Game Over 音效id
+    /// </summary>
+    public const int gameoverSound = 4;
+    /// <summary>
     /// 设置或获取音乐播放源组件，音乐播放源组件只能有一个，新设置的将代替原来的
     /// </summary>
     /// <value>要播放音乐的声音组件</value>

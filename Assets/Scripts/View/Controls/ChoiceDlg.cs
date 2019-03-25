@@ -177,6 +177,11 @@ public class ChoiceDlg : ObjectPool.AViewUnit
 
     public void OnItemClicked(int index)
     {
+        if(Game.Status != Constant.EGameStatus.OnChoice && Game.Status!= Constant.EGameStatus.Start)
+        {
+            return;
+        }
+
         if (choice.data[index].close)
         {
             Game.Status = nextStatus;

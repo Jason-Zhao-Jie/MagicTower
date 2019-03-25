@@ -7,14 +7,14 @@ public class BattleDlg : ObjectPool.AViewUnit
     public const string PREFAB_DIR = "BattleDlg";
     public const int PREFAB_ID = 1;
     public delegate bool BattlePauseEventCheck();
-    public delegate void BattleOverCallback(int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long[] nextEventData);
+    public delegate void BattleOverCallback(bool gameover, int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long[] nextEventData);
 
     private const int BATTLE_SLEEP_TIME = 2; // 修改此值以控制两次攻击之间的间隔, 使得攻击表现更为流畅, 已扣除攻击动画时间. 单位:帧
     private const string BATTLE_GOLD_GET_TEXT = "str_battleGoldGet";
     private const string BATTLE_EXP_GET_TEXT = "str_battleExpGet";
     private const string BATTLE_HURTED_TEXT = "str_battleHurted";
 
-    public static BattleDlg StartBattle(Transform parent, BattleOverCallback cb, long enemyUuid, long yourUuid = -1, BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
+    public static BattleDlg StartBattle(Transform parent, BattleOverCallback cb, bool canFail, long enemyUuid, long yourUuid = -1, BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
     {
         // 弹出战斗框
         var ret = Game.ObjPool.GetAnElement<BattleDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
@@ -26,6 +26,7 @@ public class BattleDlg : ObjectPool.AViewUnit
         // 设定战斗双方的信息
         ret.transform.SetParent(parent, false);
         ret.transform.SetSiblingIndex(1);
+        ret.canFail = canFail;
         ret.SetBattleInfo(enemyUuid, yourUuid);
         // 设定状态, 战斗开始
         Game.Status = Constant.EGameStatus.OnBattle;
@@ -81,7 +82,11 @@ public class BattleDlg : ObjectPool.AViewUnit
             ++battleHitSleep;
             if (battleHitSleep > BATTLE_SLEEP_TIME) {
                 battleHitSleep -= BATTLE_SLEEP_TIME;
-                if (playerBattleData.life <= 0 || enemyBattleData.life <= 0) {
+                if(!canFail && playerBattleData.life <= 0)
+                {
+                    OnBattleFailure();
+                }
+                else if (playerBattleData.life <= 0 || enemyBattleData.life <= 0) {
                     OnBattleOver();
                 } else {
                     int hurt = 0;
@@ -236,6 +241,14 @@ public class BattleDlg : ObjectPool.AViewUnit
         hitter.transform.localScale = Game.Map.ModalLocalScale / 200;
     }
 
+    private void OnBattleFailure()
+    {
+        isBattlePaused = true;
+        Game.Managers.Audio.StopMusic();
+        Game.Managers.Audio.PlaySound(AudioManager.gameoverSound);
+        overCallback(true, playerBattleData.id, playerBattleData.life, 0, 0, 0, null);
+    }
+
     private void OnBattleOver()
     {
         isBattlePaused = true;
@@ -243,7 +256,7 @@ public class BattleDlg : ObjectPool.AViewUnit
         battleResultExpText.text = Game.Config.StringInternational.GetValue(BATTLE_EXP_GET_TEXT, enemyBattleData.exp.ToString());
         battleHurtedText.text = Game.Config.StringInternational.GetValue(BATTLE_HURTED_TEXT, hurted.ToString());
         battleResultPanel.SetActive(true);
-        overCallback(playerBattleData.id, playerBattleData.life, enemyBattleData.gold, enemyBattleData.exp, 0, null);
+        overCallback(false, playerBattleData.id, playerBattleData.life, enemyBattleData.gold, enemyBattleData.exp, 0, null);
         Game.Status = Constant.EGameStatus.OnBattleResult;
     }
 
@@ -348,6 +361,7 @@ public class BattleDlg : ObjectPool.AViewUnit
     [Space(4)]
     public Text battleHurtedText;
 
+    private bool canFail;
     private long enemyUuid;
     private Constant.MonsterData playerBattleData;
     private Constant.MonsterData enemyBattleData;

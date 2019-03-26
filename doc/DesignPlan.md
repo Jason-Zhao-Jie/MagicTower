@@ -239,3 +239,10 @@
 1. 完成了一部分打包问题的排查解决，为此修改（增加）了一些基本打包设置
 2. 完成了开始界面的语言切换功能
 3. 正在制作 Game Over 功能，缺少一个美术特效
+
+## 2019-3-26-Tuesday
+1. 丰富了 Curtain 的内容, 完成了 GameOver 效果
+2. 重新导入了 Google Firebase SDK 和 Google MobAds SDK, 并尝试初始化和测试 MobAds
+3. 修复了大多数动画的节奏不协调问题
+4. 为所有代码添加了 namespace 并根据结构再次重新整理了代码文件目录和一些代码结构, 减小了代码耦合度
+5. DataEditor 现在修改map会立即保存到内存, 删除了 Apply Map 按钮

@@ -153,7 +153,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 1
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
-    Android: com.armyant.MagicTower
+    Android: com.armyant.magictower
     Standalone: unity.DefaultCompany.MagicTower
     Tizen: com.Company.ProductName
     iOS: com.armyant.magictower

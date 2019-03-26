@@ -2513,6 +2513,46 @@
           "tipSilent": true
         }
       ]
+    },
+    {
+      "id": 20,
+      "eventId": 0,
+      "eventData": [ 0 ],
+      "canOn": false,
+      "data": [
+        {
+          "speakerId": -1,
+          "content": "str_name_JackSecretMan1"
+        },
+        {
+          "speakerId": 0,
+          "content": "str_saySilentAsk"
+        },
+        {
+          "speakerId": 0,
+          "content": "str_name_JackSecretMan2"
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "eventId": 0,
+      "eventData": [ 0 ],
+      "canOn": false,
+      "data": [
+        {
+          "speakerId": -1,
+          "content": "str_name_JackSecretMan1"
+        },
+        {
+          "speakerId": 0,
+          "content": "str_saySilentAsk"
+        },
+        {
+          "speakerId": 0,
+          "content": "str_name_JackSecretMan2"
+        }
+      ]
     }
   ],
   "choices": [

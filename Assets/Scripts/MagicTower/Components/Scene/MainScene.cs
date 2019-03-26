@@ -108,6 +108,10 @@ namespace MagicTower.Components.Scene
             Game.Player.StartAutoStep(posx, posy);
         }
 
+        public void OnBtnMenuClicked() {
+            AdsPluginManager.ShowInterstitial(null);
+        }
+
         /********************** Chat Part **************************************/
 
         public void ShowChatOnTop(string content, int speakerId = -1)

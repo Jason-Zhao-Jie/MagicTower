@@ -41,6 +41,8 @@
                 CurrentSaveName = "";
             }
 
+            Present.Manager.AdsPluginManager.Initialize(false, true);
+
             status = Model.EGameStatus.Start;
         }
 

@@ -1,4 +1,7 @@
-﻿namespace MagicTower
+﻿using System.Collections;
+using System.Collections.Generic;
+
+namespace MagicTower
 {
 
     public static class Game
@@ -13,7 +16,7 @@
             }
         }
 
-        public static void Initial()
+        public static void Initial(Components.AScene scene)
         {
             if (!InitOK)
             {
@@ -23,6 +26,13 @@
 #endif
                 // 程序退出时按顺序回收, 或做其他必要操作
                 UnityEngine.Application.quitting += OnApplicationExit;
+
+                Present.Manager.AdsPluginManager.AdFailedCB = (Present.Manager.AdsPluginManager.AdType type, string msg) =>
+                {
+                    CurrentScene?.ShowTips("Loading Google MobAds module failed, type: ", type.ToString(), ", message: ", msg);
+                };
+                Present.Manager.AdsPluginManager.Initialize(false, true);
+
                 InitOK = true;
             }
 
@@ -41,8 +51,7 @@
                 CurrentSaveName = "";
             }
 
-            Present.Manager.AdsPluginManager.Initialize(false, true);
-
+            CurrentScene = scene;
             status = Model.EGameStatus.Start;
         }
 
@@ -54,14 +63,9 @@
 #endif
         }
 
-        public static bool ObjPoolRecycleSelf<T>(T self) where T : ArmyAnt.ViewUtil.ObjectPool.AViewUnit
-        {
-            return ObjPool.RecycleAnElement(self);
-        }
-
         public static Components.AScene CurrentScene
         {
-            get; set;
+            get; private set;
         }
 
         public static Model.ConfigCenter Config
@@ -85,6 +89,65 @@
         }
 
         public static bool InitOK { get; private set; }
+
+
+        private static void OnApplicationExit()
+        {
+            ObjPool.ClearAll();
+        }
+
+        public static bool ObjPoolRecycleSelf<T>(T self) where T : ArmyAnt.ViewUtil.ObjectPool.AViewUnit
+        {
+            return ObjPool.RecycleAnElement(self);
+        }
+
+        public static void InvokeInMainThread(int delaySeconds, Model.EmptyCallBack cb)
+        {
+            InvokeInMainThread(() => { CurrentScene.StartCoroutine(CoroutineFunc(delaySeconds, cb)); });
+        }
+
+        private static IEnumerator CoroutineFunc(int seconds, Model.EmptyCallBack cb)
+        {
+            yield return new UnityEngine.WaitForSeconds(seconds);
+            cb();
+        }
+
+        public static void InvokeInMainThread(Model.EmptyCallBack func)
+        {
+            if(func == null)
+            {
+                return;
+            }
+            if (System.Threading.Thread.CurrentThread.ManagedThreadId == mainThreadId)
+            {
+                func();
+            }
+            else
+            {
+                lock (mainThreadTaskQueue)
+                {
+                    mainThreadTaskQueue.Enqueue(func);
+                }
+            }
+        }
+
+        public static void SceneUpdate()
+        {
+            Present.Manager.InputManager.UpdateScene();
+
+            Model.EmptyCallBack resolvingTask = null;
+            lock (mainThreadTaskQueue)
+            {
+                if (mainThreadTaskQueue.Count>0)
+                {
+                    resolvingTask = mainThreadTaskQueue.Dequeue();
+                }
+            }
+            resolvingTask?.Invoke();
+        }
+
+        private static readonly int mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
+        private static Queue<Model.EmptyCallBack> mainThreadTaskQueue = new Queue<Model.EmptyCallBack>();
 
         ////////////// Runtime Data Save / Load ///////////////
 
@@ -253,11 +316,6 @@
         }
 
         private static System.Collections.Generic.Dictionary<int, long> numberData = null;
-
-        private static void OnApplicationExit()
-        {
-            ObjPool.ClearAll();
-        }
     }
 
 }

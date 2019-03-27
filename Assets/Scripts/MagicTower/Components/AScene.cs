@@ -18,8 +18,7 @@ namespace MagicTower.Components
         // Use this for initialization
         virtual protected System.Threading.Tasks.Task Start()
         {
-            Game.Initial();
-            Game.CurrentScene = this;
+            Game.Initial(this);
             return null;
         }
 
@@ -40,6 +39,7 @@ namespace MagicTower.Components
         }
 
         abstract public void OnMapClicked(int posx, int posy);
+        abstract public void ShowTips(params string[] texts);
     }
 
 }

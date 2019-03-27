@@ -49,20 +49,19 @@ namespace MagicTower.Components.Unit
                     runningTime = 0;
                     if (Game.Player.GoToNextBlock())
                     {
-                        var posController = transform;
                         switch (Dir)
                         {
                             case Controller.Direction.Up:
-                                posController.position = new Vector3(posController.position.x, posController.position.y + movedLength.y, posController.position.z);
+                                transform.position = new Vector3(transform.position.x, transform.position.y + movedLength.y, transform.position.z);
                                 break;
                             case Controller.Direction.Down:
-                                posController.position = new Vector3(posController.position.x, posController.position.y - movedLength.y, posController.position.z);
+                                transform.position = new Vector3(transform.position.x, transform.position.y - movedLength.y, transform.position.z);
                                 break;
                             case Controller.Direction.Left:
-                                posController.position = new Vector3(posController.position.x - movedLength.x, posController.position.y, posController.position.z);
+                                transform.position = new Vector3(transform.position.x - movedLength.x, transform.position.y, transform.position.z);
                                 break;
                             case Controller.Direction.Right:
-                                posController.position = new Vector3(posController.position.x + movedLength.x, posController.position.y, posController.position.z);
+                                transform.position = new Vector3(transform.position.x + movedLength.x, transform.position.y, transform.position.z);
                                 break;
                         }
                     }

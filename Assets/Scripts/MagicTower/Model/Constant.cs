@@ -42,6 +42,7 @@ namespace MagicTower.Model
 
     public enum EGameStatus {
         Start,
+        OnPlayingAds,
         InGame,
         InEditor,
         OnMiddleLoading,

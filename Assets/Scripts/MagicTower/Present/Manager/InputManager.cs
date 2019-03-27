@@ -31,30 +31,30 @@ namespace MagicTower.Present.Manager
         }
 
         public static readonly KeyCode[] listenedKeys = {
-        KeyCode.LeftArrow,
-        KeyCode.UpArrow,
-        KeyCode.RightArrow,
-        KeyCode.DownArrow,
-        KeyCode.Space,
-        KeyCode.Escape,
-        KeyCode.P,
-        KeyCode.Q,
-        KeyCode.Return,
-        KeyCode.KeypadEnter,
-        KeyCode.Backspace,
-        (KeyCode)6, // Android back button
-        // TODO: 以下手柄按键目前是Xbox的, 需要改为兼容PS4的
-        JoysticsCode.A,
-        JoysticsCode.B,
-        JoysticsCode.X,
-        JoysticsCode.Y,
-        JoysticsCode.LeftBumper,
-        JoysticsCode.RightBumper,
-        JoysticsCode.Back,
-        JoysticsCode.Start,
-        JoysticsCode.LeftRocker,
-        JoysticsCode.RightRocker,
-    };
+            KeyCode.LeftArrow,
+            KeyCode.UpArrow,
+            KeyCode.RightArrow,
+            KeyCode.DownArrow,
+            KeyCode.Space,
+            KeyCode.Escape,
+            KeyCode.P,
+            KeyCode.Q,
+            KeyCode.Return,
+            KeyCode.KeypadEnter,
+            KeyCode.Backspace,
+            (KeyCode)6, // Android back button
+            // TODO: 以下手柄按键目前是Xbox的, 需要改为兼容PS4的
+            JoysticsCode.A,
+            JoysticsCode.B,
+            JoysticsCode.X,
+            JoysticsCode.Y,
+            JoysticsCode.LeftBumper,
+            JoysticsCode.RightBumper,
+            JoysticsCode.Back,
+            JoysticsCode.Start,
+            JoysticsCode.LeftRocker,
+            JoysticsCode.RightRocker,
+        };
 
         static InputManager()
         {
@@ -75,9 +75,11 @@ namespace MagicTower.Present.Manager
             };
         }
 
-        static internal void UpdateScene() {
+        static internal void UpdateScene()
+        {
             // 监测键盘和手柄按键
-            for (int i = 0; i < listenedKeys.Length; ++i) {
+            for (int i = 0; i < listenedKeys.Length; ++i)
+            {
                 bool isDown = Input.GetKey(listenedKeys[i]);
                 bool hasDown = keyStatusMap[listenedKeys[i]];
                 if (isDown && !hasDown)
@@ -88,9 +90,12 @@ namespace MagicTower.Present.Manager
 
             // 判断手柄类型
             var joysticks = Input.GetJoystickNames();
-            if (joysticks != null) {
-                for (var i = 0; i < joysticks.Length; ++i) {
-                    switch (joysticks[i]) {
+            if (joysticks != null)
+            {
+                for (var i = 0; i < joysticks.Length; ++i)
+                {
+                    switch (joysticks[i])
+                    {
                         case "Controller (XBOX 360 For Windows)":
                             // 检测手柄摇杆状态
                             OnJoysticsRockerAxes(JoysticsAxes.LeftHorizontal, Input.GetAxis("Horizontal_Left_" + i));
@@ -107,9 +112,11 @@ namespace MagicTower.Present.Manager
             }
 
             // 监测鼠标和触屏
-            for (int i = 0; i < Input.touchCount; ++i) {
+            for (int i = 0; i < Input.touchCount; ++i)
+            {
                 var tc = Input.GetTouch(i);
-                switch (tc.phase) {
+                switch (tc.phase)
+                {
                     case TouchPhase.Began:
                         OnTouchDown(tc.position);
                         break;
@@ -120,7 +127,8 @@ namespace MagicTower.Present.Manager
                 }
             }
 
-            if (Input.touchCount <= 0) {
+            if (Input.touchCount <= 0)
+            {
                 if (Input.GetMouseButtonDown(0) && !isMouseLeftDown)
                     OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
                 if (Input.GetMouseButtonUp(0) && isMouseLeftDown)

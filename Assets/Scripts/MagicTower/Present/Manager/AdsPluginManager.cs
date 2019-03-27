@@ -14,9 +14,17 @@ namespace MagicTower.Present.Manager
             RewardBased,
         }
 
+        public enum Result
+        {
+            Successful,
+            UnablePlatform,
+            NotInitialized,
+            InitializeFailure,
+            NotLoaded,
+        }
+
         public delegate void RewardCallback(string type, double amount);
         public delegate void AdFailedCallback(AdType type, string message);
-        public delegate void AdClosedCallback();
 
         private const bool DEBUG = Game.DEBUG && true;  // 去掉结尾的 && true 以结束强制广告测试
 
@@ -32,8 +40,8 @@ namespace MagicTower.Present.Manager
         private const string testInterstitialId_android = "ca-app-pub-3940256099942544/1033173712";
         private const string testInterstitialId_ios = "ca-app-pub-3940256099942544/4411468910";
 
-        private const string interstitialid_android = "";
-        private const string interstitialid_ios = "";
+        private const string interstitialid_android = "ca-app-pub-7886607022943212/2540679227";
+        private const string interstitialid_ios = "ca-app-pub-7886607022943212/7928737273";
 
         private const string testRewardId_android = "ca-app-pub-3940256099942544/5224354917";
         private const string testRewardId_ios = "ca-app-pub-3940256099942544/1712485313";
@@ -41,8 +49,9 @@ namespace MagicTower.Present.Manager
         private const string rewardid_android = "ca-app-pub-7886607022943212/7782872396";
         private const string rewardid_ios = "ca-app-pub-7886607022943212/9614828818";
 
-        private static readonly string[] test_device_id = new string[] { 
-
+        private static readonly string[] test_device_id = new string[] {
+            "B880A9E1584344957D3254733A14AD73",
+            "0B5B8903B4DD0F0A99AEC7D431E5CBF8",
         };
 
         public static void Initialize(bool needBanner, bool needInterstitial)
@@ -112,7 +121,7 @@ namespace MagicTower.Present.Manager
                 if (bannerView != null)
                 {
                     bannerView.OnAdFailedToLoad += (sender, e) => {
-                        AdFailedCB?.Invoke(AdType.BannerTop, e.Message);
+                        Game.InvokeInMainThread(() => { AdFailedCB?.Invoke(AdType.BannerTop, e.Message); });
                     };
                     bannerView.OnAdClosed += (sender, e) => {
                         OnAdClosedCall(AdType.BannerTop);
@@ -122,7 +131,7 @@ namespace MagicTower.Present.Manager
                 if (interstitialView != null)
                 {
                     interstitialView.OnAdFailedToLoad += (sender, e) => {
-                        AdFailedCB?.Invoke(AdType.Interstitial, e.Message);
+                        Game.InvokeInMainThread(() => { AdFailedCB?.Invoke(AdType.Interstitial, e.Message); });
                     };
                     interstitialView.OnAdClosed += (sender, e) => {
                         OnAdClosedCall(AdType.Interstitial);
@@ -132,9 +141,9 @@ namespace MagicTower.Present.Manager
 
                 RewardBasedVideoAd.Instance.OnAdRewarded += OnRewardCall;
                 RewardBasedVideoAd.Instance.OnAdFailedToLoad += (sender, e) => {
-                    AdFailedCB?.Invoke(AdType.RewardBased, e.Message);
+                    Game.InvokeInMainThread(() => { AdFailedCB?.Invoke(AdType.RewardBased, e.Message); });
                 };
-                interstitialView.OnAdClosed += (sender, e) => {
+                RewardBasedVideoAd.Instance.OnAdClosed += (sender, e) => {
                     OnAdClosedCall(AdType.RewardBased);
                 };
                 switch (UnityEngine.Application.platform)
@@ -167,38 +176,58 @@ namespace MagicTower.Present.Manager
 
         public static AdFailedCallback AdFailedCB { get; set; }
 
-        public static bool ShowBanner(AdClosedCallback closeCB)
+        public static Result ShowBanner(Model.EmptyCallBack closeCB)
         {
-            if (Initialized && bannerView != null)
+            if (!Initialized)
             {
-                bannerClosedCallback = closeCB;
-                bannerView.Show();
-                return true;
+                return UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android || UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer ? Result.NotInitialized : Result.UnablePlatform;
             }
-            return false;
+            if (bannerView == null)
+            {
+                return Result.InitializeFailure;
+            }
+            bannerClosedCallback = closeCB;
+            bannerView.Show();
+            return Result.Successful;
         }
 
-        public static bool ShowInterstitial(AdClosedCallback closeCB)
+        public static Result ShowInterstitial(Model.EmptyCallBack closeCB)
         {
-            if (Initialized && interstitialView != null && interstitialView.IsLoaded())
+            if (!Initialized)
             {
-                interstitialClosedCallback = closeCB;
-                interstitialView.Show();
-                return true;
+                return UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android || UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer ? Result.NotInitialized : Result.UnablePlatform;
             }
-            return false;
+            if (interstitialView == null)
+            {
+                return Result.InitializeFailure;
+            }
+            if (!interstitialView.IsLoaded())
+            {
+                return Result.NotLoaded;
+            }
+            lastStatus = Game.Status;
+            Game.Status = Model.EGameStatus.OnPlayingAds;
+            interstitialClosedCallback = closeCB;
+            interstitialView.Show();
+            return Result.Successful;
         }
 
-        public static bool ShowRewardBasedVideo(RewardCallback rewardCB, AdClosedCallback closeCB)
+        public static Result ShowRewardBasedVideo(RewardCallback rewardCB, Model.EmptyCallBack closeCB)
         {
-            if (Initialized && RewardBasedVideoAd.Instance.IsLoaded())
+            if (!Initialized)
             {
-                rewardCallback = rewardCB;
-                rewardbasedClosedCallback = closeCB;
-                RewardBasedVideoAd.Instance.Show();
-                return true;
+                return UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android || UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer ? Result.NotInitialized : Result.UnablePlatform;
             }
-            return false;
+            if (!RewardBasedVideoAd.Instance.IsLoaded())
+            {
+                return Result.NotLoaded;
+            }
+            lastStatus = Game.Status;
+            Game.Status = Model.EGameStatus.OnPlayingAds;
+            rewardCallback = rewardCB;
+            rewardbasedClosedCallback = closeCB;
+            RewardBasedVideoAd.Instance.Show();
+            return Result.Successful;
         }
 
         public static AdRequest.Builder CreateRequestBuilder()
@@ -217,20 +246,28 @@ namespace MagicTower.Present.Manager
 
         private static void OnRewardCall(object sender, Reward args)
         {
-            rewardCallback?.Invoke(args.Type, args.Amount);
+            Game.Status = lastStatus;
+            Game.InvokeInMainThread(() =>
+            {
+                rewardCallback?.Invoke(args.Type, args.Amount);
+            });
+            rewardbasedClosedCallback = null;
         }
 
         private static void OnAdClosedCall(AdType type)
         {
+            Game.Status = lastStatus;
             switch (type)
             {
                 case AdType.BannerTop:
                     bannerView.LoadAd(CreateRequestBuilder().Build());
-                    bannerClosedCallback?.Invoke();
+                    Game.InvokeInMainThread(bannerClosedCallback);
+                    bannerClosedCallback = null;
                     break;
                 case AdType.Interstitial:
                     interstitialView.LoadAd(CreateRequestBuilder().Build());
-                    interstitialClosedCallback?.Invoke();
+                    Game.InvokeInMainThread(interstitialClosedCallback);
+                    interstitialClosedCallback = null;
                     break;
                 case AdType.RewardBased:
                     switch (UnityEngine.Application.platform)
@@ -256,7 +293,8 @@ namespace MagicTower.Present.Manager
                             }
                             break;
                     }
-                    rewardbasedClosedCallback?.Invoke();
+                    Game.InvokeInMainThread(rewardbasedClosedCallback);
+                    rewardbasedClosedCallback = null;
                     break;
             }
         }
@@ -264,9 +302,11 @@ namespace MagicTower.Present.Manager
         private static BannerView bannerView = null;
         private static InterstitialAd interstitialView = null;
         private static RewardCallback rewardCallback = null;
-        private static AdClosedCallback bannerClosedCallback = null;
-        private static AdClosedCallback interstitialClosedCallback = null;
-        private static AdClosedCallback rewardbasedClosedCallback = null;
+        private static Model.EmptyCallBack bannerClosedCallback = null;
+        private static Model.EmptyCallBack interstitialClosedCallback = null;
+        private static Model.EmptyCallBack rewardbasedClosedCallback = null;
+
+        private static Model.EGameStatus lastStatus;
     }
 
 }

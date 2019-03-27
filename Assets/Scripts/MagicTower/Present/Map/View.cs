@@ -18,7 +18,6 @@ namespace MagicTower.Present.Map
 
         void Awake()
         {
-            Game.Initial();
             //TODO: 需要在四周添加填充墙，然后再MapManager构造地图时刷新墙
         }
 

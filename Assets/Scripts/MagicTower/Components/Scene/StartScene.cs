@@ -6,7 +6,7 @@ using MagicTower.Present.Manager;
 namespace MagicTower.Components.Scene
 {
 
-    public class StartScene : MonoBehaviour
+    public class StartScene : AScene
     {
         private const string str_startNewGame = "str_ui_startNewGame";
         private const string str_loadSavedGame = "str_ui_loadSavedGame";
@@ -18,11 +18,11 @@ namespace MagicTower.Components.Scene
         private const string language_pref_key = "language";
 
         // Use this for initialization
-        void Start()
+        override protected System.Threading.Tasks.Task Start()
         {
             Input.multiTouchEnabled = false;    // NOTE : 多点触摸会导致寻路出现bug, 先禁用
 
-            Game.Initial();
+            var ret = base.Start();
             Game.Map = null;
             Game.Player = null;
 
@@ -51,6 +51,7 @@ namespace MagicTower.Components.Scene
             }
 
             SetLoadingPercent(1);
+            return ret;
         }
 
         private void OnDestroy()
@@ -60,7 +61,7 @@ namespace MagicTower.Components.Scene
 
         // Update is called once per frame
         void Update() {
-            InputManager.UpdateScene();
+            Game.SceneUpdate();
         }
 
         public void SetLoadingPercent(double percent)
@@ -120,6 +121,27 @@ namespace MagicTower.Components.Scene
         public void OnExitGame()
         {
             Game.ExitGame();
+        }
+
+        public override SceneType Type => SceneType.StartScene;
+
+        public override void OnMapClicked(int posx, int posy)
+        {
+            return;
+        }
+
+        // 弹出Tips提示, 并在一定时间后消失
+        public override void ShowTips(params string[] texts)
+        {
+            string text = "";
+            for (var i = 0; i < texts.Length; ++i)
+            {
+                text += texts[i];
+            }
+            var tipbar = Control.TipBar.ShowTip();
+            tipbar.transform.SetParent(transform, false);
+            tipbar.SetTipText(text);
+            tipbar.StartAutoRemove(200);
         }
 
         [Tooltip("开始新游戏按钮")]

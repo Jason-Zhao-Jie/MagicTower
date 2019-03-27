@@ -246,3 +246,6 @@
 3. 修复了大多数动画的节奏不协调问题
 4. 为所有代码添加了 namespace 并根据结构再次重新整理了代码文件目录和一些代码结构, 减小了代码耦合度
 5. DataEditor 现在修改map会立即保存到内存, 删除了 Apply Map 按钮
+
+## 2019-3-27-Wednesday
+1. Google MobAds 通过了 Android 机器上的测试, 现在可以顺利调用 MobAds 了, 但是需要优化调用体验, 另需要测试 iOS 上的情况

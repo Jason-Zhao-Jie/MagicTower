@@ -57,8 +57,9 @@ namespace MagicTower.Components.Scene
         }
 
         // Update is called once per frame
-        void Update() {
-            InputManager.UpdateScene();
+        void Update()
+        {
+            Game.SceneUpdate();
         }
 
         public override void OnMapClicked(int posx, int posy)
@@ -66,8 +67,30 @@ namespace MagicTower.Components.Scene
             Game.Player.StartAutoStep(posx, posy);
         }
 
-        public void OnBtnMenuClicked() {
-            AdsPluginManager.ShowInterstitial(null);
+        public void OnBtnMenuClicked()
+        {
+            var ret = AdsPluginManager.ShowRewardBasedVideo((string type, double amount) =>
+            {
+                ShowTips("Google MobAds loaded OK and get reward successful");
+            }, () =>
+            {
+                ShowTips("Google MobAds loaded OK and closed");
+            });
+            switch (ret)
+            {
+                case AdsPluginManager.Result.NotInitialized:
+                    ShowTips("Google MobAds loaded failure, the module has not been initialized over");
+                    break;
+                case AdsPluginManager.Result.InitializeFailure:
+                    ShowTips("Google MobAds loaded failure, the module initialized failed with error");
+                    break;
+                case AdsPluginManager.Result.NotLoaded:
+                    ShowTips("Google MobAds loaded failure, the ads have not loaded over");
+                    break;
+                case AdsPluginManager.Result.UnablePlatform:
+                    ShowTips("Google MobAds loaded failure, ads cannot be used at current platform " + UnityEngine.Application.platform.ToString());
+                    break;
+            }
         }
 
         /********************** Chat Part **************************************/
@@ -90,13 +113,23 @@ namespace MagicTower.Components.Scene
             bottomChatPanel.SetChat(Game.Config.StringInternational.GetValue(content), speakerId);
         }
 
-        public void ShowTips(string content)
+        public override void ShowTips(params string[] texts)
         {
+            var text = "";
+            if(texts != null)
+            {
+                var builder = new System.Text.StringBuilder();
+                for (var i = 0; i < texts.Length; ++i)
+                {
+                    builder.Append(Game.Config.StringInternational.GetValue(texts[i]));
+                }
+                text = builder.ToString();
+            }
             Game.Status = Model.EGameStatus.OnTipChat;
             topChatPanel.gameObject.SetActive(false);
             bottomChatPanel.gameObject.SetActive(false);
             tipsPanel.gameObject.SetActive(true);
-            tipsPanel.SetTipText(Game.Config.StringInternational.GetValue(content));
+            tipsPanel.SetTipText(text);
         }
 
         private void ClearChats()

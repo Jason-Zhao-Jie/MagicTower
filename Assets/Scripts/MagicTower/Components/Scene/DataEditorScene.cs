@@ -234,7 +234,7 @@ namespace MagicTower.Components.Scene
 
         // Update is called once per frame
         async System.Threading.Tasks.Task Update() {
-            InputManager.UpdateScene();
+            Game.SceneUpdate();
 
             while (ioTaskLine.Count > 0)
             {
@@ -1144,7 +1144,7 @@ namespace MagicTower.Components.Scene
         }
 
         // 弹出Tips提示, 并在一定时间后消失
-        public void ShowTips(params string[] texts)
+        public override void ShowTips(params string[] texts)
         {
             string text = "";
             for (var i = 0; i < texts.Length; ++i)

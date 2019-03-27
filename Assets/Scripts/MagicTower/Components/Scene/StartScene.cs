@@ -59,9 +59,8 @@ namespace MagicTower.Components.Scene
         }
 
         // Update is called once per frame
-        void Update()
-        {
-
+        void Update() {
+            InputManager.UpdateScene();
         }
 
         public void SetLoadingPercent(double percent)

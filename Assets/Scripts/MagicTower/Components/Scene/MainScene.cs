@@ -57,50 +57,8 @@ namespace MagicTower.Components.Scene
         }
 
         // Update is called once per frame
-        void Update()
-        {
-            // 监测键盘和手柄按键
-            for (int i = 0; i < InputManager.listenedKeys.Length; ++i)
-            {
-                bool isDown = Input.GetKey(InputManager.listenedKeys[i]);
-                bool hasDown = InputManager.keyStatusMap[InputManager.listenedKeys[i]];
-                if (isDown && !hasDown)
-                    InputManager.OnKeyDown(InputManager.listenedKeys[i]);
-                else if (hasDown && !isDown)
-                    InputManager.OnKeyUp(InputManager.listenedKeys[i]);
-            }
-
-            // 检测手柄摇杆
-            InputManager.OnJoysticsRockerAxes(InputManager.JoysticsAxes.LeftHorizontal, Input.GetAxis("Horizontal_Left"));
-            InputManager.OnJoysticsRockerAxes(InputManager.JoysticsAxes.LeftVertical, Input.GetAxis("Vertical_Left"));
-            InputManager.OnJoysticsRockerAxes(InputManager.JoysticsAxes.RightHorizontal, Input.GetAxis("Horizontal_XBoxRight"));
-            InputManager.OnJoysticsRockerAxes(InputManager.JoysticsAxes.RightVertical, Input.GetAxis("Vertical_XBoxRight"));
-            InputManager.OnJoysticsRockerAxes(InputManager.JoysticsAxes.SpecialHorizontal, Input.GetAxis("Horizontal_XBoxSpecial"));
-            InputManager.OnJoysticsRockerAxes(InputManager.JoysticsAxes.SpecialVertical, Input.GetAxis("Vertical_XBoxSpecial"));
-
-            // 监测鼠标和触屏
-            for (int i = 0; i < Input.touchCount; ++i)
-            {
-                var tc = Input.GetTouch(i);
-                switch (tc.phase)
-                {
-                    case TouchPhase.Began:
-                        InputManager.OnTouchDown(tc.position);
-                        break;
-                    case TouchPhase.Canceled:
-                    case TouchPhase.Ended:
-                        InputManager.OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
-                        break;
-                }
-            }
-
-            if (Input.touchCount <= 0)
-            {
-                if (Input.GetMouseButtonDown(0) && !InputManager.isMouseLeftDown)
-                    InputManager.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
-                if (Input.GetMouseButtonUp(0) && InputManager.isMouseLeftDown)
-                    InputManager.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
-            }
+        void Update() {
+            InputManager.UpdateScene();
         }
 
         public override void OnMapClicked(int posx, int posy)

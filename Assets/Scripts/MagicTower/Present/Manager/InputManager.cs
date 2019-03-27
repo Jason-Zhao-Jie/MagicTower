@@ -43,6 +43,7 @@ namespace MagicTower.Present.Manager
         KeyCode.KeypadEnter,
         KeyCode.Backspace,
         (KeyCode)6, // Android back button
+        // TODO: 以下手柄按键目前是Xbox的, 需要改为兼容PS4的
         JoysticsCode.A,
         JoysticsCode.B,
         JoysticsCode.X,
@@ -72,6 +73,59 @@ namespace MagicTower.Present.Manager
                 [JoysticsAxes.SpecialHorizontal] = 0,
                 [JoysticsAxes.SpecialVertical] = 0,
             };
+        }
+
+        static internal void UpdateScene() {
+            // 监测键盘和手柄按键
+            for (int i = 0; i < listenedKeys.Length; ++i) {
+                bool isDown = Input.GetKey(listenedKeys[i]);
+                bool hasDown = keyStatusMap[listenedKeys[i]];
+                if (isDown && !hasDown)
+                    OnKeyDown(listenedKeys[i]);
+                else if (hasDown && !isDown)
+                    OnKeyUp(listenedKeys[i]);
+            }
+
+            // 判断手柄类型
+            var joysticks = Input.GetJoystickNames();
+            if (joysticks != null) {
+                for (var i = 0; i < joysticks.Length; ++i) {
+                    switch (joysticks[i]) {
+                        case "Controller (XBOX 360 For Windows)":
+                            // 检测手柄摇杆状态
+                            OnJoysticsRockerAxes(JoysticsAxes.LeftHorizontal, Input.GetAxis("Horizontal_Left_" + i));
+                            OnJoysticsRockerAxes(JoysticsAxes.LeftVertical, Input.GetAxis("Vertical_Left_" + i));
+                            OnJoysticsRockerAxes(JoysticsAxes.RightHorizontal, Input.GetAxis("Horizontal_XBoxRight_" + i));
+                            OnJoysticsRockerAxes(JoysticsAxes.RightVertical, Input.GetAxis("Vertical_XBoxRight_" + i));
+                            OnJoysticsRockerAxes(JoysticsAxes.SpecialHorizontal, Input.GetAxis("Horizontal_XBoxSpecial_" + i));
+                            OnJoysticsRockerAxes(JoysticsAxes.SpecialVertical, Input.GetAxis("Vertical_XBoxSpecial_" + i));
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+            // 监测鼠标和触屏
+            for (int i = 0; i < Input.touchCount; ++i) {
+                var tc = Input.GetTouch(i);
+                switch (tc.phase) {
+                    case TouchPhase.Began:
+                        OnTouchDown(tc.position);
+                        break;
+                    case TouchPhase.Canceled:
+                    case TouchPhase.Ended:
+                        OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
+                        break;
+                }
+            }
+
+            if (Input.touchCount <= 0) {
+                if (Input.GetMouseButtonDown(0) && !isMouseLeftDown)
+                    OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
+                if (Input.GetMouseButtonUp(0) && isMouseLeftDown)
+                    OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
+            }
         }
 
         public static void OnKeyDown(KeyCode keyCode)
@@ -146,7 +200,7 @@ namespace MagicTower.Present.Manager
                     {
                         case KeyCode.Escape:
                         case KeyCode.Backspace:
-                        case JoysticsCode.B:
+                        case JoysticsCode.Back:
                             Game.ExitGame();
                             break;
                     }
@@ -162,7 +216,7 @@ namespace MagicTower.Present.Manager
                             break;
                         case KeyCode.Escape:
                         case KeyCode.Backspace:
-                        case JoysticsCode.B:
+                        case JoysticsCode.Back:
                             Game.CurrentScene.BackToStartScene();
                             break;
                     }

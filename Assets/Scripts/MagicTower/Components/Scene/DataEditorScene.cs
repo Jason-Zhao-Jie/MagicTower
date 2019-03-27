@@ -233,30 +233,8 @@ namespace MagicTower.Components.Scene
         }
 
         // Update is called once per frame
-        async System.Threading.Tasks.Task Update()
-        {
-            for (int i = 0; i < Input.touchCount; ++i)
-            {
-                var tc = Input.GetTouch(i);
-                switch (tc.phase)
-                {
-                    case TouchPhase.Began:
-                        InputManager.OnTouchDown(tc.position);
-                        break;
-                    case TouchPhase.Canceled:
-                    case TouchPhase.Ended:
-                        InputManager.OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
-                        break;
-                }
-            }
-
-            if (Input.touchCount <= 0)
-            {
-                if (Input.GetMouseButtonDown(0) && !InputManager.isMouseLeftDown)
-                    InputManager.OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
-                if (Input.GetMouseButtonUp(0) && InputManager.isMouseLeftDown)
-                    InputManager.OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
-            }
+        async System.Threading.Tasks.Task Update() {
+            InputManager.UpdateScene();
 
             while (ioTaskLine.Count > 0)
             {

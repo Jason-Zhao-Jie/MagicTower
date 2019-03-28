@@ -22,6 +22,21 @@ namespace MagicTower.Components
             return null;
         }
 
+        virtual protected void OnApplicationQuit()
+        {
+            Game.ObjPool.ClearAll();
+            Game.Map?.ClearMap();
+            Resources.UnloadUnusedAssets();
+        }
+
+        virtual protected void OnDestroy()
+        {
+            Game.ObjPool.ClearAll();
+            Game.Map?.ClearMap();
+            Game.Map = null;
+            Game.Player = null;
+        }
+
         public void BackToStartScene()
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("StartScene");

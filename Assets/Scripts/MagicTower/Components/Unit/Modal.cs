@@ -147,7 +147,7 @@ namespace MagicTower.Components.Unit
 
         private void OnDestroy()
         {
-            destroyCallBack?.Invoke(); // C#新语法, 表示该委托不为null时才调用
+            destroyCallBack?.Invoke();
             destroyCallBack = null;
         }
 

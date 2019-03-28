@@ -75,9 +75,13 @@ namespace ArmyAnt.ViewUtil
                 {
                     foreach (var v in k.Value)
                     {
-                        UnityEngine.Object.Destroy(v);
+                        if (v != null && v.gameObject != null)
+                        {
+                            UnityEngine.Object.Destroy(v.gameObject);
+                        }
                     }
                 }
+                k.Value.Clear();
             }
             unusePool.Clear();
         }

@@ -249,3 +249,10 @@
 
 ## 2019-3-27-Wednesday
 1. Google MobAds 通过了 Android 机器上的测试, 现在可以顺利调用 MobAds 了, 但是需要优化调用体验, 另需要测试 iOS 上的情况
+
+## 2019-3-28-Thursday
+1. Google MobAds 通过了 iPhone simulator 上的测试, 调用结构也得到了优化, ios模拟器上广告加载会产生一个奇怪的失败, 目前暂时无解决办法, 估计不影响正常使用. 除此以外, 现在可以完全正常调用广告模块
+2. 修复了点按窗口关闭或编辑器停止按钮突然关闭游戏时, 资源卸载报错的问题, 问题原因是, 突然关闭时不会调用 Scene 的 OnDestroy, 导致没有调用 ClearMap 和 ObjectPool.ClearAll
+3. 尝试添加了 Analytics 的代码, 同时调用 GoogleFirebaseAnalytics 和 UnityAnalytics, 需要后续完成
+4. 在卡顿的 iOS 模拟器上发现了一个可疑 bug: 当画面因卡顿而丢帧时, player 的方向转换可能无法生效 (转向那一帧丢帧, 导致人物按照原方向的朝向进行走动, 多发生在自动寻路起步, 后续转向则正常)
+

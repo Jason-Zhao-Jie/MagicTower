@@ -54,11 +54,6 @@ namespace MagicTower.Components.Scene
             return ret;
         }
 
-        private void OnDestroy()
-        {
-            Game.ObjPool.ClearAll();
-        }
-
         // Update is called once per frame
         void Update() {
             Game.SceneUpdate();
@@ -122,7 +117,6 @@ namespace MagicTower.Components.Scene
         {
             Game.ExitGame();
         }
-
         public override SceneType Type => SceneType.StartScene;
 
         public override void OnMapClicked(int posx, int posy)

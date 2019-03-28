@@ -10,9 +10,14 @@ namespace MagicTower
 
         public static void DebugLog(params string[] content)
         {
-            if (DEBUG)
+            if (DEBUG && content != null)
             {
-                UnityEngine.Debug.Log(content);
+                string text = "";
+                for(var i = 0; i < content.Length; ++i)
+                {
+                    text += content[i];
+                }
+                UnityEngine.Debug.Log(text);
             }
         }
 
@@ -20,17 +25,6 @@ namespace MagicTower
         {
             if (!InitOK)
             {
-#if UNITY_EDITOR
-                // 编辑器退出时销毁
-                UnityEditor.EditorApplication.quitting += OnApplicationExit;
-#endif
-                // 程序退出时按顺序回收, 或做其他必要操作
-                UnityEngine.Application.quitting += OnApplicationExit;
-
-                Present.Manager.AdsPluginManager.AdFailedCB = (Present.Manager.AdsPluginManager.AdType type, string msg) =>
-                {
-                    CurrentScene?.ShowTips("Loading Google MobAds module failed, type: ", type.ToString(), ", message: ", msg);
-                };
                 Present.Manager.AdsPluginManager.Initialize(false, true);
 
                 InitOK = true;
@@ -89,12 +83,6 @@ namespace MagicTower
         }
 
         public static bool InitOK { get; private set; }
-
-
-        private static void OnApplicationExit()
-        {
-            ObjPool.ClearAll();
-        }
 
         public static bool ObjPoolRecycleSelf<T>(T self) where T : ArmyAnt.ViewUtil.ObjectPool.AViewUnit
         {

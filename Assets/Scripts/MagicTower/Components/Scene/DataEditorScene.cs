@@ -225,13 +225,6 @@ namespace MagicTower.Components.Scene
             return ret;
         }
 
-        private void OnDestroy()
-        {
-            Game.ObjPool.ClearAll();
-            Game.Map.ClearMap();
-            Game.Map = null;
-        }
-
         // Update is called once per frame
         async System.Threading.Tasks.Task Update() {
             Game.SceneUpdate();

@@ -5,31 +5,20 @@ namespace MagicTower.Present.Manager
 
     public static class AdsPluginManager
     {
-        public enum AdType
+        public enum AdLoadingState
         {
-            BannerTop,
-            BannerBottom,
-            BannerMid,
-            Interstitial,
-            RewardBased,
-        }
-
-        public enum Result
-        {
-            Successful,
+            OK,
             UnablePlatform,
+            SdkInitializing,
             NotInitialized,
-            InitializeFailure,
-            NotLoaded,
+            Loading,
+            LoadFailedAndReloading,
         }
-
-        public delegate void RewardCallback(string type, double amount);
-        public delegate void AdFailedCallback(AdType type, string message);
 
         private const bool DEBUG = Game.DEBUG && true;  // 去掉结尾的 && true 以结束强制广告测试
 
         private const string appid_android = "ca-app-pub-7886607022943212~3839402738";
-        private const string appid_ios = "ca-app-pub-7886607022943212~5320360588";
+        public const string appid_ios = "ca-app-pub-7886607022943212~5320360588";
 
         private const string testBannerId_android = "ca-app-pub-3940256099942544/6300978111";
         private const string testBannerId_ios = "ca-app-pub-3940256099942544/2934735716";
@@ -54,9 +43,9 @@ namespace MagicTower.Present.Manager
             "0B5B8903B4DD0F0A99AEC7D431E5CBF8",
         };
 
-        public static void Initialize(bool needBanner, bool needInterstitial)
+        public static void Initialize(bool needTopBanner, bool needInterstitial)
         {
-            if (Initialized)
+            if (SdkInitialized)
             {
                 return;
             }
@@ -64,88 +53,286 @@ namespace MagicTower.Present.Manager
             {
                 case UnityEngine.RuntimePlatform.Android:
                     MobileAds.Initialize(appid_android);
+                    SdkInitialized = true;
+                    break;
+                case UnityEngine.RuntimePlatform.IPhonePlayer:
+                    MobileAds.Initialize(appid_ios);
+                    SdkInitialized = true;
+                    break;
+            }
+            if (SdkInitialized)
+            {
+                if (needTopBanner)
+                {
+                    InitializeTopBanner();
+                }
+                if (needInterstitial)
+                {
+                    InitializeInterstitial();
+                }
+                InitializeRewardBaseVideo();
+            }
+        }
+
+        public static bool SdkInitialized { get; private set; }
+
+        private static AdRequest.Builder CreateRequestBuilder()
+        {
+            // 创建广告请求器，并标记为所有年龄段分级 (G)
+            var requestBuilder = new AdRequest.Builder().AddExtra("max_ad_content_rating", "G");
+            if (test_device_id.Length > 0)
+            {
+                foreach (var i in test_device_id)
+                {
+                    requestBuilder = requestBuilder.AddTestDevice(i);
+                }
+            }
+            return requestBuilder;
+        }
+
+        private static Model.EGameStatus lastStatus;
+
+
+        //////////////////////// Top Banner /////////////////////////// 
+
+        public static string TopBannerLoadedFailedMessage { get; private set; }
+
+        public static AdLoadingState TopBannerState
+        {
+            get
+            {
+                if (!SdkInitialized)
+                {
+                    return UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android
+                        || UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer
+                        ? AdLoadingState.SdkInitializing : AdLoadingState.UnablePlatform;
+                }
+                if (bannerView == null)
+                {
+                    return AdLoadingState.NotInitialized;
+                }
+                return topBannerLoadedFailed ? AdLoadingState.LoadFailedAndReloading : AdLoadingState.OK;
+            }
+        }
+
+        public static AdLoadingState ShowTopBanner(Model.EmptyCallBack closeCB)
+        {
+            if (TopBannerState == AdLoadingState.OK)
+            {
+                bannerClosedCallback = closeCB;
+                bannerView.Show();
+            }
+            return TopBannerState;
+        }
+
+        private static AdLoadingState InitializeTopBanner()
+        {
+            switch (UnityEngine.Application.platform)
+            {
+                case UnityEngine.RuntimePlatform.Android:
                     if (DEBUG)
                     {
-                        if (needBanner)
-                        {
-                            bannerView = new BannerView(testBannerId_android, AdSize.Banner, AdPosition.Top);
-                        }
-                        if (needInterstitial)
-                        {
-                            interstitialView = new InterstitialAd(testInterstitialId_android);
-                        }
+                        bannerView = new BannerView(testBannerId_android, AdSize.Banner, AdPosition.Top);
                     }
                     else
                     {
-                        if (needBanner)
-                        {
-                            bannerView = new BannerView(bannerid_android, AdSize.Banner, AdPosition.Top);
-                        }
-                        if (needInterstitial)
-                        {
-                            interstitialView = new InterstitialAd(interstitialid_android);
-                        }
+                        bannerView = new BannerView(bannerid_android, AdSize.Banner, AdPosition.Top);
                     }
-                    Initialized = true;
                     break;
                 case UnityEngine.RuntimePlatform.IPhonePlayer:
                     MobileAds.Initialize(appid_ios);
                     if (DEBUG)
                     {
-                        if (needBanner)
-                        {
-                            bannerView = new BannerView(testBannerId_ios, AdSize.Banner, AdPosition.Top);
-                        }
-                        if (needInterstitial)
-                        {
-                            interstitialView = new InterstitialAd(testInterstitialId_ios);
-                        }
+                        bannerView = new BannerView(testBannerId_ios, AdSize.Banner, AdPosition.Top);
                     }
                     else
                     {
-                        if (needBanner)
+                        bannerView = new BannerView(bannerid_ios, AdSize.Banner, AdPosition.Top);
+                    }
+                    SdkInitialized = true;
+                    break;
+            }
+            if (bannerView != null)
+            {
+                bannerView.OnAdFailedToLoad += OnTopBannerFailedToLoad;
+                bannerView.OnAdClosed += OnTopBannerClosed;
+                bannerView.OnAdLoaded += OnTopBannerLoaded;
+                bannerView.LoadAd(CreateRequestBuilder().Build());
+            }
+            return TopBannerState;
+        }
+
+        private static void OnTopBannerFailedToLoad(object sender, AdFailedToLoadEventArgs e)
+        {
+            topBannerLoadedFailed = true;
+            TopBannerLoadedFailedMessage = e.Message;
+            bannerView.LoadAd(CreateRequestBuilder().Build());
+        }
+
+        private static void OnTopBannerClosed(object sender, System.EventArgs e)
+        {
+            Game.Status = lastStatus;
+            bannerView.LoadAd(CreateRequestBuilder().Build());
+            Game.InvokeInMainThread(bannerClosedCallback);
+            bannerClosedCallback = null;
+        }
+
+        private static void OnTopBannerLoaded(object sender, System.EventArgs e)
+        {
+            topBannerLoadedFailed = false;
+        }
+
+        private static bool topBannerLoadedFailed = false;
+        private static BannerView bannerView = null;
+        private static Model.EmptyCallBack bannerClosedCallback = null;
+
+
+        //////////////////////// Interstitial /////////////////////////// 
+
+        public static string InterstitialLoadedFailedMessage { get; private set; }
+
+        public static AdLoadingState InterstitialState
+        {
+            get
+            {
+                if (!SdkInitialized)
+                {
+                    return UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android
+                        || UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer
+                        ? AdLoadingState.SdkInitializing : AdLoadingState.UnablePlatform;
+                }
+                if (interstitialView == null)
+                {
+                    return AdLoadingState.NotInitialized;
+                }
+                if (interstitialView.IsLoaded())
+                {
+                    return AdLoadingState.OK;
+                }
+                return interstitialLoadedFailed ? AdLoadingState.LoadFailedAndReloading : AdLoadingState.Loading;
+            }
+        }
+
+        public static AdLoadingState ShowInterstitial(Model.EmptyCallBack closeCB)
+        {
+            if (InterstitialState == AdLoadingState.OK)
+            {
+                lastStatus = Game.Status;
+                Game.Status = Model.EGameStatus.OnPlayingAds;
+                interstitialClosedCallback = closeCB;
+                interstitialView.Show();
+            }
+            return InterstitialState;
+        }
+
+        private static AdLoadingState InitializeInterstitial()
+        {
+            if (interstitialView == null)
+            {
+                switch (UnityEngine.Application.platform)
+                {
+                    case UnityEngine.RuntimePlatform.Android:
+                        if (DEBUG)
                         {
-                            bannerView = new BannerView(bannerid_ios, AdSize.Banner, AdPosition.Top);
+                            interstitialView = new InterstitialAd(testInterstitialId_android);
                         }
-                        if (needInterstitial)
+                        else
+                        {
+                            interstitialView = new InterstitialAd(interstitialid_android);
+                        }
+                        break;
+                    case UnityEngine.RuntimePlatform.IPhonePlayer:
+                        MobileAds.Initialize(appid_ios);
+                        if (DEBUG)
+                        {
+                            interstitialView = new InterstitialAd(testInterstitialId_ios);
+                        }
+                        else
                         {
                             interstitialView = new InterstitialAd(interstitialid_ios);
                         }
-                    }
-                    Initialized = true;
-                    break;
+                        break;
+                }
             }
-
-            if (Initialized)
+            if (interstitialView != null)
             {
-                if (bannerView != null)
-                {
-                    bannerView.OnAdFailedToLoad += (sender, e) => {
-                        Game.InvokeInMainThread(() => { AdFailedCB?.Invoke(AdType.BannerTop, e.Message); });
-                    };
-                    bannerView.OnAdClosed += (sender, e) => {
-                        OnAdClosedCall(AdType.BannerTop);
-                    };
-                    bannerView.LoadAd(CreateRequestBuilder().Build());
-                }
-                if (interstitialView != null)
-                {
-                    interstitialView.OnAdFailedToLoad += (sender, e) => {
-                        Game.InvokeInMainThread(() => { AdFailedCB?.Invoke(AdType.Interstitial, e.Message); });
-                    };
-                    interstitialView.OnAdClosed += (sender, e) => {
-                        OnAdClosedCall(AdType.Interstitial);
-                    };
-                    interstitialView.LoadAd(CreateRequestBuilder().Build());
-                }
+                interstitialView.OnAdFailedToLoad += OnInterstitialFailedToLoad;
+                interstitialView.OnAdClosed += OnInterstitialClosed;
+                interstitialView.OnAdLoaded += OnInterstitialLoaded;
+                interstitialView.LoadAd(CreateRequestBuilder().Build());
+            }
+            return InterstitialState;
+        }
 
+        private static void OnInterstitialFailedToLoad(object sender, AdFailedToLoadEventArgs e)
+        {
+            interstitialLoadedFailed = true;
+            InterstitialLoadedFailedMessage = e.Message;
+            interstitialView.LoadAd(CreateRequestBuilder().Build());
+        }
+
+        private static void OnInterstitialClosed(object sender, System.EventArgs e)
+        {
+            Game.Status = lastStatus;
+            interstitialView.LoadAd(CreateRequestBuilder().Build());
+            Game.InvokeInMainThread(interstitialClosedCallback);
+            interstitialClosedCallback = null;
+        }
+
+        private static void OnInterstitialLoaded(object sender, System.EventArgs e)
+        {
+            interstitialLoadedFailed = false;
+        }
+
+        private static bool interstitialLoadedFailed = false;
+        private static InterstitialAd interstitialView = null;
+        private static Model.EmptyCallBack interstitialClosedCallback = null;
+
+
+        //////////////////////// Reward Base Video /////////////////////////// 
+
+        public static string RewardBasedVideoLoadedFailedMessage { get; private set; }
+        public delegate void RewardCallback(string type, double amount);
+
+        public static AdLoadingState RewardBaseVideoState
+        {
+            get
+            {
+                if (!SdkInitialized)
+                {
+                    return UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android
+                        || UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer
+                        ? AdLoadingState.SdkInitializing : AdLoadingState.UnablePlatform;
+                }
+                if (RewardBasedVideoAd.Instance.IsLoaded())
+                {
+                    return AdLoadingState.OK;
+                }
+                return rewardBasedVideoLoadedFailed ? AdLoadingState.LoadFailedAndReloading : AdLoadingState.Loading;
+            }
+        }
+
+        public static AdLoadingState ShowRewardBasedVideo(RewardCallback rewardCB, Model.EmptyCallBack closeCB)
+        {
+            if (RewardBaseVideoState == AdLoadingState.OK)
+            {
+                lastStatus = Game.Status;
+                Game.Status = Model.EGameStatus.OnPlayingAds;
+                rewardCallback = rewardCB;
+                rewardbasedClosedCallback = closeCB;
+                RewardBasedVideoAd.Instance.Show();
+            }
+            return RewardBaseVideoState;
+        }
+
+        private static AdLoadingState InitializeRewardBaseVideo()
+        {
+            if (SdkInitialized)
+            {
                 RewardBasedVideoAd.Instance.OnAdRewarded += OnRewardCall;
-                RewardBasedVideoAd.Instance.OnAdFailedToLoad += (sender, e) => {
-                    Game.InvokeInMainThread(() => { AdFailedCB?.Invoke(AdType.RewardBased, e.Message); });
-                };
-                RewardBasedVideoAd.Instance.OnAdClosed += (sender, e) => {
-                    OnAdClosedCall(AdType.RewardBased);
-                };
+                RewardBasedVideoAd.Instance.OnAdFailedToLoad += OnRewardBasedVideoFailedToLoad;
+                RewardBasedVideoAd.Instance.OnAdClosed += OnRewardBasedVideoClosed;
+                RewardBasedVideoAd.Instance.OnAdLoaded += OnRewardBasedVideoLoaded;
                 switch (UnityEngine.Application.platform)
                 {
                     case UnityEngine.RuntimePlatform.Android:
@@ -170,78 +357,7 @@ namespace MagicTower.Present.Manager
                         break;
                 }
             }
-        }
-
-        public static bool Initialized { get; private set; }
-
-        public static AdFailedCallback AdFailedCB { get; set; }
-
-        public static Result ShowBanner(Model.EmptyCallBack closeCB)
-        {
-            if (!Initialized)
-            {
-                return UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android || UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer ? Result.NotInitialized : Result.UnablePlatform;
-            }
-            if (bannerView == null)
-            {
-                return Result.InitializeFailure;
-            }
-            bannerClosedCallback = closeCB;
-            bannerView.Show();
-            return Result.Successful;
-        }
-
-        public static Result ShowInterstitial(Model.EmptyCallBack closeCB)
-        {
-            if (!Initialized)
-            {
-                return UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android || UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer ? Result.NotInitialized : Result.UnablePlatform;
-            }
-            if (interstitialView == null)
-            {
-                return Result.InitializeFailure;
-            }
-            if (!interstitialView.IsLoaded())
-            {
-                return Result.NotLoaded;
-            }
-            lastStatus = Game.Status;
-            Game.Status = Model.EGameStatus.OnPlayingAds;
-            interstitialClosedCallback = closeCB;
-            interstitialView.Show();
-            return Result.Successful;
-        }
-
-        public static Result ShowRewardBasedVideo(RewardCallback rewardCB, Model.EmptyCallBack closeCB)
-        {
-            if (!Initialized)
-            {
-                return UnityEngine.Application.platform == UnityEngine.RuntimePlatform.Android || UnityEngine.Application.platform == UnityEngine.RuntimePlatform.IPhonePlayer ? Result.NotInitialized : Result.UnablePlatform;
-            }
-            if (!RewardBasedVideoAd.Instance.IsLoaded())
-            {
-                return Result.NotLoaded;
-            }
-            lastStatus = Game.Status;
-            Game.Status = Model.EGameStatus.OnPlayingAds;
-            rewardCallback = rewardCB;
-            rewardbasedClosedCallback = closeCB;
-            RewardBasedVideoAd.Instance.Show();
-            return Result.Successful;
-        }
-
-        public static AdRequest.Builder CreateRequestBuilder()
-        {
-            // 创建广告请求器，并标记为所有年龄段分级 (G)
-            var requestBuilder = new AdRequest.Builder().AddExtra("max_ad_content_rating", "G");
-            if (test_device_id.Length > 0)
-            {
-                foreach (var i in test_device_id)
-                {
-                    requestBuilder = requestBuilder.AddTestDevice(i);
-                }
-            }
-            return requestBuilder;
+            return RewardBaseVideoState;
         }
 
         private static void OnRewardCall(object sender, Reward args)
@@ -254,59 +370,73 @@ namespace MagicTower.Present.Manager
             rewardbasedClosedCallback = null;
         }
 
-        private static void OnAdClosedCall(AdType type)
+        private static void OnRewardBasedVideoFailedToLoad(object sender, AdFailedToLoadEventArgs e)
         {
-            Game.Status = lastStatus;
-            switch (type)
+            rewardBasedVideoLoadedFailed = true;
+            RewardBasedVideoLoadedFailedMessage = e.Message;
+            switch (UnityEngine.Application.platform)
             {
-                case AdType.BannerTop:
-                    bannerView.LoadAd(CreateRequestBuilder().Build());
-                    Game.InvokeInMainThread(bannerClosedCallback);
-                    bannerClosedCallback = null;
-                    break;
-                case AdType.Interstitial:
-                    interstitialView.LoadAd(CreateRequestBuilder().Build());
-                    Game.InvokeInMainThread(interstitialClosedCallback);
-                    interstitialClosedCallback = null;
-                    break;
-                case AdType.RewardBased:
-                    switch (UnityEngine.Application.platform)
+                case UnityEngine.RuntimePlatform.Android:
+                    if (DEBUG)
                     {
-                        case UnityEngine.RuntimePlatform.Android:
-                            if (DEBUG)
-                            {
-                                RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), testRewardId_android);
-                            }
-                            else
-                            {
-                                RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), rewardid_android);
-                            }
-                            break;
-                        case UnityEngine.RuntimePlatform.IPhonePlayer:
-                            if (DEBUG)
-                            {
-                                RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), testRewardId_ios);
-                            }
-                            else
-                            {
-                                RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), rewardid_ios);
-                            }
-                            break;
+                        RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), testRewardId_android);
                     }
-                    Game.InvokeInMainThread(rewardbasedClosedCallback);
-                    rewardbasedClosedCallback = null;
+                    else
+                    {
+                        RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), rewardid_android);
+                    }
+                    break;
+                case UnityEngine.RuntimePlatform.IPhonePlayer:
+                    if (DEBUG)
+                    {
+                        RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), testRewardId_ios);
+                    }
+                    else
+                    {
+                        RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), rewardid_ios);
+                    }
                     break;
             }
         }
 
-        private static BannerView bannerView = null;
-        private static InterstitialAd interstitialView = null;
-        private static RewardCallback rewardCallback = null;
-        private static Model.EmptyCallBack bannerClosedCallback = null;
-        private static Model.EmptyCallBack interstitialClosedCallback = null;
-        private static Model.EmptyCallBack rewardbasedClosedCallback = null;
+        private static void OnRewardBasedVideoClosed(object sender, System.EventArgs e)
+        {
+            Game.Status = lastStatus;
+            switch (UnityEngine.Application.platform)
+            {
+                case UnityEngine.RuntimePlatform.Android:
+                    if (DEBUG)
+                    {
+                        RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), testRewardId_android);
+                    }
+                    else
+                    {
+                        RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), rewardid_android);
+                    }
+                    break;
+                case UnityEngine.RuntimePlatform.IPhonePlayer:
+                    if (DEBUG)
+                    {
+                        RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), testRewardId_ios);
+                    }
+                    else
+                    {
+                        RewardBasedVideoAd.Instance.LoadAd(CreateRequestBuilder().Build(), rewardid_ios);
+                    }
+                    break;
+            }
+            Game.InvokeInMainThread(rewardbasedClosedCallback);
+            rewardbasedClosedCallback = null;
+        }
 
-        private static Model.EGameStatus lastStatus;
+        private static void OnRewardBasedVideoLoaded(object sender, System.EventArgs e)
+        {
+            rewardBasedVideoLoadedFailed = false;
+        }
+
+        private static bool rewardBasedVideoLoadedFailed = false;
+        private static RewardCallback rewardCallback = null;
+        private static Model.EmptyCallBack rewardbasedClosedCallback = null;
     }
 
 }

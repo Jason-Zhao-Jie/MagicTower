@@ -48,14 +48,6 @@ namespace MagicTower.Components.Scene
             await Game.Load(Game.CurrentSaveName);
         }
 
-        void OnDestroy()
-        {
-            Game.ObjPool.ClearAll();
-            Game.Map.ClearMap();
-            Game.Map = null;
-            Game.Player = null;
-        }
-
         // Update is called once per frame
         void Update()
         {
@@ -78,17 +70,20 @@ namespace MagicTower.Components.Scene
             });
             switch (ret)
             {
-                case AdsPluginManager.Result.NotInitialized:
-                    ShowTips("Google MobAds loaded failure, the module has not been initialized over");
+                case AdsPluginManager.AdLoadingState.UnablePlatform:
+                    ShowTips("Google MobAds cannot be used at current platform " + Application.platform.ToString());
                     break;
-                case AdsPluginManager.Result.InitializeFailure:
-                    ShowTips("Google MobAds loaded failure, the module initialized failed with error");
+                case AdsPluginManager.AdLoadingState.SdkInitializing:
+                    ShowTips("Google MobAds sdk is initializing");
                     break;
-                case AdsPluginManager.Result.NotLoaded:
-                    ShowTips("Google MobAds loaded failure, the ads have not loaded over");
+                case AdsPluginManager.AdLoadingState.NotInitialized:
+                    ShowTips("Google MobAds this type of ads does not initialized");
                     break;
-                case AdsPluginManager.Result.UnablePlatform:
-                    ShowTips("Google MobAds loaded failure, ads cannot be used at current platform " + UnityEngine.Application.platform.ToString());
+                case AdsPluginManager.AdLoadingState.Loading:
+                    ShowTips("Google MobAds ads is loading");
+                    break;
+                case AdsPluginManager.AdLoadingState.LoadFailedAndReloading:
+                    ShowTips("Google MobAds loaded failure, message: ", AdsPluginManager.RewardBasedVideoLoadedFailedMessage);
                     break;
             }
         }

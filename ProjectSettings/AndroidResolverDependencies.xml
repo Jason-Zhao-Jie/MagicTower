@@ -8,6 +8,7 @@
     <package>com.google.firebase:firebase-common:16.1.0</package>
     <package>com.google.firebase:firebase-core:16.0.7</package>
     <package>com.google.firebase:firebase-iid:[17.1.0]</package>
+    <package>com.google.games:gpgs-plugin-support:0.9.62</package>
   </packages>
   <files>
     <file>Assets/Plugins/Android/android.arch.core.common-1.0.0.jar</file>
@@ -25,12 +26,18 @@
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-base-17.2.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-identifier-16.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-ads-lite-17.2.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-16.0.1.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-api-phone-16.0.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-auth-base-16.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-base-16.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-basement-16.0.1.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-drive-16.0.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-games-16.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-gass-17.2.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-measurement-api-16.3.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-measurement-base-16.3.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-measurement-sdk-api-16.3.0.aar</file>
+    <file>Assets/Plugins/Android/com.google.android.gms.play-services-nearby-16.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-stats-16.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.android.gms.play-services-tasks-16.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.auto.value.auto-value-annotations-1.6.3.jar</file>
@@ -44,5 +51,6 @@
     <file>Assets/Plugins/Android/com.google.firebase.firebase-iid-interop-16.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.firebase.firebase-measurement-connector-17.0.1.aar</file>
     <file>Assets/Plugins/Android/com.google.firebase.firebase-measurement-connector-impl-17.0.5.aar</file>
+    <file>Assets/Plugins/Android/com.google.games.gpgs-plugin-support-0.9.62.aar</file>
   </files>
 </dependencies>

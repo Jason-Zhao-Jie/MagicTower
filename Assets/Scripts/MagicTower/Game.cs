@@ -21,6 +21,17 @@ namespace MagicTower
             }
         }
 
+        static Game()
+        {
+            // private manager
+            if (Input == null)
+            {
+                Input = new Present.Manager.InputManager();
+            }
+
+            CurrentSaveName = "";
+        }
+
         public static void Initial(Components.AScene scene)
         {
             if (!InitOK)
@@ -40,11 +51,7 @@ namespace MagicTower
                 ObjPool = new ArmyAnt.ViewUtil.ObjectPool();
             }
 
-            if (CurrentSaveName == null)
-            {
-                CurrentSaveName = "";
-            }
-
+            // game state
             CurrentScene = scene;
             status = Model.EGameStatus.Start;
         }
@@ -119,9 +126,11 @@ namespace MagicTower
             }
         }
 
+        private static Present.Manager.InputManager Input;
+
         public static void SceneUpdate()
         {
-            Present.Manager.InputManager.UpdateScene();
+            Input.UpdateScene();
 
             Model.EmptyCallBack resolvingTask = null;
             lock (mainThreadTaskQueue)
@@ -276,7 +285,7 @@ namespace MagicTower
             set
             {
                 status = value;
-                Present.Manager.InputManager.OnChangeWalkState();
+                Input.OnChangeWalkState();
             }
         }
 

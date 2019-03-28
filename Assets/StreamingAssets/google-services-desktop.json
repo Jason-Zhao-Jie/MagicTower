@@ -1,37 +1,63 @@
 {
+  "project_info": {
+    "project_number": "472204266559",
+    "firebase_url": "https://fantasy-world-magic-tower-9271.firebaseio.com",
+    "project_id": "fantasy-world-magic-tower-9271",
+    "storage_bucket": "fantasy-world-magic-tower-9271.appspot.com"
+  },
   "client": [
     {
-      "services": {
-        "appinvite_service": {
-          "status": 0
-        }, 
-        "analytics_service": {
-          "status": 0
-        }
-      }, 
-      "oauth_client": [
-        {
-          "client_id": "472204266559-h4o2nr2pevsu1rrnkafpdg0i0f9sb9sl.apps.googleusercontent.com"
-        }
-      ], 
-      "api_key": [
-        {
-          "current_key": "AIzaSyCtnWK9PgmU0qb0CJZ2BRNlQFrrJViXi-A"
-        }
-      ], 
       "client_info": {
-        "mobilesdk_app_id": "1:472204266559:ios:8f0dca72355d3f11", 
+        "mobilesdk_app_id": "1:472204266559:android:8f0dca72355d3f11",
         "android_client_info": {
           "package_name": "com.armyant.magictower"
         }
-      }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472204266559-ib5a5rfc5kr95vumeks1dfcsa09pri72.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.armyant.magictower",
+            "certificate_hash": "c8069492c179aedec57c6d5c568add04b9baa820"
+          }
+        },
+        {
+          "client_id": "472204266559-bsr5do4hpchn9ko76rfqhfoshshlik1l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDL6CmEqTne1YsS1Y__EMfYWo2ZCdlnykk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472204266559-bsr5do4hpchn9ko76rfqhfoshshlik1l.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "472204266559-h4o2nr2pevsu1rrnkafpdg0i0f9sb9sl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.armyant.magictower"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      },
+      "admob_app_id": "ca-app-pub-7886607022943212~3839402738"
     }
-  ], 
-  "configuration_version": "1", 
-  "project_info": {
-    "storage_bucket": "fantasy-world-magic-tower-9271.appspot.com", 
-    "project_id": "fantasy-world-magic-tower-9271", 
-    "firebase_url": "https://fantasy-world-magic-tower-9271.firebaseio.com", 
-    "project_number": "472204266559"
-  }
+  ],
+  "configuration_version": "1"
 }

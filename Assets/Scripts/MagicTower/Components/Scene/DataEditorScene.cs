@@ -298,11 +298,6 @@ namespace MagicTower.Components.Scene
             ioTaskLine.Enqueue(new KeyValuePair<System.Threading.Tasks.Task<string>, IOTaskResult>(ArmyAnt.Manager.IOManager.SaveToFile(System.Text.Encoding.UTF8.GetBytes(result), "MapData", number + ".json"), (filepath) => ShowTips("已保存成功！路径：" + filepath)));
         }
 
-        // Apply Map 回调
-        public void OnMapApply()
-        {
-        }
-
         public void OnMapNameChanged()
         {
             var panel = mapMakerPanel.transform.Find("SetPanel");

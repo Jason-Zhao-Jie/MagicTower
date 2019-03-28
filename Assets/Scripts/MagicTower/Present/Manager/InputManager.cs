@@ -4,33 +4,9 @@ using System.Collections.Generic;
 namespace MagicTower.Present.Manager
 {
 
-    public static class InputManager
+    public class InputManager : ArmyAnt.Manager.InputManager
     {
-        public static class JoysticsCode
-        {
-            public const KeyCode A = KeyCode.Joystick1Button0;
-            public const KeyCode B = KeyCode.Joystick1Button1;
-            public const KeyCode X = KeyCode.Joystick1Button2;
-            public const KeyCode Y = KeyCode.Joystick1Button3;
-            public const KeyCode LeftBumper = KeyCode.Joystick1Button4;
-            public const KeyCode RightBumper = KeyCode.Joystick1Button5;
-            public const KeyCode Back = KeyCode.Joystick1Button6;
-            public const KeyCode Start = KeyCode.Joystick1Button7;
-            public const KeyCode LeftRocker = KeyCode.Joystick1Button8;    // 左摇杆按下
-            public const KeyCode RightRocker = KeyCode.Joystick1Button9;   // 右摇杆按下
-        };
-
-        public enum JoysticsAxes
-        {
-            LeftHorizontal, // 左摇杆X轴
-            LeftVertical,   // 左摇杆Y轴
-            RightHorizontal,// 右摇杆X轴
-            RightVertical,  // 右摇杆Y轴
-            SpecialHorizontal,// 十字键X轴
-            SpecialVertical,  // 十字键Y轴
-        }
-
-        public static readonly KeyCode[] listenedKeys = {
+        private static readonly KeyCode[] listenedKeys = {
             KeyCode.LeftArrow,
             KeyCode.UpArrow,
             KeyCode.RightArrow,
@@ -56,90 +32,21 @@ namespace MagicTower.Present.Manager
             JoysticsCode.RightRocker,
         };
 
-        static InputManager()
+        private static readonly Dictionary<JoysticsAxes, string> axesNames = new Dictionary<JoysticsAxes, string> {
+            { JoysticsAxes.LeftHorizontal, "Horizontal_Left_" },
+            { JoysticsAxes.LeftVertical, "Vertical_Left_" },
+            { JoysticsAxes.RightHorizontal, "Horizontal_XBoxRight_" },
+            { JoysticsAxes.RightVertical, "Vertical_XBoxRight_" },
+            { JoysticsAxes.SpecialHorizontal,"Horizontal_XBoxSpecial_" },
+            { JoysticsAxes.SpecialVertical,"Vertical_XBoxSpecial_" },
+        };
+
+        public InputManager() : base(listenedKeys, axesNames)
         {
-            keyStatusMap = new Dictionary<KeyCode, bool>();
-            for (int i = 0; i < listenedKeys.Length; ++i)
-            {
-                Game.DebugLog("On key listener adding: " + listenedKeys[i].ToString());
-                keyStatusMap.Add(listenedKeys[i], false);
-            }
-            axesStatusMap = new Dictionary<JoysticsAxes, float>
-            {
-                [JoysticsAxes.LeftHorizontal] = 0,
-                [JoysticsAxes.LeftVertical] = 0,
-                [JoysticsAxes.RightHorizontal] = 0,
-                [JoysticsAxes.RightVertical] = 0,
-                [JoysticsAxes.SpecialHorizontal] = 0,
-                [JoysticsAxes.SpecialVertical] = 0,
-            };
         }
 
-        static internal void UpdateScene()
+        override protected void OnKeyDown(KeyCode keyCode)
         {
-            // 监测键盘和手柄按键
-            for (int i = 0; i < listenedKeys.Length; ++i)
-            {
-                bool isDown = Input.GetKey(listenedKeys[i]);
-                bool hasDown = keyStatusMap[listenedKeys[i]];
-                if (isDown && !hasDown)
-                    OnKeyDown(listenedKeys[i]);
-                else if (hasDown && !isDown)
-                    OnKeyUp(listenedKeys[i]);
-            }
-
-            // 判断手柄类型
-            var joysticks = Input.GetJoystickNames();
-            if (joysticks != null)
-            {
-                for (var i = 0; i < joysticks.Length; ++i)
-                {
-                    switch (joysticks[i])
-                    {
-                        case "Controller (XBOX 360 For Windows)":
-                            // 检测手柄摇杆状态
-                            OnJoysticsRockerAxes(JoysticsAxes.LeftHorizontal, Input.GetAxis("Horizontal_Left_" + i));
-                            OnJoysticsRockerAxes(JoysticsAxes.LeftVertical, Input.GetAxis("Vertical_Left_" + i));
-                            OnJoysticsRockerAxes(JoysticsAxes.RightHorizontal, Input.GetAxis("Horizontal_XBoxRight_" + i));
-                            OnJoysticsRockerAxes(JoysticsAxes.RightVertical, Input.GetAxis("Vertical_XBoxRight_" + i));
-                            OnJoysticsRockerAxes(JoysticsAxes.SpecialHorizontal, Input.GetAxis("Horizontal_XBoxSpecial_" + i));
-                            OnJoysticsRockerAxes(JoysticsAxes.SpecialVertical, Input.GetAxis("Vertical_XBoxSpecial_" + i));
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-
-            // 监测鼠标和触屏
-            for (int i = 0; i < Input.touchCount; ++i)
-            {
-                var tc = Input.GetTouch(i);
-                switch (tc.phase)
-                {
-                    case TouchPhase.Began:
-                        OnTouchDown(tc.position);
-                        break;
-                    case TouchPhase.Canceled:
-                    case TouchPhase.Ended:
-                        OnTouchUp(tc.position, new Vector2(tc.position.x - tc.deltaPosition.x, tc.position.y - tc.deltaPosition.y));
-                        break;
-                }
-            }
-
-            if (Input.touchCount <= 0)
-            {
-                if (Input.GetMouseButtonDown(0) && !isMouseLeftDown)
-                    OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y), true);
-                if (Input.GetMouseButtonUp(0) && isMouseLeftDown)
-                    OnTouchUp(new Vector2(Input.mousePosition.x, Input.mousePosition.y), false);
-            }
-        }
-
-        public static void OnKeyDown(KeyCode keyCode)
-        {
-            keyStatusMap[keyCode] = true;
-
             switch (Game.Status)
             {
                 case Model.EGameStatus.Start:
@@ -197,10 +104,8 @@ namespace MagicTower.Present.Manager
             }
         }
 
-        public static void OnKeyUp(KeyCode keyCode)
+        override protected void OnKeyUp(KeyCode keyCode)
         {
-            keyStatusMap[keyCode] = false;
-
             switch (Game.Status)
             {
                 case Model.EGameStatus.Start:
@@ -271,12 +176,7 @@ namespace MagicTower.Present.Manager
             }
         }
 
-        public static void OnTouchDown(Vector2 touchedPos, bool changeMouseStatue)
-        {
-            OnTouchDown(touchedPos);
-            isMouseLeftDown = changeMouseStatue;
-        }
-        public static void OnTouchDown(Vector2 touchedPos)
+        override protected void OnTouchDown(Vector2 touchedPos)
         {
             switch (Game.Status)
             {
@@ -311,31 +211,13 @@ namespace MagicTower.Present.Manager
             }
         }
 
-        public static void OnTouchUp(Vector2 end, bool changeMouseStatue)
-        {
-            OnTouchUp(end, end, changeMouseStatue);
-        }
-
-        public static void OnTouchUp(Vector2 end)
-        {
-            OnTouchUp(end, end);
-        }
-
-        public static void OnTouchUp(Vector2 end, Vector2 begin, bool changeMouseStatue)
-        {
-            OnTouchUp(end, begin);
-            isMouseLeftDown = changeMouseStatue;
-        }
-
-        public static void OnTouchUp(Vector2 end, Vector2 begin)
+        override protected void OnTouchUp(Vector2 end, Vector2 begin)
         {
             // TODO
         }
 
-        public static void OnJoysticsRockerAxes(JoysticsAxes keyCode, float value)
+        override protected void OnJoysticsRockerAxes(JoysticsAxes keyCode, float value, float oldValue)
         {
-            var oldValue = axesStatusMap[keyCode];
-            axesStatusMap[keyCode] = value;
             switch (keyCode)
             {
                 case JoysticsAxes.LeftHorizontal:
@@ -360,12 +242,7 @@ namespace MagicTower.Present.Manager
             }
         }
 
-        public static Dictionary<KeyCode, bool> keyStatusMap;
-        private static Dictionary<JoysticsAxes, float> axesStatusMap;
-        public static bool isMouseLeftDown;
-
-
-        public static void OnChangeWalkState()
+        public void OnChangeWalkState()
         {
             if (Game.Status == Model.EGameStatus.InEditor)
             {
@@ -374,10 +251,10 @@ namespace MagicTower.Present.Manager
             else if (Game.Status == Model.EGameStatus.InGame)
             {
                 ;
-                bool up = keyStatusMap[KeyCode.UpArrow] || axesStatusMap[JoysticsAxes.LeftVertical] < -0.1 || axesStatusMap[JoysticsAxes.RightVertical] < -0.1 || axesStatusMap[JoysticsAxes.SpecialVertical] > 0.1;
-                bool down = keyStatusMap[KeyCode.DownArrow] || axesStatusMap[JoysticsAxes.LeftVertical] > 0.1 || axesStatusMap[JoysticsAxes.RightVertical] > 0.1 || axesStatusMap[JoysticsAxes.SpecialVertical] < -0.1;
-                bool right = keyStatusMap[KeyCode.RightArrow] || axesStatusMap[JoysticsAxes.LeftHorizontal] > 0.1 || axesStatusMap[JoysticsAxes.RightHorizontal] > 0.1 || axesStatusMap[JoysticsAxes.SpecialHorizontal] > 0.1;
-                bool left = keyStatusMap[KeyCode.LeftArrow] || axesStatusMap[JoysticsAxes.LeftHorizontal] < -0.1 || axesStatusMap[JoysticsAxes.RightHorizontal] < -0.1 || axesStatusMap[JoysticsAxes.SpecialHorizontal] < -0.1;
+                bool up = GetKeyStatus(KeyCode.UpArrow) || GetAxesStatus(JoysticsAxes.LeftVertical) < -0.1 || GetAxesStatus(JoysticsAxes.RightVertical) < -0.1 || GetAxesStatus(JoysticsAxes.SpecialVertical) > 0.1;
+                bool down = GetKeyStatus(KeyCode.DownArrow) || GetAxesStatus(JoysticsAxes.LeftVertical) > 0.1 || GetAxesStatus(JoysticsAxes.RightVertical) > 0.1 || GetAxesStatus(JoysticsAxes.SpecialVertical) < -0.1;
+                bool right = GetKeyStatus(KeyCode.RightArrow) || GetAxesStatus(JoysticsAxes.LeftHorizontal) > 0.1 || GetAxesStatus(JoysticsAxes.RightHorizontal) > 0.1 || GetAxesStatus(JoysticsAxes.SpecialHorizontal) > 0.1;
+                bool left = GetKeyStatus(KeyCode.LeftArrow) || GetAxesStatus(JoysticsAxes.LeftHorizontal) < -0.1 || GetAxesStatus(JoysticsAxes.RightHorizontal) < -0.1 || GetAxesStatus(JoysticsAxes.SpecialHorizontal) < -0.1;
                 int trueNum = (up ? 11 : 0) + (down ? 21 : 0) + (right ? 31 : 0) + (left ? 41 : 0);
                 if (trueNum % 10 != 1)
                     Game.Player.StopWalk();

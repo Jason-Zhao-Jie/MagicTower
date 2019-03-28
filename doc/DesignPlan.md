@@ -255,4 +255,5 @@
 2. 修复了点按窗口关闭或编辑器停止按钮突然关闭游戏时, 资源卸载报错的问题, 问题原因是, 突然关闭时不会调用 Scene 的 OnDestroy, 导致没有调用 ClearMap 和 ObjectPool.ClearAll
 3. 尝试添加了 Analytics 的代码, 同时调用 GoogleFirebaseAnalytics 和 UnityAnalytics, 需要后续完成
 4. 在卡顿的 iOS 模拟器上发现了一个可疑 bug: 当画面因卡顿而丢帧时, player 的方向转换可能无法生效 (转向那一帧丢帧, 导致人物按照原方向的朝向进行走动, 多发生在自动寻路起步, 后续转向则正常)
+5. 在 GooglePlay 控制台设置了应用的参数并接入了 GooglePlayGames 的服务及 SDK
 

@@ -29,7 +29,7 @@ namespace ArmyAnt.Manager
             SpecialVertical,  // 十字键Y轴
         }
 
-        protected InputManager(KeyCode[] listenedKeys, Dictionary<JoysticsAxes, string> axesNames)
+        protected InputManager(KeyCode[] listenedKeys, IDictionary<JoysticsAxes, string> axesNames)
         {
             keyStatusMap = new Dictionary<KeyCode, bool>();
             for (int i = 0; i < listenedKeys.Length; ++i)

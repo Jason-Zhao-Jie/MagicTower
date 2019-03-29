@@ -135,6 +135,9 @@ namespace ArmyAnt.ViewUtil.Components
             return ret;
         }
 
+        /// <summary>
+        /// 清空所有 item
+        /// </summary>
         public void Clear()
         {
             foreach (var i in children)
@@ -143,6 +146,24 @@ namespace ArmyAnt.ViewUtil.Components
                 Destroy(i.gameObject);
             }
             children.Clear();
+        }
+
+        /// <summary>
+        /// 使列表滚动到指定项目处
+        /// </summary>
+        /// <param name="index">Index.</param>
+        public void ScrollToItem(int index)
+        {
+            content.localPosition = children[index].localPosition;
+        }
+
+        /// <summary>
+        /// 使列表滚动到指定项目处
+        /// </summary>
+        /// <param name="item">item.</param>
+        public void ScrollToItem(RectTransform item)
+        {
+            content.localPosition = item.localPosition;
         }
 
         /// <summary>

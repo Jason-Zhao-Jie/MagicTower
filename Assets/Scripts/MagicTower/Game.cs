@@ -285,7 +285,10 @@ namespace MagicTower
             set
             {
                 status = value;
-                Input.OnChangeWalkState();
+                if (Player != null)
+                {
+                    Input.OnChangeWalkState();
+                }
             }
         }
 

@@ -45,6 +45,7 @@ namespace MagicTower.Model
         OnPlayingAds,
         InGame,
         InEditor,
+        InEditorDialog,
         OnMiddleLoading,
         OnEvent,
         OnBattle,

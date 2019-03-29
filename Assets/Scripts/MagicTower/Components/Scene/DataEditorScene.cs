@@ -85,12 +85,6 @@ namespace MagicTower.Components.Scene
                 }
                 musicId.AddOptions(audioList);
 
-                var backModal = mapMakerPanel.transform.Find("SetPanel").transform.Find("BackModal").GetComponent<Dropdown>();
-                var currentModal = mapMakerPanel.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>();
-                backModal.AddOptions(modalList);
-                currentModal.AddOptions(new List<Dropdown.OptionData>() { new Dropdown.OptionData("None", null) });
-                currentModal.AddOptions(modalList);
-
                 var eventId = mapMakerPanel.transform.Find("SetPanel").transform.Find("EventId").GetComponent<Dropdown>();
                 eventId.AddOptions(eventIdList);
 
@@ -221,7 +215,7 @@ namespace MagicTower.Components.Scene
 
             // 初始化
             Game.Status = Model.EGameStatus.InEditor;
-            OnChangeToMaps();
+            OnPanelSelected(0);
             return ret;
         }
 
@@ -236,33 +230,39 @@ namespace MagicTower.Components.Scene
             }
         }
 
-        // "Map"按钮回调
-        public void OnChangeToMaps()
+        public void OnPanelSelected(int value = -1)
         {
-            mapMakerPanel.SetActive(true);
-            modalMakerPanel.SetActive(false);
-            stringChatsAndChoicesPanel.SetActive(false);
-            var panel = mapMakerPanel.transform.Find("SetPanel");
-            var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
-            Game.Map.ShowMap(mapId);
-        }
-
-        // Modal&Audio按钮回调
-        public void OnChangeToModals()
-        {
-            mapMakerPanel.SetActive(false);
-            modalMakerPanel.SetActive(true);
-            stringChatsAndChoicesPanel.SetActive(false);
-            Game.Map.ChangeBack("BrownWall");
-        }
-
-        // Event 按钮回调
-        public void OnChangeToAudioAndEvents()
-        {
-            mapMakerPanel.SetActive(false);
-            modalMakerPanel.SetActive(false);
-            stringChatsAndChoicesPanel.SetActive(true);
-            Game.Map.ChangeBack("BrownWall");
+            if(value < 0)
+            {
+                value = panelSelect.value;
+            }
+            else
+            {
+                panelSelect.value = value;
+            }
+            switch (value)
+            {
+                case 0:
+                    mapMakerPanel.SetActive(true);
+                    modalMakerPanel.SetActive(false);
+                    stringChatsAndChoicesPanel.SetActive(false);
+                    var panel = mapMakerPanel.transform.Find("SetPanel");
+                    var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
+                    Game.Map.ShowMap(mapId);
+                    break;
+                case 1:
+                    mapMakerPanel.SetActive(false);
+                    modalMakerPanel.SetActive(true);
+                    stringChatsAndChoicesPanel.SetActive(false);
+                    Game.Map.ChangeBack("BrownWall");
+                    break;
+                case 2:
+                    mapMakerPanel.SetActive(false);
+                    modalMakerPanel.SetActive(false);
+                    stringChatsAndChoicesPanel.SetActive(true);
+                    Game.Map.ChangeBack("BrownWall");
+                    break;
+            }
         }
 
         // GetDataJson按钮回调
@@ -315,24 +315,42 @@ namespace MagicTower.Components.Scene
         }
 
         // Map地图块物品选择框回调
-        public void OnMapModalSelected(bool isBack)
+        public void OnMapBackModalClick()
         {
             var panel = mapMakerPanel.transform.Find("SetPanel");
             var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value;
-            if (isBack)
-            {
-                var bgModal = mapMakerPanel.transform.Find("SetPanel").transform.Find("BackModal").GetComponent<Dropdown>().value + 1;
-                Game.Map.ChangeBack(Game.Config.modals[bgModal].prefabPath);
-                Game.Config.GetGameMap(mapId).backThing = bgModal;
-            }
-            else
-            {
-                var currModal = mapMakerPanel.transform.Find("SetPanel").transform.Find("CurrentModal").GetComponent<Dropdown>().value;
-                Game.Map.ChangeThingOnMap(currModal, posx, posy);
+            Control.ModalSelectorDlg.ShowDialog(dialogCanvas.transform, Game.Config.GetGameMap(mapId).backThing, (int id) => {
+                Game.Map.ChangeBack(Game.Config.modals[id].prefabPath);
+                Game.Config.GetGameMap(mapId).backThing = id;
+                panel.transform.Find("btnBackModal").Find("Image").GetComponent<Image>().sprite = Modal.GetResourceBaseSprite(id);
+                panel.transform.Find("btnBackModal").Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(Game.Config.modals[id].name);
+            });
+        }
+
+        public void OnMapCurrentModalClick()
+        {
+            var panel = mapMakerPanel.transform.Find("SetPanel");
+            var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value;
+            Control.ModalSelectorDlg.ShowDialog(dialogCanvas.transform, Game.Config.GetGameMap(mapId).blocks[posx][posy].thing, (int id) => {
+                Game.Map.ChangeThingOnMap(id, posx, posy);
                 var block = Game.Config.GetGameMap(mapId).blocks[posx][posy];
-                block.thing = currModal;
+                block.thing = id;
                 Game.Config.GetGameMap(mapId).blocks[posx][posy] = block;
-            }
+                panel.transform.Find("btnCurrentModal").Find("Image").GetComponent<Image>().sprite = Modal.GetResourceBaseSprite(id);
+                panel.transform.Find("btnCurrentModal").Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(Game.Config.modals[id].name);
+            });
+        }
+
+        public void OnMapCurrentModalClear()
+        {
+            var panel = mapMakerPanel.transform.Find("SetPanel");
+            var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value;
+            Game.Map.ChangeThingOnMap(0, posx, posy);
+            var block = Game.Config.GetGameMap(mapId).blocks[posx][posy];
+            block.thing = 0;
+            Game.Config.GetGameMap(mapId).blocks[posx][posy] = block;
+            panel.transform.Find("btnCurrentModal").Find("Image").GetComponent<Image>().sprite = null;
+            panel.transform.Find("btnCurrentModal").Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue("none");
         }
 
         public void OnMapModalEventIdSelected()
@@ -352,7 +370,8 @@ namespace MagicTower.Components.Scene
             var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
             panel.transform.Find("MapName").GetComponent<InputField>().text = Game.Config.GetGameMap(mapId - 1).mapName;
             panel.transform.Find("Music").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).music - 1;
-            panel.transform.Find("BackModal").GetComponent<Dropdown>().value = Game.Config.GetGameMap(mapId - 1).backThing - 1;
+            panel.transform.Find("btnBackModal").Find("Image").GetComponent<Image>().sprite = Modal.GetResourceBaseSprite(Game.Config.GetGameMap(mapId - 1).backThing);
+            panel.transform.Find("btnBackModal").Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(Game.Config.modals[Game.Config.GetGameMap(mapId - 1).backThing].name);
             Game.Map.ShowMap(mapId);
             OnMapClicked(0, 0);
             AudioManager.StopMusic();
@@ -369,7 +388,16 @@ namespace MagicTower.Components.Scene
             var mapId = panel.transform.Find("MapId").GetComponent<Dropdown>().value + 1;
             var map = Game.Config.GetGameMap(mapId - 1);
             panel.transform.Find("CurrentPosition").GetComponent<Text>().text = "(" + posx + ", " + posy + ")";
-            panel.transform.Find("CurrentModal").GetComponent<Dropdown>().value = map.blocks[posx][posy].thing;
+            if (map.blocks[posx][posy].thing == 0)
+            {
+                panel.transform.Find("btnCurrentModal").Find("Image").GetComponent<Image>().sprite = null;
+                panel.transform.Find("btnCurrentModal").Find("Text").GetComponent<Text>().text = "none";
+            }
+            else
+            {
+                panel.transform.Find("btnCurrentModal").Find("Image").GetComponent<Image>().sprite = Modal.GetResourceBaseSprite(map.blocks[posx][posy].thing);
+                panel.transform.Find("btnCurrentModal").Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(Game.Config.modals[map.blocks[posx][posy].thing].name);
+            }
             panel.transform.Find("EventId").GetComponent<Dropdown>().value = map.blocks[posx][posy].eventId;
             ResetEventData(EventDataSourceType.MapBlock);
         }
@@ -1171,6 +1199,7 @@ namespace MagicTower.Components.Scene
         }
 
         public GameObject dialogCanvas;
+        public Dropdown panelSelect;
 
         private GameObject[] allPrefabs;
         private GameObject mapMakerPanel;

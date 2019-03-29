@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace MagicTower.Present.Manager
 {
@@ -32,14 +33,14 @@ namespace MagicTower.Present.Manager
             JoysticsCode.RightRocker,
         };
 
-        private static readonly Dictionary<JoysticsAxes, string> axesNames = new Dictionary<JoysticsAxes, string> {
+        private static readonly ReadOnlyDictionary<JoysticsAxes, string> axesNames = new ReadOnlyDictionary<JoysticsAxes, string>(new Dictionary<JoysticsAxes, string> {
             { JoysticsAxes.LeftHorizontal, "Horizontal_Left_" },
             { JoysticsAxes.LeftVertical, "Vertical_Left_" },
             { JoysticsAxes.RightHorizontal, "Horizontal_XBoxRight_" },
             { JoysticsAxes.RightVertical, "Vertical_XBoxRight_" },
             { JoysticsAxes.SpecialHorizontal,"Horizontal_XBoxSpecial_" },
             { JoysticsAxes.SpecialVertical,"Vertical_XBoxSpecial_" },
-        };
+        });
 
         public InputManager() : base(listenedKeys, axesNames)
         {

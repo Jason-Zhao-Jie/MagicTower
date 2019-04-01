@@ -336,8 +336,13 @@ namespace MagicTower.Components.Scene
                 var block = Game.Config.GetGameMap(mapId).blocks[posx][posy];
                 block.thing = id;
                 Game.Config.GetGameMap(mapId).blocks[posx][posy] = block;
-                panel.transform.Find("btnCurrentModal").Find("Image").GetComponent<Image>().sprite = Modal.GetResourceBaseSprite(id);
-                panel.transform.Find("btnCurrentModal").Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(Game.Config.modals[id].name);
+                if (id == 0) {
+                    panel.transform.Find("btnCurrentModal").Find("Image").GetComponent<Image>().sprite = null;
+                    panel.transform.Find("btnCurrentModal").Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue("none");
+                } else {
+                    panel.transform.Find("btnCurrentModal").Find("Image").GetComponent<Image>().sprite = Modal.GetResourceBaseSprite(id);
+                    panel.transform.Find("btnCurrentModal").Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(Game.Config.modals[id].name);
+                }
             });
         }
 

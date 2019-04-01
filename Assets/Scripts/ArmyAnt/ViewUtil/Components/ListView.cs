@@ -118,6 +118,9 @@ namespace ArmyAnt.ViewUtil.Components
             ret.SetParent(content);
             ret.SetSiblingIndex(index);
             ret.localScale = new Vector3(1, 1, 1);
+            var pos = ret.localPosition;
+            pos.z = DefaultElement.localPosition.z;
+            ret.localPosition = pos;
             children.Insert(index, ret);
             return ret;
         }
@@ -154,7 +157,7 @@ namespace ArmyAnt.ViewUtil.Components
         /// <param name="index">Index.</param>
         public void ScrollToItem(int index)
         {
-            content.localPosition = children[index].localPosition;
+            ScrollToItem(children[index]);
         }
 
         /// <summary>
@@ -163,7 +166,18 @@ namespace ArmyAnt.ViewUtil.Components
         /// <param name="item">item.</param>
         public void ScrollToItem(RectTransform item)
         {
-            content.localPosition = item.localPosition;
+            var pos = content.localPosition;
+            if (horizontal) {
+                pos.x = -item.localPosition.x  - GetComponent<RectTransform>().rect.size.x / 2;
+                if (pos.x < 0) { pos.x = 0; }
+                if (pos.x > content.rect.size.x) { pos.x = content.rect.size.x; }
+            }
+            if (vertical) {
+                pos.y = -item.localPosition.y  - GetComponent<RectTransform>().rect.size.y / 2;
+                if (pos.y < 0) { pos.y = 0; }
+                if (pos.y > content.rect.size.y) { pos.y = content.rect.size.y; }
+            }
+            content.localPosition = pos;
         }
 
         /// <summary>

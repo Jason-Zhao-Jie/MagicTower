@@ -62,8 +62,12 @@ namespace MagicTower.Components.Control
         {
         }
 
-        public override bool OnUnuse(ObjectPool.ElementType tid, int elemId)
-        {
+        public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
+            if (selectedItem != null) {
+                selectedItem.GetComponent<Image>().color = whiteHalf;
+            }
+            selectedItem = null;
+            selectedCallback = null;
             showed = false;
             Game.Status = lastStatus;
             return true;
@@ -113,14 +117,10 @@ namespace MagicTower.Components.Control
             {
                 if (selectedItem != null)
                 {
-                    selectedCallback(selectedItem.GetComponent<UserData>().GetIntegerData());
-                    RecycleSelf();
+                    nowId = selectedItem.GetComponent<UserData>().GetIntegerData();
                 }
-                else
-                {
-                    selectedCallback(nowId);
-                    RecycleSelf();
-                }
+                selectedCallback(nowId);
+                RecycleSelf();
                 return;
             }
             if (selectedItem != null)
@@ -137,18 +137,12 @@ namespace MagicTower.Components.Control
                         break;
                     }
                 }
-                if(sender == NowShowing)
-                {
-                    selectedCallback(nowId);
-                    RecycleSelf();
-                    return;
-                }
+                ModalList.ScrollToItem(sender);
             }
             selectedItem = sender;
             sender.GetComponent<Image>().color = Color.blue;
             SelectedModal.sprite = sender.transform.Find("Image").GetComponent<Image>().sprite;
             SelectedModalName.text = Game.Config.StringInternational.GetValue(sender.GetComponent<UserData>().GetStringData());
-            ModalList.ScrollToItem(selectedItem);
         }
 
         // Update is called once per frame

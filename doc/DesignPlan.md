@@ -260,3 +260,9 @@
 ## 2019-3-29-Friday
 1. 为编辑器制作了 Modal Selector 的框, 现已基本可以正常使用
 
+## 2019-4-2-Tuesday
+1. 修正了 Modal Selector 和 Data Editor 的一些bug
+
+
+
+

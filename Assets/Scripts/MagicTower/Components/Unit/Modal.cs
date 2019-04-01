@@ -50,6 +50,9 @@ namespace MagicTower.Components.Unit
 
         public static string GetResourcePath(int modId)
         {
+            if (modId <= 0) {
+                return null;
+            }
             return GetResourcePath(Game.Config.modals[modId].prefabPath);
         }
 
@@ -60,6 +63,9 @@ namespace MagicTower.Components.Unit
 
         public static Sprite GetResourceBaseSprite(int modId)
         {
+            if (modId <= 0) {
+                return null;
+            }
             var prefab = Resources.Load<GameObject>(GetResourcePath(modId));
             return prefab.GetComponent<SpriteRenderer>().sprite;
         }

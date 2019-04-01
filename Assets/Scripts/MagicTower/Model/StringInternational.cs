@@ -13,7 +13,7 @@ namespace MagicTower.Model
 
         public string GetValue(string key, params string[] values)
         {
-            if (!Game.Config.strings.ContainsKey(key))
+            if (key == null || !Game.Config.strings.ContainsKey(key))
             {
                 Debug.LogWarning("Undefined string key \"" + key + "\" in any language");
                 return key;

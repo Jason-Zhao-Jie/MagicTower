@@ -20,8 +20,6 @@ namespace MagicTower.Components.Scene
                 await ret;
             }
 
-            dialogCanvas = GameObject.Find("DialogCanvas");
-
             // 加载对话框
 
             topChatPanel = ChatDlg.ShowChat(true);
@@ -259,7 +257,7 @@ namespace MagicTower.Components.Scene
         private int chatIndex = 0;
         private Modal battleMod;
 
-        private GameObject dialogCanvas = null;
+        public GameObject dialogCanvas = null;
         private ChatDlg topChatPanel = null;
         private ChatDlg bottomChatPanel = null;
         private TipBar tipsPanel = null;

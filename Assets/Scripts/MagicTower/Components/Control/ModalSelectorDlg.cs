@@ -45,8 +45,9 @@ namespace MagicTower.Components.Control
             return ret;
         }
 
-        public override string ResourcePath { get { return Model.Dirs.DIALOG_DIR + PREFAB_DIR; } }
-        public static string GetResourcePath() { return Model.Dirs.DIALOG_DIR + PREFAB_DIR; }
+
+        public override string ResourcePath => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
+        public static string GetResourcePath() => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
 
         public override ObjectPool.ElementType GetPoolTypeId()
         {

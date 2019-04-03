@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace ArmyAnt.Manager
-{
-    public abstract class InputManager
-    {
-        protected static class JoysticsCode
-        {
+namespace ArmyAnt.Manager {
+    public abstract class InputManager {
+        protected static class JoysticsCode {
             public const KeyCode A = KeyCode.Joystick1Button0;
             public const KeyCode B = KeyCode.Joystick1Button1;
             public const KeyCode X = KeyCode.Joystick1Button2;
@@ -19,8 +16,7 @@ namespace ArmyAnt.Manager
             public const KeyCode RightRocker = KeyCode.Joystick1Button9;   // 右摇杆按下
         };
 
-        protected enum JoysticsAxes
-        {
+        protected enum JoysticsAxes {
             LeftHorizontal, // 左摇杆X轴
             LeftVertical,   // 左摇杆Y轴
             RightHorizontal,// 右摇杆X轴
@@ -29,15 +25,12 @@ namespace ArmyAnt.Manager
             SpecialVertical,  // 十字键Y轴
         }
 
-        protected InputManager(KeyCode[] listenedKeys, IDictionary<JoysticsAxes, string> axesNames)
-        {
+        protected InputManager(KeyCode[] listenedKeys, IDictionary<JoysticsAxes, string> axesNames) {
             keyStatusMap = new Dictionary<KeyCode, bool>();
-            for (int i = 0; i < listenedKeys.Length; ++i)
-            {
+            for (int i = 0; i < listenedKeys.Length; ++i) {
                 keyStatusMap.Add(listenedKeys[i], false);
             }
-            axesStatusMap = new Dictionary<JoysticsAxes, float>
-            {
+            axesStatusMap = new Dictionary<JoysticsAxes, float> {
                 [JoysticsAxes.LeftHorizontal] = 0,
                 [JoysticsAxes.LeftVertical] = 0,
                 [JoysticsAxes.RightHorizontal] = 0,
@@ -45,8 +38,7 @@ namespace ArmyAnt.Manager
                 [JoysticsAxes.SpecialHorizontal] = 0,
                 [JoysticsAxes.SpecialVertical] = 0,
             };
-            listenedAxesNames = new Dictionary<JoysticsAxes, string>
-            {
+            listenedAxesNames = new Dictionary<JoysticsAxes, string> {
                 [JoysticsAxes.LeftHorizontal] = axesNames[JoysticsAxes.LeftHorizontal],
                 [JoysticsAxes.LeftVertical] = axesNames[JoysticsAxes.LeftVertical],
                 [JoysticsAxes.RightHorizontal] = axesNames[JoysticsAxes.RightHorizontal],
@@ -57,20 +49,15 @@ namespace ArmyAnt.Manager
         }
 
 
-        public void UpdateScene()
-        {
+        public void UpdateScene() {
             // 监测键盘和手柄按键
-            foreach (var i in keyStatusMap)
-            {
+            foreach (var i in keyStatusMap) {
                 bool isDown = Input.GetKey(i.Key);
                 bool hasDown = i.Value;
-                if (isDown && !hasDown)
-                {
+                if (isDown && !hasDown) {
                     keyStatusMap[i.Key] = true;
                     OnKeyDown(i.Key);
-                }
-                else if (hasDown && !isDown)
-                {
+                } else if (hasDown && !isDown) {
                     keyStatusMap[i.Key] = false;
                     OnKeyUp(i.Key);
                 }
@@ -78,16 +65,12 @@ namespace ArmyAnt.Manager
 
             // 判断手柄类型
             var joysticks = Input.GetJoystickNames();
-            if (joysticks != null)
-            {
-                for (var i = 0; i < joysticks.Length; ++i)
-                {
-                    switch (joysticks[i])
-                    {
+            if (joysticks != null) {
+                for (var i = 0; i < joysticks.Length; ++i) {
+                    switch (joysticks[i]) {
                         case "Controller (XBOX 360 For Windows)":
                             // 检测手柄摇杆状态
-                            foreach(var key in listenedAxesNames)
-                            {
+                            foreach (var key in listenedAxesNames) {
                                 var oldValue = axesStatusMap[key.Key];
                                 var newValue = Input.GetAxis(key.Value + i);
                                 axesStatusMap[key.Key] = newValue;
@@ -102,11 +85,9 @@ namespace ArmyAnt.Manager
             }
 
             // 监测鼠标和触屏
-            for (int i = 0; i < Input.touchCount; ++i)
-            {
+            for (int i = 0; i < Input.touchCount; ++i) {
                 var tc = Input.GetTouch(i);
-                switch (tc.phase)
-                {
+                switch (tc.phase) {
                     case TouchPhase.Began:
                         OnTouchDown(tc.position);
                         break;
@@ -117,15 +98,12 @@ namespace ArmyAnt.Manager
                 }
             }
 
-            if (Input.touchCount <= 0)
-            {
-                if (Input.GetMouseButtonDown(0) && !isMouseLeftDown)
-                {
+            if (Input.touchCount <= 0) {
+                if (Input.GetMouseButtonDown(0) && !isMouseLeftDown) {
                     OnTouchDown(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
                     isMouseLeftDown = true;
                 }
-                if (Input.GetMouseButtonUp(0) && isMouseLeftDown)
-                {
+                if (Input.GetMouseButtonUp(0) && isMouseLeftDown) {
                     var pos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
                     OnTouchUp(pos, pos);
                     isMouseLeftDown = false;
@@ -139,13 +117,11 @@ namespace ArmyAnt.Manager
         abstract protected void OnTouchUp(Vector2 end, Vector2 begin);
         abstract protected void OnJoysticsRockerAxes(JoysticsAxes keyCode, float value, float oldValue);
 
-        protected bool GetKeyStatus(KeyCode key)
-        {
+        protected bool GetKeyStatus(KeyCode key) {
             return keyStatusMap[key];
         }
 
-        protected float GetAxesStatus(JoysticsAxes key)
-        {
+        protected float GetAxesStatus(JoysticsAxes key) {
             return axesStatusMap[key];
         }
 

@@ -84,13 +84,8 @@ namespace MagicTower.Components.Control
             return Game.ObjPoolRecycleSelf(this);
         }
 
-        public override string ResourcePath
-        {
-            get
-            {
-                return Model.Dirs.DIALOG_DIR + (isTop ? TOP_PREFAB_DIR : BOTTOM_PREFAB_DIR);
-            }
-        }
+
+        public override string ResourcePath => Model.Dirs.DIALOG_DIR + (isTop ? TOP_PREFAB_DIR : BOTTOM_PREFAB_DIR);
 
         public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
         {

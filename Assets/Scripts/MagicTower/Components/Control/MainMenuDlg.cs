@@ -11,7 +11,6 @@ namespace MagicTower.Components.Control {
         public static MainMenuDlg ShowDialog(Scene.MainScene parent) {
             // 弹出战斗框
             var ret = Game.ObjPool.GetAnElement<MainMenuDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
-            ret.showed = true;
             ret.parent = parent;
             ret.transform.SetParent(parent.dialogCanvas.transform, false);
             ret.transform.SetSiblingIndex(1);
@@ -37,7 +36,6 @@ namespace MagicTower.Components.Control {
         }
 
         public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
-            showed = false;
             Game.Status = lastStatus;
             return true;
         }
@@ -55,6 +53,26 @@ namespace MagicTower.Components.Control {
 
         }
 
+        public void OnResume() {
+            RecycleSelf();
+        }
+
+        public void OnSaveGame() {
+
+        }
+
+        public void OnLoadGame() {
+
+        }
+
+        public void OnSettings() {
+
+        }
+
+        public void OnExit() {
+            Game.CurrentScene.BackToStartScene();
+        }
+
         public Text btnResumeText;
         public Text btnSaveGameText;
         public Text btnLoadGameText;
@@ -62,7 +80,6 @@ namespace MagicTower.Components.Control {
         public Text btnExitText;
 
         private Scene.MainScene parent = null;
-        private bool showed = false;
         private Model.EGameStatus lastStatus;
     }
 

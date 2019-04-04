@@ -4,19 +4,15 @@ using MagicTower.Components.Control;
 using MagicTower.Components.Unit;
 using MagicTower.Present.Manager;
 
-namespace MagicTower.Components.Scene
-{
+namespace MagicTower.Components.Scene {
 
-    public class MainScene : AScene
-    {
+    public class MainScene : AScene {
         override public SceneType Type { get { return SceneType.MainScene; } }
 
         // Use this for initialization
-        override protected async System.Threading.Tasks.Task Start()
-        {
+        override protected async System.Threading.Tasks.Task Start() {
             var ret = base.Start();
-            if (ret != null)
-            {
+            if (ret != null) {
                 await ret;
             }
 
@@ -47,27 +43,25 @@ namespace MagicTower.Components.Scene
         }
 
         // Update is called once per frame
-        void Update()
-        {
+        void Update() {
             Game.SceneUpdate();
         }
 
-        public override void OnMapClicked(int posx, int posy)
-        {
+        public override void OnMapClicked(int posx, int posy) {
             Game.Player.StartAutoStep(posx, posy);
         }
 
-        public void OnBtnMenuClicked()
-        {
-            var ret = AdsPluginManager.ShowRewardBasedVideo((string type, double amount) =>
-            {
+        public void OnBtnMenuClicked() {
+            MainMenuDlg.ShowDialog(this);
+        }
+
+        public void PlayAds() { 
+            var ret = AdsPluginManager.ShowRewardBasedVideo((string type, double amount) => {
                 ShowTips("Google MobAds loaded OK and get reward successful");
-            }, () =>
-            {
+            }, () => {
                 ShowTips("Google MobAds loaded OK and closed");
             });
-            switch (ret)
-            {
+            switch (ret) {
                 case AdsPluginManager.AdLoadingState.UnablePlatform:
                     ShowTips("Google MobAds cannot be used at current platform " + Application.platform.ToString());
                     break;
@@ -88,8 +82,7 @@ namespace MagicTower.Components.Scene
 
         /********************** Chat Part **************************************/
 
-        public void ShowChatOnTop(string content, int speakerId = -1)
-        {
+        public void ShowChatOnTop(string content, int speakerId = -1) {
             Game.Status = Model.EGameStatus.OnTipChat;
             topChatPanel.gameObject.SetActive(true);
             bottomChatPanel.gameObject.SetActive(false);
@@ -97,8 +90,7 @@ namespace MagicTower.Components.Scene
             topChatPanel.SetChat(Game.Config.StringInternational.GetValue(content), speakerId);
         }
 
-        public void ShowChatOnBottom(string content, int speakerId = -1)
-        {
+        public void ShowChatOnBottom(string content, int speakerId = -1) {
             Game.Status = Model.EGameStatus.OnTipChat;
             topChatPanel.gameObject.SetActive(false);
             bottomChatPanel.gameObject.SetActive(true);
@@ -106,14 +98,11 @@ namespace MagicTower.Components.Scene
             bottomChatPanel.SetChat(Game.Config.StringInternational.GetValue(content), speakerId);
         }
 
-        public override void ShowTips(params string[] texts)
-        {
+        public override void ShowTips(params string[] texts) {
             var text = "";
-            if(texts != null)
-            {
+            if (texts != null) {
                 var builder = new System.Text.StringBuilder();
-                for (var i = 0; i < texts.Length; ++i)
-                {
+                for (var i = 0; i < texts.Length; ++i) {
                     builder.Append(Game.Config.StringInternational.GetValue(texts[i]));
                 }
                 text = builder.ToString();
@@ -125,48 +114,36 @@ namespace MagicTower.Components.Scene
             tipsPanel.SetTipText(text);
         }
 
-        private void ClearChats()
-        {
+        private void ClearChats() {
             chat = null;
             chatIndex = 0;
             topChatPanel.gameObject.SetActive(false);
             bottomChatPanel.gameObject.SetActive(false);
             tipsPanel.gameObject.SetActive(false);
-            if (battlePanel != null && battlePanel.isActiveAndEnabled)
-            {
+            if (battlePanel != null && battlePanel.isActiveAndEnabled) {
                 Game.Status = Model.EGameStatus.OnBattle;
-            }
-            else if (choicePanel != null && choicePanel.isActiveAndEnabled)
-            {
+            } else if (choicePanel != null && choicePanel.isActiveAndEnabled) {
                 Game.Status = Model.EGameStatus.OnChoice;
-            }
-            else
-            {
+            } else {
                 Game.Status = Model.EGameStatus.InGame;
             }
         }
 
-        public void ChatBegan(Model.ChatData chat, Modal mod)
-        {
+        public void ChatBegan(Model.ChatData chat, Modal mod) {
             this.chat = chat;
             chatMod = mod;
             ChatStepOn();
         }
 
-        public void ChatStepOn()
-        {
+        public void ChatStepOn() {
             if (chat == null)    // 没有chat数据, 说明是代码呼出的临时chat
             {
                 ClearChats();
-            }
-            else if (chatIndex >= chat.data.Length)
-            {
+            } else if (chatIndex >= chat.data.Length) {
                 chatIndex = 0;
                 EventManager.DispatchEvent(chat.eventId, chatMod, chat.eventData);    // TODO : 这里的事件返回值没有生效
                 ClearChats();
-            }
-            else
-            {
+            } else {
                 var chatData = chat.data[chatIndex];
                 if (chatData.speakerId < -100)
                     ShowTips(chatData.content);
@@ -182,70 +159,56 @@ namespace MagicTower.Components.Scene
 
         /********************** Battle Part **************************************/
 
-        public void StartBattle(Modal enemyModal, bool canFail, long yourUuid = -1, BattleDlg.BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
-        {
+        public void StartBattle(Modal enemyModal, bool canFail, long yourUuid = -1, BattleDlg.BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0) {
             battlePanel = BattleDlg.StartBattle(dialogCanvas.transform, OnBattleOver, canFail, enemyModal.Uuid, yourUuid, pauseCheck, pauseEvent);
             battlePanel.transform.localPosition = new Vector3(0, 0, 12);
             battlePanel.transform.localScale = new Vector3(1, 1, 1);
             battleMod = enemyModal;
         }
 
-        public void StopBattle()
-        {
-            if (battlePanel != null)
-            {
+        public void StopBattle() {
+            if (battlePanel != null) {
                 BattleDlg.CloseBattle(battlePanel);
                 battlePanel = null;
             }
         }
 
-        private void OnBattleOver(bool gameover, int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long[] nextEventData)
-        {
+        private void OnBattleOver(bool gameover, int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long[] nextEventData) {
             // 记录应用战斗结果（金币，经验，血量）
-            if (yourId == Game.Player.PlayerId)
-            {
+            if (yourId == Game.Player.PlayerId) {
                 Game.Player.Life = yourLife;
                 Game.Player.Gold += goldGain;
                 Game.Player.Experience += expGain;
             }
-            if (gameover)
-            {
+            if (gameover) {
                 OnGameOver();
-            }
-            else
-            {
+            } else {
                 EventManager.DispatchEvent(nextEvent, battleMod, nextEventData);
             }
         }
 
-        private void OnGameOver()
-        {
+        private void OnGameOver() {
             StartCoroutine(GameOverResolve());
             Game.Map.ShowCurtain(Curtain.ContentType.GameOver, null);
             BackToStartScene(7);
         }
 
-        private IEnumerator GameOverResolve()
-        {
+        private IEnumerator GameOverResolve() {
             yield return new WaitForSeconds(1.6f);
             battlePanel.gameObject.SetActive(false);
         }
 
         /********************** Choice Part **************************************/
 
-        public void StartChoice(Model.ChoiceData choiceData, Modal mod, Model.EGameStatus nextStatus = Model.EGameStatus.InGame)
-        {
+        public void StartChoice(Model.ChoiceData choiceData, Modal mod, Model.EGameStatus nextStatus = Model.EGameStatus.InGame) {
             choicePanel = ChoiceDlg.StartChoice(dialogCanvas.transform, choiceData, mod, nextStatus);
-            if (topChatPanel != null && topChatPanel.isActiveAndEnabled)
-            {
+            if (topChatPanel != null && topChatPanel.isActiveAndEnabled) {
                 topChatPanel.gameObject.SetActive(false);
             }
-            if (bottomChatPanel != null && bottomChatPanel.isActiveAndEnabled)
-            {
+            if (bottomChatPanel != null && bottomChatPanel.isActiveAndEnabled) {
                 bottomChatPanel.gameObject.SetActive(false);
             }
-            if (tipsPanel != null && tipsPanel.isActiveAndEnabled)
-            {
+            if (tipsPanel != null && tipsPanel.isActiveAndEnabled) {
                 tipsPanel.gameObject.SetActive(false);
             }
         }

@@ -14,9 +14,6 @@ namespace MagicTower.Components.Scene
         private const string str_dataEditor = "str_ui_dataEditor";
         private const string str_languageSwitch = "str_ui_languageSwitch";
 
-        private const int default_language_id = 2;
-        private const string language_pref_key = "language";
-
         // Use this for initialization
         override protected System.Threading.Tasks.Task Start()
         {
@@ -37,13 +34,7 @@ namespace MagicTower.Components.Scene
             }
             languageDrop.AddOptions(languages);
 
-            var id = default_language_id;
-            if (PlayerPrefs.HasKey(language_pref_key))
-            {
-                id = PlayerPrefs.GetInt(language_pref_key);
-                languageDrop.value = id - 1;
-                SetUIByLanguage(id);
-            }
+            SetUIByLanguage(Game.Config.StringInternational.LanguageId);
 
             if (!Game.DEBUG)
             {
@@ -69,9 +60,9 @@ namespace MagicTower.Components.Scene
             }
         }
 
-        private void SetUIByLanguage(int id)
-        {
-            Game.Config.StringInternational.SetLanguageById(id);
+        private void SetUIByLanguage(int id) {
+            languageDrop.value = id - 1;
+            Game.Config.StringInternational.LanguageId = id;
 
             btnStartNewGame.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_startNewGame);
             btnLoadSavedGame.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_loadSavedGame);
@@ -101,7 +92,6 @@ namespace MagicTower.Components.Scene
 
         public void OnChangeLanguage()
         {
-            PlayerPrefs.SetInt(language_pref_key, languageDrop.value + 1);
             SetUIByLanguage(languageDrop.value + 1);
         }
 

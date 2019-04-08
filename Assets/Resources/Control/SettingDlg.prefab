@@ -270,8 +270,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnRightClick
+      - m_Target: {fileID: 8978342959994597216}
+        m_MethodName: OnCancel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -479,8 +479,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnLeftClick
+      - m_Target: {fileID: 8978342959994597216}
+        m_MethodName: OnOK
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1063,6 +1063,7 @@ GameObject:
   - component: {fileID: 7022939344723652920}
   - component: {fileID: 7022939344723652922}
   - component: {fileID: 7022939344723652921}
+  - component: {fileID: 8978342959994597216}
   m_Layer: 5
   m_Name: SettingDlg
   m_TagString: Untagged
@@ -1131,3 +1132,20 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &8978342959994597216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7022939344723652919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d814ef0d363a7d845a3ec3742206b437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 6804322229771231518}
+  btnOK: {fileID: 2788672114653287291}
+  txtOK: {fileID: 2788672113763055526}
+  btnCancel: {fileID: 2788672113984319869}
+  txtCancel: {fileID: 2788672114326256505}

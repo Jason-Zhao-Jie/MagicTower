@@ -7,7 +7,7 @@ namespace MagicTower.Model
     {
         public const string AUDIO_DIR = "Audio/";
         public const string PREFAB_DIR = "Prefab/";
-        public const string DIALOG_DIR = "Controls/";
+        public const string DIALOG_DIR = "Control/";
         public const string MAP_DATA_DIR = "MapData/";
     }
 

@@ -66,7 +66,7 @@ namespace MagicTower.Components.Control {
         }
 
         public void OnSettings() {
-
+            SettingDlg.ShowDialog(transform.parent.gameObject);
         }
 
         public void OnExit() {

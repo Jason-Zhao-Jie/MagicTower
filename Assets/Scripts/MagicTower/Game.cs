@@ -1,53 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace MagicTower
-{
+namespace MagicTower {
 
-    public static class Game
-    {
+    public static class Game {
         public const bool DEBUG = true;
 
-        public static void DebugLog(params string[] content)
-        {
-            if (DEBUG && content != null)
-            {
+        public static void DebugLog(params string[] content) {
+            if (DEBUG && content != null) {
                 string text = "";
-                for(var i = 0; i < content.Length; ++i)
-                {
+                for (var i = 0; i < content.Length; ++i) {
                     text += content[i];
                 }
                 UnityEngine.Debug.Log(text);
             }
         }
 
-        static Game()
-        {
+        static Game() {
             // private manager
-            if (Input == null)
-            {
+            if (Input == null) {
                 Input = new Present.Manager.InputManager();
             }
 
             CurrentSaveName = "";
         }
 
-        public static void Initial(Components.AScene scene)
-        {
-            if (!InitOK)
-            {
+        public static async System.Threading.Tasks.Task Initial(Components.AScene scene) {
+            if (!InitOK) {
                 Present.Manager.AdsPluginManager.Initialize(false, true);
-
                 InitOK = true;
             }
 
-            if (Config == null)
-            {
+            if (Config == null) {
                 Config = new Model.ConfigCenter();
             }
 
-            if (ObjPool == null)
-            {
+            if(Settings == null) {
+                Settings = new Model.GlobalSettings();
+                await Settings.Load();
+            }
+
+            if (ObjPool == null) {
                 ObjPool = new ArmyAnt.ViewUtil.ObjectPool();
             }
 
@@ -56,71 +49,60 @@ namespace MagicTower
             status = Model.EGameStatus.Start;
         }
 
-        public static void ExitGame()
-        {
+        public static void ExitGame() {
             UnityEngine.Application.Quit();
 #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
         }
 
-        public static Components.AScene CurrentScene
-        {
+        public static Components.AScene CurrentScene {
             get; private set;
         }
 
-        public static Model.ConfigCenter Config
-        {
+        public static Model.ConfigCenter Config {
             get; private set;
         }
 
-        public static Present.Map.Controller Map
-        {
+        public static Model.GlobalSettings Settings {
+            get; private set;
+        }
+
+        public static Present.Map.Controller Map {
             get; set;
         }
 
-        public static Present.Player.Controller Player
-        {
+        public static Present.Player.Controller Player {
             get; set;
         }
 
-        public static ArmyAnt.ViewUtil.ObjectPool ObjPool
-        {
+        public static ArmyAnt.ViewUtil.ObjectPool ObjPool {
             get; private set;
         }
 
         public static bool InitOK { get; private set; }
 
-        public static bool ObjPoolRecycleSelf<T>(T self) where T : ArmyAnt.ViewUtil.ObjectPool.AViewUnit
-        {
+        public static bool ObjPoolRecycleSelf<T>(T self) where T : ArmyAnt.ViewUtil.ObjectPool.AViewUnit {
             return ObjPool.RecycleAnElement(self);
         }
 
-        public static void InvokeInMainThread(int delaySeconds, Model.EmptyCallBack cb)
-        {
+        public static void InvokeInMainThread(int delaySeconds, Model.EmptyCallBack cb) {
             InvokeInMainThread(() => { CurrentScene.StartCoroutine(CoroutineFunc(delaySeconds, cb)); });
         }
 
-        private static IEnumerator CoroutineFunc(int seconds, Model.EmptyCallBack cb)
-        {
+        private static IEnumerator CoroutineFunc(int seconds, Model.EmptyCallBack cb) {
             yield return new UnityEngine.WaitForSeconds(seconds);
             cb();
         }
 
-        public static void InvokeInMainThread(Model.EmptyCallBack func)
-        {
-            if(func == null)
-            {
+        public static void InvokeInMainThread(Model.EmptyCallBack func) {
+            if (func == null) {
                 return;
             }
-            if (System.Threading.Thread.CurrentThread.ManagedThreadId == mainThreadId)
-            {
+            if (System.Threading.Thread.CurrentThread.ManagedThreadId == mainThreadId) {
                 func();
-            }
-            else
-            {
-                lock (mainThreadTaskQueue)
-                {
+            } else {
+                lock (mainThreadTaskQueue) {
                     mainThreadTaskQueue.Enqueue(func);
                 }
             }
@@ -128,15 +110,12 @@ namespace MagicTower
 
         private static Present.Manager.InputManager Input;
 
-        public static void SceneUpdate()
-        {
+        public static void SceneUpdate() {
             Input.UpdateScene();
 
             Model.EmptyCallBack resolvingTask = null;
-            lock (mainThreadTaskQueue)
-            {
-                if (mainThreadTaskQueue.Count>0)
-                {
+            lock (mainThreadTaskQueue) {
+                if (mainThreadTaskQueue.Count > 0) {
                     resolvingTask = mainThreadTaskQueue.Dequeue();
                 }
             }
@@ -149,112 +128,89 @@ namespace MagicTower
         ////////////// Runtime Data Save / Load ///////////////
 
         [System.Serializable]
-        private struct RuntimePositionData
-        {
+        private struct RuntimePositionData {
             public int mapId;
             public int x;
             public int y;
         }
 
         [System.Serializable]
-        private struct RuntimeNumberData
-        {
+        private struct RuntimeNumberData {
             public int id;
             public long value;
         }
 
         [System.Serializable]
-        private class RuntimeGameData
-        {
+        private class RuntimeGameData {
             public Model.PlayerData player;
             public RuntimePositionData pos;
             public RuntimeNumberData[] numbers;
         }
 
-        public static async System.Threading.Tasks.Task<bool> Save(string saveName)
-        {
-            if (!ArmyAnt.Manager.IOManager.MkdirIfNotExist("save", saveName) || !ArmyAnt.Manager.IOManager.MkdirIfNotExist("save", saveName, "MapData"))
-            {
+        public static async System.Threading.Tasks.Task<bool> Save(string saveName) {
+            if (!ArmyAnt.Manager.IOManager.MkdirIfNotExist("save", saveName) || !ArmyAnt.Manager.IOManager.MkdirIfNotExist("save", saveName, "MapData")) {
                 return false;
             }
             var maps = new Model.MapData[Map.MapsCount];
             Map.GetAllMapData().Values.CopyTo(maps, 0);
             var numbers = new RuntimeNumberData[numberData.Count];
             int index_numbers = 0;
-            foreach (var i in numberData)
-            {
-                numbers[index_numbers++] = new RuntimeNumberData
-                {
+            foreach (var i in numberData) {
+                numbers[index_numbers++] = new RuntimeNumberData {
                     id = i.Key,
                     value = i.Value,
                 };
             }
-            var json = UnityEngine.JsonUtility.ToJson(new RuntimeGameData
-            {
+            var json = UnityEngine.JsonUtility.ToJson(new RuntimeGameData {
                 player = Player.PlayerData,
-                pos = new RuntimePositionData
-                {
+                pos = new RuntimePositionData {
                     mapId = Map.MapId,
                     x = Player.PlayerPosX,
                     y = Player.PlayerPosY,
                 },
                 numbers = numbers,
             }, false);
-            try
-            {
+            try {
                 await ArmyAnt.Manager.IOManager.SaveToFile(System.Text.Encoding.UTF8.GetBytes(json), "save", saveName, "RuntimeData.json");
-                foreach (var i in maps)
-                {
+                foreach (var i in maps) {
                     await ArmyAnt.Manager.IOManager.SaveToFile(System.Text.Encoding.UTF8.GetBytes(json), "save", saveName, "MapData", i.mapId.ToString() + ".json");
                 }
-            }
-            catch (System.IO.IOException)
-            {
+            } catch (System.IO.IOException) {
                 return false;
             }
             return true;
         }
 
-        public static async System.Threading.Tasks.Task<bool> Load(string saveName = null)
-        {
+        public static async System.Threading.Tasks.Task<bool> Load(string saveName = null) {
             RuntimeGameData data = null;
             Model.MapData[] maps = null;
-            if (saveName == null)
-            {
+            if (saveName == null) {
                 saveName = CurrentSaveName;
             }
-            try
-            {
-                if (saveName == "")
-                {
+            try {
+                if (saveName == "") {
                     var json = UnityEngine.Resources.Load<UnityEngine.TextAsset>("RuntimeData").text;
                     data = UnityEngine.JsonUtility.FromJson<RuntimeGameData>(json);
                     data.player = Config.players[62];   // TODO : 这里是新游戏载入的player，由于需要进入MainScene之前作选择，因此这里的逻辑需要进一步拓展，目前先写死
-                }
-                else
-                {
+                } else {
                     var bin = await ArmyAnt.Manager.IOManager.LoadFromFile("save", saveName, "RuntimeData.json");
                     var json = System.Text.Encoding.UTF8.GetString(bin);
                     data = UnityEngine.JsonUtility.FromJson<RuntimeGameData>(json);
                     var mapFiles = ArmyAnt.Manager.IOManager.ListAllFiles("*.json", saveName, "MapData");
                     maps = new Model.MapData[mapFiles.Length];
                     int index = 0;
-                    foreach (var i in mapFiles)
-                    {
+                    foreach (var i in mapFiles) {
                         var mapBin = await ArmyAnt.Manager.IOManager.LoadFromFileWholePath(i);
                         var mapStr = System.Text.Encoding.UTF8.GetString(mapBin);
                         var mapData = UnityEngine.JsonUtility.FromJson<Model.MapData>(mapStr);
                         maps[index++] = mapData;
                     }
                 }
-            }
-            catch (System.IO.IOException)
-            {
+            } catch (System.IO.IOException) {
                 return false;
             }
             numberData = new System.Collections.Generic.Dictionary<int, long>();
-            foreach (var i in data.numbers)
-            {
+            foreach (var i in data.numbers) {
                 numberData.Add(i.id, i.value);
             }
             Map.SetStartData(data.pos.mapId, maps);
@@ -270,8 +226,7 @@ namespace MagicTower
         /// <summary>
         /// 定义变价资源的价格缓存位，每个缓存位有其独特的变价算法
         /// </summary>
-        public enum VariablePriceType : int
-        {
+        public enum VariablePriceType : int {
             NoChange = 0, // 默认值，不变价
             GoldenIncreasing = 1, // 每次+1价格，用于普通金币商店
             KeyStoreDoubling = 2, // 每次价格乘以2，用于后期钥匙商店
@@ -279,14 +234,11 @@ namespace MagicTower
 
         public static float RealFontSize { get { return CurrentScene.GetComponent<UnityEngine.RectTransform>().rect.height / 650; } }
 
-        public static Model.EGameStatus Status
-        {
+        public static Model.EGameStatus Status {
             get { return status; }
-            set
-            {
+            set {
                 status = value;
-                if (Player != null)
-                {
+                if (Player != null) {
                     Input.OnChangeWalkState();
                 }
             }
@@ -300,11 +252,9 @@ namespace MagicTower
         /// <returns>The number data.</returns>
         /// <param name="id"> id </param>
         /// <param name="useType"> 该值如何变化， 不输入此参数则不变化 </param>
-        public static long GetNumberData(int id, VariablePriceType useType = VariablePriceType.NoChange)
-        {
+        public static long GetNumberData(int id, VariablePriceType useType = VariablePriceType.NoChange) {
             var data = numberData[id];
-            switch (useType)
-            {
+            switch (useType) {
                 case VariablePriceType.GoldenIncreasing:
                     numberData[id] += 1;
                     break;
@@ -315,7 +265,7 @@ namespace MagicTower
             return data;
         }
 
-        private static System.Collections.Generic.Dictionary<int, long> numberData = null;
+        private static Dictionary<int, long> numberData = null;
     }
 
 }

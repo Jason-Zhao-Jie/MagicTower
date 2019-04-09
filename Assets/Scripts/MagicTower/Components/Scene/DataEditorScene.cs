@@ -24,8 +24,8 @@ namespace MagicTower.Components.Scene {
         override public SceneType Type { get { return SceneType.DataEditorScene; } }
 
         // Use this for initialization
-        override protected System.Threading.Tasks.Task Start() {
-            var ret = base.Start();
+        override protected async System.Threading.Tasks.Task Start() {
+            await base.Start();
             // 初始化游戏信息
             Game.Player = null;
             AudioManager.MusicSource = GetComponent<AudioSource>();
@@ -195,7 +195,6 @@ namespace MagicTower.Components.Scene {
             // 初始化
             Game.Status = Model.EGameStatus.InEditor;
             OnPanelSelected(0);
-            return ret;
         }
 
         // Update is called once per frame

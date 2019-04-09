@@ -11,10 +11,7 @@ namespace MagicTower.Components.Scene {
 
         // Use this for initialization
         override protected async System.Threading.Tasks.Task Start() {
-            var ret = base.Start();
-            if (ret != null) {
-                await ret;
-            }
+            await base.Start();
 
             // 加载对话框
 

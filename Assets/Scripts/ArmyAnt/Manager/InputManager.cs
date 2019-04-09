@@ -26,6 +26,7 @@ namespace ArmyAnt.Manager {
         }
 
         protected InputManager(KeyCode[] listenedKeys, IDictionary<JoysticsAxes, string> axesNames) {
+            this.listenedKeys = listenedKeys;
             keyStatusMap = new Dictionary<KeyCode, bool>();
             for (int i = 0; i < listenedKeys.Length; ++i) {
                 keyStatusMap.Add(listenedKeys[i], false);
@@ -51,15 +52,15 @@ namespace ArmyAnt.Manager {
 
         public void UpdateScene() {
             // 监测键盘和手柄按键
-            foreach (var i in keyStatusMap) {
-                bool isDown = Input.GetKey(i.Key);
-                bool hasDown = i.Value;
+            foreach (var i in listenedKeys) {
+                bool isDown = Input.GetKey(i);
+                bool hasDown = keyStatusMap[i];
                 if (isDown && !hasDown) {
-                    keyStatusMap[i.Key] = true;
-                    OnKeyDown(i.Key);
+                    keyStatusMap[i] = true;
+                    OnKeyDown(i);
                 } else if (hasDown && !isDown) {
-                    keyStatusMap[i.Key] = false;
-                    OnKeyUp(i.Key);
+                    keyStatusMap[i] = false;
+                    OnKeyUp(i);
                 }
             }
 
@@ -125,6 +126,7 @@ namespace ArmyAnt.Manager {
             return axesStatusMap[key];
         }
 
+        private readonly KeyCode[] listenedKeys;
         private Dictionary<KeyCode, bool> keyStatusMap;
         private Dictionary<JoysticsAxes, float> axesStatusMap;
         readonly private Dictionary<JoysticsAxes, string> listenedAxesNames;

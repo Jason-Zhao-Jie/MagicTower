@@ -10,12 +10,20 @@ namespace ArmyAnt.Manager {
             }
         }
 
+        public static bool ExistFile(params string[] path) {
+            return System.IO.File.Exists(ParsePath(path));
+        }
+
+        public static bool ExistDirectory(params string[] path) {
+            return System.IO.Directory.Exists(ParsePath(path));
+        }
+
         public static bool MkdirIfNotExist(params string[] path) {
-            string dir = UnityEngine.Application.persistentDataPath;
-            for (var i = 0; i < path.Length; ++i) {
-                dir += System.IO.Path.DirectorySeparatorChar + path[i];
-            }
+            var dir = ParsePath(path);
             try {
+                if (System.IO.Directory.Exists(dir)) {
+                    return false;
+                }
                 System.IO.Directory.CreateDirectory(dir);
             } catch (System.IO.IOException) {
                 return false;
@@ -24,12 +32,8 @@ namespace ArmyAnt.Manager {
         }
 
         public static bool RemoveFolder(params string[] path) {
-            string dir = UnityEngine.Application.persistentDataPath;
-            for (var i = 0; i < path.Length; ++i) {
-                dir += System.IO.Path.DirectorySeparatorChar + path[i];
-            }
             try {
-                System.IO.Directory.Delete(dir, true);
+                System.IO.Directory.Delete(ParsePath(path), true);
             } catch (System.IO.IOException) {
                 return false;
             }
@@ -37,27 +41,15 @@ namespace ArmyAnt.Manager {
         }
 
         public static string[] ListAllFiles(params string[] path) {
-            string dir = UnityEngine.Application.persistentDataPath;
-            for (var i = 0; i < path.Length; ++i) {
-                dir += System.IO.Path.DirectorySeparatorChar + path[i];
-            }
-            return System.IO.Directory.GetFiles(dir);
+            return System.IO.Directory.GetFiles(ParsePath(path));
         }
 
         public static string[] ListAllFiles(string partten, params string[] path) {
-            string dir = UnityEngine.Application.persistentDataPath;
-            for (var i = 0; i < path.Length; ++i) {
-                dir += System.IO.Path.DirectorySeparatorChar + path[i];
-            }
-            return System.IO.Directory.GetFiles(dir, partten);
+            return System.IO.Directory.GetFiles(ParsePath(path), partten);
         }
 
         public static async System.Threading.Tasks.Task<string> SaveToFile(byte[] content, params string[] path) {
-            string filename = UnityEngine.Application.persistentDataPath;
-            for (var i = 0; i < path.Length; ++i) {
-                filename += System.IO.Path.DirectorySeparatorChar + path[i];
-            }
-            return await SaveToFileWholePath(content, filename);
+            return await SaveToFileWholePath(content, ParsePath(path));
         }
 
         public static async System.Threading.Tasks.Task<string> SaveToFileWholePath(byte[] content, string path) {
@@ -68,11 +60,7 @@ namespace ArmyAnt.Manager {
         }
 
         public static async System.Threading.Tasks.Task<byte[]> LoadFromFile(params string[] path) {
-            string filename = UnityEngine.Application.persistentDataPath;
-            for (var i = 0; i < path.Length; ++i) {
-                filename += System.IO.Path.DirectorySeparatorChar + path[i];
-            }
-            return await LoadFromFileWholePath(filename);
+            return await LoadFromFileWholePath(ParsePath(path));
         }
 
         public static async System.Threading.Tasks.Task<byte[]> LoadFromFileWholePath(string path) {
@@ -86,6 +74,14 @@ namespace ArmyAnt.Manager {
             var ret = new byte[len];
             var num = await file?.ReadAsync(ret, 0, len);
             return ret?.Length > 0 ? ret : null;
+        }
+
+        private static string ParsePath(string[] path) {
+            string filename = UnityEngine.Application.persistentDataPath;
+            for (var i = 0; i < path.Length; ++i) {
+                filename += System.IO.Path.DirectorySeparatorChar + path[i];
+            }
+            return filename;
         }
 
         public static UnityEngine.Networking.UnityWebRequest HttpGet(string url) {

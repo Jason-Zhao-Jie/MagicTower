@@ -15,11 +15,11 @@ namespace MagicTower.Components.Scene
         private const string str_languageSwitch = "str_ui_languageSwitch";
 
         // Use this for initialization
-        override protected System.Threading.Tasks.Task Start()
+        override protected async System.Threading.Tasks.Task Start()
         {
             Input.multiTouchEnabled = false;    // NOTE : 多点触摸会导致寻路出现bug, 先禁用
 
-            var ret = base.Start();
+            await base.Start();
             Game.Map = null;
             Game.Player = null;
 
@@ -42,7 +42,6 @@ namespace MagicTower.Components.Scene
             }
 
             SetLoadingPercent(1);
-            return ret;
         }
 
         // Update is called once per frame

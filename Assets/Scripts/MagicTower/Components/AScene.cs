@@ -16,10 +16,9 @@ namespace MagicTower.Components
         public abstract SceneType Type { get; }
 
         // Use this for initialization
-        virtual protected System.Threading.Tasks.Task Start()
+        virtual protected async System.Threading.Tasks.Task Start()
         {
-            Game.Initial(this);
-            return null;
+            await Game.Initial(this);
         }
 
         virtual protected void OnApplicationQuit()

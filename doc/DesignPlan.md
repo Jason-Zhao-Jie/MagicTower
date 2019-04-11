@@ -279,3 +279,6 @@
 3. 需要测试所有新做对话框的适配
 4. 考虑 Setting 框是否有可添加的内容
 
+## 2019-4-11-Thursday
+1. 完成了对 MainMenuDlg 和 SettingDlg 的国际化字符串匹配 (SettingDlg 部分英文内容需要填充)
+

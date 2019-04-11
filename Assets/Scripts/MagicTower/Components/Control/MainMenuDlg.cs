@@ -5,8 +5,15 @@ using UnityEngine.UI;
 namespace MagicTower.Components.Control {
 
     public class MainMenuDlg : ObjectPool.AViewUnit {
-        public const string PREFAB_DIR = "MainMenuDlg";
-        public const int PREFAB_ID = 8;
+        private const string PREFAB_DIR = "MainMenuDlg";
+        private const int PREFAB_ID = 8;
+
+        private const string RESUME_STR_KEY = "str_ui_resume";
+        private const string SAVEGAME_STR_KEY = "str_ui_savegame";
+        private const string LOADGAME_STR_KEY = "str_ui_loadSavedGame";
+        private const string SETTINGS_STR_KEY = "str_ui_settings";
+        private const string EXIT_STR_KEY = "str_ui_exit";
+        private const string ALERT_EXIT_STR_KEY = "str_ui_alertExit";
 
         public static MainMenuDlg ShowDialog(Scene.MainScene parent) {
             // 弹出战斗框
@@ -45,7 +52,12 @@ namespace MagicTower.Components.Control {
         }
 
         // Start is called before the first frame update
-        void Start() {
+        void Awake() {
+            btnResumeText.text = Game.Config.StringInternational.GetValue(RESUME_STR_KEY);
+            btnSaveGameText.text = Game.Config.StringInternational.GetValue(SAVEGAME_STR_KEY);
+            btnLoadGameText.text = Game.Config.StringInternational.GetValue(LOADGAME_STR_KEY);
+            btnSettingsText.text = Game.Config.StringInternational.GetValue(SETTINGS_STR_KEY);
+            btnExitText.text = Game.Config.StringInternational.GetValue(EXIT_STR_KEY);
         }
 
         // Update is called once per frame
@@ -70,7 +82,10 @@ namespace MagicTower.Components.Control {
         }
 
         public void OnExit() {
-            Game.CurrentScene.BackToStartScene();
+            AlertDlg.ShowDialog(transform.parent, Game.Config.StringInternational.GetValue(ALERT_EXIT_STR_KEY), TextAnchor.MiddleCenter, () => {
+                Game.CurrentScene.BackToStartScene();
+                return false;
+            });
         }
 
         public Text btnResumeText;

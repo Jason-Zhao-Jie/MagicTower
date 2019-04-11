@@ -5,8 +5,8 @@ using UnityEngine.UI;
 namespace MagicTower.Components.Control {
 
     public class AlertDlg : ObjectPool.AViewUnit {
-        public const string PREFAB_DIR = "AlertDlg";
-        public const int PREFAB_ID = 7;
+        private const string PREFAB_DIR = "AlertDlg";
+        private const int PREFAB_ID = 7;
 
         public static AlertDlg ShowDialog(Transform parent, string contentStr,Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
             // 弹出战斗框
@@ -24,10 +24,15 @@ namespace MagicTower.Components.Control {
             }
             ret.showed = true;
             ret.transform.SetParent(parent, false);
-            ret.transform.SetSiblingIndex(1);
+            ret.transform.SetSiblingIndex(3);
             ret.transform.localPosition = new Vector3(0, 0, ret.transform.localPosition.z);
             ret.lastStatus = Game.Status;
             Game.Status = Model.EGameStatus.InEditorDialog;
+            return ret;
+        }
+        public static AlertDlg ShowDialog(Transform parent, string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
+            var ret = ShowDialog(parent, contentStr, leftCallback, leftStr, rightCallback, rightStr);
+            ret.content.alignment = contentAlignment;
             return ret;
         }
 

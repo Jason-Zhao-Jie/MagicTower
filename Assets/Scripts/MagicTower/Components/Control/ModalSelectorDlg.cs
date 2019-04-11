@@ -9,8 +9,8 @@ namespace MagicTower.Components.Control
 
     public class ModalSelectorDlg : ObjectPool.AViewUnit
     {
-        public const string PREFAB_DIR = "ModalSelectorDlg";
-        public const int PREFAB_ID = 6;
+        private const string PREFAB_DIR = "ModalSelectorDlg";
+        private const int PREFAB_ID = 6;
 
         public delegate void SelectedCallback(int selectedId);
 

@@ -5069,6 +5069,328 @@
           "content": "स्विच"
         }
       ]
+    },
+    {
+      "id": 225,
+      "key": "str_ui_resume",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Resume"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "回到游戏"
+        }
+      ]
+    },
+    {
+      "id": 226,
+      "key": "str_ui_savegame",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Save Game"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "保存游戏"
+        }
+      ]
+    },
+    {
+      "id": 227,
+      "key": "str_ui_settings",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "设置"
+        }
+      ]
+    },
+    {
+      "id": 228,
+      "key": "str_ui_exit",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Exit"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "退出"
+        }
+      ]
+    },
+    {
+      "id": 229,
+      "key": "str_ui_alertExit",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Are you sure to exit the game ? The unsaved game will be lost !"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "确定要退出当前游戏吗？未保存的游戏将会丢失！"
+        }
+      ]
+    },
+    {
+      "id": 230,
+      "key": "str_ui_ok",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "OK"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "确定"
+        }
+      ]
+    },
+    {
+      "id": 231,
+      "key": "str_ui_cancel",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Cancel"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "取消"
+        }
+      ]
+    },
+    {
+      "id": 232,
+      "key": "str_ui_audioSettingTitle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Audio Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "声音设置"
+        }
+      ]
+    },
+    {
+      "id": 233,
+      "key": "str_ui_musicVolume",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Music Volume"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "音乐音量"
+        }
+      ]
+    },
+    {
+      "id": 234,
+      "key": "str_ui_soundVolume",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Sound Volume"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "音效音量"
+        }
+      ]
+    },
+    {
+      "id": 235,
+      "key": "str_ui_adsSettingTitle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "广告设置"
+        }
+      ]
+    },
+    {
+      "id": 236,
+      "key": "str_ui_adsSettingReadme",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "本游戏中包含部分广告，作为开发团队的主要收入来源，如果您希望支持开发者，或是不希望看到过高频率的广告，可以在此处调整设置。"
+        }
+      ]
+    },
+    {
+      "id": 237,
+      "key": "str_ui_popAdsTitle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "弹窗广告频率:"
+        }
+      ]
+    },
+    {
+      "id": 238,
+      "key": "str_ui_popAdsHigh",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "高(不推荐，每1分钟在切换楼层，存读档及切换界面时弹出)"
+        }
+      ]
+    },
+    {
+      "id": 239,
+      "key": "str_ui_popAdsMidium",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "中(启动及每4分钟在存读档及切换界面时弹出)"
+        }
+      ]
+    },
+    {
+      "id": 240,
+      "key": "str_ui_popAdsLow",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "低(仅在启动及每10分钟读档时弹出)"
+        }
+      ]
+    },
+    {
+      "id": 241,
+      "key": "str_ui_popAdsOnlyOnce",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "仅启动时弹一次"
+        }
+      ]
+    },
+    {
+      "id": 242,
+      "key": "str_ui_popAdsNone",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "永不弹"
+        }
+      ]
+    },
+    {
+      "id": 243,
+      "key": "str_ui_rewardAdsTitle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "复活广告开关:"
+        }
+      ]
+    },
+    {
+      "id": 244,
+      "key": "str_ui_rewardAdsOff",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Ads Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "禁用复活广告，这将使游戏不再在启动时下载广告，可节省流量，但无法通过观看奖励广告进行免费复活"
+        }
+      ]
+    },
+    {
+      "id": 245,
+      "key": "str_ui_analyticsSettingTitle",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Analytics Setting"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "数据发送设置"
+        }
+      ]
+    },
+    {
+      "id": 246,
+      "key": "str_ui_analyticsSettingReadme",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Analytics Setting"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "本游戏有自动收集一些游戏相关的信息，例如您的通关情况，例如上述广告设置情况，这些数据用于分析比较，以便优化游戏体验，其中不包含任何个人信息。如果您不希望发送这些信息，可在此处关闭"
+        }
+      ]
+    },
+    {
+      "id": 247,
+      "key": "str_ui_analyticsOn",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Analytics Setting"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "允许发送游戏情况统计信息"
+        }
+      ]
     }
   ]
 }

@@ -8,8 +8,8 @@ namespace MagicTower.Components.Control
 {
     public class BattleDlg : ObjectPool.AViewUnit
     {
-        public const string PREFAB_DIR = "BattleDlg";
-        public const int PREFAB_ID = 1;
+        private const string PREFAB_DIR = "BattleDlg";
+        private const int PREFAB_ID = 1;
 
         private const int MISS_HITTER = 9;       // TODO: To set the right "MISS" icon
         private const int NOHURT_HITTER = 9;

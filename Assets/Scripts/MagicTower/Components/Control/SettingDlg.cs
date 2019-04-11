@@ -6,8 +6,27 @@ using ArmyAnt.ViewUtil;
 
 namespace MagicTower.Components.Control {
     public class SettingDlg : ObjectPool.AViewUnit {
-        public const string PREFAB_DIR = "SettingDlg";
-        public const int PREFAB_ID = 9;
+        private const string PREFAB_DIR = "SettingDlg";
+        private const int PREFAB_ID = 9;
+
+        private const string OK_STR_KEY = "str_ui_ok";
+        private const string CANCEL_STR_KEY = "str_ui_cancel";
+        private const string AUDIO_SETTING_TITLE_STR_KEY = "str_ui_audioSettingTitle";
+        private const string MUSIC_VOLUME_STR_KEY = "str_ui_musicVolume";
+        private const string SOUND_VOLUME_STR_KEY = "str_ui_soundVolume";
+        private const string ADS_SETTING_TITLE_STR_KEY = "str_ui_adsSettingTitle";
+        private const string ADS_SETTING_README_STR_KEY = "str_ui_adsSettingReadme";
+        private const string POP_ADS_TITLE_STR_KEY = "str_ui_popAdsTitle";
+        private const string POP_ADS_HIGH_STR_KEY = "str_ui_popAdsHigh";
+        private const string POP_ADS_MIDIUM_STR_KEY = "str_ui_popAdsMidium";
+        private const string POP_ADS_LOW_STR_KEY = "str_ui_popAdsLow";
+        private const string POP_ADS_ONLYONCE_STR_KEY = "str_ui_popAdsOnlyOnce";
+        private const string POP_ADS_NONE_STR_KEY = "str_ui_popAdsNone";
+        private const string REWARD_ADS_TITLE_STR_KEY = "str_ui_rewardAdsTitle";
+        private const string REWARD_ADS_OFF_STR_KEY = "str_ui_rewardAdsOff";
+        private const string ANALYTICS_SETTING_TITLE_STR_KEY = "str_ui_analyticsSettingTitle";
+        private const string ANALYTICE_SETTING_README_STR_KEY = "str_ui_analyticsSettingReadme";
+        private const string ANALYTICS_ON_STR_KEY = "str_ui_analyticsOn";
 
         public static SettingDlg ShowDialog(GameObject parent) {
             // 弹出战斗框
@@ -49,6 +68,27 @@ namespace MagicTower.Components.Control {
                 });
             }
             // TODO: load international strings
+        }
+
+        void Start() {
+            txtOK.text = Game.Config.StringInternational.GetValue(OK_STR_KEY);
+            txtCancel.text = Game.Config.StringInternational.GetValue(CANCEL_STR_KEY);
+            txtAudioSettingTitle.text = Game.Config.StringInternational.GetValue(AUDIO_SETTING_TITLE_STR_KEY);
+            txtMusicVolume.text = Game.Config.StringInternational.GetValue(MUSIC_VOLUME_STR_KEY);
+            txtSoundVolume.text = Game.Config.StringInternational.GetValue(SOUND_VOLUME_STR_KEY);
+            txtAdsSettingTitle.text = Game.Config.StringInternational.GetValue(ADS_SETTING_TITLE_STR_KEY);
+            txtAdsSettingReadme.text = Game.Config.StringInternational.GetValue(ADS_SETTING_README_STR_KEY);
+            txtPopAdsTitle.text = Game.Config.StringInternational.GetValue(POP_ADS_TITLE_STR_KEY);
+            txtPopHigh.text = Game.Config.StringInternational.GetValue(POP_ADS_HIGH_STR_KEY);
+            txtPopMidium.text = Game.Config.StringInternational.GetValue(POP_ADS_MIDIUM_STR_KEY);
+            txtPopLow.text = Game.Config.StringInternational.GetValue(POP_ADS_LOW_STR_KEY);
+            txtPopOnlyOnce.text = Game.Config.StringInternational.GetValue(POP_ADS_ONLYONCE_STR_KEY);
+            txtPopNone.text = Game.Config.StringInternational.GetValue(POP_ADS_NONE_STR_KEY);
+            txtRewardAdsTitle.text = Game.Config.StringInternational.GetValue(REWARD_ADS_TITLE_STR_KEY);
+            txtRewardAdsOff.text = Game.Config.StringInternational.GetValue(REWARD_ADS_OFF_STR_KEY);
+            txtAnalyticsSettingTitle.text = Game.Config.StringInternational.GetValue(ANALYTICS_SETTING_TITLE_STR_KEY);
+            txtAnalyticsSettingReadme.text = Game.Config.StringInternational.GetValue(ANALYTICE_SETTING_README_STR_KEY);
+            txtAnalyticsOn.text = Game.Config.StringInternational.GetValue(ANALYTICS_ON_STR_KEY);
         }
 
         // Start is called before the first frame update

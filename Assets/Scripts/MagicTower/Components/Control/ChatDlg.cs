@@ -8,10 +8,10 @@ namespace MagicTower.Components.Control
 
     public class ChatDlg : ObjectPool.AViewUnit
     {
-        public const string TOP_PREFAB_DIR = "TopChat";
-        public const int TOP_PREFAB_ID = 4;
-        public const string BOTTOM_PREFAB_DIR = "BottomChat";
-        public const int BOTTOM_PREFAB_ID = 5;
+        private const string TOP_PREFAB_DIR = "TopChat";
+        private const int TOP_PREFAB_ID = 4;
+        private const string BOTTOM_PREFAB_DIR = "BottomChat";
+        private const int BOTTOM_PREFAB_ID = 5;
 
         public static ChatDlg ShowChat(bool isTop)
         {

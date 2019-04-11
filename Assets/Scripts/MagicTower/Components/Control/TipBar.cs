@@ -8,8 +8,8 @@ namespace MagicTower.Components.Control
 
     public class TipBar : ObjectPool.AViewUnit
     {
-        public const string PREFAB_DIR = "TipBar";
-        public const int PREFAB_ID = 3;
+        private const string PREFAB_DIR = "TipBar";
+        private const int PREFAB_ID = 3;
 
         public static TipBar ShowTip()
         {

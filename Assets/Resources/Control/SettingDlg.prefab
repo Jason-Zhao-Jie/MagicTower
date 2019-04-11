@@ -813,7 +813,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 9, y: -38}
-  m_SizeDelta: {x: -120, y: 60}
+  m_SizeDelta: {x: -120, y: 80}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &8974624159179770645
 CanvasRenderer:
@@ -847,18 +847,16 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 22
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u672C\u6E38\u620F\u6709\u81EA\u52A8\u6536\u96C6\u4E00\u4E9B\u6E38\u620F\u76F8\u5173\u7684\u4FE1\u606F,
-    \u4F8B\u5982\u60A8\u7684\u901A\u5173\u60C5\u51B5. \u5176\u4E2D\u4E0D\u5305\u542B\u4EFB\u4F55\u4E2A\u4EBA\u4FE1\u606F.
-    \u5982\u679C\u60A8\u4E0D\u5E0C\u671B\u53D1\u9001\u8FD9\u4E9B\u4FE1\u606F, \u53EF\u5728\u6B64\u5904\u5173\u95ED"
+  m_Text: "\u672C\u6E38\u620F\u6709\u81EA\u52A8\u6536\u96C6\u4E00\u4E9B\u6E38\u620F\u76F8\u5173\u7684\u4FE1\u606F\uFF0C\u4F8B\u5982\u60A8\u7684\u901A\u5173\u60C5\u51B5\uFF0C\u4F8B\u5982\u4E0A\u8FF0\u5E7F\u544A\u8BBE\u7F6E\u60C5\u51B5\uFF0C\u8FD9\u4E9B\u6570\u636E\u7528\u4E8E\u5206\u6790\u6BD4\u8F83\uFF0C\u4EE5\u4FBF\u4F18\u5316\u6E38\u620F\u4F53\u9A8C\uFF0C\u5176\u4E2D\u4E0D\u5305\u542B\u4EFB\u4F55\u4E2A\u4EBA\u4FE1\u606F\u3002\u5982\u679C\u60A8\u4E0D\u5E0C\u671B\u53D1\u9001\u8FD9\u4E9B\u4FE1\u606F\uFF0C\u53EF\u5728\u6B64\u5904\u5173\u95ED"
 --- !u!1 &2271175765316753106
 GameObject:
   m_ObjectHideFlags: 0
@@ -1156,14 +1154,14 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 22
     m_FontStyle: 0
-    m_BestFit: 1
+    m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "\u672C\u6E38\u620F\u4E2D\u5305\u542B\u90E8\u5206\u5E7F\u544A, \u4F5C\u4E3A\u5F00\u53D1\u56E2\u961F\u7684\u4E3B\u8981\u6536\u5165\u6765\u6E90,
     \u5982\u679C\u60A8\u5E0C\u671B\u652F\u6301\u5F00\u53D1\u8005, \u6216\u662F\u4E0D\u5E0C\u671B\u770B\u5230\u8FC7\u9AD8\u9891\u7387\u7684\u5E7F\u544A,
@@ -2623,7 +2621,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 141.5}
+  m_SizeDelta: {x: 0, y: 177.9}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &86841529234785791
 CanvasRenderer:
@@ -3520,7 +3518,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 6804322229788108474}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.7758882
+  m_Size: 0.7310805
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -4890,7 +4888,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 449.4, y: -121}
+  m_AnchoredPosition: {x: 448, y: -149}
   m_SizeDelta: {x: 389.9, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &563586848145322021

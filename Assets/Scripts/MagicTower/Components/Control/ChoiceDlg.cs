@@ -10,8 +10,8 @@ namespace MagicTower.Components.Control
 
     public class ChoiceDlg : ObjectPool.AViewUnit
     {
-        public const string PREFAB_DIR = "ChoiceDlg";
-        public const int PREFAB_ID = 2;
+        private const string PREFAB_DIR = "ChoiceDlg";
+        private const int PREFAB_ID = 2;
 
         public static ChoiceDlg StartChoice(Transform parent, Model.ChoiceData choiceData, Modal mod, Model.EGameStatus nextStatus = Model.EGameStatus.InGame)
         {

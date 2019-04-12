@@ -70,15 +70,18 @@ namespace MagicTower.Components.Control {
         }
 
         public void OnSaveGame() {
-
+            var dlg = SaveLoadDlg.ShowDialog(transform.parent.gameObject, true);
+            dlg.transform.SetSiblingIndex(2);
         }
 
         public void OnLoadGame() {
-
+            var dlg = SaveLoadDlg.ShowDialog(transform.parent.gameObject, false);
+            dlg.transform.SetSiblingIndex(2);
         }
 
         public void OnSettings() {
-            SettingDlg.ShowDialog(transform.parent.gameObject);
+            var dlg = SettingDlg.ShowDialog(transform.parent.gameObject);
+            dlg.transform.SetSiblingIndex(2);
         }
 
         public void OnExit() {

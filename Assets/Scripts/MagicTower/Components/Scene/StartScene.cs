@@ -10,7 +10,9 @@ namespace MagicTower.Components.Scene
     {
         private const string str_startNewGame = "str_ui_startNewGame";
         private const string str_loadSavedGame = "str_ui_loadSavedGame";
+        private const string str_settings = "str_ui_settings";
         private const string str_readMe = "str_ui_readMe";
+        private const string str_exit = "str_ui_exit";
         private const string str_dataEditor = "str_ui_dataEditor";
         private const string str_languageSwitch = "str_ui_languageSwitch";
 
@@ -65,7 +67,9 @@ namespace MagicTower.Components.Scene
 
             btnStartNewGame.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_startNewGame);
             btnLoadSavedGame.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_loadSavedGame);
+            btnSettings.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_settings);
             btnReadMe.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_readMe);
+            btnExit.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_exit);
             btnDataEditor.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_dataEditor);
             btnSwitchLanguage.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_languageSwitch);
         }
@@ -79,9 +83,14 @@ namespace MagicTower.Components.Scene
             }
         }
 
-        public void OnLoadGame()
-        {
+        public void OnLoadGame() {
+            var dlg = Control.SaveLoadDlg.ShowDialog(gameObject, true);
+            dlg.transform.SetSiblingIndex(transform.childCount - 1);
+        }
 
+        public void OnSettings() {
+            var dlg = Control.SettingDlg.ShowDialog(transform.gameObject);
+            dlg.transform.SetSiblingIndex(transform.childCount - 1);
         }
 
         public void OnReadMe()
@@ -133,9 +142,15 @@ namespace MagicTower.Components.Scene
         [Tooltip("载入存档按钮")]
         [Space(4)]
         public Button btnLoadSavedGame;
+        [Tooltip("设置按钮")]
+        [Space(4)]
+        public Button btnSettings;
         [Tooltip("作者信息按钮")]
         [Space(4)]
         public Button btnReadMe;
+        [Tooltip("退出游戏按钮")]
+        [Space(4)]
+        public Button btnExit;
 
         [Tooltip("编辑器按钮")]
         [Space(4)]

@@ -32,7 +32,6 @@ namespace MagicTower.Components.Control {
             // 弹出战斗框
             var ret = Game.ObjPool.GetAnElement<SettingDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
             ret.transform.SetParent(parent.transform, false);
-            ret.transform.SetSiblingIndex(2);
             ret.transform.localPosition = new Vector3(0, 0, ret.transform.localPosition.z);
             return ret;
         }
@@ -63,14 +62,14 @@ namespace MagicTower.Components.Control {
         void Awake() {
             foreach (var i in popAdsToggles) {
                 var toggle = i;
-                i.onValueChanged.AddListener( (bool value) => {
+                i.onValueChanged.AddListener((bool value) => {
                     OnTooglePopAdsChanged(toggle, value);
                 });
             }
-            // TODO: load international strings
         }
 
-        void Start() {
+        // Start is called before the first frame update
+        void OnEnable() {
             txtOK.text = Game.Config.StringInternational.GetValue(OK_STR_KEY);
             txtCancel.text = Game.Config.StringInternational.GetValue(CANCEL_STR_KEY);
             txtAudioSettingTitle.text = Game.Config.StringInternational.GetValue(AUDIO_SETTING_TITLE_STR_KEY);
@@ -89,10 +88,7 @@ namespace MagicTower.Components.Control {
             txtAnalyticsSettingTitle.text = Game.Config.StringInternational.GetValue(ANALYTICS_SETTING_TITLE_STR_KEY);
             txtAnalyticsSettingReadme.text = Game.Config.StringInternational.GetValue(ANALYTICE_SETTING_README_STR_KEY);
             txtAnalyticsOn.text = Game.Config.StringInternational.GetValue(ANALYTICS_ON_STR_KEY);
-        }
 
-        // Start is called before the first frame update
-        void OnEnable() {
             sliderMusicVolume.value = Game.Settings.Settings.musicVolume / 100.0f;
             sliderSoundVolume.value = Game.Settings.Settings.soundVolume / 100.0f;
             togglePopHigh.isOn = false;
@@ -122,46 +118,58 @@ namespace MagicTower.Components.Control {
         }
 
         // Update is called once per frame
-        void Update() {
-            
+        async System.Threading.Tasks.Task Update() {
+            if(task != null) {
+                await task;
+                task = null;
+                RecycleSelf();
+            }
         }
 
         public void OnOK() {
-            Model.PopAdsFreq pop = Model.PopAdsFreq.Low;
-            if (togglePopHigh.isOn) {
-                pop = Model.PopAdsFreq.High;
-            } else if (togglePopMidium.isOn) {
-                pop = Model.PopAdsFreq.Midium;
-            } else if (togglePopLow.isOn) {
-                pop = Model.PopAdsFreq.Low;
-            } else if (togglePopOnlyOnce.isOn) {
-                pop = Model.PopAdsFreq.OnlyOnce;
-            } else if (togglePopNone.isOn) {
-                pop = Model.PopAdsFreq.None;
+            if (task == null) {
+                Model.PopAdsFreq pop = Model.PopAdsFreq.Low;
+                if (togglePopHigh.isOn) {
+                    pop = Model.PopAdsFreq.High;
+                } else if (togglePopMidium.isOn) {
+                    pop = Model.PopAdsFreq.Midium;
+                } else if (togglePopLow.isOn) {
+                    pop = Model.PopAdsFreq.Low;
+                } else if (togglePopOnlyOnce.isOn) {
+                    pop = Model.PopAdsFreq.OnlyOnce;
+                } else if (togglePopNone.isOn) {
+                    pop = Model.PopAdsFreq.None;
+                }
+                Game.Settings.Settings = new Model.Setting {
+                    musicVolume = System.Convert.ToInt32(sliderMusicVolume.value * 100),
+                    soundVolume = System.Convert.ToInt32(sliderSoundVolume.value * 100),
+                    popAdsFreq = (sbyte)pop,
+                    rewardAdsOn = !toggleRewardAdsOff.isOn,
+                    analyticsOn = toggleAnalyticsOn.isOn,
+                };
+                task = Game.Settings.Save();
             }
-            Game.Settings.Settings = new Model.Setting {
-                musicVolume = System.Convert.ToInt32(sliderMusicVolume.value * 100),
-                soundVolume = System.Convert.ToInt32(sliderSoundVolume.value * 100),
-                popAdsFreq = (sbyte)pop,
-                rewardAdsOn = !toggleRewardAdsOff.isOn,
-                analyticsOn = toggleAnalyticsOn.isOn,
-            };
-            RecycleSelf();
         }
 
         public void OnCancel() {
-            RecycleSelf();
+            if (task == null) {
+                RecycleSelf();
+            }
         }
 
         public void OnTooglePopAdsChanged(Toggle toggle, bool value) {
-            if (value) {
-                foreach (var i in popAdsToggles) {
-                    if (toggle != i) {
-                        i.enabled = true;
-                        i.isOn = false;
+            if (task == null) {
+                if (value) {
+                    foreach (var i in popAdsToggles) {
+                        if (toggle != i) {
+                            i.enabled = true;
+                            i.isOn = false;
+                        }
                     }
+                    toggle.enabled = false;
                 }
-                toggle.enabled = false;
+            } else {
+                toggle.isOn = false;
             }
         }
 
@@ -210,6 +218,9 @@ namespace MagicTower.Components.Control {
         public Toggle togglePopNone;
         public Toggle toggleRewardAdsOff;
         public Toggle toggleAnalyticsOn;
+
+        // Private Data
+        private System.Threading.Tasks.Task task = null;
     }
 
 }

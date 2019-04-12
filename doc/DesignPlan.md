@@ -282,3 +282,5 @@
 ## 2019-4-11-Thursday
 1. 完成了对 MainMenuDlg 和 SettingDlg 的国际化字符串匹配 (SettingDlg 部分英文内容需要填充)
 
+## 2019-4-13-Saturday
+1. 完成了各种框的适配检查和调整, 正在制作存读档对话框

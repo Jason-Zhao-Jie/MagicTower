@@ -13,8 +13,8 @@ namespace MagicTower.Model {
 
     [System.Serializable]
     public struct Setting{
-        public int musicVolume;
-        public int soundVolume;
+        public float musicVolume;
+        public float soundVolume;
         public sbyte popAdsFreq;
         public bool rewardAdsOn;
         public bool analyticsOn;

@@ -89,8 +89,8 @@ namespace MagicTower.Components.Control {
             txtAnalyticsSettingReadme.text = Game.Config.StringInternational.GetValue(ANALYTICE_SETTING_README_STR_KEY);
             txtAnalyticsOn.text = Game.Config.StringInternational.GetValue(ANALYTICS_ON_STR_KEY);
 
-            sliderMusicVolume.value = Game.Settings.Settings.musicVolume / 100.0f;
-            sliderSoundVolume.value = Game.Settings.Settings.soundVolume / 100.0f;
+            sliderMusicVolume.value = Game.Settings.Settings.musicVolume;
+            sliderSoundVolume.value = Game.Settings.Settings.soundVolume;
             togglePopHigh.isOn = false;
             togglePopMidium.isOn = false;
             togglePopLow.isOn = false;
@@ -141,8 +141,8 @@ namespace MagicTower.Components.Control {
                     pop = Model.PopAdsFreq.None;
                 }
                 Game.Settings.Settings = new Model.Setting {
-                    musicVolume = System.Convert.ToInt32(sliderMusicVolume.value * 100),
-                    soundVolume = System.Convert.ToInt32(sliderSoundVolume.value * 100),
+                    musicVolume = sliderMusicVolume.value,
+                    soundVolume = sliderSoundVolume.value,
                     popAdsFreq = (sbyte)pop,
                     rewardAdsOn = !toggleRewardAdsOff.isOn,
                     analyticsOn = toggleAnalyticsOn.isOn,
@@ -153,7 +153,25 @@ namespace MagicTower.Components.Control {
 
         public void OnCancel() {
             if (task == null) {
+                Present.Manager.AudioManager.MusicVolume = Game.Settings.Settings.musicVolume;
+                Present.Manager.AudioManager.SoundVolume = Game.Settings.Settings.soundVolume;
                 RecycleSelf();
+            }
+        }
+
+        public void OnVolumeChanged(bool music) {
+            if (task == null) {
+                if (music) {
+                    Present.Manager.AudioManager.MusicVolume = sliderMusicVolume.value;
+                } else {
+                    Present.Manager.AudioManager.SoundVolume = sliderSoundVolume.value;
+                }
+            } else {
+                if (music) {
+                    sliderMusicVolume.value = Present.Manager.AudioManager.MusicVolume;
+                } else {
+                    sliderSoundVolume.value = Present.Manager.AudioManager.SoundVolume;
+                }
             }
         }
 

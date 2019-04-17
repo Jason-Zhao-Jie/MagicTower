@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace MagicTower.Present.Manager
-{
+namespace MagicTower.Present.Manager {
     /// <summary>
     /// 处理游戏中全部的音乐播放和音效播放的类。
     /// 由于游戏框架相对简单，为了防止创建过多生命周期太短的音效组件，本游戏采用全局UI音效，界面固有UI绑上若干个AudioClip，然后用本类管理
     /// </summary>
-    public static class AudioManager
-    {
+    public static class AudioManager {
         /// <summary>
         /// 获得物品时播放的音效id
         /// </summary>
@@ -36,17 +34,20 @@ namespace MagicTower.Present.Manager
         /// 设置或获取音乐播放源组件，音乐播放源组件只能有一个，新设置的将代替原来的
         /// </summary>
         /// <value>要播放音乐的声音组件</value>
-        public static UnityEngine.AudioSource MusicSource
-        {
+        public static UnityEngine.AudioSource MusicSource {
             get { return musicSource; }
-            set { musicSource = value; musicId = -1; }
+            set {
+                musicSource = value;
+                musicSource.volume = musicVolume;
+                musicSource.mute = musicMute;
+                musicId = -1;
+            }
         }
         /// <summary>
         /// 添加音效组件，音效组件有多个，调用此方法添加新的音效播放组件
         /// </summary>
         /// <param name="source">Source.</param>
-        public static void AddSoundSource(UnityEngine.AudioSource source)
-        {
+        public static void AddSoundSource(UnityEngine.AudioSource source) {
             soundSource.Add(source);
             source.volume = soundVolume;
             source.mute = soundMute;
@@ -54,8 +55,7 @@ namespace MagicTower.Present.Manager
         /// <summary>
         /// 清除所有的音效播放组件，仅用于切换场景时调用
         /// </summary>
-        public static void ClearSoundSource()
-        {
+        public static void ClearSoundSource() {
             soundSource.Clear();
         }
         /// <summary>
@@ -63,8 +63,7 @@ namespace MagicTower.Present.Manager
         /// </summary>
         /// <returns><c>true</c>, if music loop was played, <c>false</c> otherwise.</returns>
         /// <param name="id">音乐id</param>
-        public static bool PlayMusicLoop(int id)
-        {
+        public static bool PlayMusicLoop(int id) {
             if (id == musicId)
                 return true;
             musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Model.Dirs.AUDIO_DIR + Game.Config.audios[id].path);
@@ -78,8 +77,7 @@ namespace MagicTower.Present.Manager
         /// <returns><c>true</c>, if music songs was played, <c>false</c> otherwise.</returns>
         /// <param name="idList">音乐id列表</param>
         /// <param name="loopTimes">要循环的次数，不为正数表示一直循环播放</param>
-        public static bool PlayMusicList(int[] idList, int loopTimes = 1)
-        {
+        public static bool PlayMusicList(int[] idList, int loopTimes = 1) {
             // TODO: Realize the list playing function
             return false;
         }
@@ -87,8 +85,7 @@ namespace MagicTower.Present.Manager
         /// 停止播放背景音乐
         /// </summary>
         /// <returns><c>true</c>, if music was stoped, <c>false</c> otherwise.</returns>
-        public static bool StopMusic()
-        {
+        public static bool StopMusic() {
             musicSource.Stop();
             return true;
         }
@@ -98,8 +95,7 @@ namespace MagicTower.Present.Manager
         /// <returns><c>true</c>, if sound was played, <c>false</c> otherwise.</returns>
         /// <param name="id">Identifier.</param>
         /// <param name="times">Times.</param>
-        public static bool PlaySound(int id, int times = 1)
-        {
+        public static bool PlaySound(int id, int times = 1) {
             if (soundSource.Count <= index)
                 index = 0;
             if (soundSource.Count <= 0)
@@ -113,47 +109,69 @@ namespace MagicTower.Present.Manager
         /// 使背景音乐静音，这不会令音乐停止
         /// </summary>
         /// <param name="mute">If set to <c>true</c> mute.</param>
-        public static void SetMusicMute(bool mute)
-        {
-            musicSource.mute = mute;
+        public static bool MusicMute {
+            get {
+                return musicMute;
+            }
+            set {
+                musicMute = value;
+                if (musicSource != null) {
+                    musicSource.mute = value;
+                }
+            }
         }
         /// <summary>
         /// 使所有音效静音
         /// </summary>
         /// <param name="mute">If set to <c>true</c> mute.</param>
-        public static void SetSoundMute(bool mute)
-        {
-            soundMute = mute;
-            foreach (var v in soundSource)
-            {
-                v.mute = mute;
+        public static bool SoundMute{
+            get {
+                return soundMute;
+            }
+            set {
+                soundMute = value;
+                foreach (var v in soundSource) {
+                    v.mute = value;
+                }
             }
         }
         /// <summary>
         /// 设定背景音乐音量
         /// </summary>
         /// <param name="volume">Volume.</param>
-        public static void SetMusicVolume(int volume)
-        {
-            musicSource.volume = volume;
+        public static float MusicVolume {
+            get {
+                return musicVolume;
+            }
+            set {
+                musicVolume = value;
+                if (musicSource != null) {
+                    musicSource.volume = value;
+                }
+            }
         }
         /// <summary>
         /// 设定音效音量
         /// </summary>
         /// <param name="volume">Volume.</param>
-        public static void SetSoundVolume(int volume)
-        {
-            soundVolume = volume;
-            foreach (var v in soundSource)
-            {
-                v.volume = volume;
+        public static float SoundVolume {
+            get {
+                return soundVolume;
+            }
+            set {
+                soundVolume = value;
+                foreach (var v in soundSource) {
+                    v.volume = value;
+                }
             }
         }
 
         private static UnityEngine.AudioSource musicSource;
         private static List<UnityEngine.AudioSource> soundSource = new List<UnityEngine.AudioSource>();
+        private static bool musicMute = false;
         private static bool soundMute = false;
-        private static int soundVolume = 100;
+        private static float musicVolume = 100;
+        private static float soundVolume = 100;
         private static int index = 0;
         private static int musicId = -1;
     }

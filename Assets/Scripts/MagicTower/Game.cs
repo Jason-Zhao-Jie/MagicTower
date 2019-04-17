@@ -38,6 +38,8 @@ namespace MagicTower {
             if(Settings == null) {
                 Settings = new Model.GlobalSettings();
                 await Settings.Load();
+                Present.Manager.AudioManager.MusicVolume = Settings.Settings.musicVolume;
+                Present.Manager.AudioManager.SoundVolume = Settings.Settings.soundVolume;
             }
 
             if (ObjPool == null) {
@@ -127,94 +129,23 @@ namespace MagicTower {
 
         ////////////// Runtime Data Save / Load ///////////////
 
-        [System.Serializable]
-        private struct RuntimePositionData {
-            public int mapId;
-            public int x;
-            public int y;
-        }
-
-        [System.Serializable]
-        private struct RuntimeNumberData {
-            public int id;
-            public long value;
-        }
-
-        [System.Serializable]
-        private class RuntimeGameData {
-            public Model.PlayerData player;
-            public RuntimePositionData pos;
-            public RuntimeNumberData[] numbers;
-        }
-
         public static async System.Threading.Tasks.Task<bool> Save(string saveName) {
-            if (!ArmyAnt.Manager.IOManager.MkdirIfNotExist("save", saveName) || !ArmyAnt.Manager.IOManager.MkdirIfNotExist("save", saveName, "MapData")) {
-                return false;
-            }
             var maps = new Model.MapData[Map.MapsCount];
             Map.GetAllMapData().Values.CopyTo(maps, 0);
-            var numbers = new RuntimeNumberData[numberData.Count];
-            int index_numbers = 0;
-            foreach (var i in numberData) {
-                numbers[index_numbers++] = new RuntimeNumberData {
-                    id = i.Key,
-                    value = i.Value,
-                };
-            }
-            var json = UnityEngine.JsonUtility.ToJson(new RuntimeGameData {
-                player = Player.PlayerData,
-                pos = new RuntimePositionData {
-                    mapId = Map.MapId,
-                    x = Player.PlayerPosX,
-                    y = Player.PlayerPosY,
-                },
-                numbers = numbers,
-            }, false);
-            try {
-                await ArmyAnt.Manager.IOManager.SaveToFile(System.Text.Encoding.UTF8.GetBytes(json), "save", saveName, "RuntimeData.json");
-                foreach (var i in maps) {
-                    await ArmyAnt.Manager.IOManager.SaveToFile(System.Text.Encoding.UTF8.GetBytes(json), "save", saveName, "MapData", i.mapId.ToString() + ".json");
-                }
-            } catch (System.IO.IOException) {
-                return false;
-            }
-            return true;
+            return await Present.Manager.SaveManager.Write(saveName, maps, numberData, Map.MapId, Player.PlayerPosX, Player.PlayerPosY, Player.PlayerData);
         }
 
         public static async System.Threading.Tasks.Task<bool> Load(string saveName = null) {
-            RuntimeGameData data = null;
-            Model.MapData[] maps = null;
             if (saveName == null) {
                 saveName = CurrentSaveName;
             }
             try {
-                if (saveName == "") {
-                    var json = UnityEngine.Resources.Load<UnityEngine.TextAsset>("RuntimeData").text;
-                    data = UnityEngine.JsonUtility.FromJson<RuntimeGameData>(json);
-                    data.player = Config.players[62];   // TODO : 这里是新游戏载入的player，由于需要进入MainScene之前作选择，因此这里的逻辑需要进一步拓展，目前先写死
-                } else {
-                    var bin = await ArmyAnt.Manager.IOManager.LoadFromFile("save", saveName, "RuntimeData.json");
-                    var json = System.Text.Encoding.UTF8.GetString(bin);
-                    data = UnityEngine.JsonUtility.FromJson<RuntimeGameData>(json);
-                    var mapFiles = ArmyAnt.Manager.IOManager.ListAllFiles("*.json", saveName, "MapData");
-                    maps = new Model.MapData[mapFiles.Length];
-                    int index = 0;
-                    foreach (var i in mapFiles) {
-                        var mapBin = await ArmyAnt.Manager.IOManager.LoadFromFileWholePath(i);
-                        var mapStr = System.Text.Encoding.UTF8.GetString(mapBin);
-                        var mapData = UnityEngine.JsonUtility.FromJson<Model.MapData>(mapStr);
-                        maps[index++] = mapData;
-                    }
-                }
+                var (maps, numberData, mapId, playerPosX, playerPosY, PlayerData) = await Present.Manager.SaveManager.Read(saveName);
+                Map.SetStartData(mapId, maps);
+                Player.ShowPlayer(playerPosX, playerPosY, PlayerData, true);
             } catch (System.IO.IOException) {
                 return false;
             }
-            numberData = new System.Collections.Generic.Dictionary<int, long>();
-            foreach (var i in data.numbers) {
-                numberData.Add(i.id, i.value);
-            }
-            Map.SetStartData(data.pos.mapId, maps);
-            Player.ShowPlayer(data.pos.x, data.pos.y, data.player, true);
             Status = Model.EGameStatus.InGame;
             return true;
         }

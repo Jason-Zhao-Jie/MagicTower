@@ -95,7 +95,7 @@ namespace MagicTower.Components.Scene
 
         public void OnReadMe()
         {
-
+            // TODO
         }
 
         public void OnChangeLanguage()

@@ -48,6 +48,10 @@ namespace ArmyAnt.Manager {
             return System.IO.Directory.GetFiles(ParsePath(path), partten);
         }
 
+        public static string[] ListAllDirectories(params string[] path) {
+            return System.IO.Directory.GetDirectories(ParsePath(path));
+        }
+
         public static async System.Threading.Tasks.Task<string> SaveToFile(byte[] content, params string[] path) {
             return await SaveToFileWholePath(content, ParsePath(path));
         }

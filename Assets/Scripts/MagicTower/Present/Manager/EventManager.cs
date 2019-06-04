@@ -222,14 +222,14 @@ namespace MagicTower.Present.Manager
             {
                 selfUUid = eventData[1];
             }
-            (Game.CurrentScene as Components.Scene.MainScene)?.StartBattle(caller, canFail, selfUUid);
+            Game.StartBattle(caller, canFail, selfUUid);
             return false;
         }
 
         private static bool OnChat(Modal caller, long[] eventData)
         {
             var data = Game.Config.chats[System.Convert.ToInt32(eventData[0])];
-            (Game.CurrentScene as Components.Scene.MainScene)?.ChatBegan(data, caller);
+            Game.ChatBegan(data, caller);
             return data.canOn;
         }
 
@@ -237,7 +237,7 @@ namespace MagicTower.Present.Manager
         {
             int choiceId = System.Convert.ToInt32(eventData[0]);
             var data = Game.Config.choices[choiceId];
-            (Game.CurrentScene as Components.Scene.MainScene)?.StartChoice(data, caller);
+            Game.ShowChoice(data, caller);
             return false;
         }
 
@@ -313,7 +313,7 @@ namespace MagicTower.Present.Manager
         {
             var lastStatus = Game.Status;
             Game.Status = Model.EGameStatus.OnEvent;
-            caller.RemoveSelf(() => { Game.Status = lastStatus; });
+            caller.GoToRunState(() => { Game.Status = lastStatus; });
             return false;
         }
 

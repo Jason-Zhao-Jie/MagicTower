@@ -114,6 +114,7 @@ namespace MagicTower.Model
         public string name;
         public string prefabPath;
         public int eventId;
+        public string animator;
         public long[] eventData;   // optional
     }
 

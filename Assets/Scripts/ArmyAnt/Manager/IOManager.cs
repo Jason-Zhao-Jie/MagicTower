@@ -6,7 +6,7 @@ namespace ArmyAnt.Manager {
     public static class IOManager {
         public static string FileDirRoot {
             get {
-                return UnityEngine.Application.persistentDataPath + System.IO.Path.DirectorySeparatorChar;
+                return UnityEngine.Application.persistentDataPath + System.IO.Path.AltDirectorySeparatorChar;
             }
         }
 
@@ -52,38 +52,37 @@ namespace ArmyAnt.Manager {
             return System.IO.Directory.GetDirectories(ParsePath(path));
         }
 
-        public static async System.Threading.Tasks.Task<string> SaveToFile(byte[] content, params string[] path) {
-            return await SaveToFileWholePath(content, ParsePath(path));
+        public static string SaveToFile(byte[] content, params string[] path) {
+            return SaveToFileWholePath(content, ParsePath(path));
         }
 
-        public static async System.Threading.Tasks.Task<string> SaveToFileWholePath(byte[] content, string path) {
+        public static string SaveToFileWholePath(byte[] content, string path) {
             System.IO.FileStream file = System.IO.File.Create(path, content.Length, System.IO.FileOptions.Asynchronous);
-            await file.WriteAsync(content, 0, content.Length);
             file.Close();
+            System.IO.File.WriteAllBytes(path, content);
             return path;
         }
 
-        public static async System.Threading.Tasks.Task<byte[]> LoadFromFile(params string[] path) {
-            return await LoadFromFileWholePath(ParsePath(path));
+        public static byte[] LoadFromFile(params string[] path) {
+            return LoadFromFileWholePath(ParsePath(path));
         }
 
-        public static async System.Threading.Tasks.Task<byte[]> LoadFromFileWholePath(string path) {
-            System.IO.FileStream file;
+        public static byte[] LoadFromFileWholePath(string path) {
             try {
-                file = System.IO.File.OpenRead(path);
+                var ret = System.IO.File.ReadAllBytes(path);
+                if(ret == null || ret.Length <= 0) {
+                    return null;
+                }
+                return ret;
             } catch (System.SystemException) {
                 return null;
             }
-            int len = System.Convert.ToInt32(file.Length);
-            var ret = new byte[len];
-            var num = await file?.ReadAsync(ret, 0, len);
-            return ret?.Length > 0 ? ret : null;
         }
 
         private static string ParsePath(string[] path) {
             string filename = UnityEngine.Application.persistentDataPath;
             for (var i = 0; i < path.Length; ++i) {
-                filename += System.IO.Path.DirectorySeparatorChar + path[i];
+                filename += System.IO.Path.AltDirectorySeparatorChar + path[i];
             }
             return filename;
         }

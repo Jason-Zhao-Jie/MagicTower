@@ -74,7 +74,7 @@ namespace MagicTower.Present.Manager
                         case KeyCode.KeypadEnter:
                         case KeyCode.Space:
                         case JoysticsCode.A:
-                            (Game.CurrentScene as Components.Scene.MainScene)?.ChatStepOn();
+                            Game.ChatStepOn();
                             break;
                     }
                     break;
@@ -131,7 +131,7 @@ namespace MagicTower.Present.Manager
                         case KeyCode.Escape:
                         case KeyCode.Backspace:
                         case JoysticsCode.Back:
-                            Game.CurrentScene.BackToStartScene();
+                            Game.StopAndBackToStart();
                             break;
                     }
                     break;
@@ -154,7 +154,7 @@ namespace MagicTower.Present.Manager
                         case KeyCode.KeypadEnter:
                         case KeyCode.Space:
                         case JoysticsCode.A:
-                            (Game.CurrentScene as Components.Scene.MainScene)?.StopBattle();
+                            Game.StopBattle();
                             break;
                     }
                     break;
@@ -185,13 +185,12 @@ namespace MagicTower.Present.Manager
                     break;
                 case Model.EGameStatus.InGame:
                 case Model.EGameStatus.InEditor:
-                    //MainScene.instance.ShowTips("Click Called !");
                     Game.Map.ClickMap(touchedPos);
                     break;
                 case Model.EGameStatus.OnCG:
                     break;
                 case Model.EGameStatus.OnTipChat:
-                    (Game.CurrentScene as Components.Scene.MainScene)?.ChatStepOn();
+                    Game.ChatStepOn();
                     break;
                 case Model.EGameStatus.OnDialog:
                     break;
@@ -200,7 +199,7 @@ namespace MagicTower.Present.Manager
                 case Model.EGameStatus.OnBattle:
                     break;
                 case Model.EGameStatus.OnBattleResult:
-                    (Game.CurrentScene as Components.Scene.MainScene)?.StopBattle();
+                    Game.StopBattle();
                     break;
                 case Model.EGameStatus.OnSmallGame:
                     break;

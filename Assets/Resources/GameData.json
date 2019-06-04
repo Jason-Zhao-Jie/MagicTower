@@ -1,4 +1,5 @@
 ﻿{
+  "debug": true,
   "modals": [
     {
       "id": 1,
@@ -6,7 +7,8 @@
       "prefabPath": "Axe",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Axe"
+      "name": "str_name_Axe",
+      "animator": "static"
     },
     {
       "id": 2,
@@ -14,7 +16,8 @@
       "prefabPath": "Banana",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Banana"
+      "name": "str_name_Banana",
+      "animator": "static"
     },
     {
       "id": 3,
@@ -22,7 +25,8 @@
       "prefabPath": "BatBig",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_BatBig"
+      "name": "str_name_BatBig",
+      "animator": "recycle"
     },
     {
       "id": 4,
@@ -30,7 +34,8 @@
       "prefabPath": "BatBoss",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_BatBoss"
+      "name": "str_name_BatBoss",
+      "animator": "recycle"
     },
     {
       "id": 5,
@@ -38,7 +43,8 @@
       "prefabPath": "BatRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_BatRed"
+      "name": "str_name_BatRed",
+      "animator": "recycle"
     },
     {
       "id": 6,
@@ -46,7 +52,8 @@
       "prefabPath": "BatSmall",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_BatSmall"
+      "name": "str_name_BatSmall",
+      "animator": "recycle"
     },
     {
       "id": 7,
@@ -54,7 +61,8 @@
       "prefabPath": "BlueBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_BlueBadge"
+      "name": "str_name_BlueBadge",
+      "animator": "static"
     },
     {
       "id": 8,
@@ -62,7 +70,8 @@
       "prefabPath": "BlueBottle",
       "eventId": 7,
       "eventData": [ 1, 500, 8, 2, 20, 11 ],
-      "name": "str_name_BlueBottle"
+      "name": "str_name_BlueBottle",
+      "animator": "static"
     },
     {
       "id": 9,
@@ -70,7 +79,8 @@
       "prefabPath": "BlueDiamond",
       "eventId": 7,
       "eventData": [ 3, 3, 8, 2, 20, 11 ],
-      "name": "str_name_BlueDiamond"
+      "name": "str_name_BlueDiamond",
+      "animator": "static"
     },
     {
       "id": 10,
@@ -78,7 +88,8 @@
       "prefabPath": "BlueDoor",
       "eventId": 9,
       "eventData": [ 10 ],
-      "name": "str_name_BlueDoor"
+      "name": "str_name_BlueDoor",
+      "animator": "once"
     },
     {
       "id": 11,
@@ -86,7 +97,8 @@
       "prefabPath": "BlueFence",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_BlueFence"
+      "name": "str_name_BlueFence",
+      "animator": "once"
     },
     {
       "id": 12,
@@ -94,7 +106,8 @@
       "prefabPath": "BlueFlask",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_BlueFlask"
+      "name": "str_name_BlueFlask",
+      "animator": "static"
     },
     {
       "id": 13,
@@ -102,7 +115,8 @@
       "prefabPath": "BlueKey",
       "eventId": 7,
       "eventData": [ 10, 1, 8, 2, 20, 11 ],
-      "name": "str_name_BlueKey"
+      "name": "str_name_BlueKey",
+      "animator": "static"
     },
     {
       "id": 14,
@@ -110,7 +124,8 @@
       "prefabPath": "BlueUniversal",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_BlueUniversal"
+      "name": "str_name_BlueUniversal",
+      "animator": "static"
     },
     {
       "id": 15,
@@ -118,7 +133,8 @@
       "prefabPath": "BlueVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_BlueVase"
+      "name": "str_name_BlueVase",
+      "animator": "static"
     },
     {
       "id": 16,
@@ -126,7 +142,8 @@
       "prefabPath": "BlueWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_BlueWall"
+      "name": "str_name_BlueWall",
+      "animator": "once"
     },
     {
       "id": 17,
@@ -134,7 +151,8 @@
       "prefabPath": "Boom",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Boom"
+      "name": "str_name_Boom",
+      "animator": "static"
     },
     {
       "id": 18,
@@ -142,7 +160,8 @@
       "prefabPath": "BrownWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_BrownWall"
+      "name": "str_name_BrownWall",
+      "animator": "once"
     },
     {
       "id": 19,
@@ -150,7 +169,8 @@
       "prefabPath": "BrozenDoor",
       "eventId": 9,
       "eventData": [ 13 ],
-      "name": "str_name_BrozenDoor"
+      "name": "str_name_BrozenDoor",
+      "animator": "once"
     },
     {
       "id": 20,
@@ -158,7 +178,8 @@
       "prefabPath": "BrozenKey",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_BrozenKey"
+      "name": "str_name_BrozenKey",
+      "animator": "static"
     },
     {
       "id": 21,
@@ -166,7 +187,8 @@
       "prefabPath": "BusinessMan",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_BusinessMan"
+      "name": "str_name_BusinessMan",
+      "animator": "recycle"
     },
     {
       "id": 22,
@@ -174,7 +196,8 @@
       "prefabPath": "Candlestick",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Candlestick"
+      "name": "str_name_Candlestick",
+      "animator": "static"
     },
     {
       "id": 23,
@@ -182,7 +205,8 @@
       "prefabPath": "Cleaner",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Cleaner"
+      "name": "str_name_Cleaner",
+      "animator": "static"
     },
     {
       "id": 24,
@@ -190,7 +214,8 @@
       "prefabPath": "Coin",
       "eventId": 7,
       "eventData": [ 8, 100, 8, 2, 20, 11 ],
-      "name": "str_name_Coin"
+      "name": "str_name_Coin",
+      "animator": "static"
     },
     {
       "id": 25,
@@ -198,7 +223,8 @@
       "prefabPath": "Cross",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Cross"
+      "name": "str_name_Cross",
+      "animator": "static"
     },
     {
       "id": 26,
@@ -206,7 +232,8 @@
       "prefabPath": "Defenser",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_Defenser"
+      "name": "str_name_Defenser",
+      "animator": "recycle"
     },
     {
       "id": 27,
@@ -214,7 +241,8 @@
       "prefabPath": "DefenserBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_DefenserBlue"
+      "name": "str_name_DefenserBlue",
+      "animator": "recycle"
     },
     {
       "id": 28,
@@ -222,7 +250,8 @@
       "prefabPath": "DefenserRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_DefenserRed"
+      "name": "str_name_DefenserRed",
+      "animator": "recycle"
     },
     {
       "id": 29,
@@ -230,7 +259,8 @@
       "prefabPath": "DiamondAxe",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_DiamondAxe"
+      "name": "str_name_DiamondAxe",
+      "animator": "static"
     },
     {
       "id": 30,
@@ -238,7 +268,8 @@
       "prefabPath": "DownStair",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_DownStair"
+      "name": "str_name_DownStair",
+      "animator": "static"
     },
     {
       "id": 31,
@@ -246,7 +277,8 @@
       "prefabPath": "DragonRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_DragonRed"
+      "name": "str_name_DragonRed",
+      "animator": "recycle"
     },
     {
       "id": 32,
@@ -254,7 +286,8 @@
       "prefabPath": "EnchanterBlack",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_EnchanterBlack"
+      "name": "str_name_EnchanterBlack",
+      "animator": "recycle"
     },
     {
       "id": 33,
@@ -262,7 +295,8 @@
       "prefabPath": "EnchanterBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_EnchanterBlue"
+      "name": "str_name_EnchanterBlue",
+      "animator": "recycle"
     },
     {
       "id": 34,
@@ -270,7 +304,8 @@
       "prefabPath": "EnchanterGold",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_EnchanterGold"
+      "name": "str_name_EnchanterGold",
+      "animator": "recycle"
     },
     {
       "id": 35,
@@ -278,7 +313,8 @@
       "prefabPath": "EnchanterGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_EnchanterGreen"
+      "name": "str_name_EnchanterGreen",
+      "animator": "recycle"
     },
     {
       "id": 36,
@@ -286,7 +322,8 @@
       "prefabPath": "EnchanterRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_EnchanterRed"
+      "name": "str_name_EnchanterRed",
+      "animator": "recycle"
     },
     {
       "id": 37,
@@ -294,7 +331,8 @@
       "prefabPath": "Fire",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Fire"
+      "name": "str_name_Fire",
+      "animator": "recycle"
     },
     {
       "id": 38,
@@ -302,7 +340,8 @@
       "prefabPath": "Flyer",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Flyer"
+      "name": "str_name_Flyer",
+      "animator": "static"
     },
     {
       "id": 39,
@@ -310,7 +349,8 @@
       "prefabPath": "GhostGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_GhostGreen"
+      "name": "str_name_GhostGreen",
+      "animator": "recycle"
     },
     {
       "id": 40,
@@ -318,7 +358,8 @@
       "prefabPath": "GhostSilver",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_GhostSilver"
+      "name": "str_name_GhostSilver",
+      "animator": "recycle"
     },
     {
       "id": 41,
@@ -326,7 +367,8 @@
       "prefabPath": "GhostSwordGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_GhostSwordGreen"
+      "name": "str_name_GhostSwordGreen",
+      "animator": "recycle"
     },
     {
       "id": 42,
@@ -334,7 +376,8 @@
       "prefabPath": "GhostSwordSilver",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_GhostSwordSilver"
+      "name": "str_name_GhostSwordSilver",
+      "animator": "recycle"
     },
     {
       "id": 43,
@@ -342,7 +385,8 @@
       "prefabPath": "GoldBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_GoldBadge"
+      "name": "str_name_GoldBadge",
+      "animator": "static"
     },
     {
       "id": 44,
@@ -350,7 +394,8 @@
       "prefabPath": "GoldDoor",
       "eventId": 9,
       "eventData": [ 15 ],
-      "name": "str_name_GoldDoor"
+      "name": "str_name_GoldDoor",
+      "animator": "once"
     },
     {
       "id": 45,
@@ -358,7 +403,8 @@
       "prefabPath": "GoldKey",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_GoldKey"
+      "name": "str_name_GoldKey",
+      "animator": "static"
     },
     {
       "id": 46,
@@ -366,7 +412,8 @@
       "prefabPath": "GoldWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_GoldWall"
+      "name": "str_name_GoldWall",
+      "animator": "once"
     },
     {
       "id": 47,
@@ -374,7 +421,8 @@
       "prefabPath": "GrayWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_GrayWall"
+      "name": "str_name_GrayWall",
+      "animator": "once"
     },
     {
       "id": 48,
@@ -382,7 +430,8 @@
       "prefabPath": "GreenBottle",
       "eventId": 7,
       "eventData": [ 1, 1000, 8, 2, 20, 11 ],
-      "name": "str_name_GreenBottle"
+      "name": "str_name_GreenBottle",
+      "animator": "static"
     },
     {
       "id": 49,
@@ -390,7 +439,8 @@
       "prefabPath": "GreenDiamond",
       "eventId": 7,
       "eventData": [ 6, 1, 8, 2, 20, 11 ],
-      "name": "str_name_GreenDiamond"
+      "name": "str_name_GreenDiamond",
+      "animator": "static"
     },
     {
       "id": 50,
@@ -398,7 +448,8 @@
       "prefabPath": "GreenFence",
       "eventId": 2,
       "eventData": [ 0 ],
-      "name": "str_name_GreenFence"
+      "name": "str_name_GreenFence",
+      "animator": "once"
     },
     {
       "id": 51,
@@ -406,7 +457,8 @@
       "prefabPath": "GreenFlask",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_GreenFlask"
+      "name": "str_name_GreenFlask",
+      "animator": "static"
     },
     {
       "id": 52,
@@ -414,7 +466,8 @@
       "prefabPath": "GreenGate",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_GreenGate"
+      "name": "str_name_GreenGate",
+      "animator": "once"
     },
     {
       "id": 53,
@@ -422,7 +475,8 @@
       "prefabPath": "GreenKey",
       "eventId": 7,
       "eventData": [ 12, 1, 8, 2, 20, 11 ],
-      "name": "str_name_GreenKey"
+      "name": "str_name_GreenKey",
+      "animator": "static"
     },
     {
       "id": 54,
@@ -430,7 +484,8 @@
       "prefabPath": "GreenUniversal",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_GreenUniversal"
+      "name": "str_name_GreenUniversal",
+      "animator": "static"
     },
     {
       "id": 55,
@@ -438,7 +493,8 @@
       "prefabPath": "GreenVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_GreenVase"
+      "name": "str_name_GreenVase",
+      "animator": "static"
     },
     {
       "id": 56,
@@ -446,7 +502,8 @@
       "prefabPath": "GreenVase 1",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_GreenVase1"
+      "name": "str_name_GreenVase1",
+      "animator": "static"
     },
     {
       "id": 57,
@@ -454,7 +511,8 @@
       "prefabPath": "Hammer",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Hammer"
+      "name": "str_name_Hammer",
+      "animator": "static"
     },
     {
       "id": 58,
@@ -462,7 +520,8 @@
       "prefabPath": "Heart",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Heart"
+      "name": "str_name_Heart",
+      "animator": "static"
     },
     {
       "id": 59,
@@ -470,7 +529,8 @@
       "prefabPath": "Helper",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Helper"
+      "name": "str_name_Helper",
+      "animator": "static"
     },
     {
       "id": 60,
@@ -478,7 +538,8 @@
       "prefabPath": "IceAxe",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_IceAxe"
+      "name": "str_name_IceAxe",
+      "animator": "static"
     },
     {
       "id": 61,
@@ -486,7 +547,8 @@
       "prefabPath": "IndigoVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_IndigoVase"
+      "name": "str_name_IndigoVase",
+      "animator": "static"
     },
     {
       "id": 62,
@@ -494,7 +556,8 @@
       "prefabPath": "Jack",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Jack"
+      "name": "str_name_Jack",
+      "animator": "player"
     },
     {
       "id": 63,
@@ -502,7 +565,8 @@
       "prefabPath": "Knight",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_Knight"
+      "name": "str_name_Knight",
+      "animator": "recycle"
     },
     {
       "id": 64,
@@ -510,7 +574,8 @@
       "prefabPath": "KnightBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_KnightBlue"
+      "name": "str_name_KnightBlue",
+      "animator": "recycle"
     },
     {
       "id": 65,
@@ -518,7 +583,8 @@
       "prefabPath": "KnightGold",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_KnightGold"
+      "name": "str_name_KnightGold",
+      "animator": "recycle"
     },
     {
       "id": 66,
@@ -526,7 +592,8 @@
       "prefabPath": "KnightRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_KnightRed"
+      "name": "str_name_KnightRed",
+      "animator": "recycle"
     },
     {
       "id": 67,
@@ -534,7 +601,8 @@
       "prefabPath": "Leaf",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Leaf"
+      "name": "str_name_Leaf",
+      "animator": "static"
     },
     {
       "id": 68,
@@ -542,7 +610,8 @@
       "prefabPath": "Lilith",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Lilith"
+      "name": "str_name_Lilith",
+      "animator": "player"
     },
     {
       "id": 69,
@@ -550,7 +619,8 @@
       "prefabPath": "LuckyBag",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_LuckyBag"
+      "name": "str_name_LuckyBag",
+      "animator": "static"
     },
     {
       "id": 70,
@@ -558,7 +628,8 @@
       "prefabPath": "Notepad",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Notepad"
+      "name": "str_name_Notepad",
+      "animator": "static"
     },
     {
       "id": 71,
@@ -566,7 +637,8 @@
       "prefabPath": "OctopusRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_OctopusRed"
+      "name": "str_name_OctopusRed",
+      "animator": "recycle"
     },
     {
       "id": 72,
@@ -574,7 +646,8 @@
       "prefabPath": "OldMan",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_OldMan"
+      "name": "str_name_OldMan",
+      "animator": "recycle"
     },
     {
       "id": 73,
@@ -582,7 +655,8 @@
       "prefabPath": "PinkBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_PinkBadge"
+      "name": "str_name_PinkBadge",
+      "animator": "static"
     },
     {
       "id": 74,
@@ -590,7 +664,8 @@
       "prefabPath": "PinkVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_PinkVase"
+      "name": "str_name_PinkVase",
+      "animator": "static"
     },
     {
       "id": 75,
@@ -598,7 +673,8 @@
       "prefabPath": "PinkWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_PinkWall"
+      "name": "str_name_PinkWall",
+      "animator": "once"
     },
     {
       "id": 76,
@@ -606,7 +682,8 @@
       "prefabPath": "RedBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_RedBadge"
+      "name": "str_name_RedBadge",
+      "animator": "static"
     },
     {
       "id": 77,
@@ -614,7 +691,8 @@
       "prefabPath": "RedBottle",
       "eventId": 7,
       "eventData": [ 1, 150, 8, 2, 20, 11 ],
-      "name": "str_name_RedBottle"
+      "name": "str_name_RedBottle",
+      "animator": "static"
     },
     {
       "id": 78,
@@ -622,7 +700,8 @@
       "prefabPath": "RedDiamond",
       "eventId": 7,
       "eventData": [ 2, 3, 8, 2, 20, 11 ],
-      "name": "str_name_RedDiamond"
+      "name": "str_name_RedDiamond",
+      "animator": "static"
     },
     {
       "id": 79,
@@ -630,7 +709,8 @@
       "prefabPath": "RedDoor",
       "eventId": 9,
       "eventData": [ 11 ],
-      "name": "str_name_RedDoor"
+      "name": "str_name_RedDoor",
+      "animator": "once"
     },
     {
       "id": 80,
@@ -638,7 +718,8 @@
       "prefabPath": "RedFlask",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_RedFlask"
+      "name": "str_name_RedFlask",
+      "animator": "static"
     },
     {
       "id": 81,
@@ -646,7 +727,8 @@
       "prefabPath": "RedKey",
       "eventId": 7,
       "eventData": [ 11, 1, 8, 2, 20, 11 ],
-      "name": "str_name_RedKey"
+      "name": "str_name_RedKey",
+      "animator": "static"
     },
     {
       "id": 82,
@@ -654,7 +736,8 @@
       "prefabPath": "RedUniversal",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_RedUniversal"
+      "name": "str_name_RedUniversal",
+      "animator": "static"
     },
     {
       "id": 83,
@@ -662,7 +745,8 @@
       "prefabPath": "Reel",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Reel"
+      "name": "str_name_Reel",
+      "animator": "static"
     },
     {
       "id": 84,
@@ -670,7 +754,8 @@
       "prefabPath": "River",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_River"
+      "name": "str_name_River",
+      "animator": "recycle"
     },
     {
       "id": 85,
@@ -678,7 +763,8 @@
       "prefabPath": "SaintSword",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_SaintSword"
+      "name": "str_name_SaintSword",
+      "animator": "static"
     },
     {
       "id": 86,
@@ -686,7 +772,8 @@
       "prefabPath": "Sender",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sender"
+      "name": "str_name_Sender",
+      "animator": "recycle"
     },
     {
       "id": 87,
@@ -694,7 +781,8 @@
       "prefabPath": "Shield_1",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_1"
+      "name": "str_name_Shield_1",
+      "animator": "static"
     },
     {
       "id": 88,
@@ -702,7 +790,8 @@
       "prefabPath": "Shield_10",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_10"
+      "name": "str_name_Shield_10",
+      "animator": "static"
     },
     {
       "id": 89,
@@ -710,7 +799,8 @@
       "prefabPath": "Shield_11",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_11"
+      "name": "str_name_Shield_11",
+      "animator": "static"
     },
     {
       "id": 90,
@@ -718,7 +808,8 @@
       "prefabPath": "Shield_12",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_12"
+      "name": "str_name_Shield_12",
+      "animator": "static"
     },
     {
       "id": 91,
@@ -726,7 +817,8 @@
       "prefabPath": "Shield_2",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_2"
+      "name": "str_name_Shield_2",
+      "animator": "static"
     },
     {
       "id": 92,
@@ -734,7 +826,8 @@
       "prefabPath": "Shield_3",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_3"
+      "name": "str_name_Shield_3",
+      "animator": "static"
     },
     {
       "id": 93,
@@ -742,7 +835,8 @@
       "prefabPath": "Shield_4",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_4"
+      "name": "str_name_Shield_4",
+      "animator": "static"
     },
     {
       "id": 94,
@@ -750,7 +844,8 @@
       "prefabPath": "Shield_5",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_5"
+      "name": "str_name_Shield_5",
+      "animator": "static"
     },
     {
       "id": 95,
@@ -758,7 +853,8 @@
       "prefabPath": "Shield_6",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_6"
+      "name": "str_name_Shield_6",
+      "animator": "static"
     },
     {
       "id": 96,
@@ -766,7 +862,8 @@
       "prefabPath": "Shield_7",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_7"
+      "name": "str_name_Shield_7",
+      "animator": "static"
     },
     {
       "id": 97,
@@ -774,7 +871,8 @@
       "prefabPath": "Shield_8",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_8"
+      "name": "str_name_Shield_8",
+      "animator": "static"
     },
     {
       "id": 98,
@@ -782,7 +880,8 @@
       "prefabPath": "Shield_9",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shield_9"
+      "name": "str_name_Shield_9",
+      "animator": "static"
     },
     {
       "id": 99,
@@ -790,7 +889,8 @@
       "prefabPath": "Shoes",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Shoes"
+      "name": "str_name_Shoes",
+      "animator": "static"
     },
     {
       "id": 100,
@@ -798,7 +898,8 @@
       "prefabPath": "SilverDoor",
       "eventId": 9,
       "eventData": [ 14 ],
-      "name": "str_name_SilverDoor"
+      "name": "str_name_SilverDoor",
+      "animator": "once"
     },
     {
       "id": 101,
@@ -806,7 +907,8 @@
       "prefabPath": "SilverKey",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_SilverKey"
+      "name": "str_name_SilverKey",
+      "animator": "static"
     },
     {
       "id": 102,
@@ -814,7 +916,8 @@
       "prefabPath": "Skeleton",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_Skeleton"
+      "name": "str_name_Skeleton",
+      "animator": "recycle"
     },
     {
       "id": 103,
@@ -822,7 +925,8 @@
       "prefabPath": "SkeletonBoss",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SkeletonBoss"
+      "name": "str_name_SkeletonBoss",
+      "animator": "recycle"
     },
     {
       "id": 104,
@@ -830,7 +934,8 @@
       "prefabPath": "SkeletonBrown",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SkeletonBrown"
+      "name": "str_name_SkeletonBrown",
+      "animator": "recycle"
     },
     {
       "id": 105,
@@ -838,7 +943,8 @@
       "prefabPath": "SkeletonUpgrade",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SkeletonUpgrade"
+      "name": "str_name_SkeletonUpgrade",
+      "animator": "recycle"
     },
     {
       "id": 106,
@@ -846,7 +952,8 @@
       "prefabPath": "SlimeBlack",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SlimeBlack"
+      "name": "str_name_SlimeBlack",
+      "animator": "recycle"
     },
     {
       "id": 107,
@@ -854,7 +961,8 @@
       "prefabPath": "SlimeGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SlimeGreen"
+      "name": "str_name_SlimeGreen",
+      "animator": "recycle"
     },
     {
       "id": 108,
@@ -862,7 +970,8 @@
       "prefabPath": "SlimeKing",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SlimeKing"
+      "name": "str_name_SlimeKing",
+      "animator": "recycle"
     },
     {
       "id": 109,
@@ -870,7 +979,8 @@
       "prefabPath": "SlimeRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SlimeRed"
+      "name": "str_name_SlimeRed",
+      "animator": "recycle"
     },
     {
       "id": 110,
@@ -878,7 +988,8 @@
       "prefabPath": "Sprite",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sprite"
+      "name": "str_name_Sprite",
+      "animator": "recycle"
     },
     {
       "id": 111,
@@ -886,7 +997,8 @@
       "prefabPath": "Stars",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Stars"
+      "name": "str_name_Stars",
+      "animator": "static"
     },
     {
       "id": 112,
@@ -894,7 +1006,8 @@
       "prefabPath": "Stone",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_Stone"
+      "name": "str_name_Stone",
+      "animator": "recycle"
     },
     {
       "id": 113,
@@ -902,7 +1015,8 @@
       "prefabPath": "StoneBlack",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_StoneBlack"
+      "name": "str_name_StoneBlack",
+      "animator": "recycle"
     },
     {
       "id": 114,
@@ -910,7 +1024,8 @@
       "prefabPath": "StoneBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_StoneBlue"
+      "name": "str_name_StoneBlue",
+      "animator": "recycle"
     },
     {
       "id": 115,
@@ -918,7 +1033,8 @@
       "prefabPath": "StoneGray",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_StoneGray"
+      "name": "str_name_StoneGray",
+      "animator": "recycle"
     },
     {
       "id": 116,
@@ -926,7 +1042,8 @@
       "prefabPath": "Sword_1",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_1"
+      "name": "str_name_Sword_1",
+      "animator": "static"
     },
     {
       "id": 117,
@@ -934,7 +1051,8 @@
       "prefabPath": "Sword_10",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_10"
+      "name": "str_name_Sword_10",
+      "animator": "static"
     },
     {
       "id": 118,
@@ -942,7 +1060,8 @@
       "prefabPath": "Sword_11",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_11"
+      "name": "str_name_Sword_11",
+      "animator": "static"
     },
     {
       "id": 119,
@@ -950,7 +1069,8 @@
       "prefabPath": "Sword_12",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_12"
+      "name": "str_name_Sword_12",
+      "animator": "static"
     },
     {
       "id": 120,
@@ -958,7 +1078,8 @@
       "prefabPath": "Sword_2",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_2"
+      "name": "str_name_Sword_2",
+      "animator": "static"
     },
     {
       "id": 121,
@@ -966,7 +1087,8 @@
       "prefabPath": "Sword_3",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_3"
+      "name": "str_name_Sword_3",
+      "animator": "static"
     },
     {
       "id": 122,
@@ -974,7 +1096,8 @@
       "prefabPath": "Sword_4",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_4"
+      "name": "str_name_Sword_4",
+      "animator": "static"
     },
     {
       "id": 123,
@@ -982,7 +1105,8 @@
       "prefabPath": "Sword_5",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_5"
+      "name": "str_name_Sword_5",
+      "animator": "static"
     },
     {
       "id": 124,
@@ -990,7 +1114,8 @@
       "prefabPath": "Sword_6",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_6"
+      "name": "str_name_Sword_6",
+      "animator": "static"
     },
     {
       "id": 125,
@@ -998,7 +1123,8 @@
       "prefabPath": "Sword_7",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_7"
+      "name": "str_name_Sword_7",
+      "animator": "static"
     },
     {
       "id": 126,
@@ -1006,7 +1132,8 @@
       "prefabPath": "Sword_8",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_8"
+      "name": "str_name_Sword_8",
+      "animator": "static"
     },
     {
       "id": 127,
@@ -1014,7 +1141,8 @@
       "prefabPath": "Sword_9",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Sword_9"
+      "name": "str_name_Sword_9",
+      "animator": "static"
     },
     {
       "id": 128,
@@ -1022,7 +1150,8 @@
       "prefabPath": "SwordMan",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SwordMan"
+      "name": "str_name_SwordMan",
+      "animator": "recycle"
     },
     {
       "id": 129,
@@ -1030,7 +1159,8 @@
       "prefabPath": "SwordManBoss",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SwordManBoss"
+      "name": "str_name_SwordManBoss",
+      "animator": "recycle"
     },
     {
       "id": 130,
@@ -1038,7 +1168,8 @@
       "prefabPath": "SwordManPurple",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SwordManPurple"
+      "name": "str_name_SwordManPurple",
+      "animator": "recycle"
     },
     {
       "id": 131,
@@ -1046,7 +1177,8 @@
       "prefabPath": "SwordManRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_SwordManRed"
+      "name": "str_name_SwordManRed",
+      "animator": "recycle"
     },
     {
       "id": 132,
@@ -1054,7 +1186,8 @@
       "prefabPath": "TaskReel",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_TaskReel"
+      "name": "str_name_TaskReel",
+      "animator": "static"
     },
     {
       "id": 133,
@@ -1062,7 +1195,8 @@
       "prefabPath": "UniversalKey",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_UniversalKey"
+      "name": "str_name_UniversalKey",
+      "animator": "static"
     },
     {
       "id": 134,
@@ -1070,7 +1204,8 @@
       "prefabPath": "Upgrader",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Upgrader"
+      "name": "str_name_Upgrader",
+      "animator": "static"
     },
     {
       "id": 135,
@@ -1078,7 +1213,8 @@
       "prefabPath": "UpStair",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_UpStair"
+      "name": "str_name_UpStair",
+      "animator": "static"
     },
     {
       "id": 136,
@@ -1086,7 +1222,8 @@
       "prefabPath": "Volcano",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Volcano"
+      "name": "str_name_Volcano",
+      "animator": "recycle"
     },
     {
       "id": 137,
@@ -1094,7 +1231,8 @@
       "prefabPath": "Weapon",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_Weapon"
+      "name": "str_name_Weapon",
+      "animator": "static"
     },
     {
       "id": 138,
@@ -1102,7 +1240,8 @@
       "prefabPath": "WhiteWall",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_WhiteWall"
+      "name": "str_name_WhiteWall",
+      "animator": "once"
     },
     {
       "id": 139,
@@ -1110,7 +1249,8 @@
       "prefabPath": "WizardBlack",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_WizardBlack"
+      "name": "str_name_WizardBlack",
+      "animator": "recycle"
     },
     {
       "id": 140,
@@ -1118,7 +1258,8 @@
       "prefabPath": "WizardBlue",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_WizardBlue"
+      "name": "str_name_WizardBlue",
+      "animator": "recycle"
     },
     {
       "id": 141,
@@ -1126,7 +1267,8 @@
       "prefabPath": "WizardGray",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_WizardGray"
+      "name": "str_name_WizardGray",
+      "animator": "recycle"
     },
     {
       "id": 142,
@@ -1134,7 +1276,8 @@
       "prefabPath": "WizardGreat",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_WizardGreat"
+      "name": "str_name_WizardGreat",
+      "animator": "recycle"
     },
     {
       "id": 143,
@@ -1142,7 +1285,8 @@
       "prefabPath": "WizardGreatRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_WizardGreatRed"
+      "name": "str_name_WizardGreatRed",
+      "animator": "recycle"
     },
     {
       "id": 144,
@@ -1150,7 +1294,8 @@
       "prefabPath": "WizardRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_WizardRed"
+      "name": "str_name_WizardRed",
+      "animator": "recycle"
     },
     {
       "id": 145,
@@ -1158,7 +1303,8 @@
       "prefabPath": "YellowBadge",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_YellowBadge"
+      "name": "str_name_YellowBadge",
+      "animator": "static"
     },
     {
       "id": 146,
@@ -1166,7 +1312,8 @@
       "prefabPath": "YellowBottle",
       "eventId": 7,
       "eventData": [ 1, 350, 8, 2, 20, 11 ],
-      "name": "str_name_YellowBottle"
+      "name": "str_name_YellowBottle",
+      "animator": "static"
     },
     {
       "id": 147,
@@ -1174,7 +1321,8 @@
       "prefabPath": "YellowDiamond",
       "eventId": 7,
       "eventData": [ 7, 1, 8, 2, 20, 11 ],
-      "name": "str_name_YellowDiamond"
+      "name": "str_name_YellowDiamond",
+      "animator": "static"
     },
     {
       "id": 148,
@@ -1182,7 +1330,8 @@
       "prefabPath": "YellowDoor",
       "eventId": 9,
       "eventData": [ 9 ],
-      "name": "str_name_YellowDoor"
+      "name": "str_name_YellowDoor",
+      "animator": "once"
     },
     {
       "id": 149,
@@ -1190,7 +1339,8 @@
       "prefabPath": "YellowFlask",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_YellowFlask"
+      "name": "str_name_YellowFlask",
+      "animator": "static"
     },
     {
       "id": 150,
@@ -1198,7 +1348,8 @@
       "prefabPath": "YellowKey",
       "eventId": 7,
       "eventData": [ 9, 1, 8, 2, 20, 11 ],
-      "name": "str_name_YellowKey"
+      "name": "str_name_YellowKey",
+      "animator": "static"
     },
     {
       "id": 151,
@@ -1206,7 +1357,8 @@
       "prefabPath": "YellowUniversal",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_YellowUniversal"
+      "name": "str_name_YellowUniversal",
+      "animator": "static"
     },
     {
       "id": 152,
@@ -1214,7 +1366,8 @@
       "prefabPath": "YellowVase",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_YellowVase"
+      "name": "str_name_YellowVase",
+      "animator": "static"
     },
     {
       "id": 153,
@@ -1222,7 +1375,8 @@
       "prefabPath": "YoungMan",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_YoungMan"
+      "name": "str_name_YoungMan",
+      "animator": "recycle"
     },
     {
       "id": 154,
@@ -1230,7 +1384,8 @@
       "prefabPath": "Zombie",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_Zombie"
+      "name": "str_name_Zombie",
+      "animator": "recycle"
     },
     {
       "id": 155,
@@ -1238,7 +1393,8 @@
       "prefabPath": "ZombieGreen",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_ZombieGreen"
+      "name": "str_name_ZombieGreen",
+      "animator": "recycle"
     },
     {
       "id": 156,
@@ -1246,7 +1402,8 @@
       "prefabPath": "ZombieRed",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_ZombieRed"
+      "name": "str_name_ZombieRed",
+      "animator": "recycle"
     },
     {
       "id": 157,
@@ -1254,7 +1411,8 @@
       "prefabPath": "ZombieSword",
       "eventId": 1,
       "eventData": [ 0 ],
-      "name": "str_name_ZombieSword"
+      "name": "str_name_ZombieSword",
+      "animator": "recycle"
     },
     {
       "id": 158,
@@ -1262,7 +1420,8 @@
       "prefabPath": "CoinShop",
       "eventId": 0,
       "eventData": [ 0 ],
-      "name": "str_name_CoinShop"
+      "name": "str_name_CoinShop",
+      "animator": "recycle"
     }
   ],
   "audios": [
@@ -2589,7 +2748,7 @@
         },
         {
           "eventId": 4,
-          "eventData": [19],
+          "eventData": [ 19 ],
           "contentType": 0,
           "content": "str_Close",
           "contentData": [],
@@ -2630,7 +2789,7 @@
         },
         {
           "eventId": 4,
-          "eventData": [18],
+          "eventData": [ 18 ],
           "contentType": 0,
           "content": "str_Close",
           "contentData": [],

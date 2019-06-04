@@ -37,13 +37,13 @@ namespace MagicTower.Present.Player
             if (reset)
             {
                 if (Player != null)
-                    Player.RemoveSelf();
+                    Game.ObjPool.RecycleAnElement(Player);
                 Player = null;
             }
             var modalData = Game.Config.modals[playerId];
             if (Player == null || reset)
             {
-                Player = Game.ObjPool.GetAnElement<Components.Unit.Player>(modalData.id, ArmyAnt.ViewUtil.ObjectPool.ElementType.Sprite, Model.Dirs.PREFAB_DIR + modalData.prefabPath);
+                Player = Game.ObjPool.GetAnElement<Components.Unit.Player, Model.ModalData>(modalData.id, ArmyAnt.ViewUtil.ObjectPool.ElementType.Player, Resources.Load<GameObject>(Model.Dirs.PREFAB_DIR + modalData.prefabPath), modalData);
                 Player.MainPlayer = true;
             }
             if (HasStarted)

@@ -4,65 +4,9 @@ using UnityEngine.UI;
 
 namespace MagicTower.Components.Control {
 
-    public class AlertDlg : ObjectPool.AViewUnit {
-        private const string PREFAB_DIR = "AlertDlg";
-        private const int PREFAB_ID = 7;
-
-        public static AlertDlg ShowDialog(Transform parent, string contentStr,Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
-            // 弹出战斗框
-            var ret = Game.ObjPool.GetAnElement<AlertDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
-            // 设定信息
-            ret.contentStr = contentStr;
-            ret.leftCallback = leftCallback;
-            ret.leftStr = leftStr;
-            ret.rightCallback = rightCallback;
-            ret.rightStr = rightStr;
-            if (ret.isActiveAndEnabled) {
-                ret.content.text = contentStr;
-                ret.leftText.text = leftStr;
-                ret.rightText.text = rightStr;
-            }
-            ret.showed = true;
-            ret.transform.SetParent(parent, false);
-            ret.transform.SetSiblingIndex(3);
-            ret.transform.localPosition = new Vector3(0, 0, ret.transform.localPosition.z);
-            ret.lastStatus = Game.Status;
-            Game.Status = Model.EGameStatus.InEditorDialog;
-            return ret;
-        }
-        public static AlertDlg ShowDialog(Transform parent, string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
-            var ret = ShowDialog(parent, contentStr, leftCallback, leftStr, rightCallback, rightStr);
-            ret.content.alignment = contentAlignment;
-            return ret;
-        }
-
-        public override string ResourcePath => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-        public static string GetResourcePath() => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-
-        public override ObjectPool.ElementType GetPoolTypeId() {
-            return ObjectPool.ElementType.Dialog;
-        }
-
-        public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath) {
-            return true;
-        }
-
-        public override void OnReuse(ObjectPool.ElementType tid, int elemId) {
-
-        }
-
-        public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
-            showed = false;
-            Game.Status = lastStatus;
-            return true;
-        }
-
-        public override bool RecycleSelf() {
-            return Game.ObjPoolRecycleSelf(this);
-        }
-
+    public class AlertDlg : MonoBehaviour {
         // Start is called before the first frame update
-        void Start() {
+        void Awake() {
             if (showed) {
                 content.text = contentStr;
                 leftText.text = leftStr;
@@ -75,15 +19,39 @@ namespace MagicTower.Components.Control {
 
         }
 
+        public void Init(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
+            Init(contentStr, leftCallback, leftStr, rightCallback, rightStr);
+            content.alignment = contentAlignment;
+        }
+
+        public void Init(string contentStr, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
+            // 设定信息
+            this.contentStr = contentStr;
+            this.leftCallback = leftCallback;
+            this.leftStr = leftStr;
+            this.rightCallback = rightCallback;
+            this.rightStr = rightStr;
+            if(isActiveAndEnabled) {
+                content.text = contentStr;
+                leftText.text = leftStr;
+                rightText.text = rightStr;
+            }
+            showed = true;
+            lastStatus = Game.Status;
+            Game.Status = Model.EGameStatus.InEditorDialog;
+        }
+
         public void OnLeftClick() {
             if (leftCallback == null || leftCallback()) {
-                RecycleSelf();
+                Game.Status = lastStatus;
+                Game.HideUI(UIType.AlertDialog);
             }
         }
 
         public void OnRightClick() {
             if (rightCallback == null || rightCallback()) {
-                RecycleSelf();
+                Game.Status = lastStatus;
+                Game.HideUI(UIType.AlertDialog);
             }
         }
 

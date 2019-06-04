@@ -41,7 +41,6 @@ namespace MagicTower.Components.Unit
                     txtLoading.gameObject.SetActive(false);
                     imgGameOver.gameObject.SetActive(true);
                     panelWholeScreen.gameObject.SetActive(false);
-                    transform.SetSiblingIndex(9);
                     rect.anchorMin = new Vector2(0, 0);
                     rect.anchorMax = new Vector2(1, 1);
                     rect.sizeDelta = new Vector2(0, 0);
@@ -53,7 +52,7 @@ namespace MagicTower.Components.Unit
                     panelWholeScreen.gameObject.SetActive(true);
                     break;
             }
-
+            transform.SetAsLastSibling();
             firstcallback = hideCb;
             callbacks = showCb;
             Animator.enabled = true;

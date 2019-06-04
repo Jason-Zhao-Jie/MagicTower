@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: CAMERA_BACK
+    uniqueID: 832758453
+    locked: 0
+  - name: CAMERA_MAIN
+    uniqueID: 3954244029
+    locked: 0
+  - name: CAMERA_POP
+    uniqueID: 1356087245
+    locked: 0

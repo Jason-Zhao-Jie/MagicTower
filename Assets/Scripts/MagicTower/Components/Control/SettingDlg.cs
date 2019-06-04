@@ -5,10 +5,7 @@ using UnityEngine.UI;
 using ArmyAnt.ViewUtil;
 
 namespace MagicTower.Components.Control {
-    public class SettingDlg : ObjectPool.AViewUnit {
-        private const string PREFAB_DIR = "SettingDlg";
-        private const int PREFAB_ID = 9;
-
+    public class SettingDlg : MonoBehaviour {
         private const string OK_STR_KEY = "str_ui_ok";
         private const string CANCEL_STR_KEY = "str_ui_cancel";
         private const string AUDIO_SETTING_TITLE_STR_KEY = "str_ui_audioSettingTitle";
@@ -27,37 +24,6 @@ namespace MagicTower.Components.Control {
         private const string ANALYTICS_SETTING_TITLE_STR_KEY = "str_ui_analyticsSettingTitle";
         private const string ANALYTICE_SETTING_README_STR_KEY = "str_ui_analyticsSettingReadme";
         private const string ANALYTICS_ON_STR_KEY = "str_ui_analyticsOn";
-
-        public static SettingDlg ShowDialog(GameObject parent) {
-            // 弹出战斗框
-            var ret = Game.ObjPool.GetAnElement<SettingDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
-            ret.transform.SetParent(parent.transform, false);
-            ret.transform.localPosition = new Vector3(0, 0, ret.transform.localPosition.z);
-            return ret;
-        }
-
-        public override string ResourcePath => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-        public static string GetResourcePath() => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-
-        public override ObjectPool.ElementType GetPoolTypeId() {
-            return ObjectPool.ElementType.Dialog;
-        }
-
-        public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath) {
-            return true;
-        }
-
-        public override void OnReuse(ObjectPool.ElementType tid, int elemId) {
-
-        }
-
-        public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
-            return true;
-        }
-
-        public override bool RecycleSelf() {
-            return Game.ObjPoolRecycleSelf(this);
-        }
 
         void Awake() {
             foreach (var i in popAdsToggles) {
@@ -117,77 +83,53 @@ namespace MagicTower.Components.Control {
             toggleAnalyticsOn.isOn = Game.Settings.Settings.analyticsOn;
         }
 
-        // Update is called once per frame
-        async System.Threading.Tasks.Task Update() {
-            if(task != null) {
-                await task;
-                task = null;
-                RecycleSelf();
-            }
-        }
-
         public void OnOK() {
-            if (task == null) {
-                Model.PopAdsFreq pop = Model.PopAdsFreq.Low;
-                if (togglePopHigh.isOn) {
-                    pop = Model.PopAdsFreq.High;
-                } else if (togglePopMidium.isOn) {
-                    pop = Model.PopAdsFreq.Midium;
-                } else if (togglePopLow.isOn) {
-                    pop = Model.PopAdsFreq.Low;
-                } else if (togglePopOnlyOnce.isOn) {
-                    pop = Model.PopAdsFreq.OnlyOnce;
-                } else if (togglePopNone.isOn) {
-                    pop = Model.PopAdsFreq.None;
-                }
-                Game.Settings.Settings = new Model.Setting {
-                    musicVolume = sliderMusicVolume.value,
-                    soundVolume = sliderSoundVolume.value,
-                    popAdsFreq = (sbyte)pop,
-                    rewardAdsOn = !toggleRewardAdsOff.isOn,
-                    analyticsOn = toggleAnalyticsOn.isOn,
-                };
-                task = Game.Settings.Save();
+            Model.PopAdsFreq pop = Model.PopAdsFreq.Low;
+            if(togglePopHigh.isOn) {
+                pop = Model.PopAdsFreq.High;
+            } else if(togglePopMidium.isOn) {
+                pop = Model.PopAdsFreq.Midium;
+            } else if(togglePopLow.isOn) {
+                pop = Model.PopAdsFreq.Low;
+            } else if(togglePopOnlyOnce.isOn) {
+                pop = Model.PopAdsFreq.OnlyOnce;
+            } else if(togglePopNone.isOn) {
+                pop = Model.PopAdsFreq.None;
             }
+            Game.Settings.Settings = new Model.Setting {
+                musicVolume = sliderMusicVolume.value,
+                soundVolume = sliderSoundVolume.value,
+                popAdsFreq = (sbyte)pop,
+                rewardAdsOn = !toggleRewardAdsOff.isOn,
+                analyticsOn = toggleAnalyticsOn.isOn,
+            };
+            Game.Settings.Save();
+            Game.HideUI(UIType.SettingDialog);
         }
 
         public void OnCancel() {
-            if (task == null) {
-                Present.Manager.AudioManager.MusicVolume = Game.Settings.Settings.musicVolume;
-                Present.Manager.AudioManager.SoundVolume = Game.Settings.Settings.soundVolume;
-                RecycleSelf();
-            }
+            Present.Manager.AudioManager.MusicVolume = Game.Settings.Settings.musicVolume;
+            Present.Manager.AudioManager.SoundVolume = Game.Settings.Settings.soundVolume;
+            Game.HideUI(UIType.SettingDialog);
         }
 
         public void OnVolumeChanged(bool music) {
-            if (task == null) {
-                if (music) {
-                    Present.Manager.AudioManager.MusicVolume = sliderMusicVolume.value;
-                } else {
-                    Present.Manager.AudioManager.SoundVolume = sliderSoundVolume.value;
-                }
+            if(music) {
+                Present.Manager.AudioManager.MusicVolume = sliderMusicVolume.value;
             } else {
-                if (music) {
-                    sliderMusicVolume.value = Present.Manager.AudioManager.MusicVolume;
-                } else {
-                    sliderSoundVolume.value = Present.Manager.AudioManager.SoundVolume;
-                }
+                Present.Manager.AudioManager.SoundVolume = sliderSoundVolume.value;
             }
         }
 
         public void OnTooglePopAdsChanged(Toggle toggle, bool value) {
-            if (task == null) {
-                if (value) {
-                    foreach (var i in popAdsToggles) {
-                        if (toggle != i) {
-                            i.enabled = true;
-                            i.isOn = false;
-                        }
+            if(value) {
+                foreach(var i in popAdsToggles) {
+                    if(toggle != i) {
+                        i.enabled = true;
+                        i.isOn = false;
                     }
-                    toggle.enabled = false;
                 }
-            } else {
-                toggle.isOn = false;
+                toggle.enabled = false;
             }
         }
 
@@ -236,9 +178,6 @@ namespace MagicTower.Components.Control {
         public Toggle togglePopNone;
         public Toggle toggleRewardAdsOff;
         public Toggle toggleAnalyticsOn;
-
-        // Private Data
-        private System.Threading.Tasks.Task task = null;
     }
 
 }

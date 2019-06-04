@@ -66,7 +66,7 @@ namespace MagicTower.Present.Manager {
         public static bool PlayMusicLoop(int id) {
             if (id == musicId)
                 return true;
-            musicSource.clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Model.Dirs.AUDIO_DIR + Game.Config.audios[id].path);
+            musicSource.clip = Game.GetAudio(Game.Config.audios[id].path);
             musicSource.Play();
             musicId = id;
             return true;
@@ -100,7 +100,7 @@ namespace MagicTower.Present.Manager {
                 index = 0;
             if (soundSource.Count <= 0)
                 return false;
-            soundSource[index].clip = UnityEngine.Resources.Load<UnityEngine.AudioClip>(Model.Dirs.AUDIO_DIR + Game.Config.audios[id].path);
+            soundSource[index].clip = Game.GetAudio(Game.Config.audios[id].path);
             soundSource[index].Play();
             ++index;
             return true;

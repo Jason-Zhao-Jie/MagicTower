@@ -48,7 +48,7 @@ namespace MagicTower.Present.Map
             return CurrentMap;
         }
 
-        // 更改或移动指定处的数据
+        // 更改指定处的数据
         public bool ChangeThingOnMap(int thingId, int posx, int posy)
         {
             if (CurrentMap.blocks[posx][posy].thing == thingId)

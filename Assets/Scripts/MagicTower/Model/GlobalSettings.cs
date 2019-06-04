@@ -32,21 +32,21 @@ namespace MagicTower.Model {
         private const string SETTING_FILE_PATH = "GlobalSettings.json";
         
 
-        public async System.Threading.Tasks.Task Load() {
+        public void Load() {
             if (IOManager.ExistFile(SETTING_FILE_PATH)) {
-                var bytes = await IOManager.LoadFromFile(SETTING_FILE_PATH);
+                var bytes = IOManager.LoadFromFile(SETTING_FILE_PATH);
                 var json = System.Text.Encoding.UTF8.GetString(bytes);
                 Settings = UnityEngine.JsonUtility.FromJson<Setting>(json);
             } else {
                 Settings = new Setting(PopAdsFreq.Low);
-                await Save();
+                Save();
             }
         }
 
-        public async System.Threading.Tasks.Task Save() {
+        public void Save() {
             var json = UnityEngine.JsonUtility.ToJson(Settings);
             var bytes = System.Text.Encoding.UTF8.GetBytes(json);
-            await IOManager.SaveToFile(bytes, SETTING_FILE_PATH);
+            IOManager.SaveToFile(bytes, SETTING_FILE_PATH);
         }
 
         public Setting Settings {

@@ -41,7 +41,7 @@ namespace MagicTower.Present.Player
             }
             Data.InitPlayerData(posx, posy);
             var player = View.ShowPlayer(playerId, isNew);
-            Game.Map.AddObjectToMap(player.gameObject, posx, posy, -17);
+            Game.Map.AddPlayerToMap(player, posx, posy);
 
             if (isNew)
             {
@@ -54,7 +54,7 @@ namespace MagicTower.Present.Player
             Data.PlayerData = playerData;
             Data.InitPlayerData(posx, posy);
             var player = View.ShowPlayer(playerData.id, isNew);
-            Game.Map.AddObjectToMap(player.gameObject, posx, posy, -17);
+            Game.Map.AddPlayerToMap(player, posx, posy);
             SyncPlayerData();
         }
 
@@ -135,7 +135,7 @@ namespace MagicTower.Present.Player
 
             // Check map event and thing event
             var block = Game.Map.CurrentMap.blocks[targetPosX][targetPosY];
-            long uuid = Game.Map.CurrentMap.mapId * 10000 + targetPosY + targetPosX * 100;
+            long uuid = Components.Unit.Modal.GetUuid(Game.Map.CurrentMap.mapId, targetPosX, targetPosY);
             if (block.eventId != 0)
             {
                 if (Game.Status == Model.EGameStatus.AutoStepping)

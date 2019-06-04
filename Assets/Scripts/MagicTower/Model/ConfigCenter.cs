@@ -9,6 +9,7 @@ namespace MagicTower.Model
     public class ConfigCenter
     {
         public readonly int mapLength;
+        public readonly bool debug;
 
         public readonly Dictionary<int, ModalData> modals = new Dictionary<int, ModalData>();
         public readonly Dictionary<int, Audio> audios = new Dictionary<int, Audio>();
@@ -27,6 +28,8 @@ namespace MagicTower.Model
             // Reading json config files:
             var json = UnityEngine.Resources.Load<UnityEngine.TextAsset>("GameData").text;
             gamedata = UnityEngine.JsonUtility.FromJson<GameData>(json);
+
+            debug = gamedata.debug;
 
             // Reset references
             modals.Clear();
@@ -81,7 +84,7 @@ namespace MagicTower.Model
             strings.Clear();
             for (var i = 0; i < gamedata.strings.Length; ++i)
             {
-                if (Game.DEBUG)
+                if (debug)
                 {
                     if (strings.ContainsKey(gamedata.strings[i].key))
                     {
@@ -98,7 +101,7 @@ namespace MagicTower.Model
                 strings.Add(gamedata.strings[i].key, gamedata.strings[i]);
             }
 
-            StringInternational = new StringInternational();
+            StringInternational = new StringInternational(languages);
         }
 
         /// <summary>
@@ -197,6 +200,7 @@ namespace MagicTower.Model
         [System.Serializable]
         private class GameData
         {
+            public bool debug = true;
             public ModalData[] modals = null;
             public Audio[] audios = null;
             public MonsterData[] monsters = null;

@@ -7,11 +7,17 @@ namespace MagicTower.Model {
         private const int default_language_id = 2;
         private const string language_pref_key = "language";
 
-        public StringInternational() {
-            var id = default_language_id;
+        public StringInternational(System.Collections.Generic.Dictionary<int, LanguageData> languages) {
+            languageId = default_language_id;
             if (PlayerPrefs.HasKey(language_pref_key)) {
-                id = PlayerPrefs.GetInt(language_pref_key);
-                languageId = id;
+                var id = PlayerPrefs.GetInt(language_pref_key);
+                if(languages.ContainsKey(id)) {
+                    languageId = id;
+                } else {
+                    PlayerPrefs.SetInt(language_pref_key, default_language_id);
+                }
+            } else {
+                PlayerPrefs.SetInt(language_pref_key, default_language_id);
             }
         }
 

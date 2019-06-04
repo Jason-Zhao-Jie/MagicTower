@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
 using ArmyAnt.ViewUtil;
+using UnityEngine;
 
-namespace MagicTower.Components.Unit
-{
-    public enum ModalType
-    {
+namespace MagicTower.Components.Unit {
+
+    public enum ModalType {
         Unknown,
         Walkable,
         MapBlock,
@@ -15,188 +16,186 @@ namespace MagicTower.Components.Unit
         SendingBlock,
     }
 
-    public class Modal : ObjectPool.AViewUnit
-    {
-        const double RUN_STATE_DELAY = 0.4;
+    public enum AnimType {
+        Static,
+        Once,
+        Recycle,
+        Player,
+        Hitter,
+    }
 
-        public override ObjectPool.ElementType GetPoolTypeId()
-        {
+    public class Modal : ObjectPool.AViewUnit {
+        const int RECYCLE_TIMER_INIT = 15;
+        const int ONCE_TIMER_INIT = 10;
+        const int HITTER_TIMER_INIT = 5;
+
+        public override ObjectPool.ElementType GetPoolTypeId() {
             return ObjectPool.ElementType.Sprite;
         }
 
-        public string PrefabPath
-        {
-            get
-            {
-                return Game.Config.modals[modId].prefabPath;
+        public string PrefabPath => Game.Config.modals[ModId].prefabPath;
+
+        public int TypeId { get; protected set; } = 0;
+        public long Uuid { get; private set; } = 0;
+
+        public static long GetUuid(int mapId, int posx, int posy) {
+            return mapId * 10000 + posy + posx * 100;
+        }
+
+        public AnimType AnimType { get; private set; } = AnimType.Static;
+
+        public void SetMapPosition(int mapId, int posx, int posy) {
+            MapId = mapId;
+            PosX = posx;
+            PosY = posy;
+            Uuid = GetUuid(mapId, posx, posy);
+        }
+
+        public void GoToRunState(Model.EmptyCallBack dCB = null) {
+            destroyCallBack = dCB;
+            if(AnimType == AnimType.Once) {
+                Sprite = sprites[1];
+                animPointer = 1;
+            } else {
+                Game.Map.RemoveThingOnMap(Uuid);
             }
         }
 
-        public override string ResourcePath
-        {
-            get
-            {
-                return GetResourcePath(modId);
-            }
-        }
-
-        public Sprite BaseSprite
-        {
-            get
-            {
-                return GetResourceBaseSprite(modId);
-            }
-        }
-
-        public static string GetResourcePath(int modId)
-        {
-            if (modId <= 0) {
-                return null;
-            }
-            return GetResourcePath(Game.Config.modals[modId].prefabPath);
-        }
-
-        public static string GetResourcePath(string prefabPath)
-        {
-            return Model.Dirs.PREFAB_DIR + prefabPath;
-        }
-
-        public static Sprite GetResourceBaseSprite(int modId)
-        {
-            if (modId <= 0) {
-                return null;
-            }
-            var prefab = Resources.Load<GameObject>(GetResourcePath(modId));
-            return prefab.GetComponent<SpriteRenderer>().sprite;
-        }
-
-        public int TypeId
-        {
-            get
-            {
-                return typeId;
-            }
-            protected set
-            {
-                typeId = value;
-            }
-        }
-        public long Uuid
-        {
-            get
-            {
-                return uuid;
-            }
-        }
-
-        public void InitWithMapPos(int mapId, sbyte posx, sbyte posy, Model.ModalData data)
-        {
-            modId = data.id;
-            typeId = data.typeId;
-            modName = data.name;
-            eventId = data.eventId;
-            eventData = null;
-            if (data.eventData != null)
-            {
-                eventData = new long[data.eventData.Length];
-                for (var i = 0; i < eventData.Length; ++i)
-                {
-                    eventData[i] = data.eventData[i];
+        // Update is called once per frame
+        void Update() {
+            --timer;
+            if(timer <= 0) {
+                InitTimer();
+                switch(AnimType) {
+                    case AnimType.Once:
+                        if(animPointer > 0) {
+                            ++animPointer;
+                            if(animPointer >= sprites.Length) {
+                                Game.Map.RemoveThingOnMap(Uuid);
+                            } else {
+                                Sprite = sprites[animPointer];
+                            }
+                        }
+                        break;
+                    case AnimType.Recycle:
+                        ++animPointer;
+                        if(animPointer >= sprites.Length) {
+                            animPointer = 0;
+                        }
+                        Sprite = sprites[animPointer];
+                        break;
+                    case AnimType.Hitter:
+                        ++animPointer;
+                        if(animPointer >= sprites.Length) {
+                            Game.ObjPool.RecycleAnElement(this);
+                        } else {
+                            Sprite = sprites[animPointer];
+                        }
+                        break;
                 }
             }
-            this.mapId = mapId;
-            this.posx = posx;
-            this.posy = posy;
-            uuid = mapId * 10000 + posy + posx * 100;
-            Game.Map.AddMod(uuid, this);
         }
 
-        public void GoToRunState(Model.EmptyCallBack dCB = null)
-        {
-            if (Animator.enabled)
-                return;
-            destroyCallBack = dCB;
-            Animator.enabled = true;
-            Animator.Play("KeyEvent");
-            timeBeforeRemove = 0;
-        }
-
-        public void RemoveSelf(bool callManager = true)
-        {
-            if (callManager)
-                Game.Map.RemoveThingOnMap(posx, posy, mapId);
-            Game.Map.RemoveMod(uuid);
-            Game.ObjPool.RecycleAnElement(this);
-        }
-
-        public void RemoveSelf(Model.EmptyCallBack dCB)
-        {
-            destroyCallBack = dCB;
-            RemoveSelf();
-        }
-
-        // Use this for initialization
-        void Start()
-        {
-            if (Animator != null && Animator.GetCurrentAnimatorStateInfo(0).IsName("KeyEvent"))
-                Animator.enabled = false;
-
-        }
-        // Update is called once per frame
-        void Update()
-        {
-            if (timeBeforeRemove > -4)
-                timeBeforeRemove += Time.deltaTime;
-            if (timeBeforeRemove - RUN_STATE_DELAY > double.Epsilon)
-                RemoveSelf();
-        }
-
-        private void OnDestroy()
-        {
+        private void OnDestroy() {
             destroyCallBack?.Invoke();
             destroyCallBack = null;
         }
 
-        public override bool RecycleSelf()
-        {
-            return Game.ObjPoolRecycleSelf(this);
+        private void InitTimer() {
+            switch(AnimType) {
+                case AnimType.Recycle:
+                    timer = RECYCLE_TIMER_INIT;
+                    break;
+                case AnimType.Once:
+                    timer = ONCE_TIMER_INIT;
+                    break;
+                case AnimType.Hitter:
+                    timer = HITTER_TIMER_INIT;
+                    break;
+            }
         }
 
-        public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
-        {
+        public override bool OnCreate<T>(ObjectPool.ElementType tid, int elemId, T data, params object[] para) {
+            OnInit(tid, elemId, data, para);            
             return true;
         }
 
-        public override void OnReuse(ObjectPool.ElementType tid, int elemId)
-        {
+        public override void OnInit<T>(ObjectPool.ElementType tid, int elemId, T data, params object[] para) {
+            if(data is Model.ModalData modData) {
+                ModId = modData.id;
+                TypeId = modData.typeId;
+                EventId = modData.eventId;
+                EventData = null;
+                if(modData.eventData != null) {
+                    EventData = new long[modData.eventData.Length];
+                    for(var i = 0; i < EventData.Length; ++i) {
+                        EventData[i] = modData.eventData[i];
+                    }
+                }
+
+                sprites = Game.GetMods(modData.prefabPath);
+                Sprite = sprites[0];
+                switch(modData.animator) {
+                    case "static":
+                        AnimType = AnimType.Static;
+                        break;
+                    case "once":
+                        AnimType = AnimType.Once;
+                        break;
+                    case "recycle":
+                        AnimType = AnimType.Recycle;
+                        break;
+                    case "player":
+                        AnimType = AnimType.Player;
+                        break;
+                }
+            }else if(data is Model.WeaponData weaponData && para != null && para.Length >= 1 && para[0] is bool crit) {
+                Present.Manager.AudioManager.PlaySound(crit ? weaponData.critAudioId : weaponData.audioId);
+                sprites = Game.GetMods(crit ? weaponData.critPrefabPath : weaponData.prefabPath);
+                Sprite = sprites[0];
+                AnimType = AnimType.Hitter;
+            }
+            InitTimer();
         }
 
-        public override bool OnUnuse(ObjectPool.ElementType tid, int elemId)
-        {
+        public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
             OnDestroy();
+            AnimType = AnimType.Static;
+            sprites = null;
+            InitTimer();
             return true;
         }
 
-        public Animator Animator { get { return GetComponent<Animator>(); } }
-        public int ModId { get { return modId; } }
-        public int MapId { get { return mapId; } }
-        public int PosX { get { return posx; } }
-        public int PosY { get { return posy; } }
-        public int EventId { get { return eventId; } }
-        public long[] EventData { get { return eventData; } }
+        public int ModId { get; private set; } = 0;
+        public int MapId { get; private set; } = 0;
+        public int PosX { get; private set; } = -1;
+        public int PosY { get; private set; } = -1;
+        public int EventId { get; private set; } = 0;
+        public long[] EventData { get; private set; } = { 0 };
 
+        public Sprite Sprite {
+            get {
+                var spc = GetComponent<SpriteRenderer>();
+                if(spc != null) {
+                    return spc.sprite;
+                } else {
+                    return GetComponent<UnityEngine.UI.Image>().sprite;
+                }
+            }
+            private set {
+                var spc = GetComponent<SpriteRenderer>();
+                if(spc != null) {
+                    spc.sprite = value;
+                } else {
+                    GetComponent<UnityEngine.UI.Image>().sprite = value;
+                }
+            }
+        }
 
-        private int eventId = 0;
-        private long[] eventData = { 0 };
-        private sbyte posx = -1;
-        private sbyte posy = -1;
-        private int mapId = 0;
-        private int typeId = 0;
-        private string modName = "";
-        private int modId = 0;
-        private long uuid = 0;
-        private double timeBeforeRemove = -10;
-        Model.EmptyCallBack destroyCallBack = null;
+        private int timer = 10;
+        private Sprite[] sprites = null;
+        private int animPointer;
+        private Model.EmptyCallBack destroyCallBack = null;
     }
 
 }

@@ -7,85 +7,17 @@ using MagicTower.Components.Unit;
 namespace MagicTower.Components.Control
 {
 
-    public class ModalSelectorDlg : ObjectPool.AViewUnit
+    public class ModalSelectorDlg : MonoBehaviour
     {
-        private const string PREFAB_DIR = "ModalSelectorDlg";
-        private const int PREFAB_ID = 6;
-
         public delegate void SelectedCallback(int selectedId);
-
-        public static ModalSelectorDlg ShowDialog(Transform parent, int nowModalId, SelectedCallback callback)
-        {
-            // 弹出战斗框
-            var ret = Game.ObjPool.GetAnElement<ModalSelectorDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
-            // 设定信息
-            ret.nowId = nowModalId;
-            ret.selectedCallback = callback;
-            ret.selectedItem = null;
-            if (ret.isActiveAndEnabled)
-            {
-                if (nowModalId == 0)
-                {
-                    ret.NowModal.sprite = null;
-                    ret.NowModalName.text = "none";
-                }
-                else
-                {
-                    ret.NowModal.sprite = Modal.GetResourceBaseSprite(nowModalId);
-                    ret.NowModalName.text = Game.Config.StringInternational.GetValue(Game.Config.modals[nowModalId].name);
-                }
-                ret.OnModalSelected(ret.NowShowing);
-            }
-            ret.showed = true;
-            ret.transform.SetParent(parent, false);
-            ret.transform.SetSiblingIndex(1);
-            ret.transform.localPosition = new Vector3(0, 0, ret.transform.localPosition.z);
-            ret.lastStatus = Game.Status;
-            Game.Status = Model.EGameStatus.InEditorDialog;
-            return ret;
-        }
-
-
-        public override string ResourcePath => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-        public static string GetResourcePath() => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-
-        public override ObjectPool.ElementType GetPoolTypeId()
-        {
-            return ObjectPool.ElementType.Dialog;
-        }
-
-        public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
-        {
-            return true;
-        }
-
-        public override void OnReuse(ObjectPool.ElementType tid, int elemId)
-        {
-        }
-
-        public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
-            if (selectedItem != null) {
-                selectedItem.GetComponent<Image>().color = whiteHalf;
-            }
-            selectedItem = null;
-            selectedCallback = null;
-            showed = false;
-            Game.Status = lastStatus;
-            return true;
-        }
-
-        public override bool RecycleSelf()
-        {
-            return Game.ObjPoolRecycleSelf(this);
-        }
-
+        
         // Start is called before the first frame update
         void Awake()
         {
             foreach (var v in Game.Config.modals)
             {
                 var item = ModalList.PushbackDefaultItem();
-                item.transform.Find("Image").GetComponent<Image>().sprite = Modal.GetResourceBaseSprite(v.Value.id);
+                item.transform.Find("Image").GetComponent<Image>().sprite = Game.GetMods(Game.Config.modals[nowId].prefabPath)[0];
                 item.transform.Find("Image").GetComponent<Button>().onClick.RemoveAllListeners();
                 item.transform.Find("Image").GetComponent<Button>().onClick.AddListener(() => { OnModalSelected(item); });
                 item.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(v.Value.name);
@@ -105,11 +37,31 @@ namespace MagicTower.Components.Control
                 }
                 else
                 {
-                    NowModal.sprite = Modal.GetResourceBaseSprite(nowId);
+                    NowModal.sprite = Game.GetMods(Game.Config.modals[nowId].prefabPath)[0];
                     NowModalName.text = Game.Config.StringInternational.GetValue(Game.Config.modals[nowId].name);
                 }
                 OnModalSelected(NowShowing);
             }
+        }
+
+        public void Init(int nowModalId, SelectedCallback callback) {
+            // 设定信息
+            nowId = nowModalId;
+            selectedCallback = callback;
+            selectedItem = null;
+            if(isActiveAndEnabled) {
+                if(nowModalId == 0) {
+                    NowModal.sprite = null;
+                    NowModalName.text = "none";
+                } else {
+                    NowModal.sprite = Game.GetMods(Game.Config.modals[nowModalId].prefabPath)[0];
+                    NowModalName.text = Game.Config.StringInternational.GetValue(Game.Config.modals[nowModalId].name);
+                }
+                OnModalSelected(NowShowing);
+            }
+            showed = true;
+            lastStatus = Game.Status;
+            Game.Status = Model.EGameStatus.InEditorDialog;
         }
 
         public void OnModalSelected(RectTransform sender)
@@ -121,7 +73,8 @@ namespace MagicTower.Components.Control
                     nowId = selectedItem.GetComponent<UserData>().GetIntegerData();
                 }
                 selectedCallback(nowId);
-                RecycleSelf();
+                Game.Status = lastStatus;
+                Game.HideUI(UIType.ModalSelector);
                 return;
             }
             if (selectedItem != null)

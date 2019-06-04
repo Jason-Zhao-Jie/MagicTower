@@ -15,7 +15,7 @@ namespace MagicTower.Present.Manager
             LoadFailedAndReloading,
         }
 
-        private const bool DEBUG = Game.DEBUG && true;  // 去掉结尾的 && true 以结束强制广告测试
+        private static bool DEBUG => Game.IsDebug && true;  // 去掉结尾的 && true 以结束强制广告测试
 
         private const string appid_android = "ca-app-pub-7886607022943212~3839402738";
         public const string appid_ios = "ca-app-pub-7886607022943212~5320360588";

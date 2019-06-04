@@ -75,14 +75,9 @@ namespace MagicTower.Components.Unit
 
         public bool MainPlayer { get; set; }
 
-        public void RemoveSelf()
-        {
-            Game.ObjPool.RecycleAnElement(this);
-        }
-
         public override ObjectPool.ElementType GetPoolTypeId()
         {
-            return ObjectPool.ElementType.Sprite;
+            return ObjectPool.ElementType.Player;
         }
 
         public string PrefabPath
@@ -93,35 +88,12 @@ namespace MagicTower.Components.Unit
             }
         }
 
-        public override string ResourcePath
-        {
-            get
-            {
-                return GetResourcePath(playerId);
-            }
-        }
-
         public Sprite BaseSprite
         {
             get
             {
-                return GetResourceBaseSprite(playerId);
+                return GetComponent<SpriteRenderer>().sprite;
             }
-        }
-
-        public static string GetResourcePath(int playerId)
-        {
-            return Modal.GetResourcePath(playerId);
-        }
-
-        public static string GetResourcePath(string prefabPath)
-        {
-            return Modal.GetResourcePath(prefabPath);
-        }
-
-        public static Sprite GetResourceBaseSprite(int playerId)
-        {
-            return Modal.GetResourceBaseSprite(playerId);
         }
 
         public void SetPlayerData(int id)
@@ -129,18 +101,13 @@ namespace MagicTower.Components.Unit
             playerId = id;
         }
 
-        public override bool RecycleSelf()
-        {
-            return Game.ObjPoolRecycleSelf(this);
-        }
-
-        public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
+        public override bool OnCreate<T>(ObjectPool.ElementType tid, int elemId, T data, params object[] para)
         {
             SetPlayerData(elemId);
             return true;
         }
 
-        public override void OnReuse(ObjectPool.ElementType tid, int elemId)
+        public override void OnInit<T>(ObjectPool.ElementType tid, int elemId, T data, params object[] para)
         {
         }
 

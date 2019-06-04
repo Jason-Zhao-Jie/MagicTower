@@ -6,50 +6,18 @@ using MagicTower.Components.Unit;
 
 namespace MagicTower.Components.Control
 {
-    public class BattleDlg : ObjectPool.AViewUnit
+    public class BattleDlg : MonoBehaviour
     {
-        private const string PREFAB_DIR = "BattleDlg";
-        private const int PREFAB_ID = 1;
-
         private const int MISS_HITTER = 9;       // TODO: To set the right "MISS" icon
         private const int NOHURT_HITTER = 9;
 
         public delegate bool BattlePauseEventCheck();
         public delegate void BattleOverCallback(bool gameover, int yourId, int yourLife, int goldGain, int expGain, int nextEvent, long[] nextEventData);
 
-        private const int BATTLE_SLEEP_TIME = 2; // 修改此值以控制两次攻击之间的间隔, 使得攻击表现更为流畅, 已扣除攻击动画时间. 单位:帧
         private const string BATTLE_GOLD_GET_TEXT = "str_battleGoldGet";
         private const string BATTLE_EXP_GET_TEXT = "str_battleExpGet";
         private const string BATTLE_HURTED_TEXT = "str_battleHurted";
-
-        public static BattleDlg StartBattle(Transform parent, BattleOverCallback cb, bool canFail, long enemyUuid, long yourUuid = -1, BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0)
-        {
-            // 弹出战斗框
-            var ret = Game.ObjPool.GetAnElement<BattleDlg>(PREFAB_ID, ObjectPool.ElementType.Dialog, GetResourcePath());
-            // 设定暂停触发器
-            ret.battlePauseChecker = pauseCheck;
-            ret.battlePauseEvent = pauseEvent;
-            ret.overCallback = cb;
-
-            // 设定战斗双方的信息
-            ret.transform.SetParent(parent, false);
-            ret.transform.SetSiblingIndex(1);
-            ret.canFail = canFail;
-            ret.SetBattleInfo(enemyUuid, yourUuid);
-            // 设定状态, 战斗开始
-            Game.Status = Model.EGameStatus.OnBattle;
-            ret.isBattlePaused = false;
-            ret.battleResultPanel.SetActive(false);
-
-            return ret;
-        }
-
-        public static void CloseBattle(BattleDlg dlg)
-        {
-            dlg.StopBattle();
-            Game.ObjPool.RecycleAnElement(dlg);
-        }
-
+        
         // Use this for initialization
         void Awake()
         {
@@ -81,104 +49,80 @@ namespace MagicTower.Components.Control
         private void Start()
         {
             battleResultPanel.SetActive(false);
-            battleHitSleep = 0;
         }
 
         // Update is called once per frame
-        void FixedUpdate()
-        {
-            if (gameObject.activeSelf && !isBattlePaused && Game.Status == Model.EGameStatus.OnBattle && (hitter == null || !hitter.isActiveAndEnabled))
-            {
-                ++battleHitSleep;
-                if (battleHitSleep > BATTLE_SLEEP_TIME)
-                {
-                    battleHitSleep -= BATTLE_SLEEP_TIME;
-                    if (!canFail && playerBattleData.life <= 0)
-                    {
-                        OnBattleFailure();
-                    }
-                    else if (playerBattleData.life <= 0 || enemyBattleData.life <= 0)
-                    {
-                        OnBattleOver();
-                    }
-                    else
-                    {
-                        int hurt = 0;
-                        if (isOurRound)
-                        {
-                            hurt = Model.MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
-                            if (hurt == -1)
-                            {
-                                CreateHitter(MISS_HITTER, true, 0, false);
-                                Game.DebugLog("Enemy has missed a hurt");
-                            }
-                            else if (hurt == 0)
-                            {
-                                CreateHitter(NOHURT_HITTER, true, 0, false);
-                                Game.DebugLog("Enemy was hurted failed");
-                            }
-                            else if (hurt < 0)
-                            {
-                                CreateHitter(playerBattleData.weaponId, true, -hurt, true);
-                                enemyBattleData.life += hurt;
-                                Game.DebugLog("Enemy was hurted critical : " + -hurt);
-                            }
-                            else
-                            {
-                                CreateHitter(playerBattleData.weaponId, true, hurt, false);
-                                enemyBattleData.life -= hurt;
-                                Game.DebugLog("Enemy was hurted normally : " + hurt);
-                            }
-                            if (enemyBattleData.life < 0)
-                                enemyBattleData.life = 0;
-                            enemyLifeText.text = enemyBattleData.life.ToString();
-                            ++rounds;
+        void FixedUpdate() {
+            if(gameObject.activeSelf && !isBattlePaused && Game.Status == Model.EGameStatus.OnBattle && (hitter == null || !hitter.isActiveAndEnabled)) {
+                if(!canFail && playerBattleData.life <= 0) {
+                    OnBattleFailure();
+                } else if(playerBattleData.life <= 0 || enemyBattleData.life <= 0) {
+                    OnBattleOver();
+                } else {
+                    int hurt;
+                    if(isOurRound) {
+                        hurt = Model.MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
+                        if(hurt == -1) {
+                            CreateHitter(MISS_HITTER, true, 0, false);
+                            Game.DebugLog("Enemy has missed a hurt");
+                        } else if(hurt == 0) {
+                            CreateHitter(NOHURT_HITTER, true, 0, false);
+                            Game.DebugLog("Enemy was hurted failed");
+                        } else if(hurt < 0) {
+                            CreateHitter(playerBattleData.weaponId, true, -hurt, true);
+                            enemyBattleData.life += hurt;
+                            Game.DebugLog("Enemy was hurted critical : " + -hurt);
+                        } else {
+                            CreateHitter(playerBattleData.weaponId, true, hurt, false);
+                            enemyBattleData.life -= hurt;
+                            Game.DebugLog("Enemy was hurted normally : " + hurt);
                         }
-                        else
-                        {
-                            hurt = Model.MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
-                            if (hurt == -1)
-                            {
-                                CreateHitter(MISS_HITTER, false, 0, false);
-                                Game.DebugLog("Player has missed a hurt");
-                            }
-                            else if (hurt == 0)
-                            {
-                                CreateHitter(NOHURT_HITTER, false, 0, false);
-                                Game.DebugLog("Player was hurted failed");
-                            }
-                            else if (hurt < 0)
-                            {
-                                CreateHitter(enemyBattleData.weaponId, false, -hurt, true);
-                                playerBattleData.life += hurt;
-                                Game.DebugLog("Player was hurted critical : " + -hurt);
-                                hurted -= hurt;
-                            }
-                            else
-                            {
-                                CreateHitter(enemyBattleData.weaponId, false, hurt, false);
-                                playerBattleData.life -= hurt;
-                                Game.DebugLog("Player was hurted normally : " + hurt);
-                                hurted += hurt;
-                            }
-                            if (playerBattleData.life < 0)
-                                playerBattleData.life = 0;
-                            playerLifeText.text = playerBattleData.life.ToString();
+                        if(enemyBattleData.life < 0)
+                            enemyBattleData.life = 0;
+                        enemyLifeText.text = enemyBattleData.life.ToString();
+                        ++rounds;
+                    } else {
+                        hurt = Model.MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
+                        if(hurt == -1) {
+                            CreateHitter(MISS_HITTER, false, 0, false);
+                            Game.DebugLog("Player has missed a hurt");
+                        } else if(hurt == 0) {
+                            CreateHitter(NOHURT_HITTER, false, 0, false);
+                            Game.DebugLog("Player was hurted failed");
+                        } else if(hurt < 0) {
+                            CreateHitter(enemyBattleData.weaponId, false, -hurt, true);
+                            playerBattleData.life += hurt;
+                            Game.DebugLog("Player was hurted critical : " + -hurt);
+                            hurted -= hurt;
+                        } else {
+                            CreateHitter(enemyBattleData.weaponId, false, hurt, false);
+                            playerBattleData.life -= hurt;
+                            Game.DebugLog("Player was hurted normally : " + hurt);
+                            hurted += hurt;
                         }
-                        isOurRound = !isOurRound;
+                        if(playerBattleData.life < 0)
+                            playerBattleData.life = 0;
+                        playerLifeText.text = playerBattleData.life.ToString();
                     }
+                    isOurRound = !isOurRound;
                 }
             }
         }
 
-        void SetBattleInfo(long enemy, long you = -1)
-        {
+        public void Init(BattleOverCallback cb, bool canFail, long enemyUuid, long yourUuid = -1, BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0) {
+            // 设定暂停触发器
+            battlePauseChecker = pauseCheck;
+            battlePauseEvent = pauseEvent;
+            overCallback = cb;
+
+            // 设定战斗双方的信息
+            this.canFail = canFail;
+
             // 设定战斗双方的属性数据
-            enemyUuid = enemy;
+            this.enemyUuid = enemyUuid;
             enemyBattleData = Game.Map.GetMonsterDataByUuid(enemyUuid);
-            if (you < 0)
-                playerBattleData = new Model.MonsterData()
-                {
+            if(yourUuid < 0)
+                playerBattleData = new Model.MonsterData() {
                     id = Game.Player.PlayerId,
                     level = Game.Player.Level,
                     exp = 0,
@@ -191,7 +135,7 @@ namespace MagicTower.Components.Control
                     weaponId = Game.Player.Weapon
                 };
             else
-                playerBattleData = Game.Map.GetMonsterDataByUuid(you);
+                playerBattleData = Game.Map.GetMonsterDataByUuid(yourUuid);
 
             rounds = 1;
             hurted = 0;
@@ -199,37 +143,11 @@ namespace MagicTower.Components.Control
 
             // 设定我方的头像
             var playerModal = Game.Config.modals[playerBattleData.id];
-            ObjectPool.AViewUnit obj = Game.ObjPool.GetAnElement<Modal>(playerModal.id, ObjectPool.ElementType.Sprite, Model.Dirs.PREFAB_DIR + playerModal.prefabPath, ObjectPool.SPRITE_IN_DIALOG_SORTING_ORDER);
-            if (obj == null)
-                obj = Game.ObjPool.GetAnElement<Player>(playerModal.id, ObjectPool.ElementType.Sprite, Model.Dirs.PREFAB_DIR + playerModal.prefabPath, ObjectPool.SPRITE_IN_DIALOG_SORTING_ORDER);
-            obj.transform.SetParent(playerSprite.transform.parent, false);
-            obj.transform.position = playerSprite.transform.position;
-            obj.transform.localScale = Game.Map.ModalLocalScale;
-            var mod = playerSprite.GetComponent<Modal>();
-            if (mod != null)
-                mod.RemoveSelf(false);
-            else if (playerSprite.GetComponent<Player>() != null)
-                playerSprite.GetComponent<Player>().RemoveSelf();
-            else
-                Destroy(playerSprite);
-            playerSprite = obj.gameObject;
+            playerSprite.OnInit(ObjectPool.ElementType.Image, playerBattleData.id, playerModal);
 
             // 设定敌方的头像
             var enemyModal = Game.Config.modals[enemyBattleData.id];
-            obj = Game.ObjPool.GetAnElement<Modal>(enemyModal.id, ObjectPool.ElementType.Sprite, Model.Dirs.PREFAB_DIR + enemyModal.prefabPath, ObjectPool.SPRITE_IN_DIALOG_SORTING_ORDER);
-            if (obj == null)
-                obj = Game.ObjPool.GetAnElement<Player>(enemyModal.id, ObjectPool.ElementType.Sprite, Model.Dirs.PREFAB_DIR + enemyModal.prefabPath, ObjectPool.SPRITE_IN_DIALOG_SORTING_ORDER);
-            obj.transform.SetParent(enemySprite.transform.parent, false);
-            obj.transform.position = enemySprite.transform.position;
-            obj.transform.localScale = Game.Map.ModalLocalScale;
-            mod = enemySprite.GetComponent<Modal>();
-            if (mod != null)
-                mod.RemoveSelf(false);
-            else if (enemySprite.GetComponent<Player>() != null)
-                enemySprite.GetComponent<Player>().RemoveSelf();
-            else
-                Destroy(enemySprite);
-            enemySprite = obj.gameObject;
+            enemySprite.OnInit(ObjectPool.ElementType.Image, enemyBattleData.id, enemyModal);
 
             // 将双方数据显示到界面
             playerNameText.text = Game.Config.StringInternational.GetValue(playerModal.name);
@@ -242,6 +160,10 @@ namespace MagicTower.Components.Control
             enemyAttackText.text = enemyBattleData.attack.ToString();
             enemyDefenseText.text = enemyBattleData.defense.ToString();
             enemySpeedText.text = enemyBattleData.speed.ToString();
+
+            // 设定状态, 战斗开始
+            Game.Status = Model.EGameStatus.OnBattle;
+            isBattlePaused = false;
         }
 
         public void PauseBattle()
@@ -256,7 +178,7 @@ namespace MagicTower.Components.Control
 
         public void StopBattle()
         {
-            Game.Map.RemoveThingOnMapWithModal(enemyUuid);
+            Game.Map.RemoveThingOnMap(enemyUuid);
             Game.Status = Model.EGameStatus.InGame;
             isBattlePaused = false;
         }
@@ -264,12 +186,10 @@ namespace MagicTower.Components.Control
         private void CreateHitter(int weaponId, bool isOnEnemy, int damage, bool isCritical)
         {
             var data = Game.Config.weapons[weaponId];
-            hitter = Game.ObjPool.GetAnElement<Zzhit>(weaponId * 2 + (isCritical ? 0 : 1), ObjectPool.ElementType.Hitter, Model.Dirs.PREFAB_DIR + (isCritical ? data.critPrefabPath : data.prefabPath), ObjectPool.HITTER_IN_DIALOG_SORTING_ORDER);
-            hitter.SetParam(data, isCritical);
-            hitter.PlaySound();
+            hitter = Game.ObjPool.GetAnElement<Modal, Model.WeaponData>(0, ObjectPool.ElementType.Hitter, Game.ModalImage, data,isCritical);
             hitter.transform.SetParent((isOnEnemy ? enemySprite : playerSprite).transform, false);
-            hitter.transform.position = hitter.transform.parent.position;
-            hitter.transform.localScale = Game.Map.ModalLocalScale / 200;
+            hitter.transform.localPosition = Vector3.zero;
+            hitter.transform.localScale = Game.Map.ModalLocalScale / 20;
         }
 
         private void OnBattleFailure()
@@ -292,37 +212,9 @@ namespace MagicTower.Components.Control
             overCallback(false, playerBattleData.id, playerBattleData.life, enemyBattleData.gold, enemyBattleData.exp, 0, null);
         }
 
-        public override ObjectPool.ElementType GetPoolTypeId()
-        {
-            return ObjectPool.ElementType.Dialog;
-        }
-
-        public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
-        {
-            return true;
-        }
-
-        public override void OnReuse(ObjectPool.ElementType tid, int elemId)
-        {
-        }
-
-        public override bool OnUnuse(ObjectPool.ElementType tid, int elemId)
-        {
-            return true;
-        }
-
-        public override bool RecycleSelf()
-        {
-            return Game.ObjPoolRecycleSelf(this);
-        }
-
-
-        public override string ResourcePath => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-        public static string GetResourcePath() => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-
         [Tooltip("我方角色头像")]
         [Space(4)]
-        public GameObject playerSprite;
+        public Modal playerSprite;
         [Tooltip("我方角色名")]
         [Space(4)]
         public Text playerNameText;
@@ -352,7 +244,7 @@ namespace MagicTower.Components.Control
         public Text playerSpeedText;
         [Tooltip("敌方角色头像")]
         [Space(4)]
-        public GameObject enemySprite;
+        public Modal enemySprite;
         [Tooltip("敌方角色名")]
         [Space(4)]
         public Text enemyNameText;
@@ -405,9 +297,7 @@ namespace MagicTower.Components.Control
         private int rounds;
         private int hurted;
         private bool isOurRound;
-        internal Zzhit hitter;
-
-        private int battleHitSleep;
+        internal Modal hitter;
     }
 
 }

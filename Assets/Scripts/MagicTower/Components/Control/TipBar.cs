@@ -6,17 +6,8 @@ using ArmyAnt.ViewUtil;
 namespace MagicTower.Components.Control
 {
 
-    public class TipBar : ObjectPool.AViewUnit
+    public class TipBar : MonoBehaviour
     {
-        private const string PREFAB_DIR = "TipBar";
-        private const int PREFAB_ID = 3;
-
-        public static TipBar ShowTip()
-        {
-            var ret = Game.ObjPool.GetAnElement<TipBar>(PREFAB_ID, ObjectPool.ElementType.Dialog, Model.Dirs.DIALOG_DIR + PREFAB_DIR);
-            return ret;
-        }
-
         // Use this for initialization
         void Awake()
         {
@@ -32,11 +23,11 @@ namespace MagicTower.Components.Control
             else if (hideTime == 0)
             {
                 hideTime--;
-                RecycleSelf();
+                Game.HideUI(UIType.TipBar);
             }
         }
 
-        public void SetTipText(string content, bool silent = false)
+        public void Init(string content, bool silent = false)
         {
             tipsText.text = content;
             if (!silent)
@@ -49,35 +40,7 @@ namespace MagicTower.Components.Control
         {
             hideTime = time;
         }
-
-        public override ObjectPool.ElementType GetPoolTypeId()
-        {
-            return ObjectPool.ElementType.Dialog;
-        }
-
-        public override bool RecycleSelf()
-        {
-            return Game.ObjPoolRecycleSelf(this);
-        }
-
-
-        public override string ResourcePath => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-        public static string GetResourcePath() => Model.Dirs.DIALOG_DIR + PREFAB_DIR;
-
-        public override bool OnCreate(ObjectPool.ElementType tid, int elemId, string resourcePath)
-        {
-            return true;
-        }
-
-        public override void OnReuse(ObjectPool.ElementType tid, int elemId)
-        {
-        }
-
-        public override bool OnUnuse(ObjectPool.ElementType tid, int elemId)
-        {
-            return true;
-        }
-
+        
         public UnityEngine.UI.Text tipsText;
         private int hideTime = -1;
     }

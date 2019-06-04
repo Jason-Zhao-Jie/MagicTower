@@ -1,0 +1,1034 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6362025092306633618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6387598570933386076}
+  - component: {fileID: 165771775111292803}
+  m_Layer: 0
+  m_Name: LoadingObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6387598570933386076
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6362025092306633618}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &165771775111292803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6362025092306633618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5c1bab48af18041a4f06faa768da8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DialogCanvas: {fileID: 0}
+  modSpriteList:
+  - name: Axe
+    sp:
+    - {fileID: 21300000, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: Banana
+    sp:
+    - {fileID: 21300022, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: BatBig
+    sp:
+    - {fileID: 21300040, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300042, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300044, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300046, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: BatBoss
+    sp:
+    - {fileID: 21300056, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300058, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300060, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300062, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: BatRed
+    sp:
+    - {fileID: 21300048, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300050, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300052, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300054, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: BatSmall
+    sp:
+    - {fileID: 21300032, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300034, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300036, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300038, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: BlueBadge
+    sp:
+    - {fileID: 21300024, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: BlueBottle
+    sp:
+    - {fileID: 21300002, guid: c6f3742bb7168884f89d5099ed51ab92, type: 3}
+  - name: BlueDiamond
+    sp:
+    - {fileID: 21300002, guid: f946751fabf6d0a4691b9909d90e6144, type: 3}
+  - name: BlueDoor
+    sp:
+    - {fileID: 21300000, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300008, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300016, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300024, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+  - name: BlueFence
+    sp:
+    - {fileID: 21300006, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300014, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300022, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300030, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+  - name: BlueFlask
+    sp:
+    - {fileID: 21300010, guid: c6f3742bb7168884f89d5099ed51ab92, type: 3}
+  - name: BlueKey
+    sp:
+    - {fileID: 21300002, guid: 30f558c6b8d328c428c3580ade5753e0, type: 3}
+  - name: BlueUniversal
+    sp:
+    - {fileID: 21300010, guid: 30f558c6b8d328c428c3580ade5753e0, type: 3}
+  - name: BlueVase
+    sp:
+    - {fileID: 21300012, guid: 7461e76ada4d55b4bab2b94905caecae, type: 3}
+  - name: BlueWall
+    sp:
+    - {fileID: 21300000, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300008, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300016, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300024, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+  - name: Boom
+    sp:
+    - {fileID: 21300016, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: BrownWall
+    sp:
+    - {fileID: 21300002, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300010, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300018, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300026, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+  - name: BrozenDoor
+    sp:
+    - {fileID: 21300000, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+    - {fileID: 21300008, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+    - {fileID: 21300016, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+    - {fileID: 21300024, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+  - name: BrozenKey
+    sp:
+    - {fileID: 21300006, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+  - name: BusinessMan
+    sp:
+    - {fileID: 21300008, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300010, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300012, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300014, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+  - name: Candlestick
+    sp:
+    - {fileID: 21300016, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: Cleaner
+    sp:
+    - {fileID: 21300014, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: Coin
+    sp:
+    - {fileID: 21300006, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: Cross
+    sp:
+    - {fileID: 21300018, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: Defenser
+    sp:
+    - {fileID: 21300160, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300162, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300164, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300166, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: DefenserBlue
+    sp:
+    - {fileID: 21300168, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300170, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300172, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300174, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: DefenserRed
+    sp:
+    - {fileID: 21300176, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300178, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300180, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300182, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: DiamondAxe
+    sp:
+    - {fileID: 21300002, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: DownStair
+    sp:
+    - {fileID: 21300000, guid: 063b671752f784c41882c34f77f6856b, type: 3}
+  - name: DragonRed
+    sp:
+    - {fileID: 21300000, guid: d9c213bc3da96964d9cc9794f7365033, type: 3}
+    - {fileID: 21300002, guid: d9c213bc3da96964d9cc9794f7365033, type: 3}
+    - {fileID: 21300004, guid: d9c213bc3da96964d9cc9794f7365033, type: 3}
+    - {fileID: 21300006, guid: d9c213bc3da96964d9cc9794f7365033, type: 3}
+  - name: EnchanterBlack
+    sp:
+    - {fileID: 21300352, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300354, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300356, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300358, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: EnchanterBlue
+    sp:
+    - {fileID: 21300424, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300426, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300428, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300430, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: EnchanterGold
+    sp:
+    - {fileID: 21300360, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300362, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300364, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300366, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: EnchanterGreen
+    sp:
+    - {fileID: 21300368, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300370, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300372, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300374, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: EnchanterRed
+    sp:
+    - {fileID: 21300416, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300418, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300420, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300422, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: Fire
+    sp:
+    - {fileID: 21300000, guid: 0bb4f1b88093f5249894da430dbe8a12, type: 3}
+    - {fileID: 21300002, guid: 0bb4f1b88093f5249894da430dbe8a12, type: 3}
+    - {fileID: 21300004, guid: 0bb4f1b88093f5249894da430dbe8a12, type: 3}
+    - {fileID: 21300006, guid: 0bb4f1b88093f5249894da430dbe8a12, type: 3}
+  - name: Flyer
+    sp:
+    - {fileID: 21300004, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: GhostGreen
+    sp:
+    - {fileID: 21300152, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300154, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300156, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300158, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: GhostSilver
+    sp:
+    - {fileID: 21300400, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300402, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300404, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300406, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: GhostSwordGreen
+    sp:
+    - {fileID: 21300016, guid: 984a7d27a09db0b4abc2e99f18a0edb1, type: 3}
+    - {fileID: 21300018, guid: 984a7d27a09db0b4abc2e99f18a0edb1, type: 3}
+    - {fileID: 21300020, guid: 984a7d27a09db0b4abc2e99f18a0edb1, type: 3}
+    - {fileID: 21300022, guid: 984a7d27a09db0b4abc2e99f18a0edb1, type: 3}
+  - name: GhostSwordSilver
+    sp:
+    - {fileID: 21300024, guid: 984a7d27a09db0b4abc2e99f18a0edb1, type: 3}
+    - {fileID: 21300026, guid: 984a7d27a09db0b4abc2e99f18a0edb1, type: 3}
+    - {fileID: 21300028, guid: 984a7d27a09db0b4abc2e99f18a0edb1, type: 3}
+    - {fileID: 21300030, guid: 984a7d27a09db0b4abc2e99f18a0edb1, type: 3}
+  - name: GoldBadge
+    sp:
+    - {fileID: 21300020, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: GoldDoor
+    sp:
+    - {fileID: 21300004, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+    - {fileID: 21300012, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+    - {fileID: 21300020, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+    - {fileID: 21300028, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+  - name: GoldKey
+    sp:
+    - {fileID: 21300022, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+  - name: GoldWall
+    sp:
+    - {fileID: 21300004, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300012, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300020, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300028, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+  - name: GrayWall
+    sp:
+    - {fileID: 21300004, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300012, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300020, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+    - {fileID: 21300028, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}
+  - name: GreenBottle
+    sp:
+    - {fileID: 21300004, guid: c6f3742bb7168884f89d5099ed51ab92, type: 3}
+  - name: GreenDiamond
+    sp:
+    - {fileID: 21300004, guid: f946751fabf6d0a4691b9909d90e6144, type: 3}
+  - name: GreenFence
+    sp:
+    - {fileID: 21300006, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300014, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300022, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300030, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+  - name: GreenFlask
+    sp:
+    - {fileID: 21300012, guid: c6f3742bb7168884f89d5099ed51ab92, type: 3}
+  - name: GreenGate
+    sp:
+    - {fileID: 21300006, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300014, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300022, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300030, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+  - name: GreenKey
+    sp:
+    - {fileID: 21300006, guid: 30f558c6b8d328c428c3580ade5753e0, type: 3}
+  - name: GreenUniversal
+    sp:
+    - {fileID: 21300014, guid: 30f558c6b8d328c428c3580ade5753e0, type: 3}
+  - name: GreenVase
+    sp:
+    - {fileID: 21300008, guid: 7461e76ada4d55b4bab2b94905caecae, type: 3}
+  - name: GreenVase 1
+    sp:
+    - {fileID: 21300014, guid: 7461e76ada4d55b4bab2b94905caecae, type: 3}
+  - name: Hammer
+    sp:
+    - {fileID: 21300018, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: Heart
+    sp:
+    - {fileID: 21300008, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: Helper
+    sp:
+    - {fileID: 21300000, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: IceAxe
+    sp:
+    - {fileID: 21300004, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: IndigoVase
+    sp:
+    - {fileID: 21300018, guid: 7461e76ada4d55b4bab2b94905caecae, type: 3}
+  - name: Jack
+    sp:
+    - {fileID: 21300000, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300002, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300004, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300006, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300008, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300010, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300012, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300014, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300016, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300018, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300020, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300022, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300024, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300026, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300028, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+    - {fileID: 21300030, guid: bb658d65d5793dc4c89bc3f5783c917c, type: 3}
+  - name: Knight
+    sp:
+    - {fileID: 21300456, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300458, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300460, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300462, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: KnightBlue
+    sp:
+    - {fileID: 21300376, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300378, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300380, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300382, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: KnightGold
+    sp:
+    - {fileID: 21300024, guid: 96885a034f3e75349aa38fba9ab94805, type: 3}
+    - {fileID: 21300026, guid: 96885a034f3e75349aa38fba9ab94805, type: 3}
+    - {fileID: 21300028, guid: 96885a034f3e75349aa38fba9ab94805, type: 3}
+    - {fileID: 21300030, guid: 96885a034f3e75349aa38fba9ab94805, type: 3}
+  - name: KnightRed
+    sp:
+    - {fileID: 21300464, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300466, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300468, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300470, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: Leaf
+    sp:
+    - {fileID: 21300012, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: Lilith
+    sp:
+    - {fileID: 21300000, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300002, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300004, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300006, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300008, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300010, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300012, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300014, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300016, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300018, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300020, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300022, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300024, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300026, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300028, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+    - {fileID: 21300030, guid: 0e661c6d269858b4d98ff57807fba558, type: 3}
+  - name: LuckyBag
+    sp:
+    - {fileID: 21300024, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: Notepad
+    sp:
+    - {fileID: 21300002, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: OctopusRed
+    sp:
+    - {fileID: 21300008, guid: d9c213bc3da96964d9cc9794f7365033, type: 3}
+    - {fileID: 21300010, guid: d9c213bc3da96964d9cc9794f7365033, type: 3}
+    - {fileID: 21300012, guid: d9c213bc3da96964d9cc9794f7365033, type: 3}
+    - {fileID: 21300014, guid: d9c213bc3da96964d9cc9794f7365033, type: 3}
+  - name: OldMan
+    sp:
+    - {fileID: 21300000, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300002, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300004, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300006, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+  - name: PinkBadge
+    sp:
+    - {fileID: 21300028, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: PinkVase
+    sp:
+    - {fileID: 21300010, guid: 7461e76ada4d55b4bab2b94905caecae, type: 3}
+  - name: PinkWall
+    sp:
+    - {fileID: 21300000, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300008, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300016, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300024, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+  - name: RedBadge
+    sp:
+    - {fileID: 21300026, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: RedBottle
+    sp:
+    - {fileID: 21300000, guid: c6f3742bb7168884f89d5099ed51ab92, type: 3}
+  - name: RedDiamond
+    sp:
+    - {fileID: 21300000, guid: f946751fabf6d0a4691b9909d90e6144, type: 3}
+  - name: RedDoor
+    sp:
+    - {fileID: 21300004, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300012, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300020, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300028, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+  - name: RedFlask
+    sp:
+    - {fileID: 21300008, guid: c6f3742bb7168884f89d5099ed51ab92, type: 3}
+  - name: RedKey
+    sp:
+    - {fileID: 21300004, guid: 30f558c6b8d328c428c3580ade5753e0, type: 3}
+  - name: RedUniversal
+    sp:
+    - {fileID: 21300012, guid: 30f558c6b8d328c428c3580ade5753e0, type: 3}
+  - name: Reel
+    sp:
+    - {fileID: 21300006, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: River
+    sp:
+    - {fileID: 21300000, guid: 2b13c78ed771dac4691659493dd6925e, type: 3}
+    - {fileID: 21300002, guid: 2b13c78ed771dac4691659493dd6925e, type: 3}
+    - {fileID: 21300004, guid: 2b13c78ed771dac4691659493dd6925e, type: 3}
+    - {fileID: 21300006, guid: 2b13c78ed771dac4691659493dd6925e, type: 3}
+  - name: SaintSword
+    sp:
+    - {fileID: 21300020, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: Sender
+    sp:
+    - {fileID: 21300016, guid: 14da6243faceaa64a8253bbf5b6a130c, type: 3}
+    - {fileID: 21300018, guid: 14da6243faceaa64a8253bbf5b6a130c, type: 3}
+    - {fileID: 21300020, guid: 14da6243faceaa64a8253bbf5b6a130c, type: 3}
+    - {fileID: 21300022, guid: 14da6243faceaa64a8253bbf5b6a130c, type: 3}
+  - name: Shield_1
+    sp:
+    - {fileID: 21300014, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Shield_10
+    sp:
+    - {fileID: 21300024, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Shield_11
+    sp:
+    - {fileID: 21300030, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Shield_12
+    sp:
+    - {fileID: 21300028, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Shield_2
+    sp:
+    - {fileID: 21300010, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Shield_3
+    sp:
+    - {fileID: 21300012, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Shield_4
+    sp:
+    - {fileID: 21300016, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Shield_5
+    sp:
+    - {fileID: 21300018, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Shield_6
+    sp:
+    - {fileID: 21300020, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Shield_7
+    sp:
+    - {fileID: 21300016, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Shield_8
+    sp:
+    - {fileID: 21300018, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Shield_9
+    sp:
+    - {fileID: 21300022, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Shoes
+    sp:
+    - {fileID: 21300010, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: SilverDoor
+    sp:
+    - {fileID: 21300002, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+    - {fileID: 21300010, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+    - {fileID: 21300018, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+    - {fileID: 21300026, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+  - name: SilverKey
+    sp:
+    - {fileID: 21300014, guid: 6dc64e9b9d4f7244db7446fbc3e1f712, type: 3}
+  - name: Skeleton
+    sp:
+    - {fileID: 21300000, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300002, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300004, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300006, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: SkeletonBoss
+    sp:
+    - {fileID: 21300024, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300026, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300028, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300030, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: SkeletonBrown
+    sp:
+    - {fileID: 21300016, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300018, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300020, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300022, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: SkeletonUpgrade
+    sp:
+    - {fileID: 21300008, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300010, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300012, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300014, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: SlimeBlack
+    sp:
+    - {fileID: 21300080, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300082, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300084, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300086, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: SlimeGreen
+    sp:
+    - {fileID: 21300064, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300066, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300068, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300070, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: SlimeKing
+    sp:
+    - {fileID: 21300088, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300090, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300092, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300094, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: SlimeRed
+    sp:
+    - {fileID: 21300072, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300074, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300076, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300078, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: Sprite
+    sp:
+    - {fileID: 21300024, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300026, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300028, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300030, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+  - name: Stars
+    sp:
+    - {fileID: 21300016, guid: 0bb4f1b88093f5249894da430dbe8a12, type: 3}
+    - {fileID: 21300018, guid: 0bb4f1b88093f5249894da430dbe8a12, type: 3}
+    - {fileID: 21300020, guid: 0bb4f1b88093f5249894da430dbe8a12, type: 3}
+    - {fileID: 21300022, guid: 0bb4f1b88093f5249894da430dbe8a12, type: 3}
+  - name: Stone
+    sp:
+    - {fileID: 21300144, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300146, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300148, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300150, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: StoneBlack
+    sp:
+    - {fileID: 21300344, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300346, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300348, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300350, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: StoneBlue
+    sp:
+    - {fileID: 21300016, guid: 35472dbce34efcb43b2877ec6cdf1173, type: 3}
+    - {fileID: 21300018, guid: 35472dbce34efcb43b2877ec6cdf1173, type: 3}
+    - {fileID: 21300020, guid: 35472dbce34efcb43b2877ec6cdf1173, type: 3}
+    - {fileID: 21300022, guid: 35472dbce34efcb43b2877ec6cdf1173, type: 3}
+  - name: StoneGray
+    sp:
+    - {fileID: 21300024, guid: 35472dbce34efcb43b2877ec6cdf1173, type: 3}
+    - {fileID: 21300026, guid: 35472dbce34efcb43b2877ec6cdf1173, type: 3}
+    - {fileID: 21300028, guid: 35472dbce34efcb43b2877ec6cdf1173, type: 3}
+    - {fileID: 21300030, guid: 35472dbce34efcb43b2877ec6cdf1173, type: 3}
+  - name: Sword_1
+    sp:
+    - {fileID: 21300000, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Sword_10
+    sp:
+    - {fileID: 21300008, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Sword_11
+    sp:
+    - {fileID: 21300010, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Sword_12
+    sp:
+    - {fileID: 21300014, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Sword_2
+    sp:
+    - {fileID: 21300002, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Sword_3
+    sp:
+    - {fileID: 21300004, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Sword_4
+    sp:
+    - {fileID: 21300006, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Sword_5
+    sp:
+    - {fileID: 21300008, guid: 0959b7cbb078bd44699936f17463c4e3, type: 3}
+  - name: Sword_6
+    sp:
+    - {fileID: 21300000, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Sword_7
+    sp:
+    - {fileID: 21300002, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Sword_8
+    sp:
+    - {fileID: 21300006, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: Sword_9
+    sp:
+    - {fileID: 21300004, guid: 23168970b16177b4d95ba1d108455d3f, type: 3}
+  - name: SwordMan
+    sp:
+    - {fileID: 21300184, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300186, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300188, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300190, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: SwordManBoss
+    sp:
+    - {fileID: 21300024, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+    - {fileID: 21300026, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+    - {fileID: 21300028, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+    - {fileID: 21300030, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+  - name: SwordManPurple
+    sp:
+    - {fileID: 21300016, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+    - {fileID: 21300018, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+    - {fileID: 21300020, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+    - {fileID: 21300022, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+  - name: SwordManRed
+    sp:
+    - {fileID: 21300008, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+    - {fileID: 21300010, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+    - {fileID: 21300012, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+    - {fileID: 21300014, guid: da2cc9bf1c1e87a4889badb4c51fc19d, type: 3}
+  - name: TaskReel
+    sp:
+    - {fileID: 21300026, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: UniversalKey
+    sp:
+    - {fileID: 21300018, guid: 30f558c6b8d328c428c3580ade5753e0, type: 3}
+  - name: Upgrader
+    sp:
+    - {fileID: 21300008, guid: 4ce1ccbc0c16c7c45afd057108b4448a, type: 3}
+  - name: UpStair
+    sp:
+    - {fileID: 21300000, guid: d2ad4b299192b1648abcab8bb5c7c622, type: 3}
+  - name: Volcano
+    sp:
+    - {fileID: 21300024, guid: d7ca55e3520dab64283a301522603997, type: 3}
+    - {fileID: 21300026, guid: d7ca55e3520dab64283a301522603997, type: 3}
+    - {fileID: 21300028, guid: d7ca55e3520dab64283a301522603997, type: 3}
+    - {fileID: 21300030, guid: d7ca55e3520dab64283a301522603997, type: 3}
+  - name: Weapon
+    sp:
+    - {fileID: 21300014, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: WhiteWall
+    sp:
+    - {fileID: 21300002, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300010, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300018, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+    - {fileID: 21300026, guid: 7190b01597aad644a8ca2678a9f4669c, type: 3}
+  - name: WizardBlack
+    sp:
+    - {fileID: 21300008, guid: 6018d4fb2f3c2fb4d8927d861fd5b748, type: 3}
+    - {fileID: 21300010, guid: 6018d4fb2f3c2fb4d8927d861fd5b748, type: 3}
+    - {fileID: 21300012, guid: 6018d4fb2f3c2fb4d8927d861fd5b748, type: 3}
+    - {fileID: 21300014, guid: 6018d4fb2f3c2fb4d8927d861fd5b748, type: 3}
+  - name: WizardBlue
+    sp:
+    - {fileID: 21300096, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300098, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300100, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300102, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: WizardGray
+    sp:
+    - {fileID: 21300384, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300386, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300388, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300390, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: WizardGreat
+    sp:
+    - {fileID: 21300112, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300114, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300116, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300118, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: WizardGreatRed
+    sp:
+    - {fileID: 21300120, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300122, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300124, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300126, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: WizardRed
+    sp:
+    - {fileID: 21300104, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300106, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300108, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300110, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: YellowBadge
+    sp:
+    - {fileID: 21300020, guid: 4d296087d2402934484ecdfc8c052e87, type: 3}
+  - name: YellowBottle
+    sp:
+    - {fileID: 21300006, guid: c6f3742bb7168884f89d5099ed51ab92, type: 3}
+  - name: YellowDiamond
+    sp:
+    - {fileID: 21300006, guid: f946751fabf6d0a4691b9909d90e6144, type: 3}
+  - name: YellowDoor
+    sp:
+    - {fileID: 21300000, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300008, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300016, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300024, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+  - name: YellowFlask
+    sp:
+    - {fileID: 21300014, guid: c6f3742bb7168884f89d5099ed51ab92, type: 3}
+  - name: YellowKey
+    sp:
+    - {fileID: 21300000, guid: 30f558c6b8d328c428c3580ade5753e0, type: 3}
+  - name: YellowUniversal
+    sp:
+    - {fileID: 21300008, guid: 30f558c6b8d328c428c3580ade5753e0, type: 3}
+  - name: YellowVase
+    sp:
+    - {fileID: 21300016, guid: 7461e76ada4d55b4bab2b94905caecae, type: 3}
+  - name: YoungMan
+    sp:
+    - {fileID: 21300016, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300018, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300020, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+    - {fileID: 21300022, guid: b9923fbe5e6dc8848bb9b249d39c1b26, type: 3}
+  - name: Zombie
+    sp:
+    - {fileID: 21300128, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300130, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300132, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300134, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: ZombieGreen
+    sp:
+    - {fileID: 21300408, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300410, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300412, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300414, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: ZombieRed
+    sp:
+    - {fileID: 21300024, guid: c5a0c5c3ad7dcd64189ff791abc24ac9, type: 3}
+    - {fileID: 21300026, guid: c5a0c5c3ad7dcd64189ff791abc24ac9, type: 3}
+    - {fileID: 21300028, guid: c5a0c5c3ad7dcd64189ff791abc24ac9, type: 3}
+    - {fileID: 21300030, guid: c5a0c5c3ad7dcd64189ff791abc24ac9, type: 3}
+  - name: ZombieSword
+    sp:
+    - {fileID: 21300136, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300138, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300140, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+    - {fileID: 21300142, guid: 0492f70cec20a4446a782c825a35ed65, type: 3}
+  - name: CoinShop
+    sp:
+    - {fileID: 21300178, guid: a54edec2ff1ae5b44a2051ac4513ac65, type: 3}
+  - name: zzhit_riot
+    sp:
+    - {fileID: 21300000, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300002, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300004, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300006, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300008, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzhit_sword
+    sp:
+    - {fileID: 21300138, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300140, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300142, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300144, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300146, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzhit_sword_crit
+    sp:
+    - {fileID: 21300020, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300022, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300024, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300026, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300028, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300030, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzhit_bark
+    sp:
+    - {fileID: 21300010, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300012, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300014, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300016, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300018, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_big
+    sp:
+    - {fileID: 21300100, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300102, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300104, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300106, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300108, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_big_crit
+    sp:
+    - {fileID: 21300072, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300074, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300076, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300078, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300080, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_diamond
+    sp:
+    - {fileID: 21300252, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300254, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300256, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300258, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_diamond_crit
+    sp:
+    - {fileID: 21300294, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300296, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300298, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300300, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_hurricane
+    sp:
+    - {fileID: 21300150, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300152, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300154, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300156, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300158, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300160, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_hurricane_crit
+    sp:
+    - {fileID: 21300032, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300034, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300036, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300038, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300040, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300042, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_mid
+    sp:
+    - {fileID: 21300162, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300164, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300166, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300168, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300170, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_mid_crit
+    sp:
+    - {fileID: 21300072, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300074, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300076, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300078, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300080, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_small
+    sp:
+    - {fileID: 21300198, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300200, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300202, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300204, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300206, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzmagic_small_crit
+    sp:
+    - {fileID: 21300082, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300084, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300086, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300088, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300090, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzhit_nohurt
+    sp:
+    - {fileID: 21300224, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300226, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300228, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300230, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300232, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300234, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300236, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  - name: zzhit_nohurt_onshield
+    sp:
+    - {fileID: 21300224, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300226, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300228, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300230, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300232, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300234, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+    - {fileID: 21300236, guid: c97c2694b7857da45adad6ef1b7b6580, type: 3}
+  audioList:
+  - name: Afalia_1
+    clip: {fileID: 8300000, guid: 8030528d916b5be41937d89f826b1146, type: 3}
+  - name: final1
+    clip: {fileID: 8300000, guid: 50244121d1c5dc4439272ba1d4d5c463, type: 3}
+  - name: final2
+    clip: {fileID: 8300000, guid: 8a04255050a295644949924dd0390c3d, type: 3}
+  - name: gameover
+    clip: {fileID: 8300000, guid: 08727c2b867a8f74ba49d7a5b934232e, type: 3}
+  - name: GlandWilliam_1
+    clip: {fileID: 8300000, guid: 2dbaeda6c50a6f543b00f3f1fea9c6c2, type: 3}
+  - name: Leshphon
+    clip: {fileID: 8300000, guid: 830f37f9881a9f848801bcb517f7ce21, type: 3}
+  - name: Leshphon_boss
+    clip: {fileID: 8300000, guid: b15c81c17a32b544793be789a538c743, type: 3}
+  - name: MoonLightHotel
+    clip: {fileID: 8300000, guid: 559f30379b61cfe45b30a53bd36ab71c, type: 3}
+  - name: normal1
+    clip: {fileID: 8300000, guid: 265233a1bbd24074ca4f304625be43ca, type: 3}
+  - name: normal2
+    clip: {fileID: 8300000, guid: 673752d1abe73d147be6ccce075c180b, type: 3}
+  - name: normal3
+    clip: {fileID: 8300000, guid: 9fc19645b94b46b4f8d146ab06a0818e, type: 3}
+  - name: s_battleResult
+    clip: {fileID: 8300000, guid: f291bf51ff56347cea585b01ac3d3314, type: 3}
+  - name: s_button_click
+    clip: {fileID: 8300000, guid: feae7b7dbceb04eea8eb953e5835058e, type: 3}
+  - name: s_button_select
+    clip: {fileID: 8300000, guid: d873dc92f69824ca6982a293b277fc64, type: 3}
+  - name: s_calcel
+    clip: {fileID: 8300000, guid: fe9831f5bc92d4f61a8ec9e6b03c7e13, type: 3}
+  - name: s_cost
+    clip: {fileID: 8300000, guid: 2e07664a0a027481f9be3ca247ce5f36, type: 3}
+  - name: s_costless
+    clip: {fileID: 8300000, guid: b763fe676966146c4aa4a4a5f26e2e84, type: 3}
+  - name: s_fire
+    clip: {fileID: 8300000, guid: fb97e39ab8dfb4fc9bcd48b53e3c08db, type: 3}
+  - name: s_gameover
+    clip: {fileID: 8300000, guid: 5b15932f35c44427e84d2da1531f3fa8, type: 3}
+  - name: s_get
+    clip: {fileID: 8300000, guid: 3d78557ac51e246dfb8d525fbe818144, type: 3}
+  - name: s_getblood
+    clip: {fileID: 8300000, guid: 90e3f7ad65f254150a4a2a9e2c3b662e, type: 3}
+  - name: s_hit_bark
+    clip: {fileID: 8300000, guid: 94385b3b021e54a08b4f80cb315ae17a, type: 3}
+  - name: s_hit_bark_crit
+    clip: {fileID: 8300000, guid: 46a7f973d21ac494c98eda1535956372, type: 3}
+  - name: s_hit_clean
+    clip: {fileID: 8300000, guid: 348a3e38a4f234d42b0dd860a2a4c80d, type: 3}
+  - name: s_hit_miss
+    clip: {fileID: 8300000, guid: ea5b52bab99a94951aa20901abd5c130, type: 3}
+  - name: s_hit_nohurt
+    clip: {fileID: 8300000, guid: 925bdab11feca40e58e2c47cd4b3943e, type: 3}
+  - name: s_hit_nohurt_onshield
+    clip: {fileID: 8300000, guid: 08822cb38ad7f4c2396654feb180779b, type: 3}
+  - name: s_hit_riot
+    clip: {fileID: 8300000, guid: 5c9fc1f7ecde4431e9c2c5089e3dd026, type: 3}
+  - name: s_hit_riot_crit
+    clip: {fileID: 8300000, guid: dd2a84a1ccfa4468bba230302c975f80, type: 3}
+  - name: s_hit_sword
+    clip: {fileID: 8300000, guid: 86c1835ef7e9049bfa243df9ef90bcc5, type: 3}
+  - name: s_hit_sword_crit
+    clip: {fileID: 8300000, guid: f1dec7bb9617f479faf5193af5d031a3, type: 3}
+  - name: s_item_boom
+    clip: {fileID: 8300000, guid: cc69455aa43d04467b2323fcfc8d2a80, type: 3}
+  - name: s_magic_big
+    clip: {fileID: 8300000, guid: 4d6f29f2d0f644f5da2b592e9667e684, type: 3}
+  - name: s_magic_big_crit
+    clip: {fileID: 8300000, guid: 2c9532cdf963c47bd96629dbf2e426dd, type: 3}
+  - name: s_magic_boom
+    clip: {fileID: 8300000, guid: fc725db78f97948429d074cb96f54a53, type: 3}
+  - name: s_magic_boom_crit
+    clip: {fileID: 8300000, guid: 142afb179f5684e2584c53218be88c96, type: 3}
+  - name: s_magic_boss_fire
+    clip: {fileID: 8300000, guid: 63a324ffb08ff48e8acb5bb21c9ddce0, type: 3}
+  - name: s_magic_boss_light
+    clip: {fileID: 8300000, guid: 0ce03f19dfaaa46d8b95d3ab953e8fef, type: 3}
+  - name: s_magic_boss_sword
+    clip: {fileID: 8300000, guid: 30f1087cbc63349c1a2855a24bd3f3d9, type: 3}
+  - name: s_magic_boss_water
+    clip: {fileID: 8300000, guid: 46b9cd79534d446f791b25d8c7d14fa2, type: 3}
+  - name: s_magic_cut
+    clip: {fileID: 8300000, guid: c8c65d9ad459a42c39686105ae0b373e, type: 3}
+  - name: s_magic_cut_crit
+    clip: {fileID: 8300000, guid: 08a39fe61478e4d1f92f34c2f0a2dd7c, type: 3}
+  - name: s_magic_diamond
+    clip: {fileID: 8300000, guid: a25bffdebcca44241b1f60d8d07a686c, type: 3}
+  - name: s_magic_diamond_crit
+    clip: {fileID: 8300000, guid: ea1cd951a7ce64733b95d12a3ed0900a, type: 3}
+  - name: s_magic_hurricane
+    clip: {fileID: 8300000, guid: 5118e5a29b4c94fc6ad9bdec0b4892f0, type: 3}
+  - name: s_magic_hurricane_crit
+    clip: {fileID: 8300000, guid: af16aa1b6df114437924a0478f1c63c0, type: 3}
+  - name: s_magic_mid
+    clip: {fileID: 8300000, guid: 10e3a98351ae545c9a65abec45e5eaba, type: 3}
+  - name: s_magic_mid_crit
+    clip: {fileID: 8300000, guid: 070c7e2b887de40fb8fe11d00c83e948, type: 3}
+  - name: s_magic_small
+    clip: {fileID: 8300000, guid: 44176031fefc045889eda3b8f79cb884, type: 3}
+  - name: s_magic_small_crit
+    clip: {fileID: 8300000, guid: 71ee3c7b28f834da58962d77150cf052, type: 3}
+  - name: s_magic_wind
+    clip: {fileID: 8300000, guid: 9bd8c5f5aabca4760887293f98b6b58c, type: 3}
+  - name: s_magic_wind_crit
+    clip: {fileID: 8300000, guid: 24807780a1cdc4e72849fe6841a3c00d, type: 3}
+  - name: s_opendoor
+    clip: {fileID: 8300000, guid: 2afcebddb72734fff8df1c29639bf72e, type: 3}
+  - name: s_select
+    clip: {fileID: 8300000, guid: 57265aa059e29485699db318d4829db7, type: 3}
+  - name: s_updown
+    clip: {fileID: 8300000, guid: a1c4f0cc765ae488b90a043eefb95690, type: 3}
+  - name: s_walk
+    clip: {fileID: 8300000, guid: 1bae91505ed164be28d4bc067797c996, type: 3}
+  - name: SeriaHost_2
+    clip: {fileID: 8300000, guid: fea6910c60899de4fadf537c87203a8c, type: 3}
+  - name: SkyTower
+    clip: {fileID: 8300000, guid: 60d276b10df3d45b8b06bde642374103, type: 3}
+  - name: special1
+    clip: {fileID: 8300000, guid: a906d7eeb04e1e74a986aede15ab07fe, type: 3}
+  - name: special2
+    clip: {fileID: 8300000, guid: dd1aac78bbf4bc84ea07cb6226d2e7d7, type: 3}
+  - name: StongSnowArea
+    clip: {fileID: 8300000, guid: 154f6cb5b9aea444196863d323d06b11, type: 3}
+  - name: WestCoast_1
+    clip: {fileID: 8300000, guid: 12d7ca518191a68469b1976dbda21b1b, type: 3}
+  modalSprite: {fileID: 8466001769624917054, guid: b1e9a84c403f31b448468d299359abf8,
+    type: 3}
+  modalImage: {fileID: 5279978862727709544, guid: 3806bfe5c6b78c1429625448845a151f,
+    type: 3}
+  dataEditorPanel: {fileID: 2786583227961090365, guid: 7a9224ab58b7ab34eaa57dcd9d099c73,
+    type: 3}
+  startPanel: {fileID: 2312047714054688322, guid: 0201f191c5e31054dabbee4f9631ba22,
+    type: 3}
+  mainMenu: {fileID: 8108961137583300014, guid: b4ac36fef5c008b4f8536768ff44dd13,
+    type: 3}
+  tipBar: {fileID: 1700283442167148, guid: 8f3500855dafd364fa51a770449d8d7b, type: 3}
+  topChat: {fileID: 1085633398894220, guid: 2d62e76bc54be714a840146f33e67825, type: 3}
+  bottomChat: {fileID: 1205100682575758, guid: ddd4f28b823625c43ad3acd2eea7a96b, type: 3}
+  alertDialog: {fileID: 6658119645105786156, guid: a957cb49f70a4a44abd14b5bd73e4f76,
+    type: 3}
+  choiceDialog: {fileID: 1512940487405772, guid: 5951cb00e336ac544b7242dded952b32,
+    type: 3}
+  battleDialog: {fileID: 1265704590575870, guid: d2c0aeaa5c8231f4285c03dd75cec9ea,
+    type: 3}
+  saveLoadDialog: {fileID: 3731474034479957715, guid: 00705d693db821947a31bff60bedc4b2,
+    type: 3}
+  settingDialog: {fileID: 7022939344723652919, guid: 02d1fd90a00423f439d25c2217a8a6e3,
+    type: 3}
+  modalSelector: {fileID: 2996975326698178838, guid: 5c51e93eae27849dda98344b37f5d5be,
+    type: 3}

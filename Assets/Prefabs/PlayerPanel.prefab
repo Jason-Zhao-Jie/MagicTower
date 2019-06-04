@@ -2324,8 +2324,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: OnBtnMenuClicked
+      - m_Target: {fileID: 6503244697812036147}
+        m_MethodName: OnMenuClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

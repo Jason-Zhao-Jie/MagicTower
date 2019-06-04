@@ -27,9 +27,8 @@ namespace MagicTower.Present.Player
             speedTitleText.text = Game.Config.StringInternational.GetValue(str_speed_title);
         }
 
-        // Update is called once per frame
-        void Update()
-        {
+        public void OnMenuClick() {
+            Game.ShowMainMenu();
         }
 
         public Components.Unit.Player ShowPlayer(int playerId, bool reset = false)

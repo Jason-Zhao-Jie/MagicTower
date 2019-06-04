@@ -27,8 +27,6 @@ namespace MagicTower.Components.Scene {
         }
 
         void OnDestroy() {
-            Game.Map.ClearMap();
-            Game.ObjPool.ClearAll();
             Resources.UnloadUnusedAssets();
         }
 

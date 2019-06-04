@@ -11,9 +11,7 @@ namespace ArmyAnt.ViewUtil {
             Unknown,
             Sprite,
             Image,
-            Hitter,
             Player,
-            Other,
         }
         public abstract class AViewUnit : UnityEngine.MonoBehaviour {
             public int Id {

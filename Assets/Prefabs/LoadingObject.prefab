@@ -86,10 +86,10 @@ MonoBehaviour:
     - {fileID: 21300002, guid: f946751fabf6d0a4691b9909d90e6144, type: 3}
   - name: BlueDoor
     sp:
-    - {fileID: 21300000, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
-    - {fileID: 21300008, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
-    - {fileID: 21300016, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
-    - {fileID: 21300024, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300002, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300010, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300018, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
+    - {fileID: 21300026, guid: 1e0abe911b2895c43a7dc04b5ab3fb83, type: 3}
   - name: BlueFence
     sp:
     - {fileID: 21300006, guid: f33ec98eb0d02804cba4edf39b088dba, type: 3}

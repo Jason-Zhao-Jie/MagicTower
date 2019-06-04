@@ -699,8 +699,6 @@ MonoBehaviour:
   - {fileID: 484004311}
   loadingObj: {fileID: 6362025092306633618, guid: 21b3a107c21a0734d9c065a55bb94ed0,
     type: 3}
-  startPanel: {fileID: 2312047714054688322, guid: 0201f191c5e31054dabbee4f9631ba22,
-    type: 3}
   playerPanel: {fileID: 6503244697812036149, guid: 98eed6e865a9a72459faf6bd0f8cbb36,
     type: 3}
   uiCanvas: {fileID: 484004306}

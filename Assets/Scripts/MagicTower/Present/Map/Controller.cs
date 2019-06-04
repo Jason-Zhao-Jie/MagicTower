@@ -39,7 +39,7 @@ namespace MagicTower.Present.Map {
         }
 
         // 清除地图上的一切物块, 仅清除View, 不清除数据, 用于刷新地图
-        public void ClearMap() {
+        private void ClearMap() {
             var vs = new List<long>(modals.Keys);
             foreach(var i in vs) {
                 Game.ObjPool.RecycleAnElement(modals[i]);

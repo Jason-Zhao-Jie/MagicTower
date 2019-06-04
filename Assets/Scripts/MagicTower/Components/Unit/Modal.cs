@@ -30,12 +30,18 @@ namespace MagicTower.Components.Unit {
         const int HITTER_TIMER_INIT = 5;
 
         public override ObjectPool.ElementType GetPoolTypeId() {
-            return ObjectPool.ElementType.Sprite;
+            var spc = GetComponent<SpriteRenderer>();
+            if(spc != null) {
+                return ObjectPool.ElementType.Sprite;
+            } else {
+                return ObjectPool.ElementType.Image;
+            }
         }
 
         public string PrefabPath => Game.Config.modals[ModId].prefabPath;
 
         public int TypeId { get; protected set; } = 0;
+
         public long Uuid { get; private set; } = 0;
 
         public static long GetUuid(int mapId, int posx, int posy) {
@@ -135,6 +141,7 @@ namespace MagicTower.Components.Unit {
 
                 sprites = Game.GetMods(modData.prefabPath);
                 Sprite = sprites[0];
+                animPointer = 0;
                 switch(modData.animator) {
                     case "static":
                         AnimType = AnimType.Static;
@@ -161,6 +168,7 @@ namespace MagicTower.Components.Unit {
         public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {
             OnDestroy();
             AnimType = AnimType.Static;
+            animPointer = 0;
             sprites = null;
             InitTimer();
             return true;

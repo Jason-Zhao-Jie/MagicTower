@@ -3,10 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using MagicTower.Present.Manager;
 
-namespace MagicTower.Components.UIPanel
-{
-    public class StartPanel : MonoBehaviour
-    {
+namespace MagicTower.Components.UIPanel {
+    public class StartPanel : MonoBehaviour {
         private const string str_startNewGame = "str_ui_startNewGame";
         private const string str_loadSavedGame = "str_ui_loadSavedGame";
         private const string str_settings = "str_ui_settings";
@@ -18,23 +16,20 @@ namespace MagicTower.Components.UIPanel
         private const int id_startMusic = 58;
 
         // Use this for initialization
-        void Start()
-        {
-            Game.Map = null;
-            Game.Player = null;
+        void Start() {
+            Game.HideAllDialog();
+            Game.Map.HideLoadingCurtain();
             Game.Status = Model.EGameStatus.Start;
 
             var languages = new List<string>();
-            for (var i = 0; i < Game.Config.languages.Count; ++i)
-            {
+            for(var i = 0; i < Game.Config.languages.Count; ++i) {
                 languages.Add(Game.Config.languages[i + 1].name);
             }
             languageDrop.AddOptions(languages);
 
             SetUIByLanguage(Game.Config.StringInternational.LanguageId);
 
-            if (!Game.IsDebug)
-            {
+            if(!Game.IsDebug) {
                 btnDataEditor.gameObject.SetActive(false);
             }
 
@@ -54,38 +49,24 @@ namespace MagicTower.Components.UIPanel
             btnSwitchLanguage.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(str_languageSwitch);
         }
 
-        public void OnStartGame() {
-            Game.Status = Model.EGameStatus.InGame;
-            Game.LoadGame();
-        }
-
-        public void OnLoadGame() {
-            Game.ShowSaveLoadDialog(true);
-        }
-
-        public void OnSettings() {
-            Game.ShowSettings();
-        }
-
-        public void OnReadMe()
-        {
+        public void OnStartGame() => Game.LoadGame();
+        
+        public void OnLoadGame() => Game.ShowSaveLoadDialog(true);
+        
+        public void OnSettings() => Game.ShowSettings();
+        
+        public void OnReadMe() {
             // TODO
         }
 
-        public void OnChangeLanguage()
-        {
-            SetUIByLanguage(languageDrop.value + 1);
-        }
+        public void OnChangeLanguage() => SetUIByLanguage(languageDrop.value + 1);
 
         public void OnGameEditor() {
             AudioManager.StopMusic();
             Game.ShowDataEditor(); // TODO : 需要在此暂停音乐
         }
 
-        public void OnExitGame()
-        {
-            Game.ExitGame();
-        }
+        public void OnExitGame() => Game.ExitGame();
 
         [Tooltip("开始新游戏按钮")]
         [Space(4)]

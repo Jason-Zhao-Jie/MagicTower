@@ -13,10 +13,6 @@ namespace MagicTower.Present.Player
         public const string str_defense_title = "str_ui_defense";
         public const string str_speed_title = "str_ui_speed";
 
-        public View() : base(null)
-        {
-        }
-
         void Start()
         {
             levelTitleText.text = Game.Config.StringInternational.GetValue(str_level_title);

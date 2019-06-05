@@ -3,16 +3,13 @@
 namespace ArmyAnt.ViewUtil {
 
     public class ObjectPool {
-        public const int SPRITE_DEFAULT_SORTING_ORDER = 0;
-        public const int SPRITE_IN_DIALOG_SORTING_ORDER = 2;
-        public const int HITTER_IN_DIALOG_SORTING_ORDER = 3;
-
         public enum ElementType : short {
             Unknown,
             Sprite,
             Image,
             Player,
         }
+
         public abstract class AViewUnit : UnityEngine.MonoBehaviour {
             public int Id {
                 get {

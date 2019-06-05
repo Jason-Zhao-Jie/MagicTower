@@ -10,34 +10,20 @@ using UnityEngine;
 namespace MagicTower {
 
     public static class Game {
-        private const int PLAY_GAMEOVER_TIME = 7;
-
         static Game() {
             // private manager
             if(Input == null) {
                 Input = new InputManager();
             }
+            GamePaused = true;
         }
 
         public static bool IsDebug => Config.debug;
         public static GameObject ModalImage => Resource.modalImage;
         public static GameObject ModalSprite => Resource.modalSprite;
 
-        public static void DebugLog(params string[] content) {
-            if (IsDebug && content != null) {
-                string text = "";
-                for (var i = 0; i < content.Length; ++i) {
-                    text += content[i];
-                }
-                Debug.Log(text);
-            }
-        }
-
         public static void Initial(Components.Scene.SceneView scene, Components.UIPanel.GlobalLoading resource) {
-            if (!InitOK) {
-                AdsPluginManager.Initialize(false, true);
-                InitOK = true;
-            }
+            AdsPluginManager.Initialize(false, true);
 
             if (Config == null) {
                 Config = new Model.ConfigCenter();
@@ -58,7 +44,19 @@ namespace MagicTower {
             View = scene;
             Resource = resource;
             Resource.DialogCanvas = View.uiCanvas.transform;
+            Player = new Present.Player.Controller(View.RefreshPlayerPanel());
+            Map = new Present.Map.Controller(View.mapTileRoot);
             status = Model.EGameStatus.Start;
+        }
+
+        public static void DebugLog(params string[] content) {
+            if(IsDebug && content != null) {
+                string text = "";
+                for(var i = 0; i < content.Length; ++i) {
+                    text += content[i];
+                }
+                Debug.Log(text);
+            }
         }
 
         public static void ExitGame() {
@@ -91,13 +89,7 @@ namespace MagicTower {
             get; private set;
         }
 
-        public static bool InitOK { get; private set; }
-        
-        /********************** Scene API **************************************/
-
-        public static Vector3 GetUIZeroPos() => View.transform.InverseTransformPoint(Vector3.zero);
-
-        /********************** Resource API ***********************************/
+        #region Resource API 
 
         public static Sprite[] GetMods(string modName) {
             return Resource.modSprites[modName];
@@ -138,26 +130,42 @@ namespace MagicTower {
 
         public static bool HideUI(UIType type) => Resource.HideUI(type);
 
-        /********************** Invoke in Main Thread **************************/
+        public static void HideAllDialog() {
+            HideUI(UIType.AlertDialog);
+            HideUI(UIType.BattleDialog);
+            HideUI(UIType.BottomChat);
+            HideUI(UIType.ChoiceDialog);
+            HideUI(UIType.MainMenu);
+            HideUI(UIType.ModalSelector);
+            HideUI(UIType.SaveLoadDialog);
+            HideUI(UIType.SettingDialog);
+            HideUI(UIType.TipBar);
+            HideUI(UIType.TopChat);
+        }
+
+        #endregion
+
+        #region Invoke in Main Thread
 
         public static void InvokeInMainThread(int delaySeconds, Model.EmptyCallBack cb) {
             InvokeInMainThread(() => { View.StartCoroutine(CoroutineFunc(delaySeconds, cb)); });
         }
 
         private static IEnumerator CoroutineFunc(int seconds, Model.EmptyCallBack cb) {
-            yield return new WaitForSeconds(seconds);
+            if(seconds > 0) {
+                yield return new WaitForSeconds(seconds);
+            }
             cb();
         }
 
         public static void InvokeInMainThread(Model.EmptyCallBack func) {
-            if (func == null) {
-                return;
-            }
-            if (System.Threading.Thread.CurrentThread.ManagedThreadId == mainThreadId) {
-                func();
-            } else {
-                lock (mainThreadTaskQueue) {
-                    mainThreadTaskQueue.Enqueue(func);
+            if(func != null) {
+                if(System.Threading.Thread.CurrentThread.ManagedThreadId == mainThreadId) {
+                    func();
+                } else {
+                    lock(mainThreadTaskQueue) {
+                        mainThreadTaskQueue.Enqueue(func);
+                    }
                 }
             }
         }
@@ -174,20 +182,26 @@ namespace MagicTower {
                 }
             }
             resolvingTask?.Invoke();
+
+            if(!GamePaused) {
+                GameTime += Time.deltaTime;
+            }
         }
 
         private static readonly int mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
-        private static Queue<Model.EmptyCallBack> mainThreadTaskQueue = new Queue<Model.EmptyCallBack>();
+        private static readonly Queue<Model.EmptyCallBack> mainThreadTaskQueue = new Queue<Model.EmptyCallBack>();
 
-        /********************** Runtime Data Save / Load ***********************/
+        #endregion
+
+        #region Runtime Data Save / Load
 
         public static bool LoadGame(string saveName = "") {
-            Player = new Present.Player.Controller(View.RefreshPlayerPanel());
-            Map = new Present.Map.Controller(View.mapTileRoot);
             try {
-                var (maps, numberData, mapId, playerPosX, playerPosY, PlayerData) = SaveManager.Read(saveName);
+                var (saveTime, totalTime, maps, numberData, mapId, playerPosX, playerPosY, PlayerData) = SaveManager.Read(saveName);
                 Map.SetStartData(mapId, maps);
+                Game.numberData = numberData;
                 Player.ShowPlayer(playerPosX, playerPosY, PlayerData, true);
+                StartRecordTime(totalTime);
             } catch(System.IO.IOException) {
                 return false;
             }
@@ -199,13 +213,12 @@ namespace MagicTower {
         public static bool SaveGame(string saveName) {
             var maps = new Model.MapData[Map.MapsCount];
             Map.GetAllMapData().Values.CopyTo(maps, 0);
-            return SaveManager.Write(saveName, maps, numberData, Map.MapId, Player.PlayerPosX, Player.PlayerPosY, Player.PlayerData);
+            return SaveManager.Write(saveName, System.DateTime.Now, System.Convert.ToInt64(GameTime), maps, numberData, Map.MapId, Player.PlayerPosX, Player.PlayerPosY, Player.PlayerData);
         }
 
         public static void StopAndBackToStart() {
             AudioManager.StopMusic();
             Resource.ShowUI(UIType.StartPanel);
-            Map?.HideLoadingCurtain();
         }
 
         private static void StopAndBackToStart(int seconds) {
@@ -217,22 +230,46 @@ namespace MagicTower {
             StopAndBackToStart();
         }
 
-        /********************** Start Panel ************************************/
+        #endregion
+
+        #region Runtime Data
+
+        private static void StartRecordTime(long init) {
+            GameTime = init;
+            GamePaused = false;
+        }
+
+        public static bool GamePaused { get; set; }
+
+        public static double GameTime { get; private set; }
+
+        #endregion
+
+        #region Start Panel
+
         public static void ShowStartPanel() {
             Resource.ShowUI(UIType.StartPanel);
         }
 
-        /********************** Data Editor ************************************/
+        #endregion
+
+        #region Data Editor
+
         public static void ShowDataEditor() {
             Resource.ShowUI(UIType.DataEditor);
         }
 
-        /********************** Main Menu **************************************/
+        #endregion
+
+        #region Main Menu
+
         public static void ShowMainMenu() {
             Resource.ShowUI(UIType.MainMenu);
         }
 
-        /********************** Chat Part **************************************/
+        #endregion
+
+        #region Chat Part
 
         public static void ShowTip(params string[] texts) {
             var text = "";
@@ -285,8 +322,8 @@ namespace MagicTower {
         }
 
         public static void ChatStepOn() {
-            if(chat == null)    // 没有chat数据, 说明是代码呼出的临时chat
-            {
+            if(chat == null) {
+                // 没有chat数据, 说明是代码呼出的临时tips
                 ClearChats();
             } else if(chatIndex >= chat.data.Length) {
                 chatIndex = 0;
@@ -310,13 +347,17 @@ namespace MagicTower {
         private static Components.Unit.Modal chatMod;
         private static int chatIndex = 0;
 
-        /********************** Alert Dialog ***********************************/
+        #endregion
+
+        #region Alert Dialog
 
         public static void ShowAlert(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
             ShowUI<AlertDlg>(UIType.AlertDialog).Init(contentStr, contentAlignment, leftCallback, leftStr, rightCallback, rightStr);
         }
 
-        /********************** Choice Part **************************************/
+        #endregion
+
+        #region Choice Part
 
         public static void ShowChoice(Model.ChoiceData choiceData, Components.Unit.Modal mod, Model.EGameStatus nextStatus = Model.EGameStatus.InGame) {
             HideUI(UIType.TopChat);
@@ -325,7 +366,9 @@ namespace MagicTower {
             ShowUI<ChoiceDlg>(UIType.ChoiceDialog).Init(choiceData, mod, nextStatus);
         }
 
-        /********************** Battle Part **************************************/
+        #endregion
+
+        #region Battle Part
 
         public static void StartBattle(Components.Unit.Modal enemyModal, bool canFail, long yourUuid = -1, BattleDlg.BattlePauseEventCheck pauseCheck = null, int pauseEvent = 0) {
             ShowUI<BattleDlg>(UIType.BattleDialog).Init(OnBattleOver, canFail, enemyModal.Uuid, yourUuid, pauseCheck, pauseEvent);
@@ -352,34 +395,39 @@ namespace MagicTower {
         }
 
         private static void OnGameOver() {
-            View.StartCoroutine(GameOverResolve());
             Map.ShowCurtain(Components.Unit.Curtain.ContentType.GameOver, null);
-            StopAndBackToStart(PLAY_GAMEOVER_TIME);
-        }
-
-        private static IEnumerator GameOverResolve() {
-            yield return new WaitForSeconds(1.6f);
-            HideUI(UIType.BattleDialog);
+            StopAndBackToStart(Config.gameoverBackTime);
         }
 
         private static Components.Unit.Modal battleMod;
 
-        /********************** Save Load Dialog *******************************/
+        #endregion
+
+        #region Save Load Dialog
+
         public static void ShowSaveLoadDialog(bool save) {
             ShowUI<SaveLoadDlg>(UIType.SaveLoadDialog).Init(save);
         }
 
-        /********************** Setting Dialog *********************************/
+        #endregion
+
+        #region Setting Dialog
+
         public static void ShowSettings() {
             Resource.ShowUI(UIType.SettingDialog);
         }
 
-        /********************** Modal Selector *********************************/
+        #endregion
+
+        #region Modal Selector
+
         public static void ShowModalSelector(int nowModalId, ModalSelectorDlg.SelectedCallback callback) {
             ShowUI<ModalSelectorDlg>(UIType.ModalSelector).Init(nowModalId, callback);
         }
+        
+        #endregion
 
-        /********************** Runtime Data Part ********************************/
+        #region Runtime Data Part
 
         /// <summary>
         /// 定义变价资源的价格缓存位，每个缓存位有其独特的变价算法
@@ -396,9 +444,7 @@ namespace MagicTower {
             get { return status; }
             set {
                 status = value;
-                if (Player != null) {
-                    Input.OnChangeWalkState();
-                }
+                Input.OnChangeWalkState();
             }
         }
 
@@ -425,5 +471,7 @@ namespace MagicTower {
 
         private static Dictionary<int, long> numberData = null;
     }
+
+    #endregion
 
 }

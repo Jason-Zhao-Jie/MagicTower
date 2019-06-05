@@ -189,7 +189,7 @@ namespace MagicTower.Components.Control
             hitter = Game.ObjPool.GetAnElement<Modal, Model.WeaponData>(0, ObjectPool.ElementType.Image, Game.ModalImage, data,isCritical);
             hitter.transform.SetParent((isOnEnemy ? enemySprite : playerSprite).transform, false);
             hitter.transform.localPosition = Vector3.zero;
-            hitter.transform.localScale = Game.Map.ModalLocalScale / 20;
+            hitter.transform.localScale = Vector3.one * (isCritical ? data.critPrefabLocalScale : data.prefabLocalScale);
         }
 
         private void OnBattleFailure()

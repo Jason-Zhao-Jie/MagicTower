@@ -177,7 +177,9 @@ namespace MagicTower.Model
         public int id;
         public string name;
         public string prefabPath;
+        public float prefabLocalScale;
         public string critPrefabPath;
+        public float critPrefabLocalScale;
         public int audioId;
         public int critAudioId;
     }

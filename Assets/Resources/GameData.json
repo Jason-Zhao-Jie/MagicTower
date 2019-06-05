@@ -1,5 +1,7 @@
 ﻿{
   "debug": true,
+  "gameoverBackTime": 7,
+  "newGamePlayerId": 62,
   "modals": [
     {
       "id": 1,
@@ -2339,7 +2341,9 @@
       "id": 1,
       "name": "str_name_riot",
       "prefabPath": "zzhit_riot",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzhit_riot",
+      "critPrefabLocalScale": 7,
       "audioId": 28,
       "critAudioId": 29
     },
@@ -2347,7 +2351,9 @@
       "id": 2,
       "name": "str_name_sword",
       "prefabPath": "zzhit_sword",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzhit_sword_crit",
+      "critPrefabLocalScale": 7,
       "audioId": 30,
       "critAudioId": 31
     },
@@ -2355,7 +2361,9 @@
       "id": 3,
       "name": "str_name_bark",
       "prefabPath": "zzhit_bark",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzhit_bark",
+      "critPrefabLocalScale": 7,
       "audioId": 22,
       "critAudioId": 23
     },
@@ -2363,7 +2371,9 @@
       "id": 4,
       "name": "str_name_magic_big",
       "prefabPath": "zzmagic_big",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzmagic_big_crit",
+      "critPrefabLocalScale": 7,
       "audioId": 33,
       "critAudioId": 34
     },
@@ -2371,7 +2381,9 @@
       "id": 5,
       "name": "str_name_magic_diamond",
       "prefabPath": "zzmagic_diamond",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzmagic_diamond_crit",
+      "critPrefabLocalScale": 7,
       "audioId": 43,
       "critAudioId": 44
     },
@@ -2379,7 +2391,9 @@
       "id": 6,
       "name": "str_name_magic_hurricane",
       "prefabPath": "zzmagic_hurricane",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzmagic_hurricane_crit",
+      "critPrefabLocalScale": 7,
       "audioId": 45,
       "critAudioId": 46
     },
@@ -2387,7 +2401,9 @@
       "id": 7,
       "name": "str_name_magic_mid",
       "prefabPath": "zzmagic_mid",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzmagic_mid_crit",
+      "critPrefabLocalScale": 7,
       "audioId": 47,
       "critAudioId": 48
     },
@@ -2395,7 +2411,9 @@
       "id": 8,
       "name": "str_name_magic_small",
       "prefabPath": "zzmagic_small",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzmagic_small_crit",
+      "critPrefabLocalScale": 7,
       "audioId": 49,
       "critAudioId": 50
     },
@@ -2403,7 +2421,9 @@
       "id": 9,
       "name": "str_name_nohurt",
       "prefabPath": "zzhit_nohurt",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzhit_nohurt_onshield",
+      "critPrefabLocalScale": 7,
       "audioId": 26,
       "critAudioId": 27
     },
@@ -2411,7 +2431,9 @@
       "id": 10,
       "name": "str_name_miss",
       "prefabPath": "zzhit_nohurt",
+      "prefabLocalScale": 7,
       "critPrefabPath": "zzhit_nohurt_onshield",
+      "critPrefabLocalScale": 7,
       "audioId": 25,
       "critAudioId": 25
     }
@@ -5548,6 +5570,34 @@
         {
           "langKey": "zh-cn",
           "content": "允许发送游戏情况统计信息"
+        }
+      ]
+    },
+    {
+      "id": 248,
+      "key": "str_ui_saveNew",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Click here to save as another new game"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "点此保存新档"
+        }
+      ]
+    },
+    {
+      "id": 249,
+      "key": "str_ui_saveName",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Save time:##, Floor:##, Game duration: ## day(s), ## hour(s), ## minute(s)\nPlayer:##, Level:##, Life:##, Speed:##,\nGold:##, Attack:##, Defense:##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "存储时间:##  地下##层  游戏时长:##天##小时##分\n角色:##  等级:##  生命值:## 敏捷:##\n金币:##  攻击力:##  防御力:##"
         }
       ]
     }

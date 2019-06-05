@@ -10,6 +10,8 @@ namespace MagicTower.Model
     {
         public readonly int mapLength;
         public readonly bool debug;
+        public readonly int gameoverBackTime;
+        public readonly int newGamePlayerId;
 
         public readonly Dictionary<int, ModalData> modals = new Dictionary<int, ModalData>();
         public readonly Dictionary<int, Audio> audios = new Dictionary<int, Audio>();
@@ -30,6 +32,8 @@ namespace MagicTower.Model
             gamedata = UnityEngine.JsonUtility.FromJson<GameData>(json);
 
             debug = gamedata.debug;
+            gameoverBackTime = gamedata.gameoverBackTime;
+            newGamePlayerId = gamedata.newGamePlayerId;
 
             // Reset references
             modals.Clear();
@@ -201,6 +205,8 @@ namespace MagicTower.Model
         private class GameData
         {
             public bool debug = true;
+            public int gameoverBackTime;
+            public int newGamePlayerId;
             public ModalData[] modals = null;
             public Audio[] audios = null;
             public MonsterData[] monsters = null;

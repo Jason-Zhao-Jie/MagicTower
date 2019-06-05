@@ -261,7 +261,7 @@ namespace MagicTower.Present.Manager
                 else
                     Game.Player.StartWalk((Player.Controller.Direction)(trueNum / 10));
             }
-            else if (Game.Status != Model.EGameStatus.AutoStepping)
+            else if (Game.Status != Model.EGameStatus.AutoStepping && Game.Status != Model.EGameStatus.Start)
             {
                 Game.Player.StopWalk();
             }

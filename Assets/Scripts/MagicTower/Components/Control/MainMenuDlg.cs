@@ -24,10 +24,12 @@ namespace MagicTower.Components.Control {
         void Start() {
             lastStatus = Game.Status;
             Game.Status = Model.EGameStatus.OnDialog;
+            Game.GamePaused = true;
         }
 
         public void OnResume() {
             Game.Status = lastStatus;
+            Game.GamePaused = false;
             Game.HideUI(UIType.MainMenu);
         }
 

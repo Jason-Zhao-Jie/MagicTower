@@ -69,7 +69,6 @@ namespace MagicTower.Present.Map {
         }
 
         public void HideLoadingCurtain() {
-            Game.Status = Model.EGameStatus.OnMiddleLoading;
             View.curtain.StartHide(null);
         }
 
@@ -193,7 +192,7 @@ namespace MagicTower.Present.Map {
         public Model.MapData CurrentMap { get { return Data.CurrentMap; } }
         public int MapsCount { get { return Data.MapsCount; } }
 
-        public UnityEngine.Vector3 ModalLocalScale => new UnityEngine.Vector3(View.BlockSize.x, View.BlockSize.y, 1);
+        public UnityEngine.Vector2 HitterLocalScale => View.HitterLocalScale;
 
         private readonly Dictionary<long, Modal> modals = new Dictionary<long, Modal>();
     }

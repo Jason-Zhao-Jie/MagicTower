@@ -91,7 +91,7 @@ namespace MagicTower.Present.Map
 
         public int MapId { get; private set; }
         public Model.MapData CurrentMap { get { return GetMapData(MapId); } }
-        public int MapsCount { get { return Game.Config.MapsCount; } }
+        public int MapsCount { get { return mapdata.Count; } }
 
         private Dictionary<int, Model.MapData> mapdata = new Dictionary<int, Model.MapData>();
     }

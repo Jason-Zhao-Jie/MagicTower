@@ -30,11 +30,11 @@ namespace MagicTower.Components {
                 foreach(var i in modSpriteList) {
                     modSprites[i.name] = i.sp;
                     if(i.sp == null || i.sp.Length <= 0) {
-                        Debug.LogError("The Modal " + i.name + " Has No Sprite");
+                        Game.DebugLogError("The Modal ", i.name, " Has No Sprite");
                     } else {
                         for(var n = 0; n < i.sp.Length; ++n) {
                             if(i.sp[n] == null) {
-                                Debug.LogError("The Modal " + i.name + " Has A Null Sprite In Index " + n);
+                                Game.DebugLogError("The Modal ", i.name, " Has A Null Sprite In Index ", n);
                             }
                         }
                     }
@@ -46,7 +46,7 @@ namespace MagicTower.Components {
                 foreach(var i in audioList) {
                     audioClips[i.name] = i.clip;
                     if(i.clip == null) {
-                        Debug.LogError("The Audio " + i.name + " Has A Null Clip Value");
+                        Game.DebugLogError("The Audio ", i.name, " Has A Null Clip Value");
                     }
                 }
                 modSpriteList = null;

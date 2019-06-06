@@ -5593,11 +5593,67 @@
       "strings": [
         {
           "langKey": "en-us",
-          "content": "Save time:##, Floor:##, Game duration: ## day(s), ## hour(s), ## minute(s)\nPlayer:##, Level:##, Life:##, Speed:##,\nGold:##, Attack:##, Defense:##"
+          "content": "Save time:##, Floor:##\nGame duration: ## day(s), ## hour(s), ## minute(s)\nPlayer:##, Level:##, Life:##, Speed:##,\nGold:##, Attack:##, Defense:##"
         },
         {
           "langKey": "zh-cn",
-          "content": "存储时间:##  地下##层  游戏时长:##天##小时##分\n角色:##  等级:##  生命值:## 敏捷:##\n金币:##  攻击力:##  防御力:##"
+          "content": "存储时间:##  ##\n游戏时长:##天##小时##分\n角色:##  等级:##  生命值:## 敏捷:##\n金币:##  攻击力:##  防御力:##"
+        }
+      ]
+    },
+    {
+      "id": 250,
+      "key": "str_ui_saveAlert",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Are you sure to overwrite this save ?"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "确定要覆盖此存档么?"
+        }
+      ]
+    },
+    {
+      "id": 251,
+      "key": "str_ui_saveSuccessful",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Saved OK ?"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "保存成功 !"
+        }
+      ]
+    },
+    {
+      "id": 252,
+      "key": "str_ui_saveFailure",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Saved failure"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "保存失败!"
+        }
+      ]
+    },
+    {
+      "id": 253,
+      "key": "str_ui_loadAlert",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Are you sure to load this game ? The game you played currently will be lost !"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "确定要载入此存档吗? 这会丢失当前游戏的进度!"
         }
       ]
     }

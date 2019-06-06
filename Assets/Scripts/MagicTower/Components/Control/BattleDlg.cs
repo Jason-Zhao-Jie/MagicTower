@@ -64,18 +64,18 @@ namespace MagicTower.Components.Control
                         hurt = Model.MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
                         if(hurt == -1) {
                             CreateHitter(MISS_HITTER, true, 0, false);
-                            Game.DebugLog("Enemy has missed a hurt");
+                            Game.DebugLogNote("Enemy has missed a hurt");
                         } else if(hurt == 0) {
                             CreateHitter(NOHURT_HITTER, true, 0, false);
-                            Game.DebugLog("Enemy was hurted failed");
+                            Game.DebugLogNote("Enemy was hurted failed");
                         } else if(hurt < 0) {
                             CreateHitter(playerBattleData.weaponId, true, -hurt, true);
                             enemyBattleData.life += hurt;
-                            Game.DebugLog("Enemy was hurted critical : " + -hurt);
+                            Game.DebugLogNote("Enemy was hurted critical : ", -hurt);
                         } else {
                             CreateHitter(playerBattleData.weaponId, true, hurt, false);
                             enemyBattleData.life -= hurt;
-                            Game.DebugLog("Enemy was hurted normally : " + hurt);
+                            Game.DebugLogNote("Enemy was hurted normally : ", hurt);
                         }
                         if(enemyBattleData.life < 0)
                             enemyBattleData.life = 0;
@@ -85,19 +85,19 @@ namespace MagicTower.Components.Control
                         hurt = Model.MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
                         if(hurt == -1) {
                             CreateHitter(MISS_HITTER, false, 0, false);
-                            Game.DebugLog("Player has missed a hurt");
+                            Game.DebugLogNote("Player has missed a hurt");
                         } else if(hurt == 0) {
                             CreateHitter(NOHURT_HITTER, false, 0, false);
-                            Game.DebugLog("Player was hurted failed");
+                            Game.DebugLogNote("Player was hurted failed");
                         } else if(hurt < 0) {
                             CreateHitter(enemyBattleData.weaponId, false, -hurt, true);
                             playerBattleData.life += hurt;
-                            Game.DebugLog("Player was hurted critical : " + -hurt);
+                            Game.DebugLogNote("Player was hurted critical : ", -hurt);
                             hurted -= hurt;
                         } else {
                             CreateHitter(enemyBattleData.weaponId, false, hurt, false);
                             playerBattleData.life -= hurt;
-                            Game.DebugLog("Player was hurted normally : " + hurt);
+                            Game.DebugLogNote("Player was hurted normally : ", hurt);
                             hurted += hurt;
                         }
                         if(playerBattleData.life < 0)

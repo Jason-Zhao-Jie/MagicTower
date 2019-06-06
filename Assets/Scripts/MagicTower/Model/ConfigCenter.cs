@@ -92,13 +92,13 @@ namespace MagicTower.Model
                 {
                     if (strings.ContainsKey(gamedata.strings[i].key))
                     {
-                        UnityEngine.Debug.LogWarning("Repeated international string key: " + gamedata.strings[i].key);
+                        Game.DebugLogError("Repeated international string key: ", gamedata.strings[i].key);
                     }
                     foreach (var item in strings)
                     {
                         if (item.Value.id == gamedata.strings[i].id)
                         {
-                            UnityEngine.Debug.LogWarning("Repeated international string id: " + gamedata.strings[i].id);
+                            Game.DebugLogError("Repeated international string id: ", gamedata.strings[i].id);
                         }
                     }
                 }
@@ -126,7 +126,7 @@ namespace MagicTower.Model
                     path += index + 1;
                 var asset = UnityEngine.Resources.Load<UnityEngine.TextAsset>(path).text;
 
-                mapdata[index] = UnityEngine.JsonUtility.FromJson<MapData>(asset);
+                mapdata.Add(index, UnityEngine.JsonUtility.FromJson<MapData>(asset));
             }
             return mapdata[index];
         }
@@ -139,7 +139,7 @@ namespace MagicTower.Model
         {
             if (!mapdata.ContainsKey(index))
             {
-                UnityEngine.Debug.LogError("Saving map " + index + " failed, cannot find map old data.");
+                Game.DebugLogError("Saving map ", index, " failed, cannot find map old data.");
             }
             else
             {
@@ -218,7 +218,7 @@ namespace MagicTower.Model
             public InternationalString[] strings = null;
         }
 
-        private Dictionary<int, MapData> mapdata = new Dictionary<int, MapData>();
+        private readonly Dictionary<int, MapData> mapdata = new Dictionary<int, MapData>();
         private GameData gamedata;
     }
 

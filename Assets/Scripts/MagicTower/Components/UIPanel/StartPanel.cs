@@ -51,7 +51,7 @@ namespace MagicTower.Components.UIPanel {
 
         public void OnStartGame() => Game.LoadGame();
         
-        public void OnLoadGame() => Game.ShowSaveLoadDialog(true);
+        public void OnLoadGame() => Game.ShowSaveLoadDialog(false);
         
         public void OnSettings() => Game.ShowSettings();
         

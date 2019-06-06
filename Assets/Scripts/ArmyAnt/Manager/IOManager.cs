@@ -49,7 +49,11 @@ namespace ArmyAnt.Manager {
         }
 
         public static string[] ListAllDirectories(params string[] path) {
-            return System.IO.Directory.GetDirectories(ParsePath(path));
+            try {
+                return System.IO.Directory.GetDirectories(ParsePath(path));
+            } catch(System.IO.DirectoryNotFoundException) {
+                return null;
+            }
         }
 
         public static string SaveToFile(byte[] content, params string[] path) {

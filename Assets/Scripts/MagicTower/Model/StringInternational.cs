@@ -23,17 +23,17 @@ namespace MagicTower.Model {
 
         public string GetValue(string key, params string[] values) {
             if (key == null || !Game.Config.strings.ContainsKey(key)) {
-                Debug.LogWarning("Undefined string key \"" + key + "\" in any language");
+                Game.DebugLogWarning("Undefined string key \"", key, "\" in any language");
                 return key;
             }
             var str = Game.Config.strings[key];
             var ret = str[Language];
             if (ret == null) {
                 ret = str["en-us"];
-                Debug.LogWarning("Undefined string key \"" + key + "\" in language " + Language);
+                Game.DebugLogWarning("Undefined string key \"", key, "\" in language ", Language);
                 if (ret == null) {
                     ret = key;
-                    Debug.LogWarning("Undefined string key \"" + key + "\" in language en-us");
+                    Game.DebugLogWarning("Undefined string key \"", key, "\" in language en-us");
                 }
             }
             if (values != null && values.Length > 0) {

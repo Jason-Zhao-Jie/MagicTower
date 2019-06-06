@@ -253,4 +253,31 @@ namespace MagicTower.Model
             }
         }
     }
+
+    #region Save data structs
+
+    [System.Serializable]
+    public struct RuntimePositionData {
+        public int mapId;
+        public int x;
+        public int y;
+    }
+
+    [System.Serializable]
+    public struct RuntimeNumberData {
+        public int id;
+        public long value;
+    }
+
+    [System.Serializable]
+    public class RuntimeGameData {
+        public PlayerData player;
+        public RuntimePositionData pos;
+        public RuntimeNumberData[] numbers;
+        public long lastTime = System.DateTime.Now.ToFileTime();
+        public long totalTime = 0;
+    }
+
+    #endregion
+
 }

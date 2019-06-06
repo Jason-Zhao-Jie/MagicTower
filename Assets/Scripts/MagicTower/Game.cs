@@ -15,19 +15,6 @@ namespace MagicTower {
             if(Input == null) {
                 Input = new InputManager();
             }
-            GamePaused = true;
-        }
-
-        public static bool IsDebug => Config.debug;
-        public static GameObject ModalImage => Resource.modalImage;
-        public static GameObject ModalSprite => Resource.modalSprite;
-
-        public static void Initial(Components.Scene.SceneView scene, Components.UIPanel.GlobalLoading resource) {
-            AdsPluginManager.Initialize(false, true);
-
-            if (Config == null) {
-                Config = new Model.ConfigCenter();
-            }
 
             if(Settings == null) {
                 Settings = new Model.GlobalSettings();
@@ -36,8 +23,18 @@ namespace MagicTower {
                 AudioManager.SoundVolume = Settings.Settings.soundVolume;
             }
 
-            if (ObjPool == null) {
+            if(ObjPool == null) {
                 ObjPool = new ArmyAnt.ViewUtil.ObjectPool();
+            }
+
+            GamePaused = true;
+        }
+
+        public static void Initial(Components.Scene.SceneView scene, Components.UIPanel.GlobalLoading resource) {
+            AdsPluginManager.Initialize(false, true);
+
+            if (Config == null) {
+                Config = new Model.ConfigCenter();
             }
 
             // game state
@@ -49,16 +46,6 @@ namespace MagicTower {
             status = Model.EGameStatus.Start;
         }
 
-        public static void DebugLog(params string[] content) {
-            if(IsDebug && content != null) {
-                string text = "";
-                for(var i = 0; i < content.Length; ++i) {
-                    text += content[i];
-                }
-                Debug.Log(text);
-            }
-        }
-
         public static void ExitGame() {
             Application.Quit();
 #if UNITY_EDITOR
@@ -66,8 +53,16 @@ namespace MagicTower {
 #endif
         }
 
+        #region Properties
+
         private static Components.Scene.SceneView View;
         private static Components.UIPanel.GlobalLoading Resource;
+
+        public static bool IsDebug => Config.debug;
+
+        public static GameObject ModalImage => Resource.modalImage;
+
+        public static GameObject ModalSprite => Resource.modalSprite;
 
         public static Model.ConfigCenter Config {
             get; private set;
@@ -88,6 +83,46 @@ namespace MagicTower {
         public static ArmyAnt.ViewUtil.ObjectPool ObjPool {
             get; private set;
         }
+
+        #endregion
+
+        #region Logger
+
+        private enum LogType : int {
+            Verbose,
+            Note,
+            Warning,
+            Error,
+            Assertion,
+        }
+
+        private delegate void Log(object msg);
+
+        private static readonly Log[] loggerEvents = { null, Debug.Log, Debug.LogWarning, Debug.LogError, DebugLogAssertion };
+
+        private static void DebugLogAssertion(object msg) {
+            Debug.LogAssertion(msg);
+        }
+
+        private static void DebugLog(LogType type, params object[] content) {
+            if(IsDebug && content != null) {
+                string text = "";
+                for(var i = 0; i < content.Length; ++i) {
+                    text += content[i];
+                }
+                loggerEvents[(int)type](text);
+            }
+        }
+
+        public static void DebugLogNote(params object[] content) => DebugLog(LogType.Note);
+
+        public static void DebugLogWarning(params object[] content) => DebugLog(LogType.Warning);
+
+        public static void DebugLogError(params object[] content) => DebugLog(LogType.Error);
+
+        public static void DebugLogAssertion(params object[] content) => DebugLog(LogType.Assertion);
+
+        #endregion
 
         #region Resource API 
 
@@ -197,11 +232,14 @@ namespace MagicTower {
 
         public static bool LoadGame(string saveName = "") {
             try {
-                var (saveTime, totalTime, maps, numberData, mapId, playerPosX, playerPosY, PlayerData) = SaveManager.Read(saveName);
-                Map.SetStartData(mapId, maps);
-                Game.numberData = numberData;
-                Player.ShowPlayer(playerPosX, playerPosY, PlayerData, true);
-                StartRecordTime(totalTime);
+                var (maps, data) = SaveManager.Read(saveName);
+                Map.SetStartData(data.pos.mapId, maps);
+                numberData = new Dictionary<int, long>();
+                foreach(var i in data.numbers) {
+                    numberData.Add(i.id, i.value);
+                }
+                Player.ShowPlayer(data.pos.x, data.pos.y, data.player, true);
+                StartRecordTime(data.totalTime);
             } catch(System.IO.IOException) {
                 return false;
             }
@@ -211,9 +249,34 @@ namespace MagicTower {
         }
 
         public static bool SaveGame(string saveName) {
+            // get maps data
             var maps = new Model.MapData[Map.MapsCount];
             Map.GetAllMapData().Values.CopyTo(maps, 0);
-            return SaveManager.Write(saveName, System.DateTime.Now, System.Convert.ToInt64(GameTime), maps, numberData, Map.MapId, Player.PlayerPosX, Player.PlayerPosY, Player.PlayerData);
+
+            // collect numbers data
+            var numbers = new Model.RuntimeNumberData[numberData.Count];
+            int index_numbers = 0;
+            foreach(var i in numberData) {
+                numbers[index_numbers++] = new Model.RuntimeNumberData {
+                    id = i.Key,
+                    value = i.Value,
+                };
+            }
+
+            // get all save data
+            var saveData = new Model.RuntimeGameData {
+                player = Player.PlayerData,
+                pos = new Model.RuntimePositionData {
+                    mapId = Map.MapId,
+                    x = Player.PlayerPosX,
+                    y = Player.PlayerPosY,
+                },
+                numbers = numbers,
+                lastTime = System.DateTime.Now.ToFileTime(),
+                totalTime = System.Convert.ToInt64(GameTime),
+            };
+
+            return SaveManager.Write(saveName, maps, saveData);
         }
 
         public static void StopAndBackToStart() {
@@ -353,6 +416,20 @@ namespace MagicTower {
 
         public static void ShowAlert(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
             ShowUI<AlertDlg>(UIType.AlertDialog).Init(contentStr, contentAlignment, leftCallback, leftStr, rightCallback, rightStr);
+        }
+
+        /// <summary>
+        /// (coroutine) 显示 Alert Dialog, 并阻塞调用直到对话框关闭
+        /// </summary>
+        /// <param name="contentStr"> 对话框内容文字 </param>
+        /// <param name="contentAlignment"> 对话框内容文字对齐方式 </param>
+        /// <param name="leftCallback"> 点击左边按钮的回调, 无回调或返回true表示回调结束后关闭 Alert Dialog </param>
+        /// <param name="leftStr"> 左边按钮文字 </param>
+        /// <param name="rightCallback"> 点击右边按钮的回调, 无回调或返回true表示回调结束后关闭 Alert Dialog </param>
+        /// <param name="rightStr"> 右边按钮文字 </param>
+        public static IEnumerator ShowAlertModal(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
+            ShowAlert(contentStr, contentAlignment, leftCallback, leftStr, rightCallback, rightStr);
+            yield return new WaitUntil(() => Resource.GetUI(UIType.AlertDialog) == null);
         }
 
         #endregion

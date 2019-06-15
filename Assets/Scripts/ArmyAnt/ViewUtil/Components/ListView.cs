@@ -263,7 +263,7 @@ namespace ArmyAnt.ViewUtil.Components
         [Tooltip("要添加的默认项目")]
         [Space(4)]
         public RectTransform defaultElement;
-        private List<RectTransform> children = new List<RectTransform>();
+        private readonly List<RectTransform> children = new List<RectTransform>();
     }
 
 }

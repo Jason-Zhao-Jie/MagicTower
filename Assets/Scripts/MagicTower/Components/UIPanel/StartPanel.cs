@@ -12,6 +12,7 @@ namespace MagicTower.Components.UIPanel {
         private const string str_exit = "str_ui_exit";
         private const string str_dataEditor = "str_ui_dataEditor";
         private const string str_languageSwitch = "str_ui_languageSwitch";
+        private const string README_CONTENT_STR_KEY = "str_ui_readme";
 
         private const int id_startMusic = 58;
 
@@ -56,7 +57,7 @@ namespace MagicTower.Components.UIPanel {
         public void OnSettings() => Game.ShowSettings();
         
         public void OnReadMe() {
-            // TODO
+            Game.ShowInfo(Game.Config.StringInternational.GetValue(README_CONTENT_STR_KEY));
         }
 
         public void OnChangeLanguage() => SetUIByLanguage(languageDrop.value + 1);

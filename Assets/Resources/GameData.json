@@ -5656,6 +5656,62 @@
           "content": "确定要载入此存档吗? 这会丢失当前游戏的进度!"
         }
       ]
+    },
+    {
+      "key": "str_ui_readme",
+      "id": 254,
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Readme blank"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "这只是Readme内容的测试!\n这只是Readme内容的测试!\n这只是Readme内容的测试!\n这只是Readme内容的测试!\n这只是Readme内容的测试!\n这只是Readme内容的测试!\n这只是Readme内容的测试!\n这只是Readme内容的测试!\n这只是Readme内容的测试!\n这只是Readme内容的测试!\n这只是Readme内容的测试!\n"
+        }
+      ]
+    },
+    {
+      "key": "str_ui_operationSetting",
+      "id": 255,
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Operation Settings"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "操作辅助设置"
+        }
+      ]
+    },
+    {
+      "key": "str_ui_virtualJoysticks",
+      "id": 256,
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Open virtual joysticks"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "启用虚拟方向杆"
+        }
+      ]
+    },
+    {
+      "key": "str_ui_autoFindBestRoad",
+      "id": 257,
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Auto find the best way to go where you touched"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "启用点击目标自动寻路"
+        }
+      ]
     }
   ]
 }

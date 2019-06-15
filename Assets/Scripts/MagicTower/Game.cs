@@ -434,6 +434,14 @@ namespace MagicTower {
 
         #endregion
 
+        #region Alert Dialog
+
+        public static void ShowInfo(string contentStr, string btnStr = "OK", Model.EmptyBoolCallBack callback = null) {
+            ShowUI<InfoDlg>(UIType.InfoDialog).Init(contentStr, btnStr, callback);
+        }
+
+        #endregion
+
         #region Choice Part
 
         public static void ShowChoice(Model.ChoiceData choiceData, Components.Unit.Modal mod, Model.EGameStatus nextStatus = Model.EGameStatus.InGame) {

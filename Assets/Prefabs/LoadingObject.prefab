@@ -1022,6 +1022,8 @@ MonoBehaviour:
   bottomChat: {fileID: 1205100682575758, guid: ddd4f28b823625c43ad3acd2eea7a96b, type: 3}
   alertDialog: {fileID: 6658119645105786156, guid: a957cb49f70a4a44abd14b5bd73e4f76,
     type: 3}
+  infoDialog: {fileID: 6658119645105786156, guid: 440720af832529643b5904648c2afd3d,
+    type: 3}
   choiceDialog: {fileID: 1512940487405772, guid: 5951cb00e336ac544b7242dded952b32,
     type: 3}
   battleDialog: {fileID: 1265704590575870, guid: d2c0aeaa5c8231f4285c03dd75cec9ea,

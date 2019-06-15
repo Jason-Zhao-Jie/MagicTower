@@ -11,6 +11,9 @@ namespace MagicTower.Components.Control {
         private const string AUDIO_SETTING_TITLE_STR_KEY = "str_ui_audioSettingTitle";
         private const string MUSIC_VOLUME_STR_KEY = "str_ui_musicVolume";
         private const string SOUND_VOLUME_STR_KEY = "str_ui_soundVolume";
+        private const string OPERATION_SETTING_STR_KEY = "str_ui_operationSetting";
+        private const string VIRTUAL_JOYSTICKS_STR_KEY = "str_ui_virtualJoysticks";
+        private const string AUTO_FIND_BEST_ROAD_STR_KEY = "str_ui_autoFindBestRoad";
         private const string ADS_SETTING_TITLE_STR_KEY = "str_ui_adsSettingTitle";
         private const string ADS_SETTING_README_STR_KEY = "str_ui_adsSettingReadme";
         private const string POP_ADS_TITLE_STR_KEY = "str_ui_popAdsTitle";
@@ -41,6 +44,9 @@ namespace MagicTower.Components.Control {
             txtAudioSettingTitle.text = Game.Config.StringInternational.GetValue(AUDIO_SETTING_TITLE_STR_KEY);
             txtMusicVolume.text = Game.Config.StringInternational.GetValue(MUSIC_VOLUME_STR_KEY);
             txtSoundVolume.text = Game.Config.StringInternational.GetValue(SOUND_VOLUME_STR_KEY);
+            txtOperationSettingTitle.text = Game.Config.StringInternational.GetValue(OPERATION_SETTING_STR_KEY);
+            txtVirtualJoysticks.text = Game.Config.StringInternational.GetValue(VIRTUAL_JOYSTICKS_STR_KEY);
+            txtAutoFindBestRoad.text = Game.Config.StringInternational.GetValue(AUTO_FIND_BEST_ROAD_STR_KEY);
             txtAdsSettingTitle.text = Game.Config.StringInternational.GetValue(ADS_SETTING_TITLE_STR_KEY);
             txtAdsSettingReadme.text = Game.Config.StringInternational.GetValue(ADS_SETTING_README_STR_KEY);
             txtPopAdsTitle.text = Game.Config.StringInternational.GetValue(POP_ADS_TITLE_STR_KEY);
@@ -57,6 +63,8 @@ namespace MagicTower.Components.Control {
 
             sliderMusicVolume.value = Game.Settings.Settings.musicVolume;
             sliderSoundVolume.value = Game.Settings.Settings.soundVolume;
+            toggleVirtualJoysticks.isOn = Game.Settings.Settings.virtualJoysticksOn;
+            toggleAutoFindBestRoad.isOn = Game.Settings.Settings.autoFindBestRoad;
             togglePopHigh.isOn = false;
             togglePopMidium.isOn = false;
             togglePopLow.isOn = false;
@@ -99,6 +107,8 @@ namespace MagicTower.Components.Control {
             Game.Settings.Settings = new Model.Setting {
                 musicVolume = sliderMusicVolume.value,
                 soundVolume = sliderSoundVolume.value,
+                virtualJoysticksOn = toggleVirtualJoysticks.isOn,
+                autoFindBestRoad = toggleAutoFindBestRoad.isOn,
                 popAdsFreq = (sbyte)pop,
                 rewardAdsOn = !toggleRewardAdsOff.isOn,
                 analyticsOn = toggleAnalyticsOn.isOn,
@@ -155,6 +165,9 @@ namespace MagicTower.Components.Control {
         public Text txtMusicVolume;
         public Text txtSoundVolume;
         public Text txtAdsSettingTitle;
+        public Text txtOperationSettingTitle;
+        public Text txtVirtualJoysticks;
+        public Text txtAutoFindBestRoad;
         public Text txtAdsSettingReadme;
         public Text txtPopAdsTitle;
         public Text txtPopHigh;
@@ -173,6 +186,8 @@ namespace MagicTower.Components.Control {
         public Slider sliderSoundVolume;
         public Toggle togglePopHigh;
         public Toggle togglePopMidium;
+        public Toggle toggleVirtualJoysticks;
+        public Toggle toggleAutoFindBestRoad;
         public Toggle togglePopLow;
         public Toggle togglePopOnlyOnce;
         public Toggle togglePopNone;

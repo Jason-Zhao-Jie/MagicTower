@@ -15,6 +15,8 @@ namespace MagicTower.Model {
     public struct Setting{
         public float musicVolume;
         public float soundVolume;
+        public bool virtualJoysticksOn;
+        public bool autoFindBestRoad;
         public sbyte popAdsFreq;
         public bool rewardAdsOn;
         public bool analyticsOn;
@@ -22,6 +24,8 @@ namespace MagicTower.Model {
         public Setting(PopAdsFreq popAdsFreq = PopAdsFreq.Low) {
             musicVolume = 100;
             soundVolume = 100;
+            virtualJoysticksOn = true;
+            autoFindBestRoad = false;
             this.popAdsFreq = (sbyte)popAdsFreq;
             rewardAdsOn = true;
             analyticsOn = true;
@@ -31,7 +35,6 @@ namespace MagicTower.Model {
     public class GlobalSettings {
         private const string SETTING_FILE_PATH = "GlobalSettings.json";
         
-
         public void Load() {
             if (IOManager.ExistFile(SETTING_FILE_PATH)) {
                 var bytes = IOManager.LoadFromFile(SETTING_FILE_PATH);

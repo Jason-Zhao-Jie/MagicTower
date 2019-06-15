@@ -58,6 +58,8 @@ namespace MagicTower.Model
         AutoStepping,
     }
 
+    #region Game Config Data Structs
+
     [System.Serializable]
     public struct MapBlock {
         public int thing;
@@ -253,6 +255,8 @@ namespace MagicTower.Model
             }
         }
     }
+
+    #endregion
 
     #region Save data structs
 

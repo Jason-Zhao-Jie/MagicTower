@@ -14,6 +14,7 @@ namespace MagicTower.Components {
         TopChat,
         BottomChat,
         AlertDialog,
+        InfoDialog,
         ChoiceDialog,
         BattleDialog,
         SaveLoadDialog,
@@ -61,6 +62,7 @@ namespace MagicTower.Components {
                     { UIType.TopChat, topChat },
                     { UIType.BottomChat, bottomChat },
                     { UIType.AlertDialog, alertDialog },
+                    { UIType.InfoDialog, infoDialog },
                     { UIType.ChoiceDialog, choiceDialog },
                     { UIType.BattleDialog, battleDialog },
                     { UIType.SaveLoadDialog, saveLoadDialog },
@@ -126,6 +128,7 @@ namespace MagicTower.Components {
             public GameObject topChat = null;
             public GameObject bottomChat = null;
             public GameObject alertDialog = null;
+            public GameObject infoDialog = null;
             public GameObject choiceDialog = null;
             public GameObject battleDialog = null;
             public GameObject saveLoadDialog = null;

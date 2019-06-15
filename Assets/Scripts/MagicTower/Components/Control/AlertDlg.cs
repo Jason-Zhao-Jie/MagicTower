@@ -14,11 +14,6 @@ namespace MagicTower.Components.Control {
             }
         }
 
-        // Update is called once per frame
-        void Update() {
-
-        }
-
         public void Init(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
             Init(contentStr, leftCallback, leftStr, rightCallback, rightStr);
             content.alignment = contentAlignment;

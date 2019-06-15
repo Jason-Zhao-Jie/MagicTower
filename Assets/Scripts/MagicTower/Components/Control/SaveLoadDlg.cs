@@ -27,7 +27,6 @@ namespace MagicTower.Components.Control {
 
         private void Set() {
             list.Clear();
-            list.defaultElement.gameObject.SetActive(true);
 
             var saveData = Present.Manager.SaveManager.ListAll();
             if(save) {
@@ -46,8 +45,6 @@ namespace MagicTower.Components.Control {
                 item.transform.Find("btnOK").GetComponent<Button>().onClick.AddListener(() => { OnClickSaveLoad(i.Key); });
                 item.GetComponent<UserData>().SetStringData(i.Key);
             }
-
-            list.defaultElement.gameObject.SetActive(false);
         }
 
         public void Init(bool save) {

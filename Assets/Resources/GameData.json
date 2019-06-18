@@ -5593,16 +5593,30 @@
       "strings": [
         {
           "langKey": "en-us",
-          "content": "Save time:##, Floor:##\nGame duration: ## day(s), ## hour(s), ## minute(s)\nPlayer:##, Level:##, Life:##, Speed:##,\nGold:##, Attack:##, Defense:##"
+          "content": "Save time:##\nFloor:##, Player:##\nGame duration: ## day(s), ## hour(s), ## minute(s)"
         },
         {
           "langKey": "zh-cn",
-          "content": "存储时间:##  ##\n游戏时长:##天##小时##分\n角色:##  等级:##  生命值:## 敏捷:##\n金币:##  攻击力:##  防御力:##"
+          "content": "存储时间:##\n##, 角色:##\n游戏时长:##天##小时##分"
         }
       ]
     },
     {
       "id": 250,
+      "key": "str_ui_saveInfo",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Level:##, Life:##\nAttack:##, Defense:##\nSpeed:##,\nGold:##"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "等级:##, 生命值:##\n攻击力:##, 防御力:##\n敏捷:##, 金币:##"
+        }
+      ]
+    },
+    {
+      "id": 251,
       "key": "str_ui_saveAlert",
       "strings": [
         {
@@ -5616,7 +5630,7 @@
       ]
     },
     {
-      "id": 251,
+      "id": 252,
       "key": "str_ui_saveSuccessful",
       "strings": [
         {
@@ -5630,7 +5644,7 @@
       ]
     },
     {
-      "id": 252,
+      "id": 253,
       "key": "str_ui_saveFailure",
       "strings": [
         {
@@ -5644,7 +5658,49 @@
       ]
     },
     {
-      "id": 253,
+      "id": 254,
+      "key": "str_ui_delAlert",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Are you sure to delete this save ?"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "确定要删除此存档么?"
+        }
+      ]
+    },
+    {
+      "id": 255,
+      "key": "str_ui_delSuccessful",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Deleted OK ?"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "删除成功 !"
+        }
+      ]
+    },
+    {
+      "id": 256,
+      "key": "str_ui_delFailure",
+      "strings": [
+        {
+          "langKey": "en-us",
+          "content": "Saved failure"
+        },
+        {
+          "langKey": "zh-cn",
+          "content": "删除失败!"
+        }
+      ]
+    },
+    {
+      "id": 257,
       "key": "str_ui_loadAlert",
       "strings": [
         {
@@ -5659,7 +5715,7 @@
     },
     {
       "key": "str_ui_readme",
-      "id": 254,
+      "id": 258,
       "strings": [
         {
           "langKey": "en-us",
@@ -5673,7 +5729,7 @@
     },
     {
       "key": "str_ui_operationSetting",
-      "id": 255,
+      "id": 259,
       "strings": [
         {
           "langKey": "en-us",
@@ -5687,7 +5743,7 @@
     },
     {
       "key": "str_ui_virtualJoysticks",
-      "id": 256,
+      "id": 260,
       "strings": [
         {
           "langKey": "en-us",
@@ -5701,7 +5757,7 @@
     },
     {
       "key": "str_ui_autoFindBestRoad",
-      "id": 257,
+      "id": 261,
       "strings": [
         {
           "langKey": "en-us",

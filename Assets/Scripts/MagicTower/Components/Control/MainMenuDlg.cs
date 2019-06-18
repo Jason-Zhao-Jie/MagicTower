@@ -46,7 +46,7 @@ namespace MagicTower.Components.Control {
         }
 
         public void OnExit() {
-            Game.ShowAlert(Game.Config.StringInternational.GetValue(ALERT_EXIT_STR_KEY), TextAnchor.MiddleCenter, () => {
+            Game.ShowAlert(ALERT_EXIT_STR_KEY, TextAnchor.MiddleCenter, () => {
                 Game.StopAndBackToStart();
                 Game.HideUI(UIType.MainMenu);
                 return false;

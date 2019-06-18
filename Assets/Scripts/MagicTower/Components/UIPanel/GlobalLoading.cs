@@ -73,7 +73,9 @@ namespace MagicTower.Components {
 
             public GameObject ShowUI(UIType type) {
                 if(showedUI.ContainsKey(type)) {
-                    return showedUI[type];
+                    var ret = showedUI[type];
+                    ret.SetActive(true);
+                    return ret;
                 } else {
                     var ret = Instantiate(ui[type], DialogCanvas);
                     showedUI.Add(type, ret);

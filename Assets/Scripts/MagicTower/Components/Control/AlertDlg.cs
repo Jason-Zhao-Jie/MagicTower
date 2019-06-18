@@ -14,14 +14,14 @@ namespace MagicTower.Components.Control {
             }
         }
 
-        public void Init(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
-            Init(contentStr, leftCallback, leftStr, rightCallback, rightStr);
+        public void Init(string contentStrId, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel", params string[] contentStrValues) {
+            Init(contentStrId, leftCallback, leftStr, rightCallback, rightStr, contentStrValues);
             content.alignment = contentAlignment;
         }
 
-        public void Init(string contentStr, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
+        public void Init(string contentStrId, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel", params string[] contentStrValues) {
             // 设定信息
-            this.contentStr = contentStr;
+            this.contentStr = Game.Config.StringInternational.GetValue(contentStrId, contentStrValues);
             this.leftCallback = leftCallback;
             this.leftStr = leftStr;
             this.rightCallback = rightCallback;
@@ -33,7 +33,9 @@ namespace MagicTower.Components.Control {
             }
             showed = true;
             lastStatus = Game.Status;
-            Game.Status = Model.EGameStatus.InEditorDialog;
+            if(Game.Status != Model.EGameStatus.Start) {
+                Game.Status = Model.EGameStatus.InEditorDialog;
+            }
         }
 
         public void OnLeftClick() {

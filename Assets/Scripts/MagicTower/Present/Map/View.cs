@@ -37,11 +37,15 @@ namespace MagicTower.Present.Map {
             // block size 单个sprite的尺寸
             blockSize = mapPartLength / MAP_BLOCK_LENGTH;
             HitterLocalScale = new Vector2(blockSize / MAP_BLOCK_BASE_SIZE * 100, blockSize / MAP_BLOCK_BASE_SIZE * 100);
+
+            // 记录地图框 rect
+            MapRect = new Rect(Screen.width / 2 - camerapos.x - mapRect.rect.width / 2, Screen.height / 2 - camerapos.y - mapRect.rect.height / 2, mapRect.rect.width, mapRect.rect.height);
+            //MapRect = new Rect(0,0, mapRect.rect.width, mapRect.rect.height);
         }
 
         public void AddObjectToMap(GameObject obj, int posx, int posy, int posz = 0) {
             obj.transform.SetParent(transform, false);
-            obj.transform.position = new Vector3((posx + MAP_BLOCK_POS_HALF) * blockSize , (posy + MAP_BLOCK_POS_HALF) * blockSize, posz);
+            obj.transform.position = new Vector3((posx + MAP_BLOCK_POS_HALF) * blockSize, (posy + MAP_BLOCK_POS_HALF) * blockSize, posz);
             obj.transform.localScale = HitterLocalScale;
         }
 
@@ -65,7 +69,9 @@ namespace MagicTower.Present.Map {
             set { backgroundImg.sprite = Game.GetMods(value)[0]; }
         }
 
-        [Tooltip("背景所在的对象")]
+        public Rect MapRect { get; private set; }
+
+    [Tooltip("背景所在的对象")]
         [Space(4)]
         public UnityEngine.UI.Image backgroundImg;
 

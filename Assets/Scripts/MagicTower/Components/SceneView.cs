@@ -26,6 +26,10 @@ namespace MagicTower.Components.Scene {
             Game.SceneUpdate();
         }
 
+        private void OnPostRender() {
+            Game.SceneOnPostRender();
+        }
+
         void OnDestroy() {
             Resources.UnloadUnusedAssets();
         }
@@ -53,6 +57,7 @@ namespace MagicTower.Components.Scene {
         public GameObject playerPanel;
 
         public GameObject uiCanvas = null;
+
     }
 
 }

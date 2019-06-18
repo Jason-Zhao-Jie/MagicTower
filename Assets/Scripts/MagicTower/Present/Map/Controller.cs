@@ -188,9 +188,10 @@ namespace MagicTower.Present.Map {
             return ret.ToArray();
         }
 
-        public int MapId { get { return Data.MapId; } }
-        public Model.MapData CurrentMap { get { return Data.CurrentMap; } }
-        public int MapsCount { get { return Data.MapsCount; } }
+        public int MapId => Data.MapId;
+        public Model.MapData CurrentMap => Data.CurrentMap;
+        public int MapsCount => Data.MapsCount;
+        public UnityEngine.Rect MapRect => View.MapRect;
 
         public UnityEngine.Vector2 HitterLocalScale => View.HitterLocalScale;
 

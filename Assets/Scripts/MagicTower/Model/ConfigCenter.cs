@@ -92,13 +92,13 @@ namespace MagicTower.Model
                 {
                     if (strings.ContainsKey(gamedata.strings[i].key))
                     {
-                        Game.DebugLogError("Repeated international string key: ", gamedata.strings[i].key);
+                        UnityEngine.Debug.LogError("Repeated international string key: "+ gamedata.strings[i].key);
                     }
                     foreach (var item in strings)
                     {
                         if (item.Value.id == gamedata.strings[i].id)
                         {
-                            Game.DebugLogError("Repeated international string id: ", gamedata.strings[i].id);
+                            UnityEngine.Debug.LogError("Repeated international string id: "+ gamedata.strings[i].id);
                         }
                     }
                 }

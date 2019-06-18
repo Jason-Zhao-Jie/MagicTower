@@ -623,7 +623,6 @@ GameObject:
   - component: {fileID: 825518151}
   - component: {fileID: 825518150}
   - component: {fileID: 825518149}
-  - component: {fileID: 825518152}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -679,29 +678,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &825518152
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 825518148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b15130c817b5fd7409ef1f5b8753f9a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mapTileRoot: {fileID: 1532106748}
-  musicSource: {fileID: 1127486242}
-  audioSources:
-  - {fileID: 303205781}
-  - {fileID: 1532106746}
-  - {fileID: 484004311}
-  loadingObj: {fileID: 6362025092306633618, guid: 21b3a107c21a0734d9c065a55bb94ed0,
-    type: 3}
-  playerPanel: {fileID: 6503244697812036149, guid: 98eed6e865a9a72459faf6bd0f8cbb36,
-    type: 3}
-  uiCanvas: {fileID: 484004306}
 --- !u!1 &1035451670
 GameObject:
   m_ObjectHideFlags: 0
@@ -794,6 +770,7 @@ GameObject:
   - component: {fileID: 1127486238}
   - component: {fileID: 1127486237}
   - component: {fileID: 1127486242}
+  - component: {fileID: 1127486239}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -817,6 +794,29 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127486236}
   m_Enabled: 1
+--- !u!114 &1127486239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127486236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b15130c817b5fd7409ef1f5b8753f9a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapTileRoot: {fileID: 1532106748}
+  musicSource: {fileID: 1127486242}
+  audioSources:
+  - {fileID: 303205781}
+  - {fileID: 1532106746}
+  - {fileID: 484004311}
+  loadingObj: {fileID: 6362025092306633618, guid: 21b3a107c21a0734d9c065a55bb94ed0,
+    type: 3}
+  playerPanel: {fileID: 6503244697812036149, guid: 98eed6e865a9a72459faf6bd0f8cbb36,
+    type: 3}
+  uiCanvas: {fileID: 484004306}
 --- !u!20 &1127486240
 Camera:
   m_ObjectHideFlags: 0

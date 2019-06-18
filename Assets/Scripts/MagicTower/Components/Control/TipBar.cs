@@ -27,6 +27,14 @@ namespace MagicTower.Components.Control
             }
         }
 
+        private void OnDisable() {
+            Game.Status = lastStatus;
+        }
+
+        private void OnDestroy() {
+            Game.Status = lastStatus;
+        }
+
         public void Init(string content, bool silent = false)
         {
             tipsText.text = content;
@@ -34,6 +42,17 @@ namespace MagicTower.Components.Control
             {
                 Present.Manager.AudioManager.PlaySound(Present.Manager.AudioManager.itemGetSound);
             }
+            lastStatus = Game.Status;
+            if(Game.Status == Model.EGameStatus.Start) {
+                StartAutoRemove(150);
+            } else { 
+                Game.Status = Model.EGameStatus.OnTipChat;
+            }
+        }
+
+        public void Init(string content, int autoRemoveTime, bool silent = false) {
+            Init(content, silent);
+            StartAutoRemove(autoRemoveTime);
         }
 
         public void StartAutoRemove(int time)
@@ -43,6 +62,7 @@ namespace MagicTower.Components.Control
         
         public UnityEngine.UI.Text tipsText;
         private int hideTime = -1;
+        private Model.EGameStatus lastStatus;
     }
 
 }

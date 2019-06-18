@@ -108,7 +108,7 @@ namespace ArmyAnt.ViewUtil.Components
         /// </summary>
         /// <param name="index">要插入的索引处</param>
         /// <returns>返回插入的 item </returns>
-        public RectTransform InsertDefaultItem(int index)
+        public virtual RectTransform InsertDefaultItem(int index)
         {
             if (defaultElement == null)
             {
@@ -130,7 +130,7 @@ namespace ArmyAnt.ViewUtil.Components
         /// </summary>
         /// <param name="index"> 要删除的 item 的索引 </param>
         /// <returns></returns>
-        public RectTransform DeleteItem(int index)
+        public virtual RectTransform DeleteItem(int index)
         {
             var ret = children[index];
             ret.SetParent(null);
@@ -141,7 +141,7 @@ namespace ArmyAnt.ViewUtil.Components
         /// <summary>
         /// 清空所有 item
         /// </summary>
-        public void Clear()
+        public virtual void Clear()
         {
             foreach (var i in children)
             {
@@ -185,7 +185,7 @@ namespace ArmyAnt.ViewUtil.Components
         /// </summary>
         /// <param name="index"> 要替换的 item 的索引 </param>
         /// <returns></returns>
-        public RectTransform ReplaceItemToDefault(int index)
+        public virtual RectTransform ReplaceItemToDefault(int index)
         {
             if (defaultElement == null)
             {
@@ -219,8 +219,7 @@ namespace ArmyAnt.ViewUtil.Components
             return -1;
         }
 
-        public delegate bool ItemFindingFunc(RectTransform item);
-        public int GetItemIndex(ItemFindingFunc func)
+        public int GetItemIndex(System.Func<RectTransform, bool> func)
         {
             if (func == null || children == null || children.Count == 0)
                 return -1;
@@ -242,12 +241,6 @@ namespace ArmyAnt.ViewUtil.Components
             {
                 content.GetComponent<UnityEngine.UI.GridLayoutGroup>().cellSize = defaultElement.rect.size;
             }
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -25,13 +25,15 @@ namespace MagicTower.Components.Control {
             }
             showed = true;
             lastStatus = Game.Status;
-            Game.Status = Model.EGameStatus.InEditorDialog;
+            if(Game.Status != Model.EGameStatus.Start) {
+                Game.Status = Model.EGameStatus.InEditorDialog;
+            }
         }
 
         public void OnBtnClick() {
             if(btnCallback == null || btnCallback()) {
                 Game.Status = lastStatus;
-                Game.HideUI(UIType.AlertDialog);
+                Game.HideUI(UIType.InfoDialog);
             }
         }
 

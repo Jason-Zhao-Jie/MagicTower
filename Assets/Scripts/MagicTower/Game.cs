@@ -223,12 +223,30 @@ namespace MagicTower {
             }
         }
 
+        public static void SceneOnPostRender() {
+            if(CapturedTexture == null) {
+                CapturedTexture = ArmyAnt.ViewUtil.ScreenUtil.CaptureRect(Map.MapRect);
+                Resource.GetUI(UIType.AlertDialog)?.gameObject?.SetActive(true);
+                Resource.GetUI(UIType.SaveLoadDialog)?.gameObject?.SetActive(true);
+                Resource.GetUI(UIType.MainMenu)?.gameObject?.SetActive(true);
+            }
+        }
+
         private static readonly int mainThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
         private static readonly Queue<Model.EmptyCallBack> mainThreadTaskQueue = new Queue<Model.EmptyCallBack>();
 
         #endregion
 
         #region Runtime Data Save / Load
+
+        public static void RecaptureMap() {
+            CapturedTexture = null;
+            Resource.GetUI(UIType.AlertDialog)?.gameObject?.SetActive(false);
+            Resource.GetUI(UIType.SaveLoadDialog)?.gameObject?.SetActive(false);
+            Resource.GetUI(UIType.MainMenu)?.gameObject?.SetActive(false);
+        }
+
+        public static Texture2D CapturedTexture { get; private set; }
 
         public static bool LoadGame(string saveName = "") {
             try {
@@ -248,7 +266,7 @@ namespace MagicTower {
             return true;
         }
 
-        public static bool SaveGame(string saveName) {
+        public static bool SaveGame(string saveName, Texture2D captured) {
             // get maps data
             var maps = new Model.MapData[Map.MapsCount];
             Map.GetAllMapData().Values.CopyTo(maps, 0);
@@ -276,7 +294,7 @@ namespace MagicTower {
                 totalTime = System.Convert.ToInt64(GameTime),
             };
 
-            return SaveManager.Write(saveName, maps, saveData);
+            return SaveManager.Write(saveName, maps, saveData, captured);
         }
 
         public static void StopAndBackToStart() {
@@ -334,7 +352,7 @@ namespace MagicTower {
 
         #region Chat Part
 
-        public static void ShowTip(params string[] texts) {
+        public static TipBar ShowTip(params string[] texts) {
             var text = "";
             if(texts != null) {
                 var builder = new System.Text.StringBuilder();
@@ -343,10 +361,17 @@ namespace MagicTower {
                 }
                 text = builder.ToString();
             }
-            Status = Model.EGameStatus.OnTipChat;
             HideUI(UIType.TopChat);
             HideUI(UIType.BottomChat);
-            ShowUI<TipBar>(UIType.TipBar).Init(text);
+            var ui = ShowUI<TipBar>(UIType.TipBar);
+            ui.Init(text);
+            return ui;
+        }
+
+        public static TipBar ShowTip(int autoRemoveTime, params string[] texts) {
+            var ui = ShowTip(texts);
+            ui.StartAutoRemove(autoRemoveTime);
+            return ui;
         }
 
         private static void ShowChatOnTop(string content, int speakerId = -1) {
@@ -414,8 +439,12 @@ namespace MagicTower {
 
         #region Alert Dialog
 
-        public static void ShowAlert(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
-            ShowUI<AlertDlg>(UIType.AlertDialog).Init(contentStr, contentAlignment, leftCallback, leftStr, rightCallback, rightStr);
+        public static void ShowAlert(string contentStrId, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback = null, params string[] contentStrValues) {
+            ShowUI<AlertDlg>(UIType.AlertDialog).Init(contentStrId, contentAlignment, leftCallback, "OK", null, "Cancel", contentStrValues);
+        }
+
+        public static void ShowAlert(string contentStrId, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr, Model.EmptyBoolCallBack rightCallback, string rightStr, params string[] contentStrValues) {
+            ShowUI<AlertDlg>(UIType.AlertDialog).Init(contentStrId, contentAlignment, leftCallback, leftStr, rightCallback, rightStr, contentStrValues);
         }
 
         /// <summary>
@@ -427,8 +456,8 @@ namespace MagicTower {
         /// <param name="leftStr"> 左边按钮文字 </param>
         /// <param name="rightCallback"> 点击右边按钮的回调, 无回调或返回true表示回调结束后关闭 Alert Dialog </param>
         /// <param name="rightStr"> 右边按钮文字 </param>
-        public static IEnumerator ShowAlertModal(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel") {
-            ShowAlert(contentStr, contentAlignment, leftCallback, leftStr, rightCallback, rightStr);
+        public static IEnumerator ShowAlertModal(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr, Model.EmptyBoolCallBack rightCallback, string rightStr, params string[] contentStrValues) {
+            ShowAlert(contentStr, contentAlignment, leftCallback, leftStr, rightCallback, rightStr, contentStrValues);
             yield return new WaitUntil(() => Resource.GetUI(UIType.AlertDialog) == null);
         }
 

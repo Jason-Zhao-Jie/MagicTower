@@ -43,7 +43,7 @@ namespace MagicTower {
             Resource.DialogCanvas = View.uiCanvas.transform;
             Player = new Present.Player.Controller(View.RefreshPlayerPanel());
             Map = new Present.Map.Controller(View.mapTileRoot);
-            status = Model.EGameStatus.Start;
+            Status = Model.EGameStatus.Start;
         }
 
         public static void ExitGame() {
@@ -114,13 +114,13 @@ namespace MagicTower {
             }
         }
 
-        public static void DebugLogNote(params object[] content) => DebugLog(LogType.Note);
+        public static void DebugLogNote(params object[] content) => DebugLog(LogType.Note, content);
 
-        public static void DebugLogWarning(params object[] content) => DebugLog(LogType.Warning);
+        public static void DebugLogWarning(params object[] content) => DebugLog(LogType.Warning, content);
 
-        public static void DebugLogError(params object[] content) => DebugLog(LogType.Error);
+        public static void DebugLogError(params object[] content) => DebugLog(LogType.Error, content);
 
-        public static void DebugLogAssertion(params object[] content) => DebugLog(LogType.Assertion);
+        public static void DebugLogAssertion(params object[] content) => DebugLog(LogType.Assertion, content);
 
         #endregion
 
@@ -205,7 +205,7 @@ namespace MagicTower {
             }
         }
 
-        private static readonly InputManager Input;
+        public static readonly InputManager Input;
 
         public static void SceneUpdate() {
             Input.UpdateScene();
@@ -554,15 +554,7 @@ namespace MagicTower {
 
         public static float RealFontSize { get { return View.uiCanvas.GetComponent<UnityEngine.RectTransform>().rect.height / 650; } }
 
-        public static Model.EGameStatus Status {
-            get { return status; }
-            set {
-                status = value;
-                Input.OnChangeWalkState();
-            }
-        }
-
-        private static Model.EGameStatus status;
+        public static Model.EGameStatus Status;
 
         /// <summary>
         /// Gets the number data.

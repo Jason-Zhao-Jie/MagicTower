@@ -79,7 +79,7 @@ namespace MagicTower.Present.Player
             View.RedKey = Data.RedKey.ToString();
         }
 
-        public bool GoToNextBlock()
+        public Direction GoToNextBlock(Direction dir)
         {
             int targetPosX = PlayerPosX;
             int targetPosY = PlayerPosY;
@@ -87,8 +87,8 @@ namespace MagicTower.Present.Player
             {
                 if (AutoSteppingRoad.Count <= 0)
                 {
-                    StopAutoStep();
-                    return false;
+                    View.Player.StopAutoStep();
+                    return Direction.Default;
                 }
                 var target = AutoSteppingRoad.Pop();
                 targetPosX = target.x;
@@ -96,21 +96,21 @@ namespace MagicTower.Present.Player
                 if (targetPosX == PlayerPosX)
                 {
                     if (targetPosY > PlayerPosY)
-                        View.Player.Dir = Direction.Up;
+                        dir = Direction.Up;
                     else
-                        View.Player.Dir = Direction.Down;
+                        dir = Direction.Down;
                 }
                 else
                 {
                     if (targetPosX > PlayerPosX)
-                        View.Player.Dir = Direction.Right;
+                        dir = Direction.Right;
                     else
-                        View.Player.Dir = Direction.Left;
+                        dir = Direction.Left;
                 }
             }
             else
             {
-                switch (View.Player.Dir)
+                switch (dir)
                 {
                     case Direction.Up:
                         ++targetPosY;
@@ -130,7 +130,7 @@ namespace MagicTower.Present.Player
             // Check if the player is at the condition
             if (targetPosY >= Map.View.MAP_BLOCK_LENGTH || targetPosY < 0 || targetPosX >= Map.View.MAP_BLOCK_LENGTH || targetPosX < 0)
             {
-                return false;
+                return Direction.Default;
             }
 
             // Check map event and thing event
@@ -141,7 +141,7 @@ namespace MagicTower.Present.Player
                 if (Game.Status == Model.EGameStatus.AutoStepping)
                     Game.Status = Model.EGameStatus.InGame;
                 if (!Manager.EventManager.DispatchEvent(block.eventId, Game.Map.GetModalByUuid(uuid), block.eventData))
-                    return false;
+                    return Direction.Default;
             }
             if (block.thing != 0)
             {
@@ -151,14 +151,14 @@ namespace MagicTower.Present.Player
                     if (Game.Status == Model.EGameStatus.AutoStepping)
                         Game.Status = Model.EGameStatus.InGame;
                     if (!Manager.EventManager.DispatchEvent(thingData.eventId, Game.Map.GetModalByUuid(uuid), thingData.eventData))
-                        return false;
+                        return Direction.Default;
                 }
                 switch ((Components.Unit.ModalType)thingData.typeId)
                 {
                     case Components.Unit.ModalType.Walkable:
                         break;
                     default:
-                        return false;
+                        return Direction.Default;
                 }
             }
             Game.Map.CurrentMap.blocks[targetPosX][targetPosY] = block;
@@ -166,19 +166,7 @@ namespace MagicTower.Present.Player
             PlayerPosX = targetPosX;
             PlayerPosY = targetPosY;
             Manager.AudioManager.PlaySound(Manager.AudioManager.stepSound);
-            return true;
-        }
-
-        public void StartWalk(Direction dir = Direction.Default)
-        {
-            if (dir != Direction.Default)
-                View.Player.Dir = dir;
-            View.Player.IsRunning = true;
-        }
-
-        public void StopWalk()
-        {
-            View.Player.IsRunning = false;
+            return dir;
         }
 
         public bool StartAutoStep(int targetPosx, int targetPosy)
@@ -189,21 +177,14 @@ namespace MagicTower.Present.Player
                 Manager.AudioManager.PlaySound(Manager.AudioManager.disableSound);
                 return false;
             }
-            Game.Status = Model.EGameStatus.AutoStepping;
             TargetAutoStep = new Vector2Int(targetPosx, targetPosy);
             AutoSteppingRoad = new Stack<Vector2Int>();
             for (int i = findedRoad.Length - 1; i > 0; --i)
             {
                 AutoSteppingRoad.Push(findedRoad[i]);
             }
-            View.Player.IsRunning = true;
+            View.Player.StartAutoStep();
             return true;
-        }
-
-        public void StopAutoStep()
-        {
-            View.Player.IsRunning = false;
-            Game.Status = Model.EGameStatus.InGame;
         }
 
         public bool CheckPlayerData(Model.ResourceType type, int minValue)

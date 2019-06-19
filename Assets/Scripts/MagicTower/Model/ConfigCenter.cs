@@ -205,8 +205,8 @@ namespace MagicTower.Model
         private class GameData
         {
             public bool debug = true;
-            public int gameoverBackTime;
-            public int newGamePlayerId;
+            public int gameoverBackTime = 7;
+            public int newGamePlayerId = 62;
             public ModalData[] modals = null;
             public Audio[] audios = null;
             public MonsterData[] monsters = null;

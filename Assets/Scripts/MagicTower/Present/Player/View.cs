@@ -39,7 +39,6 @@ namespace MagicTower.Present.Player
             if (Player == null || reset)
             {
                 Player = Game.ObjPool.GetAnElement<Components.Unit.Player, Model.ModalData>(modalData.id, ArmyAnt.ViewUtil.ObjectPool.ElementType.Player, Resources.Load<GameObject>(Model.Dirs.PREFAB_DIR + modalData.prefabPath), modalData);
-                Player.MainPlayer = true;
             }
             if (HasStarted)
             {

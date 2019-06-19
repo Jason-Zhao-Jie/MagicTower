@@ -50,3 +50,6 @@ TagManager:
   - name: CAMERA_POP
     uniqueID: 1356087245
     locked: 0
+  - name: CAMERA_TOP
+    uniqueID: 1946629447
+    locked: 0

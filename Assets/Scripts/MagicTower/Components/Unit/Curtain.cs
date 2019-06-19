@@ -1,16 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace MagicTower.Components.Unit
-{
+namespace MagicTower.Components.Unit {
 
-    public class Curtain : MonoBehaviour
-    {
+    public class Curtain : MonoBehaviour {
         private Model.EmptyBoolCallBack firstcallback = null;
         private Model.EmptyBoolCallBack[] callbacks = null;
 
-        public enum ContentType
-        {
+        public enum ContentType {
             Default,
             Nothing,
             Loading,
@@ -21,12 +18,9 @@ namespace MagicTower.Components.Unit
             Game,
         }
 
-        public void StartShow(ContentType type, Model.EmptyBoolCallBack hideCb, params Model.EmptyBoolCallBack[] showCb)
-        {
+        public void StartShow(ContentType type, Model.EmptyBoolCallBack hideCb, params Model.EmptyBoolCallBack[] showCb) {
             //gameObject.SetActive(true);
-            var rect = GetComponent<RectTransform>();
-            switch (type)
-            {
+            switch(type) {
                 case ContentType.Nothing:
                     txtLoading.gameObject.SetActive(false);
                     imgGameOver.gameObject.SetActive(false);
@@ -41,9 +35,6 @@ namespace MagicTower.Components.Unit
                     txtLoading.gameObject.SetActive(false);
                     imgGameOver.gameObject.SetActive(true);
                     panelWholeScreen.gameObject.SetActive(false);
-                    rect.anchorMin = new Vector2(0, 0);
-                    rect.anchorMax = new Vector2(1, 1);
-                    rect.sizeDelta = new Vector2(0, 0);
                     Animator.speed /= 3;
                     break;
                 case ContentType.WholeScreenText:
@@ -60,8 +51,7 @@ namespace MagicTower.Components.Unit
             Animator.Play("Curtain_show");
         }
 
-        public void StartHide(Model.EmptyBoolCallBack showCb, params Model.EmptyBoolCallBack[] hideCb)
-        {
+        public void StartHide(Model.EmptyBoolCallBack showCb, params Model.EmptyBoolCallBack[] hideCb) {
             //gameObject.SetActive(true);
             firstcallback = showCb;
             callbacks = hideCb;
@@ -71,77 +61,57 @@ namespace MagicTower.Components.Unit
         }
 
         // Use this for initialization
-        void Awake()
-        {
+        void Awake() {
         }
 
-        private void Start()
-        {
+        private void Start() {
             Animator.enabled = false;
             //gameObject.SetActive(false);
         }
 
         // Update is called once per frame
-        void Update()
-        {
+        void Update() {
         }
 
-        private void OnShow()
-        {
+        private void OnShow() {
             Animator.enabled = false;
-            if (firstcallback != null)
-            {
-                if (firstcallback())
-                {
-                    Model.EmptyBoolCallBack cb = null;
-                    Model.EmptyBoolCallBack[] cbs = null;
-                    if (callbacks != null && callbacks.Length > 0)
-                    {
-                        cb = callbacks[0];
-                    }
-                    if (callbacks != null && callbacks.Length > 1)
-                    {
-                        cbs = new Model.EmptyBoolCallBack[callbacks.Length - 1];
-                        for (var i = 0; i < cbs.Length; ++i)
-                        {
-                            cbs[i] = callbacks[i + 1];
-                        }
-
-                    }
-                    StartHide(cb, cbs);
+            if(firstcallback != null && firstcallback()) {
+                Model.EmptyBoolCallBack cb = null;
+                Model.EmptyBoolCallBack[] cbs = null;
+                if(callbacks != null && callbacks.Length > 0) {
+                    cb = callbacks[0];
                 }
+                if(callbacks != null && callbacks.Length > 1) {
+                    cbs = new Model.EmptyBoolCallBack[callbacks.Length - 1];
+                    for(var i = 0; i < cbs.Length; ++i) {
+                        cbs[i] = callbacks[i + 1];
+                    }
+                }
+                StartHide(cb, cbs);
             }
         }
 
-        private void OnHide()
-        {
+        private void OnHide() {
             Animator.enabled = false;
-            if (firstcallback != null)
-            {
-                if (firstcallback())
-                {
-                    Model.EmptyBoolCallBack cb = null;
-                    Model.EmptyBoolCallBack[] cbs = null;
-                    if (callbacks != null && callbacks.Length > 0)
-                    {
-                        cb = callbacks[0];
-                    }
-                    if (callbacks != null && callbacks.Length > 1)
-                    {
-                        cbs = new Model.EmptyBoolCallBack[callbacks.Length - 1];
-                        for (var i = 0; i < cbs.Length; ++i)
-                        {
-                            cbs[i] = callbacks[i + 1];
-                        }
-
-                    }
-                    StartShow(ContentType.Default, cb, cbs);
+            if(firstcallback != null && firstcallback()) {
+                Model.EmptyBoolCallBack cb = null;
+                Model.EmptyBoolCallBack[] cbs = null;
+                if(callbacks != null && callbacks.Length > 0) {
+                    cb = callbacks[0];
                 }
+                if(callbacks != null && callbacks.Length > 1) {
+                    cbs = new Model.EmptyBoolCallBack[callbacks.Length - 1];
+                    for(var i = 0; i < cbs.Length; ++i) {
+                        cbs[i] = callbacks[i + 1];
+                    }
+                }
+                StartShow(ContentType.Default, cb, cbs);
+            } else {
+                transform.SetAsFirstSibling();
             }
         }
 
-        private void FixedUpdate()
-        {
+        private void FixedUpdate() {
 
         }
 

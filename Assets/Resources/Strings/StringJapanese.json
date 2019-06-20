@@ -1,0 +1,16 @@
+﻿{
+  "strings": [
+    {
+      "key": "str_ui_startNewGame",
+      "content": "新しいゲーム"
+    },
+    {
+      "key": "str_ui_loadSavedGame",
+      "content": "ゲームをロード"
+    },
+    {
+      "key": "str_ui_languageSwitch",
+      "content": "スイッチ"
+    }
+  ]
+}

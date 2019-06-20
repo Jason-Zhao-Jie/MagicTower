@@ -33,7 +33,7 @@ namespace MagicTower.Components.UIPanel {
             Game.Map = new Present.Map.Controller(GameObject.Find("MapMakerPanel").transform.Find("MapPanel").GetComponent<Present.Map.View>());
 
             // 载入所有资源
-            allPrefabs = Resources.LoadAll<GameObject>(Model.Dirs.PREFAB_DIR);
+            // TODO: allPrefabs = Resources.LoadAll<GameObject>(Model.Dirs.PREFAB_DIR);
 
             // dropdown 公共数据列表
             var eventIdList = new List<string> {
@@ -55,7 +55,7 @@ namespace MagicTower.Components.UIPanel {
             {
                 var mapId = mapMakerPanel.transform.Find("SetPanel").transform.Find("MapId").GetComponent<Dropdown>();
                 var mapList = new List<string>();
-                for (int i = 0; i < Game.Config.mapLength; ++i) {
+                for (int i = 0; i < Model.ConfigCenter.mapLength; ++i) {
                     mapList.Add(i.ToString());
                 }
                 mapId.AddOptions(mapList);
@@ -127,58 +127,60 @@ namespace MagicTower.Components.UIPanel {
             // 载入String Chats 和 Choice 信息
             {
                 // 数据部分
-                var stringList = new List<string>(Game.Config.strings.Count);
-                foreach (var v in Game.Config.strings) {
-                    stringList.Add(v.Key);
-                }
-                var chatList = new List<string>(Game.Config.chats.Count);
-                foreach (var v in Game.Config.chats) {
-                    chatList.Add(v.Value.id.ToString());
-                }
-                var choiceList = new List<string>(Game.Config.choices.Count);
-                foreach (var v in Game.Config.choices) {
-                    choiceList.Add(v.Value.id.ToString());
-                }
+                /* 因 StringInternational 修改, 此处作废, 需重新设计
+                    var stringList = new List<string>(Game.Config.strings.Count);
+                    foreach (var v in Game.Config.strings) {
+                        stringList.Add(v.Key);
+                    }
+                    var chatList = new List<string>(Game.Config.chats.Count);
+                    foreach (var v in Game.Config.chats) {
+                        chatList.Add(v.Value.id.ToString());
+                    }
+                    var choiceList = new List<string>(Game.Config.choices.Count);
+                    foreach (var v in Game.Config.choices) {
+                        choiceList.Add(v.Value.id.ToString());
+                    }
 
-                // String 编辑部分
-                var stringMakerPanel = stringChatsAndChoicesPanel.transform.Find("StringMakerPanel");
-                var stringIds = stringMakerPanel.Find("StringId").GetComponent<Dropdown>();
-                stringIds.AddOptions(stringList);
-                OnStringSelected(-1);
+                    // String 编辑部分
+                    var stringMakerPanel = stringChatsAndChoicesPanel.transform.Find("StringMakerPanel");
+                    var stringIds = stringMakerPanel.Find("StringId").GetComponent<Dropdown>();
+                    stringIds.AddOptions(stringList);
+                    OnStringSelected(-1);
 
-                // Chat 编辑部分
-                var chatDataPanel = stringChatsAndChoicesPanel.transform.Find("ChatDataPanel");
-                var chatIds = chatDataPanel.Find("ChatId").GetComponent<Dropdown>();
-                chatIds.AddOptions(chatList);
-                var chatlastEventIds = chatDataPanel.Find("LastEventId").GetComponent<Dropdown>();
-                chatlastEventIds.AddOptions(eventIdList);
-                OnChatSelected(-1);
+                    // Chat 编辑部分
+                    var chatDataPanel = stringChatsAndChoicesPanel.transform.Find("ChatDataPanel");
+                    var chatIds = chatDataPanel.Find("ChatId").GetComponent<Dropdown>();
+                    chatIds.AddOptions(chatList);
+                    var chatlastEventIds = chatDataPanel.Find("LastEventId").GetComponent<Dropdown>();
+                    chatlastEventIds.AddOptions(eventIdList);
+                    OnChatSelected(-1);
 
-                // Choice 编辑部分
-                var choiceDataPanel = stringChatsAndChoicesPanel.transform.Find("ChoiceDataPanel");
-                var choiceIds = choiceDataPanel.Find("ChoiceId").GetComponent<Dropdown>();
-                choiceIds.AddOptions(choiceList);
-                var choiceSpeakers = choiceDataPanel.Find("Speaker").GetComponent<Dropdown>();
-                choiceSpeakers.AddOptions(new List<string>() { "-200 None", "-1 ChatTarget", "0 SelfPlayer" });
-                choiceSpeakers.AddOptions(modalList);
-                var choiceTitleStrings = choiceDataPanel.Find("TitleString").GetComponent<Dropdown>();
-                var choiceTailStrings = choiceDataPanel.Find("TailString").GetComponent<Dropdown>();
-                choiceTitleStrings.AddOptions(new List<string>() { "0 (None)" });
-                choiceTitleStrings.AddOptions(stringList);
-                choiceTailStrings.AddOptions(new List<string>() { "0 (None)" });
-                choiceTailStrings.AddOptions(stringList);
-                OnChoiceSelected(-1);
+                    // Choice 编辑部分
+                    var choiceDataPanel = stringChatsAndChoicesPanel.transform.Find("ChoiceDataPanel");
+                    var choiceIds = choiceDataPanel.Find("ChoiceId").GetComponent<Dropdown>();
+                    choiceIds.AddOptions(choiceList);
+                    var choiceSpeakers = choiceDataPanel.Find("Speaker").GetComponent<Dropdown>();
+                    choiceSpeakers.AddOptions(new List<string>() { "-200 None", "-1 ChatTarget", "0 SelfPlayer" });
+                    choiceSpeakers.AddOptions(modalList);
+                    var choiceTitleStrings = choiceDataPanel.Find("TitleString").GetComponent<Dropdown>();
+                    var choiceTailStrings = choiceDataPanel.Find("TailString").GetComponent<Dropdown>();
+                    choiceTitleStrings.AddOptions(new List<string>() { "0 (None)" });
+                    choiceTitleStrings.AddOptions(stringList);
+                    choiceTailStrings.AddOptions(new List<string>() { "0 (None)" });
+                    choiceTailStrings.AddOptions(stringList);
+                    OnChoiceSelected(-1);
 
-                // DataList 部分
-                var chatSpeaker = chatDataPanel.Find("DataSpeaker").GetComponent<Dropdown>();
-                chatSpeaker.AddOptions(new List<string>() { "-200 None", "-1 ChatTarget", "0 SelfPlayer" });
-                chatSpeaker.AddOptions(modalList);
-                var chatContent = chatDataPanel.Find("DataContent").GetComponent<Dropdown>();
-                chatContent.AddOptions(stringList);
-                var choiceEventId = choiceDataPanel.Find("DataEventId").GetComponent<Dropdown>();
-                choiceEventId.AddOptions(eventIdList);
-                var choiceContent = choiceDataPanel.Find("DataContent").GetComponent<Dropdown>();
-                choiceContent.AddOptions(stringList);
+                    // DataList 部分
+                    var chatSpeaker = chatDataPanel.Find("DataSpeaker").GetComponent<Dropdown>();
+                    chatSpeaker.AddOptions(new List<string>() { "-200 None", "-1 ChatTarget", "0 SelfPlayer" });
+                    chatSpeaker.AddOptions(modalList);
+                    var chatContent = chatDataPanel.Find("DataContent").GetComponent<Dropdown>();
+                    chatContent.AddOptions(stringList);
+                    var choiceEventId = choiceDataPanel.Find("DataEventId").GetComponent<Dropdown>();
+                    choiceEventId.AddOptions(eventIdList);
+                    var choiceContent = choiceDataPanel.Find("DataContent").GetComponent<Dropdown>();
+                    choiceContent.AddOptions(stringList);
+                    */
             }
 
             // 初始化
@@ -626,7 +628,7 @@ namespace MagicTower.Components.UIPanel {
 
         // Refresh audios 按钮回调
         public void OnRefreshAudio() {
-            var allAudios = Resources.LoadAll<AudioClip>(Model.Dirs.AUDIO_DIR);
+            AudioClip[] allAudios = null;// TODO:            Resources.LoadAll<AudioClip>(Model.Dirs.AUDIO_DIR);
             Model.Audio[] audioData = new Model.Audio[allAudios.Length];
             Game.Config.audios.Clear();
             for (var i = 0; i < audioData.Length; ++i) {
@@ -855,24 +857,28 @@ namespace MagicTower.Components.UIPanel {
                 dropdown.value = index;
             }
             var str = dropdown.options[index].text;
-            var data = Game.Config.strings[str];
             //显示数据
             stringMakerPanel.Find("StringKey").GetComponent<InputField>().text = str;
             foreach (var v in UI_LANG_KEY) {
                 stringMakerPanel.Find(v.Value).GetComponent<InputField>().text = "";
             }
+            /* 因 StringInternational 修改, 此处作废, 需重新设计
+            var data = Game.Config.strings[str];
             foreach (var v in data.strings) {
                 stringMakerPanel.Find(UI_LANG_KEY[v.langKey]).GetComponent<InputField>().text = v.content;
             }
+            */
         }
 
         // Add string 按钮回调
         public void OnAddString() {
+            /* 因 StringInternational 修改, 此处作废, 需重新设计
             if (Game.Config.strings.ContainsKey("#####")) {
                 Game.ShowTip("请先将之前添加的字符串编辑完成并保存!");
                 return;
             }
             Game.Config.strings.Add("#####", new Model.InternationalString { id = Game.Config.strings.Count + 1, key = "#####", strings = new Model.StringInOneLanguage[] { new Model.StringInOneLanguage { langKey = "en-us", content = "" } } });
+            */
 
             var stringMakerPanel = stringChatsAndChoicesPanel.transform.Find("StringMakerPanel");
             var dropdown = stringMakerPanel.transform.Find("StringId").GetComponent<Dropdown>();
@@ -882,6 +888,7 @@ namespace MagicTower.Components.UIPanel {
 
         // Save String 按钮回调
         public void OnSaveString() {
+            /* 因 StringInternational 修改, 此处作废, 需重新设计
             var stringMakerPanel = stringChatsAndChoicesPanel.transform.Find("StringMakerPanel");
             var dropdown = stringMakerPanel.transform.Find("StringId").GetComponent<Dropdown>();
             var key = dropdown.options[dropdown.value].text;
@@ -915,6 +922,7 @@ namespace MagicTower.Components.UIPanel {
                 dropdown.options[dropdownValue].text = newKey;
                 dropdown.captionText.text = newKey;
             }
+            */
         }
 
         public void OnChatSelected(int index) {

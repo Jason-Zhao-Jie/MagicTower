@@ -52,6 +52,16 @@ namespace MagicTower.Components {
                 }
                 modSpriteList = null;
 
+                // 加载 Player Prefabs
+                players = new Dictionary<string, GameObject>();
+                foreach(var i in playerList) {
+                    players[i.name] = i.prefab;
+                    if(i.prefab == null) {
+                        Game.DebugLogError("The Player ", i.name, " Has A Null Prefab Object");
+                    }
+                }
+                modSpriteList = null;
+
                 // 加载 UIs
                 ui = new Dictionary<UIType, GameObject> {
                     { UIType.Default, null },
@@ -102,6 +112,7 @@ namespace MagicTower.Components {
                 return false;
             }
 
+            [HideInInspector]
             public Transform DialogCanvas;
 
             [System.Serializable]
@@ -109,7 +120,7 @@ namespace MagicTower.Components {
                 public string name;
                 public Sprite[] sp;
             }
-            public List<SpriteInfo> modSpriteList;
+            public SpriteInfo[] modSpriteList;
             public Dictionary<string, Sprite[]> modSprites;
 
             [System.Serializable]
@@ -117,11 +128,19 @@ namespace MagicTower.Components {
                 public string name;
                 public AudioClip clip;
             }
-            public List<AudioInfo> audioList;
+            public AudioInfo[] audioList;
             public Dictionary<string, AudioClip> audioClips;
 
             public GameObject modalSprite;
             public GameObject modalImage;
+
+            [System.Serializable]
+            public class PlayerPrefabs {
+                public string name;
+                public GameObject prefab;
+            }
+            public PlayerPrefabs[] playerList;
+            public Dictionary<string, GameObject> players;
 
             public GameObject dataEditorPanel = null;
             public GameObject startPanel = null;

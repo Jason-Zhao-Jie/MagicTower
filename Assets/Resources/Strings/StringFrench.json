@@ -1,0 +1,16 @@
+﻿{
+  "strings": [
+    {
+      "key": "str_ui_startNewGame",
+      "content": "Nouveau jeu"
+    },
+    {
+      "key": "str_ui_loadSavedGame",
+      "content": "Chargement du jeu"
+    },
+    {
+      "key": "str_ui_languageSwitch",
+      "content": "Commutateur"
+    }
+  ]
+}

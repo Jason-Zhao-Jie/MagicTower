@@ -1,0 +1,20 @@
+﻿{
+  "strings": [
+    {
+      "key": "str_ui_startNewGame",
+      "content": "開始新遊戲"
+    },
+    {
+      "key": "str_ui_loadSavedGame",
+      "content": "加載存檔"
+    },
+    {
+      "key": "str_ui_readMeBtn",
+      "content": "作者信息"
+    },
+    {
+      "key": "str_ui_languageSwitch",
+      "content": "切換"
+    }
+  ]
+}

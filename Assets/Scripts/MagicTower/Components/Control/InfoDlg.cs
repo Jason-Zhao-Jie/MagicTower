@@ -6,45 +6,44 @@ using UnityEngine.UI;
 namespace MagicTower.Components.Control {
 
     public class InfoDlg : MonoBehaviour {
-        // Start is called before the first frame update
-        void Awake() {
-            if(showed) {
-                content.text = contentStr;
-                btnText.text = btnStr;
+        private void Awake() {
+            foreach(var i in Game.Config.infos) {
+                var item = titleList.PushbackDefaultItem();
+                item.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(i.title);
+                item.Find("Text").GetComponent<Text>().color = new Color(0.7f, 0.8f, 0.9f);
+                item.GetComponent<Button>().onClick.AddListener(() => { titleList.Select(item); });
             }
+            titleList.selectedFunc = OnItemClick;
         }
 
-        public void Init(string contentStr, string btnStr = "OK", Model.EmptyBoolCallBack btnCallback = null) {
-            // 设定信息
-            this.contentStr = contentStr;
-            this.btnStr = btnStr;
-            this.btnCallback = btnCallback;
-            if(isActiveAndEnabled) {
-                content.text = contentStr;
-                btnText.text = btnStr;
-            }
-            showed = true;
+        private void OnEnable() {
             lastStatus = Game.Status;
             if(Game.Status != Model.EGameStatus.Start) {
                 Game.Status = Model.EGameStatus.InEditorDialog;
             }
         }
 
-        public void OnBtnClick() {
-            if(btnCallback == null || btnCallback()) {
-                Game.Status = lastStatus;
-                Game.HideUI(UIType.InfoDialog);
+        private void OnItemClick(int index, bool selected) {
+            titleList[index].GetComponent<Button>().interactable = !selected;
+            if(selected) {
+                titleList[index].Find("Text").GetComponent<Text>().color = new Color(0.1f, 0.2f, 0.3f);
+                content.text = Game.Config.StringInternational.GetValue(Game.Config.infos[index].content);
+            } else {
+                titleList[index].Find("Text").GetComponent<Text>().color = new Color(0.7f, 0.8f, 0.9f);
+
             }
         }
 
+        public void OnBtnClick() {
+            Game.Status = lastStatus;
+            Game.HideUI(UIType.InfoDialog);
+        }
+
+        public ArmyAnt.ViewUtil.Components.SelectListView titleList;
         public Text content;
         public Button btn;
         public Text btnText;
 
-        private bool showed = false;
-        private string contentStr;
-        private Model.EmptyBoolCallBack btnCallback;
-        private string btnStr;
         private Model.EGameStatus lastStatus;
     }
 

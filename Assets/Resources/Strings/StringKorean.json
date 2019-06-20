@@ -1,0 +1,16 @@
+﻿{
+  "strings": [
+    {
+      "key": "str_ui_startNewGame",
+      "content": "새로운 게임"
+    },
+    {
+      "key": "str_ui_loadSavedGame",
+      "content": "게임로드"
+    },
+    {
+      "key": "str_ui_languageSwitch",
+      "content": "스위치"
+    }
+  ]
+}

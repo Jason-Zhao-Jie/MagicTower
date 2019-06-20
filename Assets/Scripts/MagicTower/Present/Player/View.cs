@@ -15,6 +15,10 @@ namespace MagicTower.Present.Player
 
         void Start()
         {
+            RefreshUIText();
+        }
+
+        public void RefreshUIText() {
             levelTitleText.text = Game.Config.StringInternational.GetValue(str_level_title);
             expTitleText.text = Game.Config.StringInternational.GetValue(str_exp_title);
             lifeTitleText.text = Game.Config.StringInternational.GetValue(str_life_title);
@@ -38,7 +42,7 @@ namespace MagicTower.Present.Player
             var modalData = Game.Config.modals[playerId];
             if (Player == null || reset)
             {
-                Player = Game.ObjPool.GetAnElement<Components.Unit.Player, Model.ModalData>(modalData.id, ArmyAnt.ViewUtil.ObjectPool.ElementType.Player, Resources.Load<GameObject>(Model.Dirs.PREFAB_DIR + modalData.prefabPath), modalData);
+                Player = Game.ObjPool.GetAnElement<Components.Unit.Player, Model.ModalData>(modalData.id, ArmyAnt.ViewUtil.ObjectPool.ElementType.Player, Game.GetPlayer(modalData.prefabPath), modalData);
             }
             if (HasStarted)
             {

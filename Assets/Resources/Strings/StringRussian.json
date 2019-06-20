@@ -1,0 +1,16 @@
+﻿{
+  "strings": [
+    {
+      "key": "str_ui_startNewGame",
+      "content": "Новая игра"
+    },
+    {
+      "key": "str_ui_loadSavedGame",
+      "content": "Загрузить игру"
+    },
+    {
+      "key": "str_ui_languageSwitch",
+      "content": "переключатель"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+﻿{
+  "strings": [
+    {
+      "key": "str_ui_startNewGame",
+      "content": "Nuevo juego"
+    },
+    {
+      "key": "str_ui_loadSavedGame",
+      "content": "Juego de carga"
+    },
+    {
+      "key": "str_ui_languageSwitch",
+      "content": "Cambiar"
+    }
+  ]
+}

@@ -8,8 +8,8 @@ namespace ArmyAnt.ViewUtil.Components {
 
         protected override void Start() {
             base.Start();
-            Select(SelectedIndex);
             started = true;
+            Select(SelectedIndex);
         }
 
         protected override void OnDisable() {

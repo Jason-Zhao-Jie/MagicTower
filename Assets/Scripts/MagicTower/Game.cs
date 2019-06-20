@@ -134,6 +134,10 @@ namespace MagicTower {
             return Resource.audioClips[audioName];
         }
 
+        public static GameObject GetPlayer(string player) {
+            return Resource.players[player];
+        }
+
         public static void PlayAds() {
             var ret = AdsPluginManager.ShowRewardBasedVideo((string type, double amount) => {
                 ShowTip("Google MobAds loaded OK and get reward successful");
@@ -465,8 +469,8 @@ namespace MagicTower {
 
         #region Alert Dialog
 
-        public static void ShowInfo(string contentStr, string btnStr = "OK", Model.EmptyBoolCallBack callback = null) {
-            ShowUI<InfoDlg>(UIType.InfoDialog).Init(contentStr, btnStr, callback);
+        public static void ShowInfo() {
+            Resource.ShowUI(UIType.InfoDialog);
         }
 
         #endregion

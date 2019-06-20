@@ -23,6 +23,10 @@ namespace MagicTower.Present.Player
             View.Controller = this;
         }
 
+        public void RefreshUIText() {
+            View.RefreshUIText();
+        }
+
         public void ShowPlayer(int posx, int posy, int playerId = 0, bool isNew = false)
         {
 

@@ -1,0 +1,737 @@
+﻿{
+  "strings": [
+    {
+      "key": "str_gameover",
+      "content": "gameover"
+    },
+    {
+      "key": "str_battleGoldGet",
+      "content": "Gold+##"
+    },
+    {
+      "key": "str_battleExpGet",
+      "content": "Exp+##"
+    },
+    {
+      "key": "str_battleHurted",
+      "content": "Life-##"
+    },
+    {
+      "key": "str_name_Jack",
+      "content": "Jack"
+    },
+    {
+      "key": "str_name_Lilith",
+      "content": "Lilith"
+    },
+    {
+      "key": "str_saySilent",
+      "content": "......"
+    },
+    {
+      "key": "str_saySilentAsk",
+      "content": "......??"
+    },
+    {
+      "key": "str_name_JackStartSay1",
+      "content": "Here it is, the tower, according to the map."
+    },
+    {
+      "key": "str_name_JackStartSay2",
+      "content": "The atmosphere is a little weird, Seems to be a lot of monsters. I must be careful forward it"
+    },
+    {
+      "key": "str_name_JackBeforeFirstBattle1",
+      "content": "Woooow, what the hell is this?"
+    },
+    {
+      "key": "str_name_JackBeforeFirstBattle2",
+      "content": "Seems not very friendly. I have to be vigilant."
+    },
+    {
+      "key": "str_name_JackSecretMan1",
+      "content": "Oh, another challenger."
+    },
+    {
+      "key": "str_name_JackSecretMan2",
+      "content": "Who are you? Why are you here?"
+    },
+    {
+      "key": "str_FirstGetYellowKey",
+      "content": "Got a yellow key, which can be used to open yellow door once time"
+    },
+    {
+      "key": "str_FirstGetBlueKey",
+      "content": "Got a blue key, which can be used to open blue door once time"
+    },
+    {
+      "key": "str_FirstGetRedKey",
+      "content": "Got a red key, which can be used to open red door once time"
+    },
+    {
+      "key": "str_FirstGetGreenKey",
+      "content": "Got a green key, which can be used to open green door once time"
+    },
+    {
+      "key": "str_FirstGetRedDiamond",
+      "content": "Got a red diamond, attack +3"
+    },
+    {
+      "key": "str_FirstGetBlueDiamond",
+      "content": "Got a blue diamond, defense +3"
+    },
+    {
+      "key": "str_FirstGetGreenDiamond",
+      "content": "Got a green diamond, speed +1"
+    },
+    {
+      "key": "str_FirstGetYellowDiamond",
+      "content": "Got a yellow diamond, crit rate +1%"
+    },
+    {
+      "key": "str_FirstGetRedBottle",
+      "content": "Got a red bottle, life +150"
+    },
+    {
+      "key": "str_FirstGetBlueBottle",
+      "content": "Got a blue bottle, life +500"
+    },
+    {
+      "key": "str_FirstGetGreenBottle",
+      "content": "Got a green bottle, life +1000"
+    },
+    {
+      "key": "str_FirstGetYellowBottle",
+      "content": "Got a yellow bottle, life +350"
+    },
+    {
+      "key": "str_ExpShopTitle1",
+      "content": "Brave challenger, I will help you complete your mission. You can use the experience you have experienced to exchange for the following improvements."
+    },
+    {
+      "key": "str_ExpShopBuySpeed",
+      "content": "Cost ## exp points to get ## speed"
+    },
+    {
+      "key": "str_ExpShopBuyCrit",
+      "content": "Use ## exp points to get ##% crit rate"
+    },
+    {
+      "key": "str_ExpShopBuyLevel",
+      "content": "Use ## exp points to upgrade ## level"
+    },
+    {
+      "key": "str_GoldShopTitle1",
+      "content": "I have a lot of treasures here, as long as you have enough money, you can get my things."
+    },
+    {
+      "key": "str_GoldShopBuyLife",
+      "content": "Cost ## golds to buy ## life points"
+    },
+    {
+      "key": "str_GoldShopBuyAttack",
+      "content": "Cost ## golds to buy ##% attack points"
+    },
+    {
+      "key": "str_GoldShopBuyDefense",
+      "content": "Cost ## golds to buy ## defense points"
+    },
+    {
+      "key": "str_Close",
+      "content": "Nothing to buy"
+    },
+    {
+      "key": "str_name_riot",
+      "content": "Riot"
+    },
+    {
+      "key": "str_name_sword",
+      "content": "Sword"
+    },
+    {
+      "key": "str_name_bark",
+      "content": "Bark"
+    },
+    {
+      "key": "str_name_magic_big",
+      "content": "Big Staff"
+    },
+    {
+      "key": "str_name_magic_diamond",
+      "content": "Diamond Staff"
+    },
+    {
+      "key": "str_name_magic_hurricane",
+      "content": "Hurricane Staff"
+    },
+    {
+      "key": "str_name_magic_mid",
+      "content": "Staff"
+    },
+    {
+      "key": "str_name_magic_small",
+      "content": "Small Staff"
+    },
+    {
+      "key": "str_name_nohurt",
+      "content": "None"
+    },
+    {
+      "key": "str_name_miss",
+      "content": "Miss"
+    },
+    {
+      "key": "str_name_GoldWall",
+      "content": "Gold Wall"
+    },
+    {
+      "key": "str_name_GreenBottle",
+      "content": "Green Bottle"
+    },
+    {
+      "key": "str_name_GreenDiamond",
+      "content": "Green Diamond"
+    },
+    {
+      "key": "str_name_GreenKey",
+      "content": "Green Key"
+    },
+    {
+      "key": "str_name_Knight",
+      "content": "Junior Knight"
+    },
+    {
+      "key": "str_name_KnightBlue",
+      "content": "Intermidiate Knight"
+    },
+    {
+      "key": "str_name_KnightGold",
+      "content": "Senior Knight"
+    },
+    {
+      "key": "str_name_KnightRed",
+      "content": "Elite Knight"
+    },
+    {
+      "key": "str_name_GoldKey",
+      "content": "Gold Key"
+    },
+    {
+      "key": "str_name_OldMan",
+      "content": "Old Man"
+    },
+    {
+      "key": "str_name_RedBottle",
+      "content": "Red Bottle"
+    },
+    {
+      "key": "str_name_RedDiamond",
+      "content": "Red Diamond"
+    },
+    {
+      "key": "str_name_RedKey",
+      "content": "Red Key"
+    },
+    {
+      "key": "str_name_SilverKey",
+      "content": "Silver Key"
+    },
+    {
+      "key": "str_name_Skeleton",
+      "content": "Skeleton"
+    },
+    {
+      "key": "str_name_SkeletonBoss",
+      "content": "Skeleton King"
+    },
+    {
+      "key": "str_name_SkeletonBrown",
+      "content": "Elite Skeleton Swordsman"
+    },
+    {
+      "key": "str_name_SkeletonUpgrade",
+      "content": "Skeleton Swordsman"
+    },
+    {
+      "key": "str_name_SlimeBlack",
+      "content": "Black Slime"
+    },
+    {
+      "key": "str_name_SlimeGreen",
+      "content": "Green Slime"
+    },
+    {
+      "key": "str_name_SlimeKing",
+      "content": "Slime King"
+    },
+    {
+      "key": "str_name_SlimeRed",
+      "content": "Red Slime"
+    },
+    {
+      "key": "str_name_Sprite",
+      "content": "Fairy Sprite"
+    },
+    {
+      "key": "str_name_Stone",
+      "content": "Stone Monster"
+    },
+    {
+      "key": "str_name_StoneBlack",
+      "content": "Coal Monster"
+    },
+    {
+      "key": "str_name_StoneBlue",
+      "content": "Jade Monster"
+    },
+    {
+      "key": "str_name_StoneGray",
+      "content": "Iron Monster"
+    },
+    {
+      "key": "str_name_SwordMan",
+      "content": "Blade Man"
+    },
+    {
+      "key": "str_name_SwordManBoss",
+      "content": "Blade King"
+    },
+    {
+      "key": "str_name_SwordManPurple",
+      "content": "Blade Master"
+    },
+    {
+      "key": "str_name_SwordManRed",
+      "content": "Blade God"
+    },
+    {
+      "key": "str_name_UniversalKey",
+      "content": "Universal Key"
+    },
+    {
+      "key": "str_name_WizardBlack",
+      "content": "Elite Wizard"
+    },
+    {
+      "key": "str_name_WizardBlue",
+      "content": "Junior Wizard"
+    },
+    {
+      "key": "str_name_WizardGray",
+      "content": "Intermediate Wizard"
+    },
+    {
+      "key": "str_name_WizardGreat",
+      "content": "Gold Wall"
+    },
+    {
+      "key": "str_name_WizardGreatRed",
+      "content": "Wizard Master"
+    },
+    {
+      "key": "str_name_WizardRed",
+      "content": "Senior Wizard"
+    },
+    {
+      "key": "str_name_YellowBottle",
+      "content": "Yellow Bottle"
+    },
+    {
+      "key": "str_name_YellowDiamond",
+      "content": "yellow Diamond"
+    },
+    {
+      "key": "str_name_YellowKey",
+      "content": "Yellow Key"
+    },
+    {
+      "key": "str_name_YoungMan",
+      "content": "Adams"
+    },
+    {
+      "key": "str_name_Zombie",
+      "content": "Zombie"
+    },
+    {
+      "key": "str_name_ZombieGreen",
+      "content": "Toxin Zombie"
+    },
+    {
+      "key": "str_name_ZombieRed",
+      "content": "Crazy Zombie"
+    },
+    {
+      "key": "str_name_ZombieSword",
+      "content": "Sword Zombie"
+    },
+    {
+      "key": "str_name_CoinShop",
+      "content": "Coin Shop"
+    },
+    {
+      "key": "str_name_GhostSwordSilver",
+      "content": "Senior Ghost Swordsman"
+    },
+    {
+      "key": "str_name_BatBig",
+      "content": "Big Bat"
+    },
+    {
+      "key": "str_name_BatBoss",
+      "content": "Belial Vamdemon"
+    },
+    {
+      "key": "str_name_BatRed",
+      "content": "Crazy Bat"
+    },
+    {
+      "key": "str_name_BatSmall",
+      "content": "Small Bat"
+    },
+    {
+      "key": "str_name_BlueBottle",
+      "content": "Blue Bottle"
+    },
+    {
+      "key": "str_name_BlueDiamond",
+      "content": "Blue Diamond"
+    },
+    {
+      "key": "str_name_BlueKey",
+      "content": "Blue Key"
+    },
+    {
+      "key": "str_name_BrozenKey",
+      "content": "Brozen Key"
+    },
+    {
+      "key": "str_name_BusinessMan",
+      "content": "Businessman"
+    },
+    {
+      "key": "str_name_Coin",
+      "content": "Big Coin"
+    },
+    {
+      "key": "str_name_Cross",
+      "content": "Cross"
+    },
+    {
+      "key": "str_name_Defenser",
+      "content": "Junior Guard"
+    },
+    {
+      "key": "str_name_DefenserBlue",
+      "content": "Intermediate Guard"
+    },
+    {
+      "key": "str_name_DefenserRed",
+      "content": "Senior Guard"
+    },
+    {
+      "key": "str_name_DragonRed",
+      "content": "Red Dragon"
+    },
+    {
+      "key": "str_name_EnchanterBlack",
+      "content": "Black Demon King"
+    },
+    {
+      "key": "str_name_EnchanterBlue",
+      "content": "Blue Demon King"
+    },
+    {
+      "key": "str_name_EnchanterGold",
+      "content": "Gold Demon King"
+    },
+    {
+      "key": "str_name_EnchanterGreen",
+      "content": "Green Demon King"
+    },
+    {
+      "key": "str_name_EnchanterRed",
+      "content": "Red Demon King"
+    },
+    {
+      "key": "str_name_GhostGreen",
+      "content": "Ghost"
+    },
+    {
+      "key": "str_name_GhostSilver",
+      "content": "Senior Ghost"
+    },
+    {
+      "key": "str_name_GhostSwordGreen",
+      "content": "Ghost Swordsman"
+    },
+    {
+      "key": "str_ui_life",
+      "content": "Life"
+    },
+    {
+      "key": "str_ui_attack",
+      "content": "Attack"
+    },
+    {
+      "key": "str_ui_defense",
+      "content": "Defense"
+    },
+    {
+      "key": "str_ui_speed",
+      "content": "Speed"
+    },
+    {
+      "key": "str_ui_level",
+      "content": "Level"
+
+    },
+    {
+      "key": "str_ui_exp",
+      "content": "EXP"
+    },
+    {
+      "key": "str_BuySuccessful",
+      "content": "Bought Successful"
+    },
+    {
+      "key": "str_BuyFailedNoEnoughCoin",
+      "content": "Failed ! No enough resources"
+    },
+    {
+      "key": "str_ExitCoinShop",
+      "content": "Looking forward to your next visit !"
+    },
+    {
+      "key": "str_ExitExpShop",
+      "content": "Luck will accompany you !"
+    },
+    {
+      "key": "str_name_normalFloor",
+      "content": "Floor ##"
+    },
+    {
+      "key": "str_name_topFloor",
+      "content": "Tower Top"
+    },
+    {
+      "key": "str_name_groundFloor",
+      "content": "Ground Floor ##"
+    },
+    {
+      "key": "str_name_secretFloor",
+      "content": "Secret Floor ##"
+    },
+    {
+      "key": "str_ui_startNewGame",
+      "content": "Start Game"
+    },
+    {
+      "key": "str_ui_loadSavedGame",
+      "content": "Load Game"
+    },
+    {
+      "key": "str_ui_readMeBtn",
+      "content": "Read Me"
+    },
+    {
+      "key": "str_ui_dataEditor",
+      "content": "Data Editor"
+    },
+    {
+      "key": "str_ui_starterIntroduce_start",
+      "content": "  Long history is in every world. Several legends were in history. Heros were there in each legend. And a fate around each of them that could not be rid of."
+    },
+    {
+      "key": "str_ui_starterIntroduce_Jack",
+      "content": "  Jack is a mysterious swordsman. He likes to travel around and enjoys adventure. No one knows where he came from, but there is a place where he has adventures."
+    },
+    {
+      "key": "str_ui_starterIntroduce_Story",
+      "content": "  The princess of the Western Kingdom has disappeared, and everyone has searched for no results, but all the evidence points to a chilling place: the horrible magic tower in the isolated islands of the Eastern Sea. It is rumored that there is a demon's lair, and none of the explorers and desperados there can come back."
+    },
+    {
+      "key": "str_ui_starterIntroduce_FinalJack",
+      "content": "  In order to save the kind, beautiful and virtuous kingdom princess, the brave people still use their own methods to go to this magical cave to find the whereabouts of the princess. Jack is no exception. He went to the magic tower alone, hoping to completely destroy this magic cave with his own martial arts."
+    },
+    {
+      "key": "str_ui_languageSwitch",
+      "content": "Switch"
+    },
+    {
+      "key": "str_ui_resume",
+      "content": "Resume"
+    },
+    {
+      "key": "str_ui_savegame",
+      "content": "Save Game"
+    },
+    {
+      "key": "str_ui_settings",
+      "content": "Settings"
+    },
+    {
+      "key": "str_ui_exit",
+      "content": "Exit"
+    },
+    {
+      "key": "str_ui_alertExit",
+      "content": "Are you sure to exit the game ? The unsaved game will be lost !"
+    },
+    {
+      "key": "str_ui_ok",
+      "langKey": "en-us"
+    },
+    {
+      "key": "str_ui_cancel",
+      "content": "Cancel"
+    },
+    {
+      "key": "str_ui_audioSettingTitle",
+      "content": "Audio Settings"
+    },
+    {
+      "key": "str_ui_musicVolume",
+      "content": "Music Volume"
+    },
+    {
+      "key": "str_ui_soundVolume",
+      "content": "Sound Volume"
+    },
+    {
+      "key": "str_ui_adsSettingTitle",
+      "content": "Ads Settings"
+    },
+    {
+      "key": "str_ui_adsSettingReadme",
+      "content": "There are ads in this game, they are the main income for development group. If you want to support us or close those ads, please change these settings."
+    },
+    {
+      "key": "str_ui_popAdsTitle",
+      "content": "Ads poping up:"
+    },
+    {
+      "key": "str_ui_popAdsHigh",
+      "content": "Much, poped up per minute when change floor or save/load game"
+    },
+    {
+      "key": "str_ui_popAdsMidium",
+      "content": "Sometimes, poped up per 4 minutes when save/load game"
+    },
+    {
+      "key": "str_ui_popAdsLow",
+      "content": "few, poped up per 10 minutes when save/load game"
+    },
+    {
+      "key": "str_ui_popAdsOnlyOnce",
+      "content": "Only poped up when start the game APP"
+    },
+    {
+      "key": "str_ui_popAdsNone",
+      "content": "Never poped up ads"
+    },
+    {
+      "key": "str_ui_rewardAdsTitle",
+      "content": "Reward ads:"
+    },
+    {
+      "key": "str_ui_rewardAdsOff",
+      "content": "Forbidden the reward ads, if you chosen that, the game would not download the ads after starting, it will save some network, but you cannot get free relive rewards by watching ads"
+    },
+    {
+      "key": "str_ui_analyticsSettingTitle",
+      "content": "Analytics Setting"
+    },
+    {
+      "key": "str_ui_analyticsSettingReadme",
+      "content": "This game will send some game information to Unity and Google, used to calculate some game information, like level passed time, or played time. It can help us to make game better. There is no any personal information in sending. But if you do not want to send, you can close the analytics here"
+    },
+    {
+      "key": "str_ui_analyticsOn",
+      "content": "Allow analytics data sending"
+    },
+    {
+      "key": "str_ui_saveNew",
+      "content": "Click here to save as another new game"
+    },
+    {
+      "key": "str_ui_saveName",
+      "content": "Save time:##\nFloor:##, Player:##\nGame duration: ## day(s), ## hour(s), ## minute(s)"
+    },
+    {
+      "key": "str_ui_saveInfo",
+      "content": "Level:##, Life:##\nAttack:##, Defense:##\nSpeed:##,\nGold:##"
+    },
+    {
+      "key": "str_ui_saveAlert",
+      "content": "Are you sure to overwrite this save ?"
+    },
+    {
+      "key": "str_ui_saveSuccessful",
+      "content": "Saved OK ?"
+    },
+    {
+      "key": "str_ui_saveFailure",
+      "content": "Saved failure"
+    },
+    {
+      "key": "str_ui_delAlert",
+      "content": "Are you sure to delete this save ?"
+    },
+    {
+      "key": "str_ui_delSuccessful",
+      "content": "Deleted OK ?"
+    },
+    {
+      "key": "str_ui_delFailure",
+      "content": "Saved failure"
+    },
+    {
+      "key": "str_ui_loadAlert",
+      "content": "Are you sure to load this game ? The game you played currently will be lost !"
+    },
+    {
+      "key": "str_ui_operationSetting",
+      "content": "Operation Settings"
+    },
+    {
+      "key": "str_ui_virtualJoysticks",
+      "content": "Open virtual joysticks"
+    },
+    {
+      "key": "str_ui_autoFindBestRoad",
+      "content": "Auto find the best way to go where you touched"
+    },
+    {
+      "key": "str_ui_about_title",
+      "content": "Product Information"
+    },
+    {
+      "key": "str_ui_about",
+      "content": "Blank"
+    },
+    {
+      "key": "str_ui_introduce_title",
+      "content": "Base Introduction"
+    },
+    {
+      "key": "str_ui_introduce",
+      "content": "Blank"
+    },
+    {
+      "key": "str_ui_drama_title",
+      "content": "Author's Remarks"
+    },
+    {
+      "key": "str_ui_drama",
+      "content": "Blank"
+    },
+    {
+      "key": "str_ui_readme_title",
+      "content": "Author's Remarks"
+    },
+    {
+      "key": "str_ui_readme",
+      "content": "Readme blank"
+    }
+  ]
+}

@@ -3,11 +3,8 @@ using System.Collections.Generic;
 
 namespace MagicTower.Model
 {
-    public static class Dirs
-    {
-        public const string AUDIO_DIR = "Audio/";
-        public const string PREFAB_DIR = "Prefab/";
-        public const string DIALOG_DIR = "Control/";
+    public static class Dirs {
+        public const string STRING_DATA_DIR = "Strings/";
         public const string MAP_DATA_DIR = "MapData/";
     }
 
@@ -107,6 +104,12 @@ namespace MagicTower.Model
         public int backThing;
         public int music;
         public MapBlockRaw[] blocks;
+    }
+
+    [System.Serializable]
+    public class InfoData {
+        public string title;
+        public string content;
     }
 
     [System.Serializable]
@@ -227,33 +230,13 @@ namespace MagicTower.Model
         public int id;
         public string name;
         public string key;
-    }
-
-    [System.Serializable]
-    public class StringInOneLanguage {
-        public string langKey;
-        public string content;
+        public string path;
     }
 
     [System.Serializable]
     public class InternationalString {
-        public int id;
         public string key;
-        public StringInOneLanguage[] strings;
-
-        public string this[string key] {
-            get {
-                if (strings != null)
-                {
-                    for (int i = 0; i < strings.Length; ++i)
-                    {
-                        if (key.Equals(strings[i].langKey))
-                            return strings[i].content;
-                    }
-                }
-                return null;
-            }
-        }
+        public string content;
     }
 
     #endregion

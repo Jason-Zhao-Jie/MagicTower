@@ -1011,6 +1011,11 @@ MonoBehaviour:
     type: 3}
   modalImage: {fileID: 5279978862727709544, guid: 3806bfe5c6b78c1429625448845a151f,
     type: 3}
+  playerList:
+  - name: Jack
+    prefab: {fileID: 1909584742996000, guid: 6de186e19eab4b845bb153b643f67118, type: 3}
+  - name: Lilith
+    prefab: {fileID: 1045879149537956, guid: a27f311211e066d418b3da3632a38c32, type: 3}
   dataEditorPanel: {fileID: 2786583227961090365, guid: 7a9224ab58b7ab34eaa57dcd9d099c73,
     type: 3}
   startPanel: {fileID: 2312047714054688322, guid: 0201f191c5e31054dabbee4f9631ba22,

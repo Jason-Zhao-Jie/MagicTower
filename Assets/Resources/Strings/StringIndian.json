@@ -1,0 +1,16 @@
+﻿{
+  "strings": [
+    {
+      "key": "str_ui_startNewGame",
+      "content": "एक नया खेल शुरू करें"
+    },
+    {
+      "key": "str_ui_loadSavedGame",
+      "content": "खेल लोड करें"
+    },
+    {
+      "key": "str_ui_languageSwitch",
+      "content": "स्विच"
+    }
+  ]
+}

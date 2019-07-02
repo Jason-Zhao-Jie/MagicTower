@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4617321049756391524}
   - component: {fileID: 8305815417196777766}
   - component: {fileID: 3119889825278382152}
-  - component: {fileID: 51658478150432529}
   m_Layer: 5
   m_Name: Information
   m_TagString: Untagged
@@ -33,8 +32,8 @@ RectTransform:
   m_Father: {fileID: 4536613650256465064}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.1, y: 0.5}
-  m_AnchorMax: {x: 0.9, y: 0.5}
+  m_AnchorMin: {x: 0.1, y: 0.15}
+  m_AnchorMax: {x: 0.9, y: 0.85}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -71,7 +70,7 @@ MonoBehaviour:
     m_FontSize: 22
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 2
+    m_MinSize: 1
     m_MaxSize: 25
     m_Alignment: 3
     m_AlignByGeometry: 0
@@ -80,20 +79,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "\u5B58\u50A8\u65F6\u95F4:2018-99-99 99:99\n\u5730\u4E0B999\u5C42  \u89D2\u8272:\u52C7\u8005\u6770\u514B\n\u6E38\u620F\u65F6\u957F:1\u592999\u5C0F\u65F699\u5206"
---- !u!114 &51658478150432529
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1305691862218821389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1741964061, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
 --- !u!1 &4091999455863093023
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,10 +189,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -160, y: -153.59998}
-  m_SizeDelta: {x: -704, y: 134}
+  m_AnchorMin: {x: 0.1, y: 0.6}
+  m_AnchorMax: {x: 0.6, y: 0.8}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &1080001803438530508
 CanvasRenderer:

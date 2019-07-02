@@ -18,20 +18,23 @@ namespace MagicTower.Components.Unit {
         }
 
         protected virtual void Update() {
-            if(cancelForceVirtualingTime > 0) {
-                --cancelForceVirtualingTime;
-            } else if(cancelForceVirtualingTime == 0) {
-                --cancelForceVirtualingTime;
-                Game.Input.forceVirtualing = false;
-            }
-            if(SelfImage.isActiveAndEnabled && (Game.Status == Model.EGameStatus.Start || Game.Status == Model.EGameStatus.InEditor)) {
-                SelfImage.enabled = false;
-            } else if(!SelfImage.isActiveAndEnabled && Game.Status == Model.EGameStatus.InGame) {
-                SelfImage.enabled = true;
-                //transform.SetAsLastSibling();
-            }
-            if(SelfImage.enabled && SelfImage.sprite != spriteList[lastDowned]) {
-                SelfImage.sprite = spriteList[lastDowned];
+            if(!Game.Settings.Settings.virtualJoysticksOn || Game.Status == Model.EGameStatus.Start || Game.Status == Model.EGameStatus.InEditor) {
+                btnShowHide.gameObject.SetActive(false);
+                rocker.gameObject.SetActive(false);
+            } else {
+                btnShowHide.gameObject.SetActive(true);
+                rocker.gameObject.SetActive(true);
+                if(cancelForceVirtualingTime > 0) {
+                    --cancelForceVirtualingTime;
+                } else if(cancelForceVirtualingTime == 0) {
+                    --cancelForceVirtualingTime;
+                    Game.Input.forceVirtualing = false;
+                }
+                rocker.enabled = shown && Game.Status == Model.EGameStatus.InGame;
+                btnShowHide.GetComponent<Image>().sprite = rocker.enabled ? btnHideImage : btnShowImage;
+                if(rocker.enabled && rocker.sprite != spriteList[lastDowned]) {
+                    rocker.sprite = spriteList[lastDowned];
+                }
             }
         }
 
@@ -45,7 +48,6 @@ namespace MagicTower.Components.Unit {
             } else {
                 downup = 0;
             }
-            //Game.DebugLogNote("touched pos: ", p.position, ", rocker pos: ", selfPos, ", delta: ", new Vector2(leftright, downup));
             KeyCode downed;
             if(downup > 0) {
                 downed = Present.Manager.InputManager.VirtualKeyCode.Up;
@@ -79,13 +81,23 @@ namespace MagicTower.Components.Unit {
             cancelForceVirtualingTime = 10;
         }
 
+        public void OnShowHide() {
+            shown = !shown;
+        }
+
         public Sprite NormalImage;
         public Sprite UpImage;
         public Sprite DownImage;
         public Sprite LeftImage;
         public Sprite RightImage;
 
-        public Image SelfImage;
+        public Image rocker;
+        public Button btnShowHide;
+
+        public Sprite btnHideImage;
+        public Sprite btnShowImage;
+
+        public bool shown;
 
         private KeyCode lastDowned;
         private Dictionary<KeyCode, Sprite> spriteList;

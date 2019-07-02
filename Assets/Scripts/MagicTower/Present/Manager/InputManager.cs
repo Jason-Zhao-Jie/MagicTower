@@ -55,7 +55,7 @@ namespace MagicTower.Present.Manager {
             RegisterKeyListener(KeyCode.Backspace, OnKeyCancel);
             RegisterKeyListener(AndroidKeyCode.Back, OnKeyCancel);
             RegisterKeyListener(XboxJoysticsCode.B, OnKeyCancel);
-            RegisterTouchUpListener(OnBaseTouchUp);
+            RegisterTouchDownListener(OnBaseTouchDown);
             forceVirtualing = false;
         }
 
@@ -122,7 +122,7 @@ namespace MagicTower.Present.Manager {
             }
         }
 
-        private void OnBaseTouchUp(Vector2 end, Vector2 begin, int mouseBtn) {
+        private void OnBaseTouchDown(Vector2 pos, int mouseBtn) {
             if(CheckVirtualRockerState()) {
                 return;
             }
@@ -132,7 +132,7 @@ namespace MagicTower.Present.Manager {
                     break;
                 case Model.EGameStatus.InGame:
                 case Model.EGameStatus.InEditor:
-                    Game.Map.ClickMap(end);
+                    Game.Map.ClickMap(pos);
                     break;
                 case Model.EGameStatus.OnTipChat:
                     Game.ChatStepOn();

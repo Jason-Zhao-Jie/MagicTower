@@ -53,7 +53,7 @@ namespace MagicTower.Present.Map {
             pos = mainCamera.ScreenToWorldPoint(pos);
             var _posx = System.Convert.ToInt32(System.Math.Round(pos.x / blockSize - MAP_BLOCK_POS_HALF));
             var _posy = System.Convert.ToInt32(System.Math.Round(pos.y / blockSize - MAP_BLOCK_POS_HALF));
-            if(_posx >= 0 && _posx >= 0 && _posx < MAP_BLOCK_LENGTH && _posy < MAP_BLOCK_LENGTH) {
+            if(Game.Settings.Settings.autoFindBestRoad && _posx >= 0 && _posx >= 0 && _posx < MAP_BLOCK_LENGTH && _posy < MAP_BLOCK_LENGTH) {
                 Game.Player.StartAutoStep(_posx, _posy);
             }
         }

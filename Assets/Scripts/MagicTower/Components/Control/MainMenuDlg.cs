@@ -25,9 +25,6 @@ namespace MagicTower.Components.Control {
             lastStatus = Game.Status;
             Game.Status = Model.EGameStatus.OnDialog;
             Game.GamePaused = true;
-            fitter.spacing = Screen.height / 36f;
-            fitter.padding.left = Screen.width / 25;
-            fitter.padding.right = Screen.width / 25;
         }
 
         public void OnResume() {

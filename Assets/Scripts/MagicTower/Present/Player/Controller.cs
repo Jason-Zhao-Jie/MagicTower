@@ -91,7 +91,7 @@ namespace MagicTower.Present.Player
             {
                 if (AutoSteppingRoad.Count <= 0)
                 {
-                    View.Player.StopAutoStep();
+                    StopAutoStep();
                     return Direction.Default;
                 }
                 var target = AutoSteppingRoad.Pop();
@@ -189,6 +189,10 @@ namespace MagicTower.Present.Player
             }
             View.Player.StartAutoStep();
             return true;
+        }
+
+        public void StopAutoStep() {
+            View.Player.StopAutoStep();
         }
 
         public bool CheckPlayerData(Model.ResourceType type, int minValue)

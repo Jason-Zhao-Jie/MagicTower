@@ -7,6 +7,7 @@ namespace MagicTower.Present.Map {
         public Controller(View mapPanel) {
             InitDataAndView(new Data(this), mapPanel);
             View.Controller = this;
+            View.SetCanvasSize();
         }
 
         public void SetStartData(int mapId, Model.MapData[] datas) {
@@ -192,8 +193,6 @@ namespace MagicTower.Present.Map {
         public Model.MapData CurrentMap => Data.CurrentMap;
         public int MapsCount => Data.MapsCount;
         public UnityEngine.Rect MapRect => View.MapRect;
-
-        public UnityEngine.Vector2 HitterLocalScale => View.HitterLocalScale;
 
         private readonly Dictionary<long, Modal> modals = new Dictionary<long, Modal>();
     }

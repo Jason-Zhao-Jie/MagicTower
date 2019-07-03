@@ -134,6 +134,9 @@ namespace MagicTower.Present.Manager {
                 case Model.EGameStatus.InEditor:
                     Game.Map.ClickMap(pos);
                     break;
+                case Model.EGameStatus.AutoStepping:
+                    Game.Player.StopAutoStep();
+                    break;
                 case Model.EGameStatus.OnTipChat:
                     Game.ChatStepOn();
                     break;

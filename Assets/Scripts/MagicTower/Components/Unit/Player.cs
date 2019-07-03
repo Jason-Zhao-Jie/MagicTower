@@ -40,7 +40,6 @@ namespace MagicTower.Components.Unit {
                 Game.Input.RegisterJoysticksAxisListener(InputManager.JoysticsAxes.SpecialHorizontal, OnJoysticsRockerAxes),
                 Game.Input.RegisterJoysticksAxisListener(InputManager.JoysticsAxes.SpecialVertical, OnJoysticsRockerAxes),
             };
-            listeningTouch = Game.Input.RegisterTouchDownListener(OnClickStopAutoStep);
         }
 
         private void OnDisable() {
@@ -59,7 +58,6 @@ namespace MagicTower.Components.Unit {
                 Game.Input.UnregisterJoysticksAxisListener(InputManager.JoysticsAxes.RightVertical, listeningAxis[3]);
                 Game.Input.UnregisterJoysticksAxisListener(InputManager.JoysticsAxes.SpecialHorizontal, listeningAxis[4]);
                 Game.Input.UnregisterJoysticksAxisListener(InputManager.JoysticsAxes.SpecialVertical, listeningAxis[5]);
-                Game.Input.UnregisterTouchDownListener(listeningTouch);
             }
             Game.Status = Model.EGameStatus.InGame;
         }
@@ -84,14 +82,6 @@ namespace MagicTower.Components.Unit {
         }
 
         private void OnJoysticsRockerAxes(int joystickIndex, float value, float oldValue) {
-            switch(Game.Status) {
-                case Model.EGameStatus.AutoStepping:
-                    StopAutoStep();
-                    break;
-            }
-        }
-
-        private void OnClickStopAutoStep(Vector2 pos, int mouseBtn) {
             switch(Game.Status) {
                 case Model.EGameStatus.AutoStepping:
                     StopAutoStep();
@@ -185,7 +175,6 @@ namespace MagicTower.Components.Unit {
 
         private int[] listeningKeys;
         private int[] listeningAxis;
-        private int listeningTouch;
     }
 
 }

@@ -29,11 +29,6 @@ namespace MagicTower.Components.UIPanel {
             stringChatsAndChoicesPanel = GameObject.Find("StringChatsAndChoicesPanel");
             prefabList = modalMakerPanel.transform.Find("prefabs").GetComponent<ListView>();
             dataList = stringChatsAndChoicesPanel.transform.Find("DataList").GetComponent<ListView>();
-            // 初始化地图并设定背景
-            Game.Map = new Present.Map.Controller(GameObject.Find("MapMakerPanel").transform.Find("MapPanel").GetComponent<Present.Map.View>());
-
-            // 载入所有资源
-            // TODO: allPrefabs = Resources.LoadAll<GameObject>(Model.Dirs.PREFAB_DIR);
 
             // dropdown 公共数据列表
             var eventIdList = new List<string> {

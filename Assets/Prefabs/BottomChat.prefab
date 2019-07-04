@@ -112,7 +112,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5697090088233582446}
-  - {fileID: 888385551660723246}
+  - {fileID: 8242240296976759568}
   - {fileID: 224783714854024274}
   - {fileID: 224315648117974870}
   m_Father: {fileID: 0}
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f285107edc3b18c47a98873a00d281ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speaker: {fileID: 7212266502713323532}
+  speaker: {fileID: 8242240296976759778}
   speakerText: {fileID: 114965209371195722}
   content: {fileID: 114756981203973170}
 --- !u!1 &1784094988881666
@@ -246,7 +246,7 @@ MonoBehaviour:
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 2
-    m_MaxSize: 30
+    m_MaxSize: 100
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -408,12 +408,12 @@ PrefabInstance:
     - target: {fileID: 9094592917240421218, guid: 3806bfe5c6b78c1429625448845a151f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 40
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 9094592917240421218, guid: 3806bfe5c6b78c1429625448845a151f,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 40
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 9094592917240421218, guid: 3806bfe5c6b78c1429625448845a151f,
         type: 3}
@@ -447,13 +447,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3806bfe5c6b78c1429625448845a151f, type: 3}
---- !u!224 &888385551660723246 stripped
+--- !u!224 &8242240296976759568 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9094592917240421218, guid: 3806bfe5c6b78c1429625448845a151f,
     type: 3}
   m_PrefabInstance: {fileID: 8242240296976758604}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7212266502713323532 stripped
+--- !u!114 &8242240296976759778 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1618287385028101952, guid: 3806bfe5c6b78c1429625448845a151f,
     type: 3}

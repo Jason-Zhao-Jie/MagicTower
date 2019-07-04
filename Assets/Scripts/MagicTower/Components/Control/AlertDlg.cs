@@ -3,8 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace MagicTower.Components.Control {
-
     public class AlertDlg : MonoBehaviour {
+        public const string STR_UI_OK = "str_ui_ok";
+        public const string STR_UI_CANCEL = "str_ui_cancel";
+
         // Start is called before the first frame update
         void Awake() {
             if (showed) {
@@ -14,18 +16,18 @@ namespace MagicTower.Components.Control {
             }
         }
 
-        public void Init(string contentStrId, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel", params string[] contentStrValues) {
-            Init(contentStrId, leftCallback, leftStr, rightCallback, rightStr, contentStrValues);
+        public void Init(string contentStrId, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStrId = STR_UI_OK, Model.EmptyBoolCallBack rightCallback = null, string rightStrId = STR_UI_CANCEL, params string[] contentStrValues) {
+            Init(contentStrId, leftCallback, leftStrId, rightCallback, rightStrId, contentStrValues);
             content.alignment = contentAlignment;
         }
 
-        public void Init(string contentStrId, Model.EmptyBoolCallBack leftCallback, string leftStr = "OK", Model.EmptyBoolCallBack rightCallback = null, string rightStr = "Cancel", params string[] contentStrValues) {
+        public void Init(string contentStrId, Model.EmptyBoolCallBack leftCallback, string leftStrId = STR_UI_OK, Model.EmptyBoolCallBack rightCallback = null, string rightStrId = STR_UI_CANCEL, params string[] contentStrValues) {
             // 设定信息
-            this.contentStr = Game.Config.StringInternational.GetValue(contentStrId, contentStrValues);
+            contentStr = Game.Config.StringInternational.GetValue(contentStrId, contentStrValues);
             this.leftCallback = leftCallback;
-            this.leftStr = leftStr;
+            leftStr = Game.Config.StringInternational.GetValue(leftStrId);
             this.rightCallback = rightCallback;
-            this.rightStr = rightStr;
+            rightStr = Game.Config.StringInternational.GetValue(rightStrId);
             if(isActiveAndEnabled) {
                 content.text = contentStr;
                 leftText.text = leftStr;

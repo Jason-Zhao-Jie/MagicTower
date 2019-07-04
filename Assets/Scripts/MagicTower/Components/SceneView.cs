@@ -35,10 +35,6 @@ namespace MagicTower.Components.Scene {
         }
 
         public void Loading() {
-            Game.Initial(this, Instantiate(loadingObj, mapTileRoot.transform).GetComponent<UIPanel.GlobalLoading>());
-
-            // 打开开始界面
-            Game.StopAndBackToStart();
         }
 
         public Present.Player.View RefreshPlayerPanel() {
@@ -53,10 +49,9 @@ namespace MagicTower.Components.Scene {
         public AudioSource musicSource;
         public AudioSource[] audioSources;
 
-        public GameObject loadingObj;
         public GameObject playerPanel;
 
-        public GameObject uiCanvas = null;
+        public GameObject uiCanvas;
 
     }
 

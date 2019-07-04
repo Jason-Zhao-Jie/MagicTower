@@ -40,7 +40,7 @@ namespace ArmyAnt.ViewUtil {
         }
 
         /// <summary>
-        /// 截取指定摄像机的全部内容, 返回其纹理. 
+        /// 截取指定UI区域内的全部可视内容, 返回其纹理. 
         /// <remarks> 必须在协程或屏幕摄像机的 OnPostRender 中调用 </remarks>
         /// </summary>
         /// <param name="rect"></param>

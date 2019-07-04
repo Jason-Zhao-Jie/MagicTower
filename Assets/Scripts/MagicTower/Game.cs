@@ -28,9 +28,10 @@ namespace MagicTower {
             }
 
             GamePaused = true;
+            Status = Model.EGameStatus.Start;
         }
 
-        public static void Initial(Components.Scene.SceneView scene, Components.UIPanel.GlobalLoading resource) {
+        public static void Initial(Components.Scene.SceneView scene, Components.UIPanel.GlobalLoading resource, Components.Unit.Curtain curtain) {
             AdsPluginManager.Initialize(false, true);
 
             if (Config == null) {
@@ -42,8 +43,7 @@ namespace MagicTower {
             Resource = resource;
             Resource.DialogCanvas = View.uiCanvas.transform;
             Player = new Present.Player.Controller(View.RefreshPlayerPanel());
-            Map = new Present.Map.Controller(View.mapTileRoot);
-            Status = Model.EGameStatus.Start;
+            Map = new Present.Map.Controller(View.mapTileRoot, curtain);
         }
 
         public static void ExitGame() {
@@ -228,7 +228,7 @@ namespace MagicTower {
         }
 
         public static void SceneOnPostRender() {
-            if(CapturedTexture == null) {
+            if(CapturedTexture == null && Status != Model.EGameStatus.Start) {
                 CapturedTexture = ArmyAnt.ViewUtil.ScreenUtil.CaptureRect(Map.MapRect);
                 Resource.GetUI(UIType.AlertDialog)?.gameObject?.SetActive(true);
                 Resource.GetUI(UIType.SaveLoadDialog)?.gameObject?.SetActive(true);
@@ -444,11 +444,11 @@ namespace MagicTower {
         #region Alert Dialog
 
         public static void ShowAlert(string contentStrId, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback = null, params string[] contentStrValues) {
-            ShowUI<AlertDlg>(UIType.AlertDialog).Init(contentStrId, contentAlignment, leftCallback, "OK", null, "Cancel", contentStrValues);
+            ShowUI<AlertDlg>(UIType.AlertDialog).Init(contentStrId, contentAlignment, leftCallback, AlertDlg.STR_UI_OK, null, AlertDlg.STR_UI_CANCEL, contentStrValues);
         }
 
-        public static void ShowAlert(string contentStrId, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr, Model.EmptyBoolCallBack rightCallback, string rightStr, params string[] contentStrValues) {
-            ShowUI<AlertDlg>(UIType.AlertDialog).Init(contentStrId, contentAlignment, leftCallback, leftStr, rightCallback, rightStr, contentStrValues);
+        public static void ShowAlert(string contentStrId, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStrId, Model.EmptyBoolCallBack rightCallback, string rightStrId, params string[] contentStrValues) {
+            ShowUI<AlertDlg>(UIType.AlertDialog).Init(contentStrId, contentAlignment, leftCallback, leftStrId, rightCallback, rightStrId, contentStrValues);
         }
 
         /// <summary>
@@ -457,11 +457,11 @@ namespace MagicTower {
         /// <param name="contentStr"> 对话框内容文字 </param>
         /// <param name="contentAlignment"> 对话框内容文字对齐方式 </param>
         /// <param name="leftCallback"> 点击左边按钮的回调, 无回调或返回true表示回调结束后关闭 Alert Dialog </param>
-        /// <param name="leftStr"> 左边按钮文字 </param>
+        /// <param name="leftStr"> 左边按钮文字 Id </param>
         /// <param name="rightCallback"> 点击右边按钮的回调, 无回调或返回true表示回调结束后关闭 Alert Dialog </param>
-        /// <param name="rightStr"> 右边按钮文字 </param>
-        public static IEnumerator ShowAlertModal(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStr, Model.EmptyBoolCallBack rightCallback, string rightStr, params string[] contentStrValues) {
-            ShowAlert(contentStr, contentAlignment, leftCallback, leftStr, rightCallback, rightStr, contentStrValues);
+        /// <param name="rightStr"> 右边按钮文字 Id </param>
+        public static IEnumerator ShowAlertModal(string contentStr, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback, string leftStrId, Model.EmptyBoolCallBack rightCallback, string rightStrId, params string[] contentStrValues) {
+            ShowAlert(contentStr, contentAlignment, leftCallback, leftStrId, rightCallback, rightStrId, contentStrValues);
             yield return new WaitUntil(() => Resource.GetUI(UIType.AlertDialog) == null);
         }
 

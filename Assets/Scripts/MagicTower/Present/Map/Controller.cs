@@ -4,9 +4,10 @@ using MagicTower.Components.Unit;
 namespace MagicTower.Present.Map {
 
     public class Controller : ArmyAnt.Base.AController<Data, View> {
-        public Controller(View mapPanel) {
+        public Controller(View mapPanel, Curtain curtain) {
             InitDataAndView(new Data(this), mapPanel);
             View.Controller = this;
+            View.curtain = curtain;
             View.SetCanvasSize();
         }
 

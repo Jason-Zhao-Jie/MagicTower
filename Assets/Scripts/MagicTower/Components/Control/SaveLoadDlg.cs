@@ -7,7 +7,12 @@ using ArmyAnt.ViewUtil.Components;
 
 namespace MagicTower.Components.Control {
 
-    public class SaveLoadDlg : MonoBehaviour { 
+    public class SaveLoadDlg : MonoBehaviour {
+        private const string OK_STR_KEY = "str_ui_ok";
+        private const string CANCEL_STR_KEY = "str_ui_cancel";
+        private const string DELETE_STR_KEY = "str_ui_delete";
+        private const string STR_UI_SAVEGAME = "str_ui_savegame";
+        private const string STR_UI_LOADGAME = "str_ui_loadgame";
         private const string STR_UI_SAVENEW = "str_ui_saveNew";
         private const string STR_UI_SAVENAME = "str_ui_saveName";
         private const string STR_UI_SAVEINFO = "str_ui_saveInfo";
@@ -21,6 +26,9 @@ namespace MagicTower.Components.Control {
 
         private void Awake() {
             list.selectedFunc = OnSelect;
+            txtOK.text = Game.Config.StringInternational.GetValue(OK_STR_KEY);
+            txtCancel.text = Game.Config.StringInternational.GetValue(CANCEL_STR_KEY);
+            txtDelete.text = Game.Config.StringInternational.GetValue(DELETE_STR_KEY);
         }
 
         // Update is called once per frame
@@ -38,6 +46,7 @@ namespace MagicTower.Components.Control {
 
             var saveData = Present.Manager.SaveManager.ListAll();
             if(save) {
+                title.text = Game.Config.StringInternational.GetValue(STR_UI_SAVEGAME);
                 var item = list.PushbackDefaultItem();
                 item.GetComponent<UserData>().SetGameObject(item.Find("Selected").gameObject);
                 item.GetComponent<UserData>().GetGameObject().SetActive(false);
@@ -45,6 +54,8 @@ namespace MagicTower.Components.Control {
                 item.GetComponent<UserData>().SetStringData(null);
                 item.GetComponent<UserData>().SetStringData(0, Game.Config.StringInternational.GetValue(STR_UI_SAVEINFO, Game.Player.Level.ToString(), Game.Player.Life.ToString(), Game.Player.Attack.ToString(), Game.Player.Defense.ToString(), Game.Player.Speed.ToString(), Game.Player.Gold.ToString()));
                 item.GetComponent<Button>().onClick.AddListener(() => { list.Select(item); });
+            } else {
+                title.text = Game.Config.StringInternational.GetValue(STR_UI_LOADGAME);
             }
             foreach(var i in saveData) {
                 var item = list.PushbackDefaultItem();

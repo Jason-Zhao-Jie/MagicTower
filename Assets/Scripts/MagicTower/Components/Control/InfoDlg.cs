@@ -4,8 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace MagicTower.Components.Control {
-
     public class InfoDlg : MonoBehaviour {
+        private const string STR_UI_CLOSE = "str_ui_close";
+
         private void Awake() {
             foreach(var i in Game.Config.infos) {
                 var item = titleList.PushbackDefaultItem();
@@ -14,6 +15,7 @@ namespace MagicTower.Components.Control {
                 item.GetComponent<Button>().onClick.AddListener(() => { titleList.Select(item); });
             }
             titleList.selectedFunc = OnItemClick;
+            btnText.text = Game.Config.StringInternational.GetValue(STR_UI_CLOSE);
         }
 
         private void OnEnable() {

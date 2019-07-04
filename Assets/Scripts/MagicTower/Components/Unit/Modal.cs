@@ -4,7 +4,6 @@ using ArmyAnt.ViewUtil;
 using UnityEngine;
 
 namespace MagicTower.Components.Unit {
-
     public enum ModalType {
         Unknown,
         Walkable,
@@ -25,9 +24,9 @@ namespace MagicTower.Components.Unit {
     }
 
     public class Modal : ObjectPool.AViewUnit {
-        const int RECYCLE_TIMER_INIT = 15;
-        const int ONCE_TIMER_INIT = 10;
-        const int HITTER_TIMER_INIT = 5;
+        const float RECYCLE_TIMER_INIT = 0.3f;
+        const float ONCE_TIMER_INIT = 0.2f;
+        const float HITTER_TIMER_INIT = 0.1f;
 
         public override ObjectPool.ElementType GetPoolTypeId() {
             var spc = GetComponent<SpriteRenderer>();
@@ -69,7 +68,7 @@ namespace MagicTower.Components.Unit {
 
         // Update is called once per frame
         void Update() {
-            --timer;
+            timer -= Time.deltaTime;
             if(timer <= 0) {
                 InitTimer();
                 switch(AnimType) {
@@ -200,7 +199,7 @@ namespace MagicTower.Components.Unit {
             }
         }
 
-        private int timer = 10;
+        private float timer;
         private Sprite[] sprites = null;
         private int animPointer;
         private Model.EmptyCallBack destroyCallBack = null;

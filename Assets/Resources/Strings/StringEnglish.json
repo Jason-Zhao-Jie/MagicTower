@@ -579,7 +579,7 @@
     },
     {
       "key": "str_ui_ok",
-      "langKey": "en-us"
+      "content": "OK"
     },
     {
       "key": "str_ui_cancel",
@@ -732,6 +732,22 @@
     {
       "key": "str_ui_readme",
       "content": "Readme blank"
+    },
+    {
+      "key": "str_ui_delete",
+      "content": "Delete"
+    },
+    {
+      "key": "str_ui_savegame",
+      "content": "Save Game"
+    },
+    {
+      "key": "str_ui_loadgame",
+      "content": "Load Game"
+    },
+    {
+      "key": "str_ui_close",
+      "content": "Close"
     }
   ]
 }

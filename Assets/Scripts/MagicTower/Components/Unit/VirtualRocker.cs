@@ -24,6 +24,7 @@ namespace MagicTower.Components.Unit {
             } else {
                 btnShowHide.gameObject.SetActive(true);
                 rocker.gameObject.SetActive(true);
+                transform.SetAsLastSibling();
                 if(cancelForceVirtualingTime > 0) {
                     --cancelForceVirtualingTime;
                 } else if(cancelForceVirtualingTime == 0) {
@@ -40,7 +41,7 @@ namespace MagicTower.Components.Unit {
 
         public void OnTouchDown(UnityEngine.EventSystems.BaseEventData data) {
             var p = data as UnityEngine.EventSystems.PointerEventData;
-            var selfPos = Camera.main.WorldToScreenPoint(transform.position);
+            var selfPos = Camera.main.WorldToScreenPoint(rocker.transform.position);
             var leftright = p.position.x - selfPos.x;
             var downup = p.position.y - selfPos.y;
             if(Mathf.Abs(leftright) <= Mathf.Abs(downup)) {

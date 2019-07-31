@@ -130,8 +130,16 @@ namespace MagicTower {
             return Resource.modSprites[modName];
         }
 
+        public static IReadOnlyDictionary<string, Sprite[]> GetMods() {
+            return Resource.modSprites;
+        }
+
         public static AudioClip GetAudio(string audioName) {
             return Resource.audioClips[audioName];
+        }
+
+        public static IReadOnlyDictionary<string, AudioClip> GetAudio() {
+            return Resource.audioClips;
         }
 
         public static GameObject GetPlayer(string player) {
@@ -175,7 +183,6 @@ namespace MagicTower {
             HideUI(UIType.BottomChat);
             HideUI(UIType.ChoiceDialog);
             HideUI(UIType.MainMenu);
-            HideUI(UIType.ModalSelector);
             HideUI(UIType.SaveLoadDialog);
             HideUI(UIType.SettingDialog);
             HideUI(UIType.TipBar);
@@ -535,14 +542,6 @@ namespace MagicTower {
             Resource.ShowUI(UIType.SettingDialog);
         }
 
-        #endregion
-
-        #region Modal Selector
-
-        public static void ShowModalSelector(int nowModalId, ModalSelectorDlg.SelectedCallback callback) {
-            ShowUI<ModalSelectorDlg>(UIType.ModalSelector).Init(nowModalId, callback);
-        }
-        
         #endregion
 
         #region Runtime Data Part

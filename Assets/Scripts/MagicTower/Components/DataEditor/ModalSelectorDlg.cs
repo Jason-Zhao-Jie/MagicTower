@@ -4,7 +4,7 @@ using ArmyAnt.ViewUtil;
 using ArmyAnt.ViewUtil.Components;
 using MagicTower.Components.Unit;
 
-namespace MagicTower.Components.Control
+namespace MagicTower.Components.DataEditor
 {
 
     public class ModalSelectorDlg : MonoBehaviour
@@ -74,7 +74,7 @@ namespace MagicTower.Components.Control
                 }
                 selectedCallback(nowId);
                 Game.Status = lastStatus;
-                Game.HideUI(UIType.ModalSelector);
+                gameObject.SetActive(false);
                 return;
             }
             if (selectedItem != null)
@@ -112,7 +112,7 @@ namespace MagicTower.Components.Control
         public Image SelectedModal;
         public Text SelectedModalName;
         public ListView ModalList;
-
+        
         private int nowId;
         private bool showed = false;
         private RectTransform selectedItem;

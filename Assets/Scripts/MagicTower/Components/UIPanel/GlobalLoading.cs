@@ -19,7 +19,6 @@ namespace MagicTower.Components {
         BattleDialog,
         SaveLoadDialog,
         SettingDialog,
-        ModalSelector,
     }
 
     namespace UIPanel {
@@ -77,7 +76,6 @@ namespace MagicTower.Components {
                     { UIType.BattleDialog, battleDialog },
                     { UIType.SaveLoadDialog, saveLoadDialog },
                     { UIType.SettingDialog, settingDialog },
-                    { UIType.ModalSelector, modalSelector },
                 };
             }
 
@@ -154,7 +152,6 @@ namespace MagicTower.Components {
             public GameObject battleDialog = null;
             public GameObject saveLoadDialog = null;
             public GameObject settingDialog = null;
-            public GameObject modalSelector = null;
 
             private Dictionary<UIType, GameObject> ui;
             private Dictionary<UIType, GameObject> showedUI = new Dictionary<UIType, GameObject>();

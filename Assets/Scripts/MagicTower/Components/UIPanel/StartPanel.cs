@@ -33,7 +33,7 @@ namespace MagicTower.Components.UIPanel {
                 btnDataEditor.gameObject.SetActive(false);
             }
 
-            AudioManager.PlayMusicLoop(id_startMusic);
+            AudioManager.PlayMusicLoop(id_startMusic, true);
         }
 
         private void SetUIByLanguage(int id) {
@@ -65,7 +65,8 @@ namespace MagicTower.Components.UIPanel {
 
         public void OnGameEditor() {
             AudioManager.StopMusic();
-            Game.ShowDataEditor(); // TODO : 需要在此暂停音乐
+            Game.ShowDataEditor();
+            Game.HideUI(UIType.StartPanel);
         }
 
         public void OnExitGame() => Game.ExitGame();

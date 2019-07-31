@@ -60,16 +60,20 @@ namespace MagicTower.Present.Manager {
         }
         /// <summary>
         /// 循环播放背景音乐，这将覆盖之前的背景音乐
+        /// 如果正在播放的背景音乐与此背景音乐相同, 则不会覆盖也不会重新从头播放
         /// </summary>
         /// <returns><c>true</c>, if music loop was played, <c>false</c> otherwise.</returns>
         /// <param name="id">音乐id</param>
-        public static bool PlayMusicLoop(int id) {
-            if (id == musicId)
-                return true;
-            musicSource.clip = Game.GetAudio(Game.Config.audios[id].path);
-            musicSource.Play();
+        public static void PlayMusicLoop(int id, bool forceReset = false) {
+            if(id == musicId && !forceReset) {
+                if(!musicSource.isPlaying) {
+                    musicSource.Play();
+                }
+            } else {
+                musicSource.clip = Game.GetAudio(Game.Config.audios[id].path);
+                musicSource.Play();
+            }
             musicId = id;
-            return true;
         }
         /// <summary>
         /// 按列表播放背景音乐 （未实现，暂不需要此功能）
@@ -85,25 +89,30 @@ namespace MagicTower.Present.Manager {
         /// 停止播放背景音乐
         /// </summary>
         /// <returns><c>true</c>, if music was stoped, <c>false</c> otherwise.</returns>
-        public static bool StopMusic() {
-            musicSource.Stop();
-            return true;
-        }
+        public static void StopMusic() => musicSource.Stop();
         /// <summary>
         /// 播放音效，不影响背景音乐和其他音效，除非同时播放的音效数量多于注册的音效组件数量
         /// </summary>
         /// <returns><c>true</c>, if sound was played, <c>false</c> otherwise.</returns>
         /// <param name="id">Identifier.</param>
-        /// <param name="times">Times.</param>
-        public static bool PlaySound(int id, int times = 1) {
-            if (soundSource.Count <= index)
+        public static bool PlaySound(int id) => PlaySound(Game.Config.audios[id].path);
+        public static bool PlaySound(string path) {
+            if(soundSource.Count <= index)
                 index = 0;
-            if (soundSource.Count <= 0)
+            if(soundSource.Count <= 0)
                 return false;
-            soundSource[index].clip = Game.GetAudio(Game.Config.audios[id].path);
+            soundSource[index].clip = Game.GetAudio(path);
             soundSource[index].Play();
             ++index;
             return true;
+        }
+        /// <summary>
+        /// 停止场景上的全部音效
+        /// </summary>
+        public static void StopAllSounds() {
+            foreach(var i in soundSource) {
+                i.Stop();
+            }
         }
         /// <summary>
         /// 使背景音乐静音，这不会令音乐停止

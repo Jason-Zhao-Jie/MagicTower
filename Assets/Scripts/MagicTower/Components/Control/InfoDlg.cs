@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ArmyAnt.ViewUtil.Components;
 
 namespace MagicTower.Components.Control {
     public class InfoDlg : MonoBehaviour {
@@ -9,10 +10,9 @@ namespace MagicTower.Components.Control {
 
         private void Awake() {
             foreach(var i in Game.Config.infos) {
-                var item = titleList.PushbackDefaultItem();
-                item.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(i.title);
-                item.Find("Text").GetComponent<Text>().color = new Color(0.7f, 0.8f, 0.9f);
-                item.GetComponent<Button>().onClick.AddListener(() => { titleList.Select(item); });
+                var item = titleList.PushbackDefaultItem<DefaultSelectableElement>();
+                item.text.text = Game.Config.StringInternational.GetValue(i.title);
+                item.AddOnclickEvent(() => { titleList.Select(item.GetComponent<RectTransform>()); });
             }
             titleList.selectedFunc = OnItemClick;
             btnText.text = Game.Config.StringInternational.GetValue(STR_UI_CLOSE);
@@ -26,13 +26,9 @@ namespace MagicTower.Components.Control {
         }
 
         private void OnItemClick(int index, bool selected) {
-            titleList[index].GetComponent<Button>().interactable = !selected;
+            titleList[index].GetComponent<DefaultSelectableElement>().Selected = selected;
             if(selected) {
-                titleList[index].Find("Text").GetComponent<Text>().color = new Color(0.1f, 0.2f, 0.3f);
                 content.text = Game.Config.StringInternational.GetValue(Game.Config.infos[index].content);
-            } else {
-                titleList[index].Find("Text").GetComponent<Text>().color = new Color(0.7f, 0.8f, 0.9f);
-
             }
         }
 
@@ -41,7 +37,7 @@ namespace MagicTower.Components.Control {
             Game.HideUI(UIType.InfoDialog);
         }
 
-        public ArmyAnt.ViewUtil.Components.SelectListView titleList;
+        public SelectListView titleList;
         public Text content;
         public Button btn;
         public Text btnText;

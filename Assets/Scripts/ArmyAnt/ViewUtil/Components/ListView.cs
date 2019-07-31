@@ -103,6 +103,10 @@ namespace ArmyAnt.ViewUtil.Components
             return InsertDefaultItem(children.Count);
         }
 
+        public T PushbackDefaultItem<T>() {
+            return PushbackDefaultItem().GetComponent<T>();
+        }
+
         /// <summary>
         /// 在指定索引处插入 default item
         /// </summary>

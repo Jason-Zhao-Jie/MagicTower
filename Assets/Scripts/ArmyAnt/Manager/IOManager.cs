@@ -22,7 +22,7 @@ namespace ArmyAnt.Manager {
             var dir = ParsePath(path);
             try {
                 if (System.IO.Directory.Exists(dir)) {
-                    return false;
+                    return true;
                 }
                 System.IO.Directory.CreateDirectory(dir);
             } catch (System.IO.IOException) {

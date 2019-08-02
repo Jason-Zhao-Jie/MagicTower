@@ -666,7 +666,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 153.13, y: 0}
+  m_AnchoredPosition: {x: 312.1, y: 0}
   m_SizeDelta: {x: 127.75, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &573075661343090904
@@ -5990,7 +5990,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 153.5, y: 1.1499939}
+  m_AnchoredPosition: {x: 310.9, y: 45.7}
   m_SizeDelta: {x: 128.5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &573075661701285422
@@ -7499,7 +7499,7 @@ GameObject:
   - component: {fileID: 573075662782596695}
   - component: {fileID: 573075662782596696}
   m_Layer: 5
-  m_Name: MapMakerPanel
+  m_Name: MapEditorPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

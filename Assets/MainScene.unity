@@ -1198,6 +1198,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SplashPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 781489477467399141, guid: 3f5c688b56531244a8b2c0be8defc003,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 781489477467399140, guid: 3f5c688b56531244a8b2c0be8defc003,
         type: 3}
       propertyPath: m_LocalPosition.x

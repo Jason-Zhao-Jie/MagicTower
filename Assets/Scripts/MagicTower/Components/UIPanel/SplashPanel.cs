@@ -28,7 +28,7 @@ namespace MagicTower.Components.UIPanel {
             yield return new WaitUntil(() => logoImage.color.a >= 1-float.Epsilon);
             var startTime = System.DateTime.Now;
             var curtain = Instantiate(curtainPrefab);
-            curtain.transform.SetParent(uiCanvas.transform);
+            curtain.transform.SetParent(uiCanvas.transform, false);
             Game.Initial(scene, Instantiate(Resources.Load<GameObject>("LoadingObject"), mapTileRoot.transform).GetComponent<GlobalLoading>(), curtain.GetComponent<Unit.Curtain>());
             transform.SetAsLastSibling();
             var waitingTime = System.Convert.ToSingle(3f + (startTime - System.DateTime.Now).TotalSeconds);
@@ -46,7 +46,7 @@ namespace MagicTower.Components.UIPanel {
             // 打开开始界面
             fadeOutTime = 1f;
             yield return new WaitUntil(() => logoImage.color.a <= float.Epsilon);
-            Instantiate(virtualRockerPrefab).transform.SetParent(uiCanvas.transform);
+            Instantiate(virtualRockerPrefab).transform.SetParent(uiCanvas.transform, false);
             Game.StopAndBackToStart();
             Destroy(gameObject);
         }

@@ -252,9 +252,11 @@ namespace MagicTower {
 
         public static void RecaptureMap() {
             CapturedTexture = null;
-            Resource.GetUI(UIType.AlertDialog)?.gameObject?.SetActive(false);
-            Resource.GetUI(UIType.SaveLoadDialog)?.gameObject?.SetActive(false);
-            Resource.GetUI(UIType.MainMenu)?.gameObject?.SetActive(false);
+            if(Status != Model.EGameStatus.Start) {
+                Resource.GetUI(UIType.AlertDialog)?.gameObject?.SetActive(false);
+                Resource.GetUI(UIType.SaveLoadDialog)?.gameObject?.SetActive(false);
+                Resource.GetUI(UIType.MainMenu)?.gameObject?.SetActive(false);
+            }
         }
 
         public static Texture2D CapturedTexture { get; private set; }
@@ -273,6 +275,9 @@ namespace MagicTower {
                 return false;
             }
             HideUI(UIType.StartPanel);
+            HideUI(UIType.AlertDialog);
+            HideUI(UIType.SaveLoadDialog);
+            HideUI(UIType.MainMenu);
             Status = Model.EGameStatus.InGame;
             return true;
         }
@@ -363,25 +368,29 @@ namespace MagicTower {
 
         #region Chat Part
 
-        public static TipBar ShowTip(params string[] texts) {
+        public static TipBar ShowTip(params string[] textKeys) {
+            return ShowTip(false, textKeys);
+        }
+
+        public static TipBar ShowTip(int autoRemoveTime, params string[] textKeys) {
+            var ui = ShowTip(textKeys);
+            ui.StartAutoRemove(autoRemoveTime);
+            return ui;
+        }
+
+        public static TipBar ShowTip(bool silent, params string[] textKeys) {
             var text = "";
-            if(texts != null) {
+            if(textKeys != null) {
                 var builder = new System.Text.StringBuilder();
-                for(var i = 0; i < texts.Length; ++i) {
-                    builder.Append(Config.StringInternational.GetValue(texts[i]));
+                for(var i = 0; i < textKeys.Length; ++i) {
+                    builder.Append(Config.StringInternational.GetValue(textKeys[i]));
                 }
                 text = builder.ToString();
             }
             HideUI(UIType.TopChat);
             HideUI(UIType.BottomChat);
             var ui = ShowUI<TipBar>(UIType.TipBar);
-            ui.Init(text);
-            return ui;
-        }
-
-        public static TipBar ShowTip(int autoRemoveTime, params string[] texts) {
-            var ui = ShowTip(texts);
-            ui.StartAutoRemove(autoRemoveTime);
+            ui.Init(text, silent);
             return ui;
         }
 
@@ -431,7 +440,7 @@ namespace MagicTower {
             } else {
                 var chatData = chat.data[chatIndex];
                 if(chatData.speakerId < -100)
-                    ShowTip(chatData.content);
+                    ShowTip(chatData.tipSilent, chatData.content);
                 else if(chatData.speakerId < 0)
                     ShowChatOnTop(chatData.content, chatMod.ModId);
                 else if(chatData.speakerId == 0)

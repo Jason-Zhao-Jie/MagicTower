@@ -747,6 +747,10 @@
     {
       "key": "str_ui_close",
       "content": "关闭"
+    },
+    {
+      "key": "str_name_OctopusRed",
+      "content": "巨型章鱼"
     }
   ]
 }

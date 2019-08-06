@@ -748,6 +748,10 @@
     {
       "key": "str_ui_close",
       "content": "Close"
+    },
+    {
+      "key": "str_name_OctopusRed",
+      "content": "Huge Octopus"
     }
   ]
 }

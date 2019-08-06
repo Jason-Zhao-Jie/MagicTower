@@ -18,6 +18,14 @@ namespace ArmyAnt.Algorithm {
             return ret;
         }
 
+        public static string[] GetArray<T>(T input, int start, int end)where T:Enum {
+            var ret = new string[end - start + 1];
+            for(var i=start; i <= end; ++i) {
+                ret[i - start] = input.ToString();
+            }
+            return ret;
+        }
+
         public static List<T> GetList<T>(IEnumerable<T> input) {
             if(input == null) {
                 return null;
@@ -28,5 +36,16 @@ namespace ArmyAnt.Algorithm {
             }
             return ret;
         }
+
+        public static List<string> GetList<T>(T start, T end) where T : Enum {
+            int startNum = Convert.ToInt32(start);
+            int endNum = Convert.ToInt32(end);
+            var ret = new List<string>(endNum - startNum + 1);
+            for(var i = startNum; i <= endNum; ++i) {
+                ret.Add(((T)Enum.ToObject(default(T).GetType(), i)).ToString());
+            }
+            return ret;
+        }
+
     }
 }

@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b74e988dc1417dc47b76c87475abb841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choiceSpeaker: {fileID: 7238876085403977887}
+  choiceSpeaker: {fileID: 8214821628208189293}
   choiceTitleText: {fileID: 8942866171011037002}
   choiceSpeakerText: {fileID: 3564107185053877467}
   choiceItemPanel: {fileID: 1746897273076961814}
@@ -209,8 +209,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 342.83047, y: 0}
-  m_SizeDelta: {x: 665.66095, y: 0}
+  m_AnchoredPosition: {x: 563.20056, y: 0}
+  m_SizeDelta: {x: 1106.4011, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4990602225861074324
 CanvasRenderer:
@@ -315,7 +315,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7238876085403977866}
+  - {fileID: 1892597478007837519}
   - {fileID: 2249234116512455238}
   - {fileID: 1030457983567092253}
   m_Father: {fileID: 8512569112644486152}
@@ -945,13 +945,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3806bfe5c6b78c1429625448845a151f, type: 3}
---- !u!224 &7238876085403977866 stripped
+--- !u!224 &1892597478007837519 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 9094592917240421218, guid: 3806bfe5c6b78c1429625448845a151f,
     type: 3}
   m_PrefabInstance: {fileID: 7238876085403977773}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7238876085403977887 stripped
+--- !u!114 &8214821628208189293 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1618287385028101952, guid: 3806bfe5c6b78c1429625448845a151f,
     type: 3}

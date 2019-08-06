@@ -42,10 +42,7 @@ namespace MagicTower.Components.DataEditor {
             var item = SetAudioList.PushbackDefaultItem<DefaultSelectableElement>();
             item.text.text = UnusedAudioFilesList.SelectedItem.GetComponent<DefaultSelectableElement>().text.text;
             item.AddOnclickEvent(() => { SetAudioList.Select(item.GetComponent<RectTransform>()); });
-            Destroy(UnusedAudioFilesList.DeleteItem(UnusedAudioFilesList.SelectedIndex));
-            if(UnusedAudioFilesList.ItemCount > 0) {
-                UnusedAudioFilesList.Select(0);
-            }
+            Destroy(UnusedAudioFilesList.DeleteItem(UnusedAudioFilesList.SelectedIndex).gameObject);
             ResetButtonState();
         }
 
@@ -53,10 +50,7 @@ namespace MagicTower.Components.DataEditor {
             var item = UnusedAudioFilesList.PushbackDefaultItem<DefaultSelectableElement>();
             item.text.text = SetAudioList.SelectedItem.GetComponent<DefaultSelectableElement>().text.text;
             item.AddOnclickEvent(() => { UnusedAudioFilesList.Select(item.GetComponent<RectTransform>()); });
-            Destroy(SetAudioList.DeleteItem(SetAudioList.SelectedIndex));
-            if(SetAudioList.ItemCount > 0) {
-                SetAudioList.Select(0);
-            }
+            Destroy(SetAudioList.DeleteItem(SetAudioList.SelectedIndex).gameObject);
             ResetButtonState();
         }
 
@@ -92,15 +86,16 @@ namespace MagicTower.Components.DataEditor {
 
         private void OnResourceFileSelected(int index, bool select) {
             UnusedAudioFilesList[index].GetComponent<DefaultSelectableElement>().Selected = select;
+            ResetButtonState();
         }
 
         private void ResetButtonState() {
             btnUp.interactable = SetAudioList.ItemCount > 0 && SetAudioList.SelectedIndex != 0;
             btnDown.interactable = SetAudioList.ItemCount > 0 && SetAudioList.SelectedIndex != SetAudioList.ItemCount - 1;
-            btnAdd.interactable = UnusedAudioFilesList.ItemCount > 0;
-            btnRemove.interactable = SetAudioList.ItemCount > 0;
-            btnPlayUsed.interactable = SetAudioList.ItemCount > 0;
-            btnPlayUnUsed.interactable = UnusedAudioFilesList.ItemCount > 0;
+            btnAdd.interactable = UnusedAudioFilesList.ItemCount > 0 && UnusedAudioFilesList.SelectedIndex >= 0;
+            btnRemove.interactable = SetAudioList.ItemCount > 0 && SetAudioList.SelectedIndex >= 0;
+            btnPlayUsed.interactable = SetAudioList.ItemCount > 0 && SetAudioList.SelectedIndex >= 0;
+            btnPlayUnUsed.interactable = UnusedAudioFilesList.ItemCount > 0 && UnusedAudioFilesList.SelectedIndex >= 0;
         }
 
         public SelectListView SetAudioList;

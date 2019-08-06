@@ -126,7 +126,12 @@ namespace MagicTower.Components.Unit {
         }
 
         public override void OnInit<T>(ObjectPool.ElementType tid, int elemId, T data, params object[] para) {
-            if(data is Model.ModalData modData) {
+            if(data == null) {
+                // 传入null表示清空图片
+                AnimType = AnimType.Static;
+                Sprite = null;
+            } else if(data is Model.ModalData modData) {
+                //传入正常modal数据
                 ModId = modData.id;
                 TypeId = modData.typeId;
                 EventId = modData.eventId;
@@ -155,11 +160,16 @@ namespace MagicTower.Components.Unit {
                         AnimType = AnimType.Player;
                         break;
                 }
-            }else if(data is Model.WeaponData weaponData && para != null && para.Length >= 1 && para[0] is bool crit) {
+            } else if(data is Model.WeaponData weaponData && para != null && para.Length >= 1 && para[0] is bool crit) {
+                //传入weapon数据表示此modal为hitter
                 Present.Manager.AudioManager.PlaySound(crit ? weaponData.critAudioId : weaponData.audioId);
                 sprites = Game.GetMods(crit ? weaponData.critPrefabPath : weaponData.prefabPath);
                 Sprite = sprites[0];
                 AnimType = AnimType.Hitter;
+            } else if(data is Sprite[] spriteData) {
+                AnimType = AnimType.Static;
+                Sprite = spriteData[0];
+                sprites = spriteData;
             }
             InitTimer();
         }
@@ -171,6 +181,10 @@ namespace MagicTower.Components.Unit {
             sprites = null;
             InitTimer();
             return true;
+        }
+
+        public Sprite[] GetSprites() {
+            return sprites;
         }
 
         public int ModId { get; private set; } = 0;

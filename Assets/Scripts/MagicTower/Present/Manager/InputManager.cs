@@ -87,7 +87,6 @@ namespace MagicTower.Present.Manager {
         }
 
         public bool CheckVirtualRockerState() {
-            Game.DebugLogNote("Virtual key status: ", forceVirtualing, GetKeyStatus(VirtualKeyCode.Up), GetKeyStatus(VirtualKeyCode.Down), GetKeyStatus(VirtualKeyCode.Right), GetKeyStatus(VirtualKeyCode.Left));
             return forceVirtualing || GetKeyStatus(VirtualKeyCode.Up) || GetKeyStatus(VirtualKeyCode.Down) || GetKeyStatus(VirtualKeyCode.Right) || GetKeyStatus(VirtualKeyCode.Left);
         }
 

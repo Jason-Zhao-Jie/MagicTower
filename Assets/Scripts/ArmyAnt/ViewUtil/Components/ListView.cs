@@ -86,25 +86,19 @@ namespace ArmyAnt.ViewUtil.Components
         /// <summary>
         /// 子项总数量
         /// </summary>
-        public int ItemCount
-        {
-            get
-            {
-                return children.Count;
-            }
-        }
+        public int ItemCount => children.Count;
 
         /// <summary>
         /// 在表末尾添加一个 default item
         /// </summary>
         /// <returns> 成功添加的item </returns>
-        public RectTransform PushbackDefaultItem()
+        public RectTransform PushbackDefaultItem(float localScale = 1.0f)
         {
-            return InsertDefaultItem(children.Count);
+            return InsertDefaultItem(children.Count, localScale);
         }
 
-        public T PushbackDefaultItem<T>() {
-            return PushbackDefaultItem().GetComponent<T>();
+        public T PushbackDefaultItem<T>(float localScale = 1.0f) {
+            return PushbackDefaultItem(localScale).GetComponent<T>();
         }
 
         /// <summary>
@@ -112,7 +106,7 @@ namespace ArmyAnt.ViewUtil.Components
         /// </summary>
         /// <param name="index">要插入的索引处</param>
         /// <returns>返回插入的 item </returns>
-        public virtual RectTransform InsertDefaultItem(int index)
+        public virtual RectTransform InsertDefaultItem(int index, float localScale = 1.0f)
         {
             if (defaultElement == null)
             {
@@ -121,7 +115,7 @@ namespace ArmyAnt.ViewUtil.Components
             var ret = Instantiate(defaultElement.gameObject).GetComponent<RectTransform>();
             ret.SetParent(content);
             ret.SetSiblingIndex(index);
-            ret.localScale = new Vector3(1, 1, 1);
+            ret.localScale = Vector3.one * localScale;
             var pos = ret.localPosition;
             pos.z = DefaultElement.localPosition.z;
             ret.localPosition = pos;

@@ -6,7 +6,7 @@ using ArmyAnt.Algorithm;
 using ArmyAnt.ViewUtil.Components;
 
 namespace MagicTower.Components.DataEditor {
-    public class MonstersMakerPanel : MonoBehaviour {
+    public class PlayersMakerPanel : MonoBehaviour {
         private void Awake() {
             // 设定武器下拉框的内容
             var weaponStrings = new List<string>(Game.Config.weapons.Count);
@@ -15,29 +15,29 @@ namespace MagicTower.Components.DataEditor {
             }
             weaponSelect.AddOptions(weaponStrings);
             // 设定列表
-            monstersList.selectedFunc = OnMonstersListSelected;
+            playersList.selectedFunc = OnPlayersListSelected;
             foreach(var i in Game.Config.modals) {
-                if(i.Value.typeId == (int)Unit.ModalType.Monster) {
-                    var item = monstersList.PushbackDefaultItem<MonstersSelectItem>();
+                if(i.Value.typeId == (int)Unit.ModalType.Player) {
+                    var item = playersList.PushbackDefaultItem<MonstersSelectItem>();
                     item.text.text = i.Value.id + " " + Game.Config.StringInternational.GetValue(i.Value.name);
                     item.image.sprite = Game.GetMods(i.Value.prefabPath)[0];
-                    item.AddOnclickEvent(() => { monstersList.Select(item.GetComponent<RectTransform>()); });
+                    item.AddOnclickEvent(() => { playersList.Select(item.GetComponent<RectTransform>()); });
                     var data = item.gameObject.AddComponent<UserData>();
                     data.SetIntegerData(i.Value.id);
                 }
             }
         }
 
-        private void OnMonstersListSelected(int index, bool select) {
-            var item = monstersList[index].GetComponent<MonstersSelectItem>();
+        private void OnPlayersListSelected(int index, bool select) {
+            var item = playersList[index].GetComponent<MonstersSelectItem>();
             item.Selected = select;
             if(select) {
                 var ud = item.GetComponent<UserData>();
                 var id = ud.GetIntegerData();
-                if(!Game.Config.monsters.ContainsKey(id)) {
-                    Game.Config.monsters.Add(id, new Model.MonsterData() { id = id, level = 1, exp = 0, life = 1, attack = 1, defense = 1, speed = 1, critical = 1, gold = 1, special = new int[0], weaponId = 1 });
+                if(!Game.Config.players.ContainsKey(id)) {
+                    Game.Config.players.Add(id, new Model.PlayerData() { id = id, level = 1, exp = 0, life = 1, attack = 1, defense = 1, speed = 1, critical = 1, gold = 1, weaponId = 1, yellowKey = 0, blueKey = 0, redKey = 0, greenKey = 0 });
                 }
-                var data = Game.Config.monsters[id];
+                var data = Game.Config.players[id];
                 idText.text = "ID: " + data.id;
                 levelInput.text = data.level.ToString();
                 expInput.text = data.exp.ToString();
@@ -47,6 +47,10 @@ namespace MagicTower.Components.DataEditor {
                 speedInput.text = data.speed.ToString();
                 criticalInput.text = data.critical.ToString();
                 goldInput.text = data.gold.ToString();
+                yellowKeyNumInput.text = data.yellowKey.ToString();
+                blueKeyNumInput.text = data.blueKey.ToString();
+                redKeyNumInput.text = data.redKey.ToString();
+                greenKeyNumInput.text = data.greenKey.ToString();
                 weaponSelect.value = data.weaponId - 1;
             } else {
                 SaveValues();
@@ -54,30 +58,33 @@ namespace MagicTower.Components.DataEditor {
         }
 
         public void SaveValues() {
-            var ud = monstersList.SelectedItem.GetComponent<UserData>();
+            var ud = playersList.SelectedItem.GetComponent<UserData>();
             var id = ud.GetIntegerData();
-            Game.Config.monsters[id].level = System.Convert.ToInt32(levelInput.text);
-            Game.Config.monsters[id].exp = System.Convert.ToInt32(expInput.text);
-            Game.Config.monsters[id].life = System.Convert.ToInt32(lifeInput.text);
-            Game.Config.monsters[id].attack = System.Convert.ToInt32(attackInput.text);
-            Game.Config.monsters[id].defense = System.Convert.ToInt32(defenseInput.text);
-            Game.Config.monsters[id].speed = System.Convert.ToInt32(speedInput.text);
-            Game.Config.monsters[id].critical = System.Convert.ToDouble(criticalInput.text);
-            Game.Config.monsters[id].gold = System.Convert.ToInt32(goldInput.text);
-            Game.Config.monsters[id].weaponId = weaponSelect.value + 1;
+            Game.Config.players[id] = new Model.PlayerData() {
+                id = id,
+                level = System.Convert.ToInt32(levelInput.text),
+                exp = System.Convert.ToInt32(expInput.text),
+                life = System.Convert.ToInt32(lifeInput.text),
+                attack = System.Convert.ToInt32(attackInput.text),
+                defense = System.Convert.ToInt32(defenseInput.text),
+                speed = System.Convert.ToInt32(speedInput.text),
+                critical = System.Convert.ToDouble(criticalInput.text),
+                gold = System.Convert.ToInt32(goldInput.text),
+                weaponId = weaponSelect.value + 1,
+                yellowKey = System.Convert.ToInt32(yellowKeyNumInput.text),
+                blueKey = System.Convert.ToInt32(blueKeyNumInput.text),
+                redKey = System.Convert.ToInt32(redKeyNumInput.text),
+                greenKey = System.Convert.ToInt32(greenKeyNumInput.text),
+            };
         }
 
-        public void OnEditSpecials() {
-            // TODO
-            SaveValues();
-        }
         public void OnSaveExit() {
             SaveValues();
             Game.ShowDataEditor();
             Destroy(gameObject);
         }
 
-        public SelectListView monstersList;
+        public SelectListView playersList;
         public Text idText;
         public InputField levelInput;
         public InputField expInput;
@@ -88,5 +95,9 @@ namespace MagicTower.Components.DataEditor {
         public InputField criticalInput;
         public InputField goldInput;
         public Dropdown weaponSelect;
+        public InputField yellowKeyNumInput;
+        public InputField blueKeyNumInput;
+        public InputField redKeyNumInput;
+        public InputField greenKeyNumInput;
     }
 }

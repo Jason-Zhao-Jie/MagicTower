@@ -1323,5 +1323,20 @@ PrefabInstance:
       propertyPath: uiCanvas
       value: 
       objectReference: {fileID: 484004306}
+    - target: {fileID: 781489479301623399, guid: 3f5c688b56531244a8b2c0be8defc003,
+        type: 3}
+      propertyPath: m_UseSpriteMesh
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 781489479301623399, guid: 3f5c688b56531244a8b2c0be8defc003,
+        type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 781489479301623399, guid: 3f5c688b56531244a8b2c0be8defc003,
+        type: 3}
+      propertyPath: m_Type
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f5c688b56531244a8b2c0be8defc003, type: 3}

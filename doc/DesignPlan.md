@@ -393,5 +393,7 @@
 3. 优化了SelectListView, 覆写了多个虚函数以处理选择项因其他操作(删除项, 添加项等)发生变动时的情况, 并同时修复了 Audio 设置界面因此导致的一些bug
 4. 已经向 Unity Technology 上报了 Dropdown 的 list canvas 层级 bug 问题, 如果在未来被修复, 可以删除 ListViewBugFix
 5. Monster 界面的 special 特殊能力设置功能有待将来完善, 除此以外其他编辑器功能均已完成
+6. Player 界面和 Monster 界面高度相似, 但以后可能差异化, 目前 Player 编辑器已完成
+
 
 

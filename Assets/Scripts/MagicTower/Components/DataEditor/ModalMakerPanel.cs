@@ -134,8 +134,13 @@ namespace MagicTower.Components.DataEditor {
         }
 
         public void OnSelectModalName() {
-            // TODO
-            RefreshConfig();
+            var panel = Instantiate(stringSelector, transform.parent).GetComponent<StringMakerPanel>();
+            panel.SelectedKey = modalNameBtnText.text;
+            panel.ApplyCallback = (string value) => {
+                modalNameBtnText.text = value;
+                modalList.SelectedItem.GetComponent<DefaultSelectableElement>().text.text = Game.Config.StringInternational.GetValue(value);
+                RefreshConfig();
+            };
         }
 
         public void OnEditEventData() {
@@ -159,6 +164,8 @@ namespace MagicTower.Components.DataEditor {
         public Dropdown modalTypeDD;
         public Dropdown modalAnimateTypeDD;
         public Dropdown eventTypeDD;
+
+        public GameObject stringSelector;
     }
 
 }

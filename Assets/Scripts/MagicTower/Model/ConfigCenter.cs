@@ -149,6 +149,30 @@ namespace MagicTower.Model {
             return UnityEngine.JsonUtility.ToJson(gamedata, false);
         }
 
+        /// <summary>
+        /// 将修改过后的字符串数据保存, 只用于编辑器
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public Dictionary<int, string> SaveStrings(Dictionary<string, Dictionary<int, string>> data) {
+            var ret = new Dictionary<int, string>();
+            for(var i = 1; i <= Game.Config.languages.Count; ++i) {
+                var dt = new StringInternational.Strings {
+                    strings = new InternationalString[data.Count]
+                };
+                var index = -1;
+                foreach(var k in data) {
+                    if(k.Value.ContainsKey(i)) {
+                        dt.strings[++index] = new InternationalString { content = k.Value[i], key = k.Key };
+                    } else {
+                        dt.strings[++index] = new InternationalString { content = "", key = k.Key };
+                    }
+                }
+                ret.Add(i, UnityEngine.JsonUtility.ToJson(dt, false));
+            }
+            return ret;
+        }
+
         public int MapsCount { get { return mapdata.Count; } }
 
         /// <summary>

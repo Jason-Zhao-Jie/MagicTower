@@ -737,10 +737,6 @@
       "content": "删除"
     },
     {
-      "key": "str_ui_savegame",
-      "content": "保存游戏"
-    },
-    {
       "key": "str_ui_loadgame",
       "content": "载入游戏"
     },

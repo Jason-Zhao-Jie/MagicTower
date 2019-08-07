@@ -3295,6 +3295,8 @@ MonoBehaviour:
   normalHitAudioSelect: {fileID: 7270443543695240149}
   criticalHitAudioSelect: {fileID: 3123239797155447310}
   selectedSprite: {fileID: 567541279028220162}
+  stringSelector: {fileID: 6724299691203341322, guid: c4c257880562af64e87fc5c61fc4953d,
+    type: 3}
 --- !u!1 &4719362715323226227
 GameObject:
   m_ObjectHideFlags: 0

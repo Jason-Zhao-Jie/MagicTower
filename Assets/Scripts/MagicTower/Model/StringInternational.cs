@@ -51,6 +51,30 @@ namespace MagicTower.Model {
             return str;
         }
 
+        public Dictionary<string, Dictionary<int, string>> GetAllValues(bool isSavedData) {
+            var ret = new Dictionary<string, Dictionary<int, string>>();
+            foreach(var i in languages) {
+                Strings data;
+                if(isSavedData) {
+                    var bytes = ArmyAnt.Manager.IOManager.LoadFromFile("Strings", i.Value.path + ".json");
+                    data = JsonUtility.FromJson<Strings>(System.Text.Encoding.UTF8.GetString(bytes));
+                } else {
+                    var text = Resources.Load<TextAsset>(Dirs.STRING_DATA_DIR + i.Value.path);
+                    data = JsonUtility.FromJson<Strings>(text.text);
+                    Resources.UnloadAsset(text);
+                }
+                foreach(var k in data.strings) {
+                    if(!string.IsNullOrEmpty(k.key)) {
+                        if(!ret.ContainsKey(k.key)) {
+                            ret.Add(k.key, new Dictionary<int, string>());
+                        }
+                        ret[k.key].Add(i.Value.id, k.content);
+                    }
+                }
+            }
+            return ret;
+        }
+
         public string Language {
             get {
                 return languages[languageId].key;
@@ -68,16 +92,34 @@ namespace MagicTower.Model {
             }
         }
 
+        /// <summary>
+        /// 将此项置为 true, 则从缓存文件夹而不是游戏原配置中读取字符串数据, 用于编辑器
+        /// </summary>
+        public bool UsingSaveData {
+            get => UsingSaveData;
+            set {
+                usingSaveData = value;
+                ReloadLanguage(LanguageId);
+            }
+        }
+        private bool usingSaveData = false;
+
         private void ReloadLanguage(int languageId) {
             languageTable.Clear();
-            var text = Resources.Load<TextAsset>(Dirs.STRING_DATA_DIR + languages[languageId].path);
-            var ret = JsonUtility.FromJson<Strings>(text.text);
+            Strings ret;
+            if(usingSaveData) {
+                var bytes = ArmyAnt.Manager.IOManager.LoadFromFile("Strings", languages[languageId].path + ".json");
+                ret = JsonUtility.FromJson<Strings>(System.Text.Encoding.UTF8.GetString(bytes));
+            } else {
+                var text = Resources.Load<TextAsset>(Dirs.STRING_DATA_DIR + languages[languageId].path);
+                ret = JsonUtility.FromJson<Strings>(text.text);
+                Resources.UnloadAsset(text);
+            }
             foreach(var i in ret.strings) {
                 if(!string.IsNullOrEmpty(i.key)) {
                     languageTable[i.key] = i.content;
                 }
             }
-            Resources.UnloadAsset(text);
         }
 
         private int languageId;
@@ -85,7 +127,7 @@ namespace MagicTower.Model {
         private Dictionary<string, string> languageTable = new Dictionary<string, string>();
 
         [System.Serializable]
-        private struct Strings {
+        public struct Strings {
             public InternationalString[] strings;
         };
     }

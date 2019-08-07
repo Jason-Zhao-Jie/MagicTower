@@ -1186,6 +1186,8 @@ MonoBehaviour:
   modalTypeDD: {fileID: 5443528680797210659}
   modalAnimateTypeDD: {fileID: 2032672915190604529}
   eventTypeDD: {fileID: 4400546749320007739}
+  stringSelector: {fileID: 6724299691203341322, guid: c4c257880562af64e87fc5c61fc4953d,
+    type: 3}
 --- !u!1 &1979847867279676294
 GameObject:
   m_ObjectHideFlags: 0

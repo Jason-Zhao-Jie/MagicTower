@@ -94,8 +94,13 @@ namespace MagicTower.Components.DataEditor {
         }
 
         public void OnSelectWeaponName() {
-            // TODO
-            SaveValues();
+            var panel = Instantiate(stringSelector, transform.parent).GetComponent<StringMakerPanel>();
+            panel.SelectedKey = nameBtnText.text;
+            panel.ApplyCallback = (string value) => {
+                nameBtnText.text = value;
+                weaponList.SelectedItem.GetComponent<DefaultSelectableElement>().text.text = Game.Config.StringInternational.GetValue(value);
+                SaveValues();
+            };
         }
 
         public void OnPlayMusic(Dropdown target) {
@@ -116,6 +121,8 @@ namespace MagicTower.Components.DataEditor {
         public Dropdown normalHitAudioSelect;
         public Dropdown criticalHitAudioSelect;
         public Image selectedSprite;
+
+        public GameObject stringSelector;
 
         private bool autoChanging = false;
     }

@@ -8,14 +8,16 @@ namespace ArmyAnt.ViewUtil.Components {
 
         protected override void Start() {
             base.Start();
-            Started = true;
             if(ItemCount > SelectedIndex && SelectedIndex >= 0) {
+                Started = true;
                 CallSelectedFunc(SelectedIndex, true);
             }else if(ItemCount > 0) {
-                CallSelectedFunc(0, true);
+                SelectedIndex = 0;
+                selectedFunc(0, true);
             } else {
-                CallSelectedFunc(-1, true);
+                SelectedIndex = -1;
             }
+            Started = true;
         }
 
         protected override void OnDisable() {

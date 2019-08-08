@@ -68,8 +68,8 @@ namespace MagicTower.Components.Control
             if (data.data != null && data.data.Length > 0)
             {
                 // 若上次点选过第一项, 则由于第一项未被销毁, 本次调用select不会使按钮高亮, 这样的话需要做如下处理
-                choiceItems[0].Select();
-                firstChoiceItem.Select();
+                 choiceItems[0].Select();
+                 firstChoiceItem.Select();
             }
         }
 

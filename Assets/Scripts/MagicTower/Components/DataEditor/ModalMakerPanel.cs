@@ -68,7 +68,7 @@ namespace MagicTower.Components.DataEditor {
                     eventDataItem.text.text = i.ToString();
                 }
             } else {
-                RefreshConfig();
+                SaveValues();
             }
         }
 
@@ -85,7 +85,7 @@ namespace MagicTower.Components.DataEditor {
             item.Selected = select;
         }
 
-        public void RefreshConfig() {
+        public void SaveValues() {
             var oldId = modalList.SelectedItem.GetComponent<UserData>().GetIntegerData();
             var cfg = Game.Config.modals[oldId];
             cfg.id = System.Convert.ToInt32(modalIDText.text);
@@ -107,14 +107,14 @@ namespace MagicTower.Components.DataEditor {
         }
 
         public void OnSaveExit() {
-            RefreshConfig();
+            SaveValues();
             Game.ShowDataEditor();
             Destroy(gameObject);
         }
 
         public void OnConfirmSetModalSprite() {
             oldSpriteName.text = newSpriteName.text;
-            RefreshConfig();
+            SaveValues();
             var id = System.Convert.ToInt32(modalIDText.text);
             oldSpriteImage.OnCreate(ArmyAnt.ViewUtil.ObjectPool.ElementType.Image, id, Game.Config.modals[id]);
         }
@@ -130,7 +130,7 @@ namespace MagicTower.Components.DataEditor {
                 Game.ShowAlert("您修改了ID, 但修改后的ID: " + newId + " 已被其他对象使用, 修改失败!", TextAnchor.MiddleCenter);
                 modalIDText.text = oldId.ToString();
             }
-            RefreshConfig();
+            SaveValues();
         }
 
         public void OnSelectModalName() {
@@ -139,13 +139,13 @@ namespace MagicTower.Components.DataEditor {
             panel.ApplyCallback = (string value) => {
                 modalNameBtnText.text = value;
                 modalList.SelectedItem.GetComponent<DefaultSelectableElement>().text.text = Game.Config.StringInternational.GetValue(value);
-                RefreshConfig();
+                SaveValues();
             };
         }
 
         public void OnEditEventData() {
             // TODO
-            RefreshConfig();
+            SaveValues();
         }
 
         public SelectListView modalList;

@@ -50,7 +50,13 @@ namespace ArmyAnt.ViewUtil.Components {
         }
 
         public override void Clear() {
-            CallSelectedFunc(SelectedIndex, false);
+            Clear(true);
+        }
+
+        public void Clear(bool callUnselect) {
+            if(callUnselect) {
+                CallSelectedFunc(SelectedIndex, false);
+            }
             base.Clear();
             CallSelectedFunc(-1, false);
         }

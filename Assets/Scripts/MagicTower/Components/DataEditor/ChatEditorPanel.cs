@@ -57,11 +57,7 @@ namespace MagicTower.Components.DataEditor {
                 contentStringText.text = data.content;
                 switch(data.speakerId) {
                     case -255:
-                        if(data.tipSilent) {
-                            speakerTypeSelect.value = 1;
-                        } else {
-                            speakerTypeSelect.value = 0;
-                        }
+                        speakerTypeSelect.value = data.tipSilent ? 1 : 0;
                         break;
                     case -1:
                         speakerTypeSelect.value = 2;
@@ -161,8 +157,16 @@ namespace MagicTower.Components.DataEditor {
             Destroy(gameObject);
         }
 
-        public void OnSelectModal() {
-            // TODO
+        public void OnSelectModal()
+        {
+            var panel = Instantiate(modalSelector, transform.parent).GetComponent<ModalMakerPanel>();
+            panel.SelectedKey = speakerModal.GetComponent<UserData>().GetIntegerData();
+            panel.ApplyCallback = (int value) => {
+                speakerModal.GetComponent<UserData>().SetIntegerData(value);
+                speakerModal.image.sprite = Game.GetMods(Game.Config.modals[value].prefabPath)[0];
+                speakerModal.text.text = Game.Config.StringInternational.GetValue(Game.Config.modals[value].name);
+                SaveValues();
+            };
         }
 
         public void OnChangeChatId() {
@@ -248,6 +252,7 @@ namespace MagicTower.Components.DataEditor {
 
         public Text btnSaveApplyText;
         public GameObject stringSelector;
+        public GameObject modalSelector;
     }
 }
 

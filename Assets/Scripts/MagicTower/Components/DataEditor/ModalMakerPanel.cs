@@ -106,9 +106,19 @@ namespace MagicTower.Components.DataEditor {
             modalList.SelectedItem.GetComponent<DefaultSelectableElement>().text.text = cfg.id + " " + Game.Config.StringInternational.GetValue(cfg.name);
         }
 
-        public void OnSaveExit() {
+        public void OnSaveExit()
+        {
+            // 保存数据
             SaveValues();
-            Game.ShowDataEditor();
+            // 退出窗口
+            if (ApplyCallback == null)
+            {
+                Game.ShowDataEditor();
+            }
+            else
+            {
+                ApplyCallback(SelectedKey);
+            }
             Destroy(gameObject);
         }
 
@@ -148,6 +158,23 @@ namespace MagicTower.Components.DataEditor {
             SaveValues();
         }
 
+        public int SelectedKey {
+            get {
+                return modalList.SelectedItem.GetComponent<UserData>().GetIntegerData();
+            }
+            set {
+                btnSaveApplyText.text = "Save & Apply";
+                foreach (var i in modalList)
+                {
+                    if (i.GetComponent<UserData>().GetIntegerData() == value)
+                    {
+                        modalList.Select(i);
+                        modalList.ScrollToItem(i);
+                    }
+                }
+            }
+        }
+
         public SelectListView modalList;
         public SelectListView spriteList;
         public SelectListView eventDataList;
@@ -160,12 +187,15 @@ namespace MagicTower.Components.DataEditor {
         public Text modalNameBtnText;
 
         public Button btnEditEventData;
+        public Text btnSaveApplyText;
 
         public Dropdown modalTypeDD;
         public Dropdown modalAnimateTypeDD;
         public Dropdown eventTypeDD;
 
         public GameObject stringSelector;
+
+        public System.Action<int> ApplyCallback { get; set; }
     }
 
 }

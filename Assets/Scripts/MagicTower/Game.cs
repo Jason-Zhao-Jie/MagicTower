@@ -564,7 +564,7 @@ namespace MagicTower {
             KeyStoreDoubling = 2, // 每次价格乘以2，用于后期钥匙商店
         }
 
-        public static float RealFontSize { get { return View.uiCanvas.GetComponent<UnityEngine.RectTransform>().rect.height / 650; } }
+        public static float RealFontSize { get { return View.uiCanvas.GetComponent<RectTransform>().rect.height / 650; } }
 
         public static Model.EGameStatus Status;
 

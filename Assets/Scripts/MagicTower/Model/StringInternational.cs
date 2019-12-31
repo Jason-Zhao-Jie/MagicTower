@@ -51,21 +51,38 @@ namespace MagicTower.Model {
             return str;
         }
 
-        public Dictionary<string, Dictionary<int, string>> GetAllValues(bool isSavedData) {
+        public Dictionary<string, Dictionary<int, string>> GetAllValues(bool isSavedData)
+        {
             var ret = new Dictionary<string, Dictionary<int, string>>();
-            foreach(var i in languages) {
+            foreach (var i in languages)
+            {
                 Strings data;
-                if(isSavedData) {
+                if (isSavedData)
+                {
                     var bytes = ArmyAnt.Manager.IOManager.LoadFromFile("Strings", i.Value.path + ".json");
-                    data = JsonUtility.FromJson<Strings>(System.Text.Encoding.UTF8.GetString(bytes));
-                } else {
+                    if (bytes == null)
+                    {
+                        var text = Resources.Load<TextAsset>(Dirs.STRING_DATA_DIR + i.Value.path);
+                        data = JsonUtility.FromJson<Strings>(text.text);
+                        Resources.UnloadAsset(text);
+                    }
+                    else
+                    {
+                        data = JsonUtility.FromJson<Strings>(System.Text.Encoding.UTF8.GetString(bytes));
+                    }
+                }
+                else
+                {
                     var text = Resources.Load<TextAsset>(Dirs.STRING_DATA_DIR + i.Value.path);
                     data = JsonUtility.FromJson<Strings>(text.text);
                     Resources.UnloadAsset(text);
                 }
-                foreach(var k in data.strings) {
-                    if(!string.IsNullOrEmpty(k.key)) {
-                        if(!ret.ContainsKey(k.key)) {
+                foreach (var k in data.strings)
+                {
+                    if (!string.IsNullOrEmpty(k.key))
+                    {
+                        if (!ret.ContainsKey(k.key))
+                        {
                             ret.Add(k.key, new Dictionary<int, string>());
                         }
                         ret[k.key].Add(i.Value.id, k.content);

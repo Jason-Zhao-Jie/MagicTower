@@ -99,12 +99,6 @@ namespace MagicTower.Components.DataEditor
             SelectedModalName.text = Game.Config.StringInternational.GetValue(sender.GetComponent<UserData>().GetStringData());
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public RectTransform NowShowing;
         public Image NowModal;
         public Text NowModalName;

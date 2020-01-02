@@ -208,7 +208,24 @@ namespace MagicTower.Components.Unit {
                 if(spc != null) {
                     spc.sprite = value;
                 } else {
-                    GetComponent<UnityEngine.UI.Image>().sprite = value;
+                    var img = GetComponent<UnityEngine.UI.Image>();
+                    img.sprite = value;
+                    if (img.rectTransform.anchorMin == img.rectTransform.anchorMax)
+                    {
+                        img.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, value.rect.width);
+                        img.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, value.rect.height);
+                    }
+                    else
+                    {
+                        Game.DebugLogWarning("Detected an non-standard modal image !");
+                        var pos = img.rectTransform.localPosition;
+                        var anc = (img.rectTransform.anchorMin + img.rectTransform.anchorMax) / 2;
+                        img.rectTransform.anchorMin = anc;
+                        img.rectTransform.anchorMax = anc;
+                        img.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, value.rect.width);
+                        img.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, value.rect.height);
+                        img.rectTransform.localPosition = pos;
+                    }
                 }
             }
         }

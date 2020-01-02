@@ -159,7 +159,7 @@ namespace MagicTower.Components.DataEditor {
 
         public void OnSelectModal()
         {
-            var panel = Instantiate(modalSelector, transform.parent).GetComponent<ModalMakerPanel>();
+            var panel = Instantiate(modalSelector, transform.parent).GetComponent<ModalSelectorDlg>();
             panel.SelectedKey = speakerModal.GetComponent<UserData>().GetIntegerData();
             panel.ApplyCallback = (int value) => {
                 speakerModal.GetComponent<UserData>().SetIntegerData(value);

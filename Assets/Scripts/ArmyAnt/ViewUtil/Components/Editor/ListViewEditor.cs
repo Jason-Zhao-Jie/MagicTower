@@ -9,7 +9,7 @@ namespace ArmyAnt.ViewUtil.Components.Editor {
             ListView listview = target as ListView;
             EditorGUILayout.BeginVertical();
             EditorGUILayout.Space();
-            listview.defaultElement = EditorGUILayout.ObjectField("Default element", listview.defaultElement, typeof(UnityEngine.RectTransform), true) as UnityEngine.RectTransform;
+            listview.DefaultElement = EditorGUILayout.ObjectField("Default element", listview.defaultElement, typeof(UnityEngine.RectTransform), true) as UnityEngine.RectTransform;
             Undo.RecordObject(listview, "listview change");
             EditorGUILayout.EndVertical();
         }

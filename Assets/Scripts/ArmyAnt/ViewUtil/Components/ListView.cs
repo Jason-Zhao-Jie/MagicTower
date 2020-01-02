@@ -117,7 +117,7 @@ namespace ArmyAnt.ViewUtil.Components
             ret.SetSiblingIndex(index);
             ret.localScale = Vector3.one * localScale;
             var pos = ret.localPosition;
-            pos.z = DefaultElement.localPosition.z;
+            pos.z = defaultElement.localPosition.z;
             ret.localPosition = pos;
             children.Insert(index, ret);
             return ret;

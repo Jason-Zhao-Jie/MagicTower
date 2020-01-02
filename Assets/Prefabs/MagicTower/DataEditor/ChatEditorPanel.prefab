@@ -640,7 +640,7 @@ MonoBehaviour:
   btnSaveApplyText: {fileID: 8944619251191287383}
   stringSelector: {fileID: 6724299691203341322, guid: c4c257880562af64e87fc5c61fc4953d,
     type: 3}
-  modalSelector: {fileID: 1979847866324332900, guid: b64b7bb6189a7c643a9235a838169762,
+  modalSelector: {fileID: 2996975326698178838, guid: 5c51e93eae27849dda98344b37f5d5be,
     type: 3}
 --- !u!1 &1197335920905826655
 GameObject:

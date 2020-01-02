@@ -111,14 +111,7 @@ namespace MagicTower.Components.DataEditor {
             // 保存数据
             SaveValues();
             // 退出窗口
-            if (ApplyCallback == null)
-            {
-                Game.ShowDataEditor();
-            }
-            else
-            {
-                ApplyCallback(SelectedKey);
-            }
+            Game.ShowDataEditor();
             Destroy(gameObject);
         }
 
@@ -158,23 +151,6 @@ namespace MagicTower.Components.DataEditor {
             SaveValues();
         }
 
-        public int SelectedKey {
-            get {
-                return modalList.SelectedItem.GetComponent<UserData>().GetIntegerData();
-            }
-            set {
-                btnSaveApplyText.text = "Save & Apply";
-                foreach (var i in modalList)
-                {
-                    if (i.GetComponent<UserData>().GetIntegerData() == value)
-                    {
-                        modalList.Select(i);
-                        modalList.ScrollToItem(i);
-                    }
-                }
-            }
-        }
-
         public SelectListView modalList;
         public SelectListView spriteList;
         public SelectListView eventDataList;
@@ -195,7 +171,6 @@ namespace MagicTower.Components.DataEditor {
 
         public GameObject stringSelector;
 
-        public System.Action<int> ApplyCallback { get; set; }
     }
 
 }

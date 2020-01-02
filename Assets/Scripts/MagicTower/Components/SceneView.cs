@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-using MagicTower.Components.Control;
-using MagicTower.Components.Unit;
+﻿using UnityEngine;
 using MagicTower.Present.Manager;
 
 namespace MagicTower.Components.Scene {

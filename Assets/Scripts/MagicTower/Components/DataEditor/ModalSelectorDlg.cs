@@ -1,103 +1,70 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using ArmyAnt.ViewUtil;
 using ArmyAnt.ViewUtil.Components;
-using MagicTower.Components.Unit;
 
 namespace MagicTower.Components.DataEditor
 {
 
     public class ModalSelectorDlg : MonoBehaviour
     {
-        public delegate void SelectedCallback(int selectedId);
-        
         // Start is called before the first frame update
         void Awake()
         {
+            ModalList.selectedFunc = OnModalSelected;
             foreach (var v in Game.Config.modals)
             {
                 var item = ModalList.PushbackDefaultItem();
-                item.transform.Find("Image").GetComponent<Image>().sprite = Game.GetMods(Game.Config.modals[nowId].prefabPath)[0];
+                item.transform.Find("Image").GetComponent<Image>().sprite = Game.GetMods(v.Value.prefabPath)[0];
                 item.transform.Find("Image").GetComponent<Button>().onClick.RemoveAllListeners();
-                item.transform.Find("Image").GetComponent<Button>().onClick.AddListener(() => { OnModalSelected(item); });
+                item.transform.Find("Image").GetComponent<Button>().onClick.AddListener(() => ModalList.Select(item));
                 item.transform.Find("Text").GetComponent<Text>().text = Game.Config.StringInternational.GetValue(v.Value.name);
                 item.GetComponent<UserData>().SetIntegerData(v.Value.id);
                 item.GetComponent<UserData>().SetStringData(v.Value.name);
             }
         }
 
-        private void Start()
+        private void OnModalSelected(int index, bool selected)
         {
-            if (selectedItem == null && showed)
+            ModalList[index].GetComponent<Image>().color = selected ? Color.blue : whiteHalf;
+            if (selected)
             {
-                if (nowId == 0)
-                {
-                    NowModal.sprite = null;
-                    NowModalName.text = "none";
-                }
-                else
-                {
-                    NowModal.sprite = Game.GetMods(Game.Config.modals[nowId].prefabPath)[0];
-                    NowModalName.text = Game.Config.StringInternational.GetValue(Game.Config.modals[nowId].name);
-                }
-                OnModalSelected(NowShowing);
+                SelectedModal.sprite = ModalList[index].transform.Find("Image").GetComponent<Image>().sprite;
+                SelectedModalName.text = Game.Config.StringInternational.GetValue(ModalList[index].GetComponent<UserData>().GetStringData());
             }
         }
 
-        public void Init(int nowModalId, SelectedCallback callback) {
-            // 设定信息
-            nowId = nowModalId;
-            selectedCallback = callback;
-            selectedItem = null;
-            if(isActiveAndEnabled) {
-                if(nowModalId == 0) {
-                    NowModal.sprite = null;
-                    NowModalName.text = "none";
-                } else {
-                    NowModal.sprite = Game.GetMods(Game.Config.modals[nowModalId].prefabPath)[0];
-                    NowModalName.text = Game.Config.StringInternational.GetValue(Game.Config.modals[nowModalId].name);
-                }
-                OnModalSelected(NowShowing);
-            }
-            showed = true;
-            lastStatus = Game.Status;
-            Game.Status = Model.EGameStatus.InEditorDialog;
+        public void OnClickCancel()
+        {
+            Destroy(gameObject);
         }
 
-        public void OnModalSelected(RectTransform sender)
+        public void OnClickOK()
         {
-            if (sender == SelectedShowing)   // 点击了右上角原物品
-            {
-                if (selectedItem != null)
-                {
-                    nowId = selectedItem.GetComponent<UserData>().GetIntegerData();
-                }
-                selectedCallback(nowId);
-                Game.Status = lastStatus;
-                gameObject.SetActive(false);
-                return;
+            // 退出窗口
+            ApplyCallback(SelectedKey);
+            Destroy(gameObject);
+        }
+
+        public int SelectedKey {
+            get {
+                return ModalList.SelectedItem.GetComponent<UserData>().GetIntegerData();
             }
-            if (selectedItem != null)
-            {
-                selectedItem.GetComponent<Image>().color = whiteHalf;
-            }
-            if (sender == NowShowing) // 点击了左上角原物品
-            {
-                foreach(var i in ModalList)
+            set {
+                foreach (var i in ModalList)
                 {
-                    if(i.GetComponent<UserData>().GetIntegerData() == nowId)
+                    if (i.GetComponent<UserData>().GetIntegerData() == value)
                     {
-                        sender = i;
-                        break;
+                        NowModal.sprite = i.transform.Find("Image").GetComponent<Image>().sprite;
+                        NowModalName.text = Game.Config.StringInternational.GetValue(i.GetComponent<UserData>().GetStringData());
+                        ModalList.Select(i);
+                        ModalList.ScrollToItem(i);
                     }
                 }
-                ModalList.ScrollToItem(sender);
             }
-            selectedItem = sender;
-            sender.GetComponent<Image>().color = Color.blue;
-            SelectedModal.sprite = sender.transform.Find("Image").GetComponent<Image>().sprite;
-            SelectedModalName.text = Game.Config.StringInternational.GetValue(sender.GetComponent<UserData>().GetStringData());
         }
+
+        public System.Action<int> ApplyCallback { get; set; }
+
 
         public RectTransform NowShowing;
         public Image NowModal;
@@ -105,13 +72,8 @@ namespace MagicTower.Components.DataEditor
         public RectTransform SelectedShowing;
         public Image SelectedModal;
         public Text SelectedModalName;
-        public ListView ModalList;
-        
-        private int nowId;
-        private bool showed = false;
-        private RectTransform selectedItem;
-        private SelectedCallback selectedCallback;
-        private Model.EGameStatus lastStatus;
+        public SelectListView ModalList;
+
         private static readonly Color whiteHalf = new Color(1, 1, 1, 0.5f);
     }
 }

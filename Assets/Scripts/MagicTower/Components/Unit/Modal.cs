@@ -25,8 +25,8 @@ namespace MagicTower.Components.Unit {
 
     public class Modal : ObjectPool.AViewUnit {
         const float RECYCLE_TIMER_INIT = 0.3f;
-        const float ONCE_TIMER_INIT = 0.2f;
-        const float HITTER_TIMER_INIT = 0.1f;
+        const float ONCE_TIMER_INIT = 0.1f;
+        const float HITTER_TIMER_INIT = 0.08f;
 
         public override ObjectPool.ElementType GetPoolTypeId() {
             var spc = GetComponent<SpriteRenderer>();
@@ -106,13 +106,17 @@ namespace MagicTower.Components.Unit {
             destroyCallBack = null;
         }
 
-        private void InitTimer() {
+        private void InitTimer(bool more = false) {
             switch(AnimType) {
                 case AnimType.Recycle:
                     timer = RECYCLE_TIMER_INIT;
                     break;
                 case AnimType.Once:
                     timer = ONCE_TIMER_INIT;
+                    if (more)
+                    {
+                        timer += 0.1f;
+                    }
                     break;
                 case AnimType.Hitter:
                     timer = HITTER_TIMER_INIT;
@@ -171,7 +175,7 @@ namespace MagicTower.Components.Unit {
                 Sprite = spriteData[0];
                 sprites = spriteData;
             }
-            InitTimer();
+            InitTimer(true);
         }
 
         public override bool OnUnuse(ObjectPool.ElementType tid, int elemId) {

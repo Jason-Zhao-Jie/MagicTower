@@ -5,7 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ArmyAnt.Algorithm {
-    public static class ExtendUtils {
+    public static class ExtendUtils
+    {
+        public static void Swap<T>(ref T a, ref T b)
+        {
+            var temp = a;
+            a = b;
+            b = temp;
+        }
+        public static (T, T) GetSwap<T>(T a, T b)
+        {
+            return (b, a);
+        }
+
         public static T[] GetArray<T>(IEnumerable<T> input) {
             if(input == null) {
                 return null;

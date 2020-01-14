@@ -64,6 +64,8 @@ namespace MagicTower {
 
         public static GameObject ModalSprite => Resource.modalSprite;
 
+        public static GameObject JumpWord => Resource.jumpWordPrefab;
+
         public static Model.ConfigCenter Config {
             get; private set;
         }
@@ -219,8 +221,33 @@ namespace MagicTower {
         public static readonly InputManager Input;
 
         public static void SceneUpdate() {
+            // 输入输出检测
             Input.UpdateScene();
 
+            // loading标识
+            if (Resource == null || !LoadingTipShowed)
+            {
+                loadingShowedTotalTime = 0f;
+            }
+            else
+            {
+                loadingShowedTotalTime += Time.deltaTime;
+            }
+            for(var i = 0; i < loadingShowedConditions.Count; )
+            {
+                LoadingTipShowed = false;
+                if (!loadingShowedConditions[i](Time.deltaTime, loadingShowedTotalTime))
+                {
+                    loadingShowedConditions.RemoveAt(i);
+                }
+                else
+                {
+                    LoadingTipShowed = true;
+                    break;
+                }
+            }
+
+            // InvokeInMainThread
             Model.EmptyCallBack resolvingTask = null;
             lock (mainThreadTaskQueue) {
                 if (mainThreadTaskQueue.Count > 0) {
@@ -229,6 +256,7 @@ namespace MagicTower {
             }
             resolvingTask?.Invoke();
 
+            // 游戏总时间记录
             if(!GamePaused) {
                 GameTime += Time.deltaTime;
             }
@@ -457,6 +485,26 @@ namespace MagicTower {
 
         #endregion
 
+        #region Loading Tip
+
+        public static bool LoadingTipShowed {
+            get => Resource.LoadingUIShowed;
+            set => Resource.LoadingUIShowed = value;
+        }
+
+        public static void ShowLoadingUntil(System.Func<float, float, bool> condition)
+        {
+            if (condition != null)
+            {
+                loadingShowedConditions.Add(condition);
+            }
+        }
+
+        private static readonly List<System.Func<float, float, bool>> loadingShowedConditions = new List<System.Func<float, float, bool>>();
+        private static float loadingShowedTotalTime = 0f;
+
+        #endregion
+
         #region Alert Dialog
 
         public static void ShowAlert(string contentStrId, TextAnchor contentAlignment, Model.EmptyBoolCallBack leftCallback = null, params string[] contentStrValues) {
@@ -571,9 +619,9 @@ namespace MagicTower {
         /// <summary>
         /// Gets the number data.
         /// </summary>
-        /// <returns>The number data.</returns>
+        /// <returns> The number data. </returns>
         /// <param name="id"> id </param>
-        /// <param name="useType"> 该值如何变化， 不输入此参数则不变化 </param>
+        /// <param name="useType"> 该值如何变化, 不输入此参数则不变化 </param>
         public static long GetNumberData(int id, VariablePriceType useType = VariablePriceType.NoChange) {
             var data = numberData[id];
             switch (useType) {

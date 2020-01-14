@@ -110,6 +110,11 @@ namespace MagicTower.Components {
                 return false;
             }
 
+            public bool LoadingUIShowed {
+                get => loadingTip.gameObject.activeSelf;
+                set => loadingTip.gameObject.SetActive(value);
+            }
+
             [HideInInspector]
             public Transform DialogCanvas;
 
@@ -131,6 +136,7 @@ namespace MagicTower.Components {
 
             public GameObject modalSprite;
             public GameObject modalImage;
+            public GameObject jumpWordPrefab;
 
             [System.Serializable]
             public class PlayerPrefabs {
@@ -139,6 +145,8 @@ namespace MagicTower.Components {
             }
             public PlayerPrefabs[] playerList;
             public Dictionary<string, GameObject> players;
+
+            public GameObject loadingTip = null;
 
             public GameObject dataEditorPanel = null;
             public GameObject startPanel = null;

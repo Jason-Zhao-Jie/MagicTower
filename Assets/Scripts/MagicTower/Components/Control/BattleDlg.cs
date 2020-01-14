@@ -63,7 +63,7 @@ namespace MagicTower.Components.Control
                     if(isOurRound) {
                         hurt = Model.MathHelper.GetHurt(playerBattleData.attack, playerBattleData.critical, enemyBattleData.defense, enemyBattleData.speed);
                         if(hurt == -1) {
-                            CreateHitter(MISS_HITTER, true, 0, false);
+                            CreateHitter(MISS_HITTER, true, 0, false, true);
                             Game.DebugLogNote("Enemy has missed a hurt");
                         } else if(hurt == 0) {
                             CreateHitter(NOHURT_HITTER, true, 0, false);
@@ -84,7 +84,7 @@ namespace MagicTower.Components.Control
                     } else {
                         hurt = Model.MathHelper.GetHurt(enemyBattleData.attack, enemyBattleData.critical, playerBattleData.defense, playerBattleData.speed);
                         if(hurt == -1) {
-                            CreateHitter(MISS_HITTER, false, 0, false);
+                            CreateHitter(MISS_HITTER, false, 0, false, true);
                             Game.DebugLogNote("Player has missed a hurt");
                         } else if(hurt == 0) {
                             CreateHitter(NOHURT_HITTER, false, 0, false);
@@ -183,13 +183,26 @@ namespace MagicTower.Components.Control
             isBattlePaused = false;
         }
 
-        private void CreateHitter(int weaponId, bool isOnEnemy, int damage, bool isCritical)
+        private void CreateHitter(int weaponId, bool isOnEnemy, int damage, bool isCritical, bool isMiss = false)
         {
             var data = Game.Config.weapons[weaponId];
-            hitter = Game.ObjPool.GetAnElement<Modal, Model.WeaponData>(0, ObjectPool.ElementType.Image, Game.ModalImage, data,isCritical);
-            hitter.transform.SetParent((isOnEnemy ? enemySprite : playerSprite).transform, false);
+            var parent = (isOnEnemy ? enemySprite : playerSprite).transform;
+            hitter = Game.ObjPool.GetAnElement<Modal, Model.WeaponData>(0, ObjectPool.ElementType.Image, Game.ModalImage, data, isCritical);
+            hitter.transform.SetParent(parent, false);
             hitter.transform.localPosition = Vector3.zero;
             hitter.transform.localScale = Vector3.one * (isCritical ? data.critPrefabLocalScale : data.prefabLocalScale);
+            if (damage > 0)
+            {
+                var jumpWord = Instantiate(Game.JumpWord);
+                jumpWord.GetComponent<JumpWord>().Word = damage.ToString();
+                jumpWord.transform.SetParent(parent, false);
+            }
+            else if (isMiss)
+            {
+                var jumpWord = Instantiate(Game.JumpWord);
+                jumpWord.GetComponent<JumpWord>().Word = "MISS";
+                jumpWord.transform.SetParent(parent, false);
+            }
         }
 
         private void OnBattleFailure()

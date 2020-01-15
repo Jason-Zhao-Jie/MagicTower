@@ -19,7 +19,15 @@ namespace MagicTower.Components.Unit
             totalTime += Time.deltaTime;
             if (totalTime < jumpSeconds)
             {
-                transform.localPosition += new Vector3(0, jumpHeight * Time.deltaTime / jumpSeconds, 0);
+                var jumpPercent = Time.deltaTime / jumpSeconds;
+                if(Direction == Present.Player.Controller.Direction.Left)
+                {
+                    transform.localPosition += new Vector3(-jumpWidth * jumpPercent, jumpHeight * jumpPercent, 0);
+                }
+                else
+                {
+                    transform.localPosition += new Vector3(jumpWidth * jumpPercent, jumpHeight * jumpPercent, 0);
+                }
             }
             if(totalTime < scaleSeconds)
             {
@@ -37,12 +45,18 @@ namespace MagicTower.Components.Unit
             set => txtWord.text = value;
         }
 
+        public Present.Player.Controller.Direction Direction {
+            get;set;
+        }
+
         public Text txtWord;
 
         private float totalTime;
 
-        /// <summary> 跳跃高度 </summary>
-        private const float jumpHeight = 80f;
+        /// <summary> 纵向条约距离 </summary>
+        private const float jumpHeight = 35f;
+        /// <summary> 横向条约距离 </summary>
+        private const float jumpWidth = 80f;
         /// <summary> 跳跃耗时 </summary>
         private const float jumpSeconds = 0.4f;
         /// <summary> 初始缩放 </summary>

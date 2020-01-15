@@ -191,16 +191,19 @@ namespace MagicTower.Components.Control
             hitter.transform.SetParent(parent, false);
             hitter.transform.localPosition = Vector3.zero;
             hitter.transform.localScale = Vector3.one * (isCritical ? data.critPrefabLocalScale : data.prefabLocalScale);
+            var direction = isOnEnemy ? Present.Player.Controller.Direction.Left : Present.Player.Controller.Direction.Right;
             if (damage > 0)
             {
                 var jumpWord = Instantiate(Game.JumpWord);
                 jumpWord.GetComponent<JumpWord>().Word = damage.ToString();
+                jumpWord.GetComponent<JumpWord>().Direction = direction;
                 jumpWord.transform.SetParent(parent, false);
             }
             else if (isMiss)
             {
                 var jumpWord = Instantiate(Game.JumpWord);
                 jumpWord.GetComponent<JumpWord>().Word = "MISS";
+                jumpWord.GetComponent<JumpWord>().Direction = direction;
                 jumpWord.transform.SetParent(parent, false);
             }
         }

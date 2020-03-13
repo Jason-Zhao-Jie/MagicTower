@@ -15,6 +15,7 @@ namespace MagicTower.Components.Scene {
                 AudioManager.AddSoundSource(i);
             }
 
+            splashPanel.SetActive(true);
             Loading();
         }
 
@@ -49,6 +50,7 @@ namespace MagicTower.Components.Scene {
         public GameObject playerPanel;
 
         public GameObject uiCanvas;
+        public GameObject splashPanel;
 
     }
 

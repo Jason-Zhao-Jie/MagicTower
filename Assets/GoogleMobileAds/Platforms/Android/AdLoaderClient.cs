@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if UNITY_ANDROID
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,13 +41,19 @@ namespace GoogleMobileAds.Android
 
             this.CustomNativeTemplateCallbacks = unityAdLoader.CustomNativeTemplateClickHandlers;
 
+            bool supportsRequestImageAssetUrls = false;
+
             if (unityAdLoader.AdTypes.Contains(NativeAdType.CustomTemplate))
             {
+                supportsRequestImageAssetUrls = false;
                 foreach (string templateId in unityAdLoader.TemplateIds)
                 {
                     adLoader.Call("configureCustomNativeTemplateAd", templateId,
                         this.CustomNativeTemplateCallbacks.ContainsKey(templateId));
                 }
+            }
+            if (supportsRequestImageAssetUrls) {
+                adLoader.Call("configureReturnUrlsForImageAssets");
             }
             adLoader.Call("create");
         }
@@ -89,4 +93,4 @@ namespace GoogleMobileAds.Android
     }
 }
 
-#endif
+

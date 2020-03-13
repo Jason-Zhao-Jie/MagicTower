@@ -14,16 +14,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
+using GoogleMobileAds;
 using GoogleMobileAds.Common;
 
 namespace GoogleMobileAds.Api
 {
     public enum NativeAdType
     {
-        CustomTemplate = 0
+        CustomTemplate
     }
 
     public class AdLoader
@@ -38,13 +38,7 @@ namespace GoogleMobileAds.Api
                     builder.CustomNativeTemplateClickHandlers);
             this.TemplateIds = new HashSet<string>(builder.TemplateIds);
             this.AdTypes = new HashSet<NativeAdType>(builder.AdTypes);
-
-            Type googleMobileAdsClientFactory = Type.GetType(
-                "GoogleMobileAds.GoogleMobileAdsClientFactory,Assembly-CSharp");
-            MethodInfo method = googleMobileAdsClientFactory.GetMethod(
-                "BuildAdLoaderClient",
-                BindingFlags.Static | BindingFlags.Public);
-            this.adLoaderClient = (IAdLoaderClient)method.Invoke(null, new object[] { this });
+            this.adLoaderClient = GoogleMobileAdsClientFactory.BuildAdLoaderClient(this);
 
             Utils.CheckInitialization();
 
@@ -106,7 +100,6 @@ namespace GoogleMobileAds.Api
             {
                 get; private set;
             }
-
 
             public Builder ForCustomNativeAd(string templateId)
             {

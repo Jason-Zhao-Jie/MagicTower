@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if UNITY_IOS
-
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -73,18 +71,7 @@ namespace GoogleMobileAds.iOS
                     Externs.GADUNativeCustomTemplateAdNumberOfAvailableAssetKeys(
                             this.CustomNativeAdPtr);
 
-            IntPtr[] intPtrArray = new IntPtr[numOfAssets];
-            string[] managedAssetArray = new string[numOfAssets];
-            Marshal.Copy(unmanagedAssetArray, intPtrArray, 0, numOfAssets);
-
-            for (int i = 0; i < numOfAssets; i++)
-            {
-                managedAssetArray[i] = Marshal.PtrToStringAuto(intPtrArray[i]);
-                Marshal.FreeHGlobal(intPtrArray[i]);
-            }
-
-            Marshal.FreeHGlobal(unmanagedAssetArray);
-            return new List<string>(managedAssetArray);
+            return Utils.PtrArrayToManagedList(unmanagedAssetArray, numOfAssets);
         }
 
         public string GetTemplateId()
@@ -159,4 +146,4 @@ namespace GoogleMobileAds.iOS
     }
 }
 
-#endif
+

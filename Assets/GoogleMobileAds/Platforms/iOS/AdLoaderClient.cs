@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#if UNITY_IOS
-
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
@@ -50,20 +48,20 @@ namespace GoogleMobileAds.iOS
             unityAdLoader.TemplateIds.CopyTo(templateIdsArray);
 
             this.adTypes = new NativeAdTypes();
+            bool configureReturnUrlsForImageAssets = false;
+
             if (unityAdLoader.AdTypes.Contains(NativeAdType.CustomTemplate))
             {
+                configureReturnUrlsForImageAssets = false;
                 adTypes.CustomTemplateAd = 1;
             }
-
-            bool supportsConfigureReturnUrlsForImageAssets = false;
-
             this.AdLoaderPtr = Externs.GADUCreateAdLoader(
                 this.adLoaderClientPtr,
                 unityAdLoader.AdUnitId,
                 templateIdsArray,
                 templateIdsArray.Length,
                 ref adTypes,
-                supportsConfigureReturnUrlsForImageAssets);
+                configureReturnUrlsForImageAssets);
 
             Externs.GADUSetAdLoaderCallbacks(
                 this.AdLoaderPtr,
@@ -162,5 +160,3 @@ namespace GoogleMobileAds.iOS
         }
     }
 }
-
-#endif

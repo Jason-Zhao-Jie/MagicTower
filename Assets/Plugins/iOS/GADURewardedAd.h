@@ -37,6 +37,9 @@
 /// The user was rewarded callback into Unity.
 @property(nonatomic, assign) GADUUserEarnedRewardCallback didEarnRewardCallback;
 
+/// The paid event callback into Unity.
+@property(nonatomic, assign) GADURewardedAdPaidEventCallback paidEventCallback;
+
 // Returns the mediation adapter class name.
 @property(nonatomic, readonly, copy) NSString *mediationAdapterClassName;
 
@@ -48,5 +51,8 @@
 
 /// Shows the rewarded ad.
 - (void)show;
+
+/// Options specified for server-to-server user reward verification.
+- (void)setServerSideVerificationOptions:(GADServerSideVerificationOptions *)options;
 
 @end

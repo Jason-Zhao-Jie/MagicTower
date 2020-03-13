@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 0
   m_LightmapEditorSettings:
-    serializedVersion: 10
+    serializedVersion: 12
     m_Resolution: 2
     m_BakeResolution: 40
     m_AtlasSize: 1024
@@ -62,6 +62,7 @@ LightmapSettings:
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
+    m_ExtractAmbientOcclusion: 0
     m_Padding: 2
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
@@ -76,10 +77,16 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
+    m_PVREnvironmentSampleCount: 500
+    m_PVREnvironmentReferencePointCount: 2048
+    m_PVRFilteringMode: 2
+    m_PVRDenoiserTypeDirect: 0
+    m_PVRDenoiserTypeIndirect: 0
+    m_PVRDenoiserTypeAO: 0
     m_PVRFilterTypeDirect: 0
     m_PVRFilterTypeIndirect: 0
     m_PVRFilterTypeAO: 0
-    m_PVRFilteringMode: 1
+    m_PVREnvironmentMIS: 0
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
@@ -87,7 +94,9 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaDirect: 0.5
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
-    m_ShowResolutionOverlay: 1
+    m_ExportTrainingData: 0
+    m_TrainingDataDestination: TrainingData
+    m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -142,7 +151,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 303205775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -159,7 +168,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 303205775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
@@ -348,7 +357,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 484004306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -365,7 +374,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 484004306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 1
@@ -523,6 +532,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 484004306}
   m_CullTransparentMesh: 0
+--- !u!1 &605484684 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 781489477467399141, guid: 3f5c688b56531244a8b2c0be8defc003,
+    type: 3}
+  m_PrefabInstance: {fileID: 781489477955822733}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &627394409 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 781489477467399140, guid: 3f5c688b56531244a8b2c0be8defc003,
@@ -577,7 +592,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 649371030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1200242548, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
@@ -590,7 +605,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 649371030}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -608,6 +623,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &649371034
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -643,7 +659,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 825518148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalAxis: Horizontal
@@ -662,7 +678,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 825518148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
@@ -740,6 +756,7 @@ MonoBehaviour:
   playerPanel: {fileID: 6503244697812036149, guid: 98eed6e865a9a72459faf6bd0f8cbb36,
     type: 3}
   uiCanvas: {fileID: 484004306}
+  splashPanel: {fileID: 605484684}
 --- !u!20 &1127486240
 Camera:
   m_ObjectHideFlags: 0
@@ -752,9 +769,10 @@ Camera:
   m_ClearFlags: 4
   m_BackGroundColor: {r: 0.854902, g: 0.8470589, b: 0.85098046, a: 0}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -938,7 +956,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1432317641}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -956,6 +974,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1432317644
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1154,7 +1173,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1904638639}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -1172,6 +1191,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!222 &1904638642
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1187,16 +1207,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 484004310}
     m_Modifications:
-    - target: {fileID: 781489477467399141, guid: 3f5c688b56531244a8b2c0be8defc003,
+    - target: {fileID: 781489477467399137, guid: 3f5c688b56531244a8b2c0be8defc003,
         type: 3}
-      propertyPath: m_Name
-      value: SplashPanel
-      objectReference: {fileID: 0}
-    - target: {fileID: 781489477467399141, guid: 3f5c688b56531244a8b2c0be8defc003,
+      propertyPath: mapTileRoot
+      value: 
+      objectReference: {fileID: 1532106748}
+    - target: {fileID: 781489477467399137, guid: 3f5c688b56531244a8b2c0be8defc003,
         type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: scene
+      value: 
+      objectReference: {fileID: 1127486239}
+    - target: {fileID: 781489477467399137, guid: 3f5c688b56531244a8b2c0be8defc003,
+        type: 3}
+      propertyPath: uiCanvas
+      value: 
+      objectReference: {fileID: 484004306}
     - target: {fileID: 781489477467399140, guid: 3f5c688b56531244a8b2c0be8defc003,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1302,21 +1327,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 781489477467399137, guid: 3f5c688b56531244a8b2c0be8defc003,
+    - target: {fileID: 781489477467399141, guid: 3f5c688b56531244a8b2c0be8defc003,
         type: 3}
-      propertyPath: mapTileRoot
-      value: 
-      objectReference: {fileID: 1532106748}
-    - target: {fileID: 781489477467399137, guid: 3f5c688b56531244a8b2c0be8defc003,
+      propertyPath: m_Name
+      value: SplashPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 781489477467399141, guid: 3f5c688b56531244a8b2c0be8defc003,
         type: 3}
-      propertyPath: scene
-      value: 
-      objectReference: {fileID: 1127486239}
-    - target: {fileID: 781489477467399137, guid: 3f5c688b56531244a8b2c0be8defc003,
-        type: 3}
-      propertyPath: uiCanvas
-      value: 
-      objectReference: {fileID: 484004306}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 781489479301623399, guid: 3f5c688b56531244a8b2c0be8defc003,
         type: 3}
       propertyPath: m_UseSpriteMesh

@@ -13,19 +13,37 @@
 // limitations under the License.
 
 using System;
-using System.Reflection;
 
+
+using GoogleMobileAds;
 using GoogleMobileAds.Common;
 
 namespace GoogleMobileAds.Api
 {
     public class MobileAds
     {
+        public static class Utils {
+            // Returns the device's scale.
+            public static float GetDeviceScale() {
+                return client.GetDeviceScale();
+            }
+
+            // Returns the safe width for the current device.
+            public static int GetDeviceSafeWidth() {
+                return client.GetDeviceSafeWidth();
+            }
+        }
         private static readonly IMobileAdsClient client = GetMobileAdsClient();
 
         public static void Initialize(string appId)
         {
             client.Initialize(appId);
+            MobileAdsEventExecutor.Initialize();
+        }
+
+        public static void Initialize(Action<InitializationStatus> initCompleteAction)
+        {
+            client.Initialize(initCompleteAction);
             MobileAdsEventExecutor.Initialize();
         }
 
@@ -46,12 +64,7 @@ namespace GoogleMobileAds.Api
 
         private static IMobileAdsClient GetMobileAdsClient()
         {
-            Type googleMobileAdsClientFactory = Type.GetType(
-                "GoogleMobileAds.GoogleMobileAdsClientFactory,Assembly-CSharp");
-            MethodInfo method = googleMobileAdsClientFactory.GetMethod(
-                "MobileAdsInstance",
-                BindingFlags.Static | BindingFlags.Public);
-            return (IMobileAdsClient)method.Invoke(null, null);
+          return GoogleMobileAdsClientFactory.MobileAdsInstance();
         }
     }
 }

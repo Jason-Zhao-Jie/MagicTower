@@ -7,14 +7,8 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
 {
     public class PlaySoundBeforeEventEditor : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
+        // param0: soundId, param1: lastEventId, param2: lastEventDataLength, param3~paramN: lastEventData
+        void Awake()
         {
 
         }

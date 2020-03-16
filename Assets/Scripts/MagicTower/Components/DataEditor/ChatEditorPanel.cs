@@ -137,8 +137,15 @@ namespace MagicTower.Components.DataEditor {
         }
 
         public void OnEditEventData() {
-            // TODO
-            SaveValues();
+            var panel = Instantiate(eventEditor, transform.parent).GetComponent<EventEditorPanel>();
+            var chatId = System.Convert.ToInt32(chatList.SelectedItem.GetComponent<DefaultSelectableElement>().text.text);
+            panel.EventId = Game.Config.chats[chatId].eventId;
+            panel.SelectedKey = Game.Config.chats[chatId].eventData;
+            panel.ApplyCallback = (long[] value) => {
+                Game.Config.chats[chatId].eventData = value;
+                chatList.Select(chatList.SelectedIndex);
+                SaveValues();
+            };
         }
 
         public void OnEditContentString() {
@@ -252,6 +259,7 @@ namespace MagicTower.Components.DataEditor {
 
         public Text btnSaveApplyText;
         public GameObject stringSelector;
+        public GameObject eventEditor;
         public GameObject modalSelector;
     }
 }

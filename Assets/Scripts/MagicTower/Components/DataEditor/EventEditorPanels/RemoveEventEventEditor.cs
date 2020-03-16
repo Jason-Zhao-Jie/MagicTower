@@ -7,14 +7,9 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
 {
     public class RemoveEventEventEditor : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        // param0: mapId, param1: posx, param2: posy
 
-        }
-
-        // Update is called once per frame
-        void Update()
+        void Awake()
         {
 
         }

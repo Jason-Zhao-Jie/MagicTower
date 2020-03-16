@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace MagicTower.Components.DataEditor.EventEditorPanels
 {
-    public class NormalChatEventEditor : MonoBehaviour
+
+    public class Common_EventEditor : MonoBehaviour
     {
         // Start is called before the first frame update
         void Start()
@@ -13,11 +13,8 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
 
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        [HideInInspector]
+        public EventEditorPanel parent;
     }
 
 }

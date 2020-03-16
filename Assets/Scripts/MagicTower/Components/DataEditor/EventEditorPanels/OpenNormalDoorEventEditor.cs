@@ -7,14 +7,9 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
 {
     public class OpenNormalDoorEventEditor : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
+        // param0: keyId, see EventManager.OpenNormalDoor
 
-        }
-
-        // Update is called once per frame
-        void Update()
+        void Awake()
         {
 
         }

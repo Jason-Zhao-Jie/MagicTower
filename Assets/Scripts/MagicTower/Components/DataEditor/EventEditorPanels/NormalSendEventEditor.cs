@@ -7,14 +7,9 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
 {
     public class NormalSendEventEditor : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
+        // param0: mapId, param1: posx, param2: posy
+        // 可以考虑添加一个功能, 直接在地图上点选
+        void Awake()
         {
 
         }

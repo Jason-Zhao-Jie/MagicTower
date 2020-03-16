@@ -1,23 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace MagicTower.Components.DataEditor.EventEditorPanels
 {
     public class NormalBattleEventEditor : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        // param0: canFail, param1: selfUuid
+
+        private void Awake()
         {
 
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+        public Toggle canFailToggle;
+        public Dropdown self;
     }
 
 }

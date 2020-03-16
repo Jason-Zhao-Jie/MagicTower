@@ -146,9 +146,17 @@ namespace MagicTower.Components.DataEditor {
             };
         }
 
-        public void OnEditEventData() {
-            // TODO
-            SaveValues();
+        public void OnEditEventData()
+        {
+            var panel = Instantiate(eventEditor, transform.parent).GetComponent<EventEditorPanel>();
+            var modalId = modalList.SelectedItem.GetComponent<UserData>().GetIntegerData();
+            panel.EventId = Game.Config.modals[modalId].eventId;
+            panel.SelectedKey = Game.Config.modals[modalId].eventData;
+            panel.ApplyCallback = (long[] value) => {
+                Game.Config.chats[modalId].eventData = value;
+                modalList.Select(modalList.SelectedIndex);
+                SaveValues();
+            };
         }
 
         public SelectListView modalList;
@@ -170,6 +178,7 @@ namespace MagicTower.Components.DataEditor {
         public Dropdown eventTypeDD;
 
         public GameObject stringSelector;
+        public GameObject eventEditor;
 
     }
 

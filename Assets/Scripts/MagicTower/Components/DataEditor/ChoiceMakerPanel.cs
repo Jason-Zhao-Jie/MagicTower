@@ -173,8 +173,15 @@ namespace MagicTower.Components.DataEditor
 
         public void OnEditEventData()
         {
-            // TODO
-            SaveValues();
+            var panel = Instantiate(eventEditor, transform.parent).GetComponent<EventEditorPanel>();
+            var choiceId = System.Convert.ToInt32(choiceList.SelectedItem.GetComponent<DefaultSelectableElement>().text.text);
+            panel.EventId = Game.Config.choices[choiceId].data[choiceDataList.SelectedIndex].eventId;
+            panel.SelectedKey = Game.Config.choices[choiceId].data[choiceDataList.SelectedIndex].eventData;
+            panel.ApplyCallback = (long[] value) => {
+                Game.Config.choices[choiceId].data[choiceDataList.SelectedIndex].eventData = value;
+                choiceDataList.Select(choiceDataList.SelectedIndex);
+                SaveValues();
+            };
         }
 
         public void OnEditTitleString()
@@ -335,6 +342,7 @@ namespace MagicTower.Components.DataEditor
 
         public Text btnSaveApplyText;
         public GameObject stringSelector;
+        public GameObject eventEditor;
         public GameObject modalSelector;
     }
 

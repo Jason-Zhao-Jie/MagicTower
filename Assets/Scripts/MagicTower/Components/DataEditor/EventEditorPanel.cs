@@ -50,7 +50,7 @@ namespace MagicTower.Components.DataEditor
         }
 
         [System.Serializable]
-        public class EventEditorPrefab
+        public struct EventEditorPrefab
         {
             public EventManager.EventName name;
             public GameObject prefab;
@@ -60,7 +60,7 @@ namespace MagicTower.Components.DataEditor
         public RectTransform root;
         public GameObject noSettingRoot;
 
-        private IDictionary<EventManager.EventName, GameObject> prefabs = new Dictionary<EventManager.EventName, GameObject>();
+        private readonly IDictionary<EventManager.EventName, GameObject> prefabs = new Dictionary<EventManager.EventName, GameObject>();
     }
 
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace MagicTower.Components.DataEditor.EventEditorPanels
 {
-    public class ChatSelector : MonoBehaviour
+    public class NormalChatEventEditor : MonoBehaviour
     {
         // param0: chatDataIndex
 

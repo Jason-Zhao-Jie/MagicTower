@@ -464,3 +464,10 @@
 ## 2020-3-13-Friday
 1. 升级Unity版本至 2019.3.1f1
 2. 继续制作了一会儿 Event Data Editor, 感觉目前的做法还是太混乱, 不规范, 后续还是改成每种 Event 做一个 Panel Prefab 吧, 这是接下来要做的工作
+
+## 2020-8-13-Thursday
+1. 升级Unity版本至 2019.4.7f1
+2. 继续制作 Event Data Editor
+
+
+

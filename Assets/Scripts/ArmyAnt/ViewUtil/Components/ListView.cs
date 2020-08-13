@@ -97,7 +97,7 @@ namespace ArmyAnt.ViewUtil.Components
             return InsertDefaultItem(children.Count, localScale);
         }
 
-        public T PushbackDefaultItem<T>(float localScale = 1.0f) {
+        public T PushbackDefaultItem<T>(float localScale = 1.0f) where T : MonoBehaviour {
             return PushbackDefaultItem(localScale).GetComponent<T>();
         }
 

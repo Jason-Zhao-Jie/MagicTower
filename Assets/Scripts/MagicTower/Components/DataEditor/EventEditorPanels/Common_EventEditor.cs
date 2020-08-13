@@ -13,6 +13,12 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
 
         }
 
+        public void DispatchUpdateKey() {
+            if(GetComponent<GetBaseResourceItemEventEditor>() is var child && child != null) {
+                child.OnDataUpdate();
+            }
+        }
+
         [HideInInspector]
         public EventEditorPanel parent;
     }

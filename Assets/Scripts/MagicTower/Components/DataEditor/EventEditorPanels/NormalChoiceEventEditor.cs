@@ -11,12 +11,16 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
         void Awake()
         {
             choiceList.selectedFunc = OnSelect;
+            var selectedId = GetComponent<Common_EventEditor>().parent.SelectedKey[0];
             foreach (var i in Game.Config.choices)
             {
                 var item = choiceList.PushbackDefaultItem<DefaultSelectableElement>();
                 item.text.text = Game.Config.StringInternational.GetValue(i.Value.title);
                 var data = item.gameObject.AddComponent<UserData>();
                 data.SetIntegerData(i.Value.id);
+                if(i.Value.id == selectedId) {
+                    choiceList.Select(item.GetComponent<RectTransform>());
+                }
             }
         }
 

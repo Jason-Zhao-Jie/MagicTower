@@ -21,7 +21,7 @@ namespace MagicTower.Components.DataEditor {
                 item.text.text = i.Value.id + " " + Game.Config.StringInternational.GetValue(i.Value.name);
                 item.image.sprite = Game.GetMods(i.Value.prefabPath)[0];
                 item.AddOnclickEvent(() => { weaponList.Select(item.GetComponent<RectTransform>()); });
-                var data = item.gameObject.AddComponent<UserData>();
+                var data = item.gameObject.GetComponent<UserData>();
                 data.SetIntegerData(i.Value.id);
             }
             spriteList.selectedFunc = OnSpriteSelected;

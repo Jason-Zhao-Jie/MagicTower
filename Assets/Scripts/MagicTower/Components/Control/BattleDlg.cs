@@ -121,7 +121,7 @@ namespace MagicTower.Components.Control
             // 设定战斗双方的属性数据
             this.enemyUuid = enemyUuid;
             enemyBattleData = Game.Map.GetMonsterDataByUuid(enemyUuid);
-            if(yourUuid < 0)
+            if(yourUuid <= 0)
                 playerBattleData = new Model.MonsterData() {
                     id = Game.Player.PlayerId,
                     level = Game.Player.Level,

@@ -469,5 +469,6 @@
 1. 升级Unity版本至 2019.4.7f1
 2. 继续制作 Event Data Editor
 
-
+## 2020-8-14-Friday
+1. 继续制作 Event Data Editor, 基本完成了 Battle 和 GetBaseResource
 

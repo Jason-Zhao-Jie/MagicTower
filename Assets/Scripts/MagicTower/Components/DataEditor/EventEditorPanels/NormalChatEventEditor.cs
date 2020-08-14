@@ -10,15 +10,17 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
     {
         // param0: chatDataIndex
 
-        void Awake()
-        {
+        void Awake() {
             chatList.selectedFunc = OnSelect;
-            foreach (var i in Game.Config.chats)
-            {
+            var selectedId = GetComponent<Common_EventEditor>().parent.SelectedKey[0];
+            foreach(var i in Game.Config.chats) {
                 var item = chatList.PushbackDefaultItem<DefaultSelectableElement>();
                 item.text.text = i.Value.id.ToString();
                 var data = item.gameObject.AddComponent<UserData>();
                 data.SetIntegerData(i.Value.id);
+                if(i.Value.id == selectedId) {
+                    chatList.Select(item.GetComponent<RectTransform>());
+                }
             }
         }
 

@@ -13,7 +13,6 @@ namespace MagicTower.Components.DataEditor
             // 设定下拉框内容
             contentTypeSelect.AddOptions(ExtendUtils.GetList(Game.VariablePriceType.NoChange, Game.VariablePriceType.KeyStoreDoubling));
             eventTypeSelect.AddOptions(ExtendUtils.GetList(Present.Manager.EventManager.EventName.None, Present.Manager.EventManager.EventName.RemoveSelf));
-            speakerModal.gameObject.AddComponent<UserData>();
             // 设定列表回调
             choiceList.selectedFunc = OnChoiceSelected;
             choiceDataList.selectedFunc = OnDataSelected;

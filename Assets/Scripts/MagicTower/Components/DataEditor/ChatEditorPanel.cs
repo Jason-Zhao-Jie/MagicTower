@@ -9,7 +9,6 @@ namespace MagicTower.Components.DataEditor {
         private void Awake() {
             // 设定下拉框内容
             eventTypeSelect.AddOptions(ExtendUtils.GetList(Present.Manager.EventManager.EventName.None, Present.Manager.EventManager.EventName.RemoveSelf));
-            speakerModal.gameObject.AddComponent<UserData>();
             // 设定列表回调
             chatList.selectedFunc = OnChatSelected;
             chatDataList.selectedFunc = OnDataSelected;

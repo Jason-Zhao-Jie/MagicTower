@@ -20,7 +20,20 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
         }
 
         [HideInInspector]
-        public EventEditorPanel parent;
+        public EventEditorPanel parent {
+            get {
+                var go = gameObject;
+                while(go != null) {
+                    var c = go.GetComponent<EventEditorPanel>();
+                    if(c != null) {
+                        return c;
+                    } else {
+                        go = go.transform.parent.gameObject;
+                    }
+                }
+                return null;
+            }
+        }
     }
 
 }

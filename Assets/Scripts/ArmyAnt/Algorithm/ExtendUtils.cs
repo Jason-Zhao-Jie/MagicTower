@@ -38,6 +38,14 @@ namespace ArmyAnt.Algorithm {
             return ret;
         }
 
+        public static T GetArrayElemSafe<T>(T[] arr, int key, T defaultValue = default(T)) {
+            if(arr == null || arr.Length <= key) {
+                return defaultValue;
+            } else {
+                return arr[key];
+            }
+        }
+
         public static List<T> GetList<T>(IEnumerable<T> input) {
             if(input == null) {
                 return null;

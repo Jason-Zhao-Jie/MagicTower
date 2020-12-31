@@ -130,23 +130,23 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
             btnRemoveCondition.interactable = false;
             btnChangeCondition.interactable = false;
             int index = 0;
-            resourceTypeSelector.value = Convert.ToInt32(data[index++]);
-            resourceCount.text = data[index++].ToString();
-            successEvent.value = Convert.ToInt32(data[index++]);
-            SuccessEventData = data.Skip(index).Take(Convert.ToInt32(data[index++])).ToArray();
+            resourceTypeSelector.value = Convert.ToInt32(ExtendUtils.GetArrayElemSafe(data,index++));
+            resourceCount.text = ExtendUtils.GetArrayElemSafe(data, index++).ToString();
+            successEvent.value = Convert.ToInt32(ExtendUtils.GetArrayElemSafe(data, index++));
+            SuccessEventData = data.Skip(index).Take(Convert.ToInt32(ExtendUtils.GetArrayElemSafe(data, index++))).ToArray();
             index += successEventData.ItemCount;
-            costType.value = Convert.ToInt32(data[index++]);
-            costCountOrRecordId.text = data[index++].ToString();
-            costIncreaseType.value = Convert.ToInt32(data[index++]);
-            var conditionNum = data[index++];
+            costType.value = Convert.ToInt32(ExtendUtils.GetArrayElemSafe(data, index++));
+            costCountOrRecordId.text = ExtendUtils.GetArrayElemSafe(data, index++).ToString();
+            costIncreaseType.value = Convert.ToInt32(ExtendUtils.GetArrayElemSafe(data, index++));
+            var conditionNum = ExtendUtils.GetArrayElemSafe(data, index++);
             for(int i = 0; i < conditionNum; ++i) {
                 var item = listConditions.PushbackDefaultItem();
                 var itemData = item.gameObject.AddComponent<UserData>();
-                itemData.SetIntegerData(KEY_CONDITION_TYPE, Convert.ToInt32(data[index++]));
-                itemData.SetIntegerData(KEY_CONDITION_VALUE, Convert.ToInt32(data[index++]));
+                itemData.SetIntegerData(KEY_CONDITION_TYPE, Convert.ToInt32(ExtendUtils.GetArrayElemSafe(data, index++)));
+                itemData.SetIntegerData(KEY_CONDITION_VALUE, Convert.ToInt32(ExtendUtils.GetArrayElemSafe(data, index++)));
             }
-            failureEvent.value = Convert.ToInt32(data[index++]);
-            FailureEventData = data.Skip(index).Take(Convert.ToInt32(data[index++])).ToArray();
+            failureEvent.value = Convert.ToInt32(ExtendUtils.GetArrayElemSafe(data, index++));
+            FailureEventData = data.Skip(index).Take(Convert.ToInt32(ExtendUtils.GetArrayElemSafe(data, index++))).ToArray();
         }
 
         private long[] SuccessEventData {

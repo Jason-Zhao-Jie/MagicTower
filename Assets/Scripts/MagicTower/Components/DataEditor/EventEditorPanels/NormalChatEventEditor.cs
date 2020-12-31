@@ -10,12 +10,17 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
     {
         // param0: chatDataIndex
 
-        void Awake() {
+        void Start() {
             chatList.selectedFunc = OnSelect;
-            var selectedId = GetComponent<Common_EventEditor>().parent.SelectedKey[0];
+            var c = GetComponent<Common_EventEditor>();
+            long selectedId = 0;
+            if(c.parent.SelectedKey.Length > 0) {
+                selectedId = c.parent.SelectedKey[0];
+            }
             foreach(var i in Game.Config.chats) {
                 var item = chatList.PushbackDefaultItem<DefaultSelectableElement>();
                 item.text.text = i.Value.id.ToString();
+                item.AddOnclickEvent(() => { chatList.Select(item.GetComponent<RectTransform>()); });
                 var data = item.gameObject.AddComponent<UserData>();
                 data.SetIntegerData(i.Value.id);
                 if(i.Value.id == selectedId) {
@@ -26,11 +31,14 @@ namespace MagicTower.Components.DataEditor.EventEditorPanels
 
         public void OnSelect(int index, bool select)
         {
-            var id = chatList.SelectedItem.GetComponent<UserData>().GetIntegerData();
-            GetComponent<Common_EventEditor>().parent.SelectedKey[0] = id;
-            foreach (var i in Game.Config.chats[id].data)
-            {
-                contentList.PushbackDefaultItem<DefaultSelectableElement>().text.text = Game.Config.StringInternational.GetValue(i.content);
+            if(select) {
+                Game.DebugLogNote("NormalChatEventEditor select");
+                var id = chatList.SelectedItem.GetComponent<UserData>().GetIntegerData();
+                GetComponent<Common_EventEditor>().parent.SelectedKey = new long[]{id};
+                contentList.Clear();
+                foreach(var i in Game.Config.chats[id].data) {
+                    contentList.PushbackDefaultItem<DefaultSelectableElement>().text.text = Game.Config.StringInternational.GetValue(i.content);
+                }
             }
         }
 

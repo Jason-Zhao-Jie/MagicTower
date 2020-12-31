@@ -472,3 +472,13 @@
 ## 2020-8-14-Friday
 1. 继续制作 Event Data Editor, 基本完成了 Battle 和 GetBaseResource
 
+## 2020-12-31-Thursday
+1. 修复了 Event Data Editor 的几个遗留 bug:
+     + 因 Common_EventEditor 中的 parent 尚未被赋值， 而调用之导致问题， 现在将 parent 改为搜索的方式获取
+     + 因新建的事件 SelectedKey 为空数组， 造成了 bug 隐患， 改为每次获取 SelectedKey 值时都检测其内容量
+     + 修复了 Chat 和 Choice 编辑器的问题， 使之可以正常运行
+     + 现在未完成的事件编辑器只剩下 CallGame NormalSend OpenNormalDoor PlaySound RemoveEvent 这几个， 都不是很复杂了
+
+
+
+     

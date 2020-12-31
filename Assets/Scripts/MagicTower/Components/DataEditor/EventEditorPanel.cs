@@ -27,8 +27,6 @@ namespace MagicTower.Components.DataEditor {
                 noSettingRoot.SetActive(false);
                 var childPanel = Instantiate(prefabs[(EventManager.EventName)EventId], root);
                 childPanel.transform.localScale = Vector3.one;
-                childPanelComp = childPanel.GetComponent<EventEditorPanels.Common_EventEditor>();
-                childPanelComp.parent = this;
             } else {
                 noSettingRoot.SetActive(true);
             }
@@ -36,7 +34,7 @@ namespace MagicTower.Components.DataEditor {
 
         public void OnClickConfirm() {
             // 退出窗口
-            childPanelComp.DispatchUpdateKey();
+            childPanelComp?.DispatchUpdateKey();
             ApplyCallback(SelectedKey);
             Destroy(gameObject);
         }
